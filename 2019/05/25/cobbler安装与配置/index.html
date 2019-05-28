@@ -9,7 +9,7 @@
   <title>cobbler安装与配置 | 那那喵的拉拉肥厨房</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="WordPress数据库保存的信息1.用户评论2.保存了网页连接信息3.保存了网页文章4.保存了网页文章的分类信息5.用户注册信息6.其他的一些组件信息 没被保存在WP数据库的信息图片视频 cobbler介绍1.背景介绍作为运维，在公司经常遇到一些机械性重复工作要做，例如：为新机器装系统，一台两台机器装系统，可以用光盘、U盘等介质安装，1小时也完成了，但是如果有成百台的服务器还要用光盘、U盘去安装">
-<meta name="keywords" content="全部,学习">
+<meta name="keywords" content="全部,Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cobbler安装与配置">
 <meta property="og:url" content="/2019/05/25/cobbler安装与配置/index.html">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://d.birdteam.net/data/f_92682211.jpg">
 <meta property="og:image" content="http://d.birdteam.net/data/f_41116663.jpg">
-<meta property="og:updated_time" content="2019-05-25T07:39:34.872Z">
+<meta property="og:updated_time" content="2019-05-28T10:16:00.483Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cobbler安装与配置">
 <meta name="twitter:description" content="WordPress数据库保存的信息1.用户评论2.保存了网页连接信息3.保存了网页文章4.保存了网页文章的分类信息5.用户注册信息6.其他的一些组件信息 没被保存在WP数据库的信息图片视频 cobbler介绍1.背景介绍作为运维，在公司经常遇到一些机械性重复工作要做，例如：为新机器装系统，一台两台机器装系统，可以用光盘、U盘等介质安装，1小时也完成了，但是如果有成百台的服务器还要用光盘、U盘去安装">
@@ -284,21 +284,18 @@ daovoice('update');
 <p>3.查看生成的distro<br>[root@ken ~]# cobbler distro list<br>centos7-x86_64</p>
 <p>4.查看生成的profile<br>[root@ken ~]# cobbler profile list<br>centos7-x86_64</p>
 <blockquote>
-<p>补充:删除导入的镜像<br>cobbler profile remove –name=xxx<br>cobbler distro remove –name=xxx<br>删除distro前要先删除使用它的profile</p>
+<p>补充:删除导入的镜像<br><code>cobbler profile remove --name=xxx</code><br><code>cobbler distro remove --name=xxx</code><br>删除distro前要先删除使用它的profile</p>
 </blockquote>
 <p>5.准备kickstart文件<br>这里使用本机的配置文件进行复制<br>[root@ken ~]# cp anaconda-ks.cfg /var/lib/cobbler/kickstarts/ks.cfg</p>
 <p>6.编辑kickstart文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim  /var/lib/cobbler/kickstarts/ks.cfg</span><br><span class="line">找到# Use CDROM installation media</span><br><span class="line">将下面的cdrom更改为：</span><br><span class="line">url --url=http://你cobbler服务器的ip/cobbler/ks_mirror/centos7/</span><br></pre></td></tr></table></figure></p>
-<p>7.制作自己的profile<br>[root@ken ~]# cobbler profile add –distro=centos7-x86_64 –kickstart=/var/lib/cobbler/kickstarts/ks.cfg –name=cent7_ken<br>–distro指定镜像<br>–kickstart指定配置文件<br>–name指定profile的名字</p>
-<p>8.删除默认的profile<br>[root@ken ~]# cobbler profile remove –name=centos7-x86_64<br>[root@ken ~]# cobbler profile list<br>cent7_ken</p>
-<p>9.开启客户端进行验证<br>注意：<br>1.客户端网络模式需要与服务器一致<br>2.客户端要没安装过系统(最好是新创建的虚拟机)<br>3.客户端内存最少3个G<br>4.关于–name=后面要不要加引号: 可以加,但是请务必检查不要敲成中文的引号!</p>
+<p>7.制作自己的profile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# cobbler profile add --distro=centos7-x86_64 --kickstart=/var/lib/cobbler/kickstarts/ks.cfg --name=cent7_ken</span><br><span class="line">--distro指定镜像</span><br><span class="line">--kickstart指定配置文件</span><br><span class="line">--name指定profile的名字</span><br></pre></td></tr></table></figure></p>
+<p>8.删除默认的profile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# cobbler profile remove --name=centos7-x86_64</span><br><span class="line">[root@ken ~]# cobbler profile list</span><br><span class="line">cent7_ken</span><br></pre></td></tr></table></figure></p>
+<p>9.开启客户端进行验证<br>注意：<br>1.客户端网络模式需要与服务器一致<br>2.客户端要没安装过系统(最好是新创建的虚拟机)<br>3.客户端内存最少3个G<br>4.关于<code>--name=</code>后面要不要加引号: 可以加,但是请务必检查不要敲成中文的引号!</p>
 <h3 id="find详解"><a href="#find详解" class="headerlink" title="find详解"></a>find详解</h3><ol>
 <li><p>name： 指定文件名<br>例子1. 找到以ken结尾的文件<br>[root@ken ~]# find / -name “<em>ken”<br>/sys/firmware/dmi/entries/15-0/system_event_log/change_token<br>/etc/yum.repos.d/ken<br>/var/spool/mail/ken<br>/home/ken<br>例子2：找到包含ken的文件<br>[root@ken ~]# find / -name “</em>ken*” | head -3<br>/sys/bus/hid/drivers/kensington<br>/sys/devices/pci0000:00/0000:00:00.0/broken_parity_status<br>/sys/devices/pci0000:00/0000:00:01.0/broken_parity_status</p>
 </li>
-<li><p>perm：指定文件权限<br>例子1：找到所有644权限的文件<br>[root@ken ~]# find / -perm 644 | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>[root@ken ~]# ls -l /boot/grub2/device.map<br>-rw-r–r–. 1 root root 64 Feb 26 22:25 /boot/grub2/device.map</p>
+<li><p>perm：指定文件权限<br>例子1：找到所有644权限的文件<br>[root@ken ~]# find / -perm 644 | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>[root@ken ~]# ls -l /boot/grub2/device.map<br>-rw-r–r–. 1 root root 64 Feb 26 22:25 /boot/grub2/device.map<br>例子2：模糊匹配644权限<br>[root@ken ~]# find / -perm -644 | head -3<br>/boot/efi<br>/boot/efi/EFI<br>/boot/efi/EFI/centos<br>[root@ken ~]# ls -l /boot/efi<br>total 0<br>drwxr-xr-x. 3 root root 20 Feb 26 22:21 EFI</p>
 </li>
-</ol>
-<p>例子2：模糊匹配644权限<br>[root@ken ~]# find / -perm -644 | head -3<br>/boot/efi<br>/boot/efi/EFI<br>/boot/efi/EFI/centos<br>[root@ken ~]# ls -l /boot/efi<br>total 0<br>drwxr-xr-x. 3 root root 20 Feb 26 22:21 EFI</p>
-<ol start="3">
 <li><p>user：指定属主<br>例子1：找到属主是ken的文件<br>[root@ken ~]# find /etc -user ken<br>[root@ken ~]# find / -user ken<br>find: ‘/proc/1672/task/1672/fd/6’: No such file or directory<br>find: ‘/proc/1672/task/1672/fdinfo/6’: No such file or directory<br>find: ‘/proc/1672/fd/5’: No such file or directory<br>find: ‘/proc/1672/fdinfo/5’: No such file or directory<br>/var/spool/mail/ken<br>[root@ken ~]# ls -l /var/spool/mail/ken<br>-rw-rw—- 1 ken mail 0 Mar 11 18:16 /var/spool/mail/ken</p>
 </li>
 <li><p>group：指定属组<br>例子1：<br>[root@ken ~]# ls -l /var/spool/mail/ken<br>-rw-rw—- 1 ken mail 0 Mar 11 18:16 /var/spool/mail/ken<br>[root@ken ~]# find / -group ken<br>find: ‘/proc/1709/task/1709/fd/6’: No such file or directory<br>find: ‘/proc/1709/task/1709/fdinfo/6’: No such file or directory<br>find: ‘/proc/1709/fd/5’: No such file or directory<br>find: ‘/proc/1709/fdinfo/5’: No such file or directory<br>/home/ken<br>/home/ken/.bash_logout<br>/home/ken/.bash_profile<br>/home/ken/.bashrc<br>/home/ken/.bash_history<br>[root@ken ~]# ls -l /home/ken -d<br>drwx—— 2 ken ken 83 Mar 11 18:16 /home/ken</p>
@@ -324,6 +321,11 @@ daovoice('update');
 <ol start="13">
 <li>find可以使用-a和-o或！<br>例子1：找到所有普通文件并且权限是777<br>[root@ken ~]# find / -type f -a -perm 644 | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>[root@ken ~]# ls -l /boot/grub2/device.map<br>-rw-r–r–. 1 root root 64 Feb 26 22:25 /boot/grub2/device.map</li>
 </ol>
+<h3 id="补充：cobbler配置文件pxedefault详解"><a href="#补充：cobbler配置文件pxedefault详解" class="headerlink" title="补充：cobbler配置文件pxedefault详解"></a>补充：cobbler配置文件pxedefault详解</h3><p>该文件的作用是配置客户机上cobbler的蓝色菜单（就是选择系统的那个列表）<br>文件的位置是：/etc/cobbler/pxe/pxedefault.template</p>
+<p>文件内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">DEFAULT menu</span><br><span class="line">PROMPT 0</span><br><span class="line">MENU TITLE Cobbler | http://cobbler.github.io/</span><br><span class="line">↑↑配置小蓝列表页最上边的标题显示的文字</span><br><span class="line">TIMEOUT 50</span><br><span class="line">↑↑配置超时时间单位是毫秒</span><br><span class="line">TOTALTIMEOUT 50</span><br><span class="line">↑↑配置总超时时间</span><br><span class="line">#ONTIMEOUT $pxe_timeout_profile</span><br><span class="line">ONTIMEOUT cent7_ken</span><br><span class="line">↑↑配置超时之后选择哪个选项</span><br><span class="line"></span><br><span class="line">↓↓下面是配置标签的格式</span><br><span class="line">#LABEL local</span><br><span class="line">#        MENU LABEL (local)</span><br><span class="line">#        MENU DEFAULT</span><br><span class="line">#        LOCALBOOT -1</span><br><span class="line"></span><br><span class="line">#LABEL doge</span><br><span class="line">#       MENU LABEL (doge)</span><br><span class="line">#       kernel /images/centos7-x86_64/vmlinuz</span><br><span class="line">#       append initrd=/images/centos7-x86_64/initrd.img ksdevice=bootif lang= kssendmac text  ks=http://192.168.19.141/cblr/svc/op/ks/profile/cent7_ken</span><br><span class="line">#       ipappend 2</span><br><span class="line"></span><br><span class="line">$pxe_menu_items</span><br><span class="line"></span><br><span class="line">MENU end</span><br></pre></td></tr></table></figure></p>
+<p>我们会发现明明我们使用cobbler profile list 看不到（local）这一项，但是实际在小蓝列表中却有显示，就是因为在这里配置了local的标签。同理，我们也可以在这个配置文件中直接添加标签，格式如doge那段所示。不会写？没关系，你也可以用cobbler profile制作！制作完了可以进入小蓝列表按下tab，你会发现它显示了这么一串字符：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/images/centos7-x86_64/vmlinuz </span><br><span class="line">initrd=/images/centos7-x86_64/initrd.img ksdevice=bootif lang= kssendmac text  ks=http://192.168.19.141/cblr/svc/op/ks/profile/cent7_ken </span><br><span class="line">BOOTIF=01-00-0c-29-fa-b7-64</span><br></pre></td></tr></table></figure></p>
+<p>然后你会惊奇的发现！第一行的字符就是kernel后面的那一串！第二行则是append那行！<br>是的，其实不管是使用指令还是直接在文件中添加列表项，其实方法都是类似的！</p>
+<p>最后，再补充一下自动安装某个镜像的办法：改一下ONTIMEOUT即可，将ONTIMEOUT后面的那串改成你想要安装的那项就可以了！<br>注意是填写<strong>LABEL或profile</strong>的名字，而不是菜单里显示的名字！<br>比如你想默认启动local就改成 <code>ONTIMEOUT local</code> 不要写成 <code>ONTIMEOUT （local）</code></p>
 
       
 	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
@@ -341,7 +343,7 @@ daovoice('update');
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		
 		</ul>
@@ -411,11 +413,11 @@ daovoice('update');
   
 <nav id="article-nav">
   
-    <a href="/2041/04/01/置顶/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/05/28/nginx/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          【置顶】联系我&amp;赞助
+          nginx(po主罢工了还没写完..)
         
       </div>
     </a>
@@ -597,7 +599,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">学习</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>

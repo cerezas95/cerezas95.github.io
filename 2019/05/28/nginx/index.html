@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href>
-  <title>vim简单操作指南 | 那那喵的拉拉肥厨房</title>
+  <title>nginx(po主罢工了还没写完..) | 那那喵的拉拉肥厨房</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="vim简单操作指南1. vim编辑器     三种模式：             命令模式（普通模式）         输入模式（编辑模式）         末行模式 2. 模式之间的切换     命令模式--&amp;gt;输入模式（a,i,o）     输入模式--&amp;gt;命令模式（esc）     命令模式--&amp;gt;末行模式（：）     末行模式--&amp;gt;命令模式（esc） 3. 命令模式下的">
+  <meta name="description" content="在此处输入标题标签（空格分隔）： 未分类  php-fpmPHP-FPM(FastCGI Process Manager：FastCGI进程管理器)是一个PHPFastCGI管理器，旨在将FastCGI进程管理与PHP进行整合。如果你使用Nginx的话，若想支持php，就需要安装php-fpm。安装方式yum install php-fpm启动方式systemctl restart php-fpm">
 <meta name="keywords" content="全部,Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vim简单操作指南">
-<meta property="og:url" content="/2019/05/08/vim简单操作指南/index.html">
+<meta property="og:title" content="nginx(po主罢工了还没写完..)">
+<meta property="og:url" content="/2019/05/28/nginx/index.html">
 <meta property="og:site_name" content="那那喵的拉拉肥厨房">
-<meta property="og:description" content="vim简单操作指南1. vim编辑器     三种模式：             命令模式（普通模式）         输入模式（编辑模式）         末行模式 2. 模式之间的切换     命令模式--&amp;gt;输入模式（a,i,o）     输入模式--&amp;gt;命令模式（esc）     命令模式--&amp;gt;末行模式（：）     末行模式--&amp;gt;命令模式（esc） 3. 命令模式下的">
+<meta property="og:description" content="在此处输入标题标签（空格分隔）： 未分类  php-fpmPHP-FPM(FastCGI Process Manager：FastCGI进程管理器)是一个PHPFastCGI管理器，旨在将FastCGI进程管理与PHP进行整合。如果你使用Nginx的话，若想支持php，就需要安装php-fpm。安装方式yum install php-fpm启动方式systemctl restart php-fpm">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-28T10:14:07.771Z">
+<meta property="og:image" content="http://d.birdteam.net/data/f_99972812.jpg">
+<meta property="og:updated_time" content="2019-05-28T12:13:14.776Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vim简单操作指南">
-<meta name="twitter:description" content="vim简单操作指南1. vim编辑器     三种模式：             命令模式（普通模式）         输入模式（编辑模式）         末行模式 2. 模式之间的切换     命令模式--&amp;gt;输入模式（a,i,o）     输入模式--&amp;gt;命令模式（esc）     命令模式--&amp;gt;末行模式（：）     末行模式--&amp;gt;命令模式（esc） 3. 命令模式下的">
+<meta name="twitter:title" content="nginx(po主罢工了还没写完..)">
+<meta name="twitter:description" content="在此处输入标题标签（空格分隔）： 未分类  php-fpmPHP-FPM(FastCGI Process Manager：FastCGI进程管理器)是一个PHPFastCGI管理器，旨在将FastCGI进程管理与PHP进行整合。如果你使用Nginx的话，若想支持php，就需要安装php-fpm。安装方式yum install php-fpm启动方式systemctl restart php-fpm">
+<meta name="twitter:image" content="http://d.birdteam.net/data/f_99972812.jpg">
   
   
     <link rel="icon" href="/favicon.png">
@@ -176,110 +178,64 @@ daovoice('update');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-vim简单操作指南" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-nginx" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      vim简单操作指南
+      nginx(po主罢工了还没写完..)
     </h1>
   
 
         
-        <a href="/2019/05/08/vim简单操作指南/" class="archive-article-date">
-  	<time datetime="2019-05-08T07:26:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
+        <a href="/2019/05/28/nginx/" class="archive-article-date">
+  	<time datetime="2019-05-28T10:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="vim简单操作指南"><a href="#vim简单操作指南" class="headerlink" title="vim简单操作指南"></a>vim简单操作指南</h1><pre><code>1. vim编辑器
-    三种模式：    
-        命令模式（普通模式）
-        输入模式（编辑模式）
-        末行模式
-2. 模式之间的切换
-    命令模式--&gt;输入模式（a,i,o）
-    输入模式--&gt;命令模式（esc）
-    命令模式--&gt;末行模式（：）
-    末行模式--&gt;命令模式（esc）
-3. 命令模式下的常用操作
-    yy: 复制，nyy就是复制n行
-    p: 粘贴
-    dd: 剪切
-    dG: 删除光标所在行到末尾的全部行
-    u: 撤销（等于Windows的ctrl+z）
-    ctrl+r：恢复（等于Windows的ctrl+y）
-    G：跳转到最后一行
-    nG： 跳转到第n行，如1G就是跳转到首行
-    home: 跳转到行首
-    end: 跳转到行尾
-    pgup: 上翻一页,或者ctrl+f
-    pgdn: 下翻一页，或者ctrl+b
-    /: 查找
-        n: 从上往下查找
-        N：从下往上查找
+        <h1 id="在此处输入标题"><a href="#在此处输入标题" class="headerlink" title="在此处输入标题"></a>在此处输入标题</h1><p>标签（空格分隔）： 未分类</p>
+<hr>
+<h3 id="php-fpm"><a href="#php-fpm" class="headerlink" title="php-fpm"></a>php-fpm</h3><p>PHP-FPM(FastCGI Process Manager：FastCGI进程管理器)是一个PHPFastCGI管理器，旨在将FastCGI进程管理与PHP进行整合。如果你使用Nginx的话，若想支持php，就需要安装php-fpm。<br>安装方式yum install php-fpm<br>启动方式systemctl restart php-fpm</p>
+<h3 id="Maria-DB"><a href="#Maria-DB" class="headerlink" title="Maria-DB"></a>Maria-DB</h3><p>MariaDB数据库管理系统是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可 MariaDB的目的是完全兼容MySQL，包括API和命令行，使之能轻松成为MySQL的代替品。现在由于mysql被Oracle收购，很多公司都开始使用MariaDB。<br>安装方式yum install mariadb-server<br>启动方式systemctl restart mariadb<br>进入数据库的方式mysql -u root -p 你的密码（没有密码就不要加-p）</p>
+<blockquote>
+<p><strong>建站常用sql语句：</strong><br><strong>- 创建数据库：</strong><br><code>create database 数据库名；</code><br><strong>- 删除数据库：</strong><br><code>drop database 数据库名；</code><br><strong>- 创建用户：</strong><br><code>create user &#39;test&#39;@&#39;%&#39; identified by &#39;1234&#39;;</code><br>%：匹配所有主机，该地方还可以设置成‘localhost’，代表只能本地访问<br><strong>- 删除用户：</strong><br><code>drop user test@&#39;%&#39;;</code><br><strong>- 为用户设置权限：</strong><br><code>grant 权限 on &#39;数据库名&#39;.&#39;表名&#39; to &#39;用户名&#39;@&#39;localhost&#39; identified by &#39;密码&#39;;</code><br>权限：包括create,alter,drop,select,insert,update,delete等。<br>例如：授予kenn用户所有的权限对WordPress库内所有的表，且只能本地访问：<br><code>grant all on &#39;WordPress&#39;.* to &#39;kenn&#39;@&#39;localhost&#39; indentified by &#39;1234&#39;;</code><br><strong>- 修改用户密码：</strong><br>方法1，密码实时更新<br><code>SET password for 用户名 =password(&#39;新密码&#39;);</code><br>方法2，需要刷新<br><code>UPDATE  mysql.user set  password=password(&#39;新密码&#39;)  WHERE user=&#39;用户名&#39;</code><br>刷新： <code>flush privileges;</code><br><strong>- 查看数据库信息：</strong><br><code>show databases;</code><br><strong>- 查看已有用户：</strong><br><code>select user,host from mysql.user;</code><br><strong>- 查看用户权限：</strong><br><code>show grants for root@localhost;</code><br>你要是忘记了怎么授权看一下以外的好用..<br><strong>- 刷新权限设置：</strong><br><code>flush privileges;</code><br>注：sql语句不区分大小写。</p>
+</blockquote>
+<h3 id="iptable命令"><a href="#iptable命令" class="headerlink" title="iptable命令"></a>iptable命令</h3><p>常用参数:<br>-t&lt;表&gt;：指定要操纵的表；</p>
+<p>-A：向规则链中添加条目；<br>-D：从规则链中删除条目；<br>-I：向规则链中插入条目；<br>-R：替换规则链中的条目；</p>
+<p>-L：显示规则链中已有的条目；<br>-F：清除规则链中已有的条目（全部）；<br>-X：清除规则链中已有的条目（用户自定义的）；<br>-Z：清空规则链中的数据包计算器和字节计数器；</p>
+<p>-h：显示帮助信息；<br>-p：指定要匹配的数据包协议类型；<br>-j&lt;目标&gt;：指定要跳转的目标；<br>-s：指定源IP/子网；<br>-d：指定目标IP/子网；</p>
+<p>-i&lt;网络接口&gt;：指定数据包进入本机的网络接口；<br>-o&lt;网络接口&gt;：指定数据包要离开本机所使用的网络接口。</p>
+<p><strong>iptables命令选项输入顺序：</strong></p>
+<blockquote>
+<p>iptables -t 指定表名<br>指定插入还是删除&lt;-A/I/D/R&gt;<br>指定规则类型：INPUT,OUTPUT<br>指定出入的网卡&lt;-i/o 网卡名&gt;<br>-p 指定协议名:TCP,UDP<br>指定源 &lt;-s 源IP/源子网&gt; –sport 源端口<br>指定目标 &lt;-d 目标IP/目标子网&gt; –dport 目标端口<br>-j 指定动作：接受、丢弃等</p>
+</blockquote>
+<ul>
+<li><p>表名包括：<br>raw：高级功能，如：网址过滤。<br>mangle：数据包修改（QOS），用于实现服务质量。<br>net：地址转换，用于网关路由器。<br>filter：包过滤，用于防火墙规则。</p>
+</li>
+<li><p>规则类型包括：<br>INPUT：处理输入数据包。<br>OUTPUT：处理输出数据包。<br>PORWARD：处理转发数据包。<br>PREROUTING：用于目标地址转换（DNAT）。<br>POSTOUTING：用于源地址转换（SNAT）。</p>
+</li>
+<li><p>动作包括：<br>accept：接收数据包。<br>DROP：丢弃数据包。<br>REDIRECT：重定向、映射、透明代理。<br>SNAT：源地址转换。<br>DNAT：目标地址转换。<br>MASQUERADE：IP伪装（NAT），用于ADSL。<br>LOG：日志记录。</p>
+</li>
+</ul>
+<blockquote>
+<p>举例：<br>查看已添加的iptables规则<br>iptables -L -n -v<br><br>开放指定的端口<br>iptables -I INPUT -p tcp -d 192.168.64.4 -j ACCEPT<br>-I:插入 -p:类型为tcp -d:目标ip -j:接受<br><br>屏蔽IP<br>iptables -I INPUT -s 123.45.6.7 -j DROP       #屏蔽单个IP<br>iptables -I INPUT -s 123.0.0.0/8 -j DROP      #屏蔽某个网段<br><br>删除已添加的iptables规则<br>1.将所有iptables以序号标记显示：<br>iptables -L -n –line-numbers<br>2.删除对应序号的规则,如删除第8号：<br>iptables -D INPUT 8</p>
+</blockquote>
+<h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>po主拼命补课中…</p>
+<h3 id="Nginx介绍"><a href="#Nginx介绍" class="headerlink" title="Nginx介绍"></a>Nginx介绍</h3><h3 id="Nginx和Apache的对比"><a href="#Nginx和Apache的对比" class="headerlink" title="Nginx和Apache的对比"></a>Nginx和Apache的对比</h3><h3 id="Nginx的部署"><a href="#Nginx的部署" class="headerlink" title="Nginx的部署"></a>Nginx的部署</h3><h4 id="Nginx配置文件详解"><a href="#Nginx配置文件详解" class="headerlink" title="Nginx配置文件详解"></a>Nginx配置文件详解</h4><h3 id="模拟集群——利用Nginx实现动静分离"><a href="#模拟集群——利用Nginx实现动静分离" class="headerlink" title="模拟集群——利用Nginx实现动静分离"></a>模拟集群——利用Nginx实现动静分离</h3><h4 id="集群的概念"><a href="#集群的概念" class="headerlink" title="集群的概念"></a>集群的概念</h4><p>服务器集群就是指将很多服务器集中起来一起进行同一种服务，在客户端看来就像是只有一个服务器。<br>（其实就是一堆电脑）</p>
+<h4 id="反向代理的概念"><a href="#反向代理的概念" class="headerlink" title="反向代理的概念"></a>反向代理的概念</h4><p>正向代理和反向代理：<br><img src="http://d.birdteam.net/data/f_99972812.jpg" alt><br>正向代理：<br>客户端向代理服务器发送请求，比如访问谷歌。服务器收到请求后修改源地址为本服务器的地址，再向谷歌发送请求。谷歌不会知道其实是客户端发送的请求，返回数据后，代理服务器再将数据返回给客户端。常见应用比如 梯子 。<br>反向代理：<br>客户端向服务器发送请求，但客户其实不知道，服务器的IP其实是代理服务器的IP。代理服务器修改目标地址，将请求转发到负责处理的内部服务器上，返回数据后，代理服务器再把数据返回给客户端。常见应用比如 实现负载均衡。</p>
+<h4 id="upstream模块"><a href="#upstream模块" class="headerlink" title="upstream模块"></a>upstream模块</h4><h4 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h4><p><strong>第一部分:配置反向代理服务器</strong><br>第一步:下载Nginx 自己yum,略<br>第二步:修改Nginx配置文件<br>文件位置/etc/nginx/nginx.conf<br>（1）方式一：使用location<br>（2）方式二：使用upstream</p>
+<p><strong>第二部分:配置动态服务器</strong><br>（1）apache版<br>（2）nginx版</p>
+<p><strong>第三部分:配置静态服务器</strong></p>
+<blockquote>
+<p>Nginx<br>Nginx支持php<br>vim /etc/nginx/conf.d/default.conf<br>如果没有这个文件,可以直接在主配置文件中添加以下代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">在所支持的主页面格式中添加php格式的主页，如下所示：</span><br><span class="line">    location / &#123;</span><br><span class="line">        root   /usr/share/nginx/html;</span><br><span class="line">        index index.php index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">取消如下内容的注释，并设置字体加粗部分为nginx的默认路径，如下图所示：</span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        root           html;</span><br><span class="line">        fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        fastcgi_index  index.php;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME /usr/share/nginx/html$fastcgi_script_name;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="LNMP架构搭建"><a href="#LNMP架构搭建" class="headerlink" title="LNMP架构搭建"></a>LNMP架构搭建</h3><p>设置数据库root账号的密码:<br><code>SET password for &#39;root&#39;@&#39;localhost&#39;=password(&#39;newpassword&#39;);</code><br>第二种方法:利用向导模式设置密码<br><code>mysql_secure_installation</code><br>第三种方法:直接修改数据库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; use mysql;  </span><br><span class="line">MariaDB [mysql]&gt; UPDATE user SET password=password(&apos;newpassword&apos;) WHERE user=&apos;root&apos;;  </span><br><span class="line">MariaDB [mysql]&gt; flush privileges;  </span><br><span class="line">MariaDB [mysql]&gt; exit;</span><br></pre></td></tr></table></figure></p>
 
-4. 末行模式下的操作
-    q: 退出
-    w: 保存
-    wq: 保存并退出
-    q!: 强制退出
-    wq!: 保存并强制退出
-
-    跳转至n行：冒号 行号
-    缩进：
-    set ai：自动缩进
-    set noai：不自动缩进
-    set tabstop=n：设置缩进，tab为n个空格
-
-    r /文件路径/文件a ：导入文件a的内容到当前的文件中
-    w /路径/文件名 ：将当前文件另存为
-
-    set nu: 显示行号
-    set nonu： 不显示行号
-    nohl: 取消高亮
-    set hls:打开高亮
-
-    1,3 d: 删除1-3行内容
-    1，3 m 5: 移动1,3内容至5行下
-    1,3 co 5: 复制1,3内容至5行下
-
-    替换：
-    格式：行号起,行号止 s/源字符/替换内容/g (g是global的意思，表示全部替换)
-    如果不加g每行只有符合条件的第一段文字会被替换
-    其中，/可以被各种符号替代，只要统一就行，如：
-    将文件中全部的/替换为+
-    :% s@/@+@g
-    全局替换：
-    1，$ s///g或者% s///g
-    示例：
-    % s/^/#/g: 在每行的行首添加#
-    % s/$/#/g: 在每行的行尾添加#
-    % s/^#//g：删除行首的#
-    % s/#$//g: 删除行尾的#
-
-    ^：表示行首
-    $：表示行尾
-
-5. vim配置文件
-    全局配置：/etc/vimrc
-    个人配置：~/.vimrc(默认不存在，需要自己手动创建)
-
-6. 崩溃缓存文件
-    遇到意外情况时，vim会保存一个.原文件名.swp的文件
-    在下次编辑此文件时，会提示你是否需要恢复备份
-    ※恢复：可以 按R键 查看备份文件，wq保存，再用rm命令删除备份文件，或者使用 vim -r 原文件名 查看备份文件
-    ※不想恢复：可以按Q键先退出编辑，用rm命令删除备份文件即可（命令为： rm -f .文件名.swp ）
-
-7. 分屏操作
-    vim -o： 水平分屏
-    vim -O: 垂直分屏
-    ctrl+w: 切换文件
-</code></pre>
       
 	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
       
@@ -352,7 +308,7 @@ daovoice('update');
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/05/08/vim简单操作指南/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/05/28/nginx/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -366,18 +322,18 @@ daovoice('update');
   
 <nav id="article-nav">
   
-    <a href="/2019/05/09/用户与用户组/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/05/28/tomcat/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          用户与用户组
+          tomcat
         
       </div>
     </a>
   
   
-    <a href="/2019/05/08/linux命令第二部分/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">linux命令进阶</div>
+    <a href="/2019/05/25/cobbler安装与配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">cobbler安装与配置</div>
       <i class="icon-circle-right"></i>
     </a>
   
