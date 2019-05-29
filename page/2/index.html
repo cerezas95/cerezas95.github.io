@@ -177,6 +177,129 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-虚拟机网络配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/17/虚拟机网络配置/">虚拟机网络配置</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/17/虚拟机网络配置/" class="archive-article-date">
+  	<time datetime="2019-05-17T07:06:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="设置虚拟机网络时的几个常用命令"><a href="#设置虚拟机网络时的几个常用命令" class="headerlink" title="设置虚拟机网络时的几个常用命令"></a><strong>设置虚拟机网络时的几个常用命令</strong></h4><ul>
+<li>ip a 命令</li>
+</ul>
+<p>　查看自己的ip地址</p>
+<ul>
+<li>ping命令</li>
+</ul>
+<p>　-i&lt;间隔秒数&gt;：指定收发信息的间隔时间；<br>　-w&lt;超时时间&gt;：设置超过几秒就算连接失败；<br>　-c&lt;完成次数&gt;：设置完成要求回应的次数；</p>
+<h4 id="虚拟机三种网络模式"><a href="#虚拟机三种网络模式" class="headerlink" title="虚拟机三种网络模式"></a><strong>虚拟机三种网络模式</strong></h4><ul>
+<li>nat<br>　只有本机可以连接虚拟机，虚拟机可以上网。</li>
+<li>桥接<br>　局域网下其他设备也可以连接你的虚拟机，虚拟机也可以上网。</li>
+<li>仅主机<br>　只有本机可以连接虚拟机，虚拟机不能上网。</li>
+</ul>
+<p><img src="http://d.birdteam.net/data/f_36051499.jpg" alt></p>
+<h4 id="Linux上的网卡配置文件"><a href="#Linux上的网卡配置文件" class="headerlink" title="Linux上的网卡配置文件"></a><strong>Linux上的网卡配置文件</strong></h4><p><strong>/etc/sysconfig/network-scripts/ifcfg-ens33</strong></p>
+<p>文件下必须有的几条配置：<br>　ONBOOT=YES 是否打开网络<br>　DEVICE=ens33 指定是哪个设备<br>　TYPE=Ethernet 指定类型一般都是以太网<br>　BOOTPROTO=dhcp或static 指定模式是静态还是动态</p>
+<h4 id="静态"><a href="#静态" class="headerlink" title="静态"></a>静态</h4><p>配置静态ip时，除了上面必须有的几条以外，还需要手动输入ip地址，子网掩码，网关，DNS等信息。下面分为NAT和桥接模式介绍：</p>
+<pre><code>NAT模式下
+</code></pre><ul>
+<li><p>第一步：查看虚拟机NAT网卡所在的网段。在电脑上右键网络状态的小图标，打开网络和Internet设置，更改适配器选项查看<strong>VMnet8</strong>的ip地址。或者在虚拟机中 编辑–虚拟网络编辑器–查看VMnet8的信息，最下面是子网ip和子网掩码。<br>我的电脑NAT的网段为192.168.19.0，子网掩码是255.255.255.0</p>
+</li>
+<li><p>第二步：配置ens33文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ONBOOT=YES</span><br><span class="line">DEVICE=ens33</span><br><span class="line">TYPE=Ethernet</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">IPADDR=192.168.19.41</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.19.2 ==&gt; 注意NAT模式的网关是xx.2</span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=114.114.114.114</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第三步：重启network服务<br>systemctl restart network</p>
+</li>
+<li><p>第四步：ip a 看看ip是不是改成了192.168.19.41</p>
+</li>
+<li><p>第五步：ping个百度，xshell连接一下，看看网络是否接通
+　</p>
+<p>  桥接模式下</p>
+</li>
+<li><p>第一步：查看物理机（就是你自己的电脑）所在的网段。在在电脑上右键网络状态的小图标，打开网络和Internet设置，更改适配器选项查看<strong>以太网</strong>的ip地址。或者打开开始菜单-运行cmd-输入ipconfig查看<strong>以太网</strong>的ip地址。<br>比如，我的电脑所在网段为：192.168.9.0</p>
+</li>
+<li><p>第二步：配置ens33文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ONBOOT=YES</span><br><span class="line">DEVICE=ens33</span><br><span class="line">TYPE=Ethernet</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">IPADDR=192.168.9.41 ==&gt; 注意ip不能和该局域网下的其他电脑重复，设置前可以ping一下试试，ping不通的就可以使用</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.9.1 ==&gt; 注意这个填写桥接的路由器的ip地址</span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=114.114.114.114</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第三步：重启network服务<br>systemctl restart network</p>
+</li>
+<li><p>第四步：ip a 看看ip是不是改成了192.168.9.41</p>
+</li>
+<li><p>第五步：ping个百度，xshell连接一下，看看网络是否接通</p>
+</li>
+</ul>
+<h4 id="动态"><a href="#动态" class="headerlink" title="动态"></a>动态</h4><p>配置动态ip非常简单，无论是NAT还是桥接，只要写以下几条即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ONBOOT=YES</span><br><span class="line">DEVICE=ens33</span><br><span class="line">TYPE=Ethernet</span><br><span class="line">BOOTPROTO=dhcp</span><br></pre></td></tr></table></figure></p>
+<p>注意：NAT模式下，需要查看一下虚拟网络编辑器，VMnet8的<strong>使用本地DHCP服务将IP地址分配给虚拟机</strong>是否勾选了。</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/17/虚拟机网络配置/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-网络和进程管理命令篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1364,166 +1487,6 @@ daovoice('update');
 
 
   
-    <article id="post-vim简单操作指南" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/08/vim简单操作指南/">vim简单操作指南</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/08/vim简单操作指南/" class="archive-article-date">
-  	<time datetime="2019-05-08T07:26:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="vim简单操作指南"><a href="#vim简单操作指南" class="headerlink" title="vim简单操作指南"></a>vim简单操作指南</h1><pre><code>1. vim编辑器
-    三种模式：    
-        命令模式（普通模式）
-        输入模式（编辑模式）
-        末行模式
-2. 模式之间的切换
-    命令模式--&gt;输入模式（a,i,o）
-    输入模式--&gt;命令模式（esc）
-    命令模式--&gt;末行模式（：）
-    末行模式--&gt;命令模式（esc）
-3. 命令模式下的常用操作
-    yy: 复制，nyy就是复制n行
-    p: 粘贴
-    dd: 剪切
-    dG: 删除光标所在行到末尾的全部行
-    u: 撤销（等于Windows的ctrl+z）
-    ctrl+r：恢复（等于Windows的ctrl+y）
-    G：跳转到最后一行
-    nG： 跳转到第n行，如1G就是跳转到首行
-    home: 跳转到行首
-    end: 跳转到行尾
-    pgup: 上翻一页,或者ctrl+f
-    pgdn: 下翻一页，或者ctrl+b
-    /: 查找
-        n: 从上往下查找
-        N：从下往上查找
-
-4. 末行模式下的操作
-    q: 退出
-    w: 保存
-    wq: 保存并退出
-    q!: 强制退出
-    wq!: 保存并强制退出
-
-    跳转至n行：冒号 行号
-    缩进：
-    set ai：自动缩进
-    set noai：不自动缩进
-    set tabstop=n：设置缩进，tab为n个空格
-
-    r /文件路径/文件a ：导入文件a的内容到当前的文件中
-    w /路径/文件名 ：将当前文件另存为
-
-    set nu: 显示行号
-    set nonu： 不显示行号
-    nohl: 取消高亮
-    set hls:打开高亮
-
-    1,3 d: 删除1-3行内容
-    1，3 m 5: 移动1,3内容至5行下
-    1,3 co 5: 复制1,3内容至5行下
-
-    替换：
-    格式：行号起,行号止 s/源字符/替换内容/g (g是global的意思，表示全部替换)
-    如果不加g每行只有符合条件的第一段文字会被替换
-    其中，/可以被各种符号替代，只要统一就行，如：
-    将文件中全部的/替换为+
-    :% s@/@+@g
-    全局替换：
-    1，$ s///g或者% s///g
-    示例：
-    % s/^/#/g: 在每行的行首添加#
-    % s/$/#/g: 在每行的行尾添加#
-    % s/^#//g：删除行首的#
-    % s/#$//g: 删除行尾的#
-
-    ^：表示行首
-    $：表示行尾
-
-5. vim配置文件
-    全局配置：/etc/vimrc
-    个人配置：~/.vimrc(默认不存在，需要自己手动创建)
-
-6. 崩溃缓存文件
-    遇到意外情况时，vim会保存一个.原文件名.swp的文件
-    在下次编辑此文件时，会提示你是否需要恢复备份
-    ※恢复：可以 按R键 查看备份文件，wq保存，再用rm命令删除备份文件，或者使用 vim -r 原文件名 查看备份文件
-    ※不想恢复：可以按Q键先退出编辑，用rm命令删除备份文件即可（命令为： rm -f .文件名.swp ）
-
-7. 分屏操作
-    vim -o： 水平分屏
-    vim -O: 垂直分屏
-    ctrl+w: 切换文件
-</code></pre>
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/08/vim简单操作指南/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1628,6 +1591,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
             
             <div class="clearfix"></div>

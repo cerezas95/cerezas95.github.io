@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href>
-  <title>DNS和NTP | 那那喵的拉拉肥厨房</title>
+  <title>Shell 及脚本常用命令介绍 | 那那喵的拉拉肥厨房</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="DNS域名解析系统DNS服务概述：DNS（Domain Name System）域名系统，在TCP/IP网络中有非常重要的地位，能够提供域名与IP地址的解析服务。它是一个分布式数据库，命名系统采用层次的逻辑结构，如同一棵倒置的树，这个逻辑的树形结构称为域名空间，由于DNS划分了域名空间，所以各机构可以使用自己的域名空间创建DNS信息。注：DNS 域名空间中，树的最大深度不得超过127 层，树中每个">
-<meta name="keywords" content="全部,Linux">
+  <meta name="description" content="Shell 是一个 C 语言编写的脚本语言，它是用户与 Linux 的桥梁，用户输入命令交给 Shell 处理， Shell 将相应的操作传递给内核（Kernel），内核把处理的结果输出给用户。下面是流程示意图： Shell 分类 图形界面 Shell（GUI Shell）GUI 为 Unix 或者类 Unix 操作系统构造一个功能完善、操作简单以及界面友好的桌面环境。主流桌 面环境有 KDE，G">
+<meta name="keywords" content="学习,linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DNS和NTP">
-<meta property="og:url" content="/2019/05/22/DNS和NTP/index.html">
+<meta property="og:title" content="Shell 及脚本常用命令介绍">
+<meta property="og:url" content="/2019/05/29/shell和常用命令/index.html">
 <meta property="og:site_name" content="那那喵的拉拉肥厨房">
-<meta property="og:description" content="DNS域名解析系统DNS服务概述：DNS（Domain Name System）域名系统，在TCP/IP网络中有非常重要的地位，能够提供域名与IP地址的解析服务。它是一个分布式数据库，命名系统采用层次的逻辑结构，如同一棵倒置的树，这个逻辑的树形结构称为域名空间，由于DNS划分了域名空间，所以各机构可以使用自己的域名空间创建DNS信息。注：DNS 域名空间中，树的最大深度不得超过127 层，树中每个">
+<meta property="og:description" content="Shell 是一个 C 语言编写的脚本语言，它是用户与 Linux 的桥梁，用户输入命令交给 Shell 处理， Shell 将相应的操作传递给内核（Kernel），内核把处理的结果输出给用户。下面是流程示意图： Shell 分类 图形界面 Shell（GUI Shell）GUI 为 Unix 或者类 Unix 操作系统构造一个功能完善、操作简单以及界面友好的桌面环境。主流桌 面环境有 KDE，G">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-28T10:15:26.331Z">
+<meta property="og:image" content="http://d.birdteam.net/data/f_19530029.jpg">
+<meta property="og:updated_time" content="2019-05-29T12:25:10.655Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DNS和NTP">
-<meta name="twitter:description" content="DNS域名解析系统DNS服务概述：DNS（Domain Name System）域名系统，在TCP/IP网络中有非常重要的地位，能够提供域名与IP地址的解析服务。它是一个分布式数据库，命名系统采用层次的逻辑结构，如同一棵倒置的树，这个逻辑的树形结构称为域名空间，由于DNS划分了域名空间，所以各机构可以使用自己的域名空间创建DNS信息。注：DNS 域名空间中，树的最大深度不得超过127 层，树中每个">
+<meta name="twitter:title" content="Shell 及脚本常用命令介绍">
+<meta name="twitter:description" content="Shell 是一个 C 语言编写的脚本语言，它是用户与 Linux 的桥梁，用户输入命令交给 Shell 处理， Shell 将相应的操作传递给内核（Kernel），内核把处理的结果输出给用户。下面是流程示意图： Shell 分类 图形界面 Shell（GUI Shell）GUI 为 Unix 或者类 Unix 操作系统构造一个功能完善、操作简单以及界面友好的桌面环境。主流桌 面环境有 KDE，G">
+<meta name="twitter:image" content="http://d.birdteam.net/data/f_19530029.jpg">
   
   
     <link rel="icon" href="/favicon.png">
@@ -176,137 +178,75 @@ daovoice('update');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-DNS和NTP" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-shell和常用命令" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      DNS和NTP
+      Shell 及脚本常用命令介绍
     </h1>
   
 
         
-        <a href="/2019/05/22/DNS和NTP/" class="archive-article-date">
-  	<time datetime="2019-05-22T12:34:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-22</time>
+        <a href="/2019/05/29/shell和常用命令/" class="archive-article-date">
+  	<time datetime="2019-05-29T12:23:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="DNS域名解析系统"><a href="#DNS域名解析系统" class="headerlink" title="DNS域名解析系统"></a>DNS域名解析系统</h2><h3 id="DNS服务概述："><a href="#DNS服务概述：" class="headerlink" title="DNS服务概述："></a>DNS服务概述：</h3><p>DNS（Domain Name System）域名系统，在TCP/IP网络中有非常重要的地位，能够提供域名与IP地址的解析服务。它是一个分布式数据库，命名系统采用层次的逻辑结构，如同一棵倒置的树，这个逻辑的树形结构称为域名空间，由于DNS划分了域名空间，所以各机构可以使用自己的域名空间创建DNS信息。<br>注：DNS 域名空间中，树的最大深度不得超过127 层，树中每个节点最长可以存储63 个字符。</p>
-<p>使用协议：UDP,TCP（当请求大于512字节时）<br>使用端口：53 </p>
+        <p>Shell 是一个 C 语言编写的脚本语言，它是用户与 Linux 的桥梁，用户输入命令交给 Shell 处理， Shell 将相应的操作传递给内核（Kernel），内核把处理的结果输出给用户。<br>下面是流程示意图：<br><img src="http://d.birdteam.net/data/f_19530029.jpg" alt></p>
+<p>Shell 分类</p>
+<p>图形界面 Shell（GUI Shell）<br>GUI 为 Unix 或者类 Unix 操作系统构造一个功能完善、操作简单以及界面友好的桌面环境。主流桌 面环境有 KDE，Gnome 等。</p>
+<p>命令行界面 Shell（CLI Shell）<br>CLI 是在用户提示符下键入可执行指令的界面，用户通过键盘输入指令，完成一系列操作。 在 Linux 系统上主流的 CLI 实现是 Bash，是许多 Linux 发行版默认的 Shell。还有许多 Unix 上 Shell，例如 tcsh、csh、ash、bsh、ksh 等。</p>
+<h3 id="第一个shell脚本"><a href="#第一个shell脚本" class="headerlink" title="第一个shell脚本"></a>第一个shell脚本</h3><p>在shell中显示Hello world!<br>vim test.sh<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">echo &quot;Hello world!&quot;</span><br></pre></td></tr></table></figure></p>
+<h3 id="脚本的执行方法"><a href="#脚本的执行方法" class="headerlink" title="脚本的执行方法"></a>脚本的执行方法</h3><p>方法一：bash执行<br><code>bash test.sh</code><br>用 bash 解释器执行，当前终端会新生成一个子shell去执行脚本，这种方式不需要给该文件赋予执行权限。</p>
+<p>方法二：source执行<br><code>source test.sh</code><br>以当前默认shell解释器执行，这种方式不需要给该文件赋予执行权限。也不会建立新的子shell</p>
+<p>方法三：路径执行<br><code>chmod a+x test.sh</code><br><code>./test.sh</code></p>
+<p>如果脚本第一行是<code>#!/bin/bash</code>，则和bash执行一样用bash解释器执行，会新生成一个子 shell 去执行脚本；如果脚本没有指定，则和source一样以当前默认shell解释器执行，不会建立新的子shell。<br>另外，以路径方式执行时，文件需要具有执行权限。<br>注意，这里在运行时一定要写成 ./test.sh（绝对路径亦可），而不是 test.sh，运行其它二进制的程序也一样，直接写 test.sh，Linux 系统会去 PATH（环境变量） 里寻找有没有叫 test.sh 的，而只有 /bin, /sbin, /usr/bin，/usr/sbin 等在 PATH 里，你的当前目录通常不在 PATH 里，所以写成 test.sh 是会找不到命令的，要用 ./test.sh 告诉系统说，就在当前目录找。</p>
+<p>是否生成子shell对脚本运行的影响<br>我们可以使用命令pstree查看我们当前所处的位置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** [root@costana] ~ 16:29:32 </span><br><span class="line"># pstree</span><br><span class="line">systemd─┬─YDLive───&#123;YDLive&#125;</span><br><span class="line">        ├─YDService───9*[&#123;YDService&#125;]</span><br><span class="line">        ├─acpid</span><br><span class="line">      省    略    很    多    内    容</span><br><span class="line">        ├─polkitd───5*[&#123;polkitd&#125;]</span><br><span class="line">        ├─rsyslogd───2*[&#123;rsyslogd&#125;]</span><br><span class="line">        ├─sgagent───&#123;sgagent&#125;</span><br><span class="line">        ├─sshd─┬─sshd───bash</span><br><span class="line">        │      ├─2*[sshd───sshd]</span><br><span class="line">        │      ├─sshd───bash───pstree</span><br><span class="line">        │      └─sshd───bash───vim</span><br><span class="line">        ├─systemd-journal</span><br><span class="line">        ├─systemd-logind</span><br><span class="line">        ├─systemd-udevd</span><br><span class="line">        └─tuned───4*[&#123;tuned&#125;]</span><br></pre></td></tr></table></figure></p>
+<p>主要看这部分：<br><code>sshd───bash───pstree</code><br>当你执行bash命令的之后再次查看pstree你会发现它变成了<br><code>sshd───bash───bash───pstree</code><br>说明bash命令生成了一个子shell<br>当我们在这个子shell中时，如果我们定义一个变量，是可以正常输出的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export name=nana</span><br><span class="line">echo $name </span><br><span class="line">成功输出：nana</span><br></pre></td></tr></table></figure></p>
+<p>然后我们使用<code>exit</code>命令退出这个子shell，此时使用pstree会发现：<br><code>sshd───bash───pstree</code><br>又变回来了<br>这时我们再次打印刚才的变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $name </span><br><span class="line">输出为空</span><br></pre></td></tr></table></figure></p>
+<p>但是如果在父shell中定义变量，进入子shell查看，会发现可以正常输出！<br><strong>总结就是一句话：子shell可以继承父shell的变量，但父shell不能继承子shell的变量</strong></p>
+<p>另外，如果在/etc/profile等文件中定义了全局变量，则不管在哪都可以使用该变量！</p>
 <blockquote>
-<p>补充：想查看服务占用的端口，可以vim /etc/services文件</p>
+<p>常用定义变量的几个位置<br>全局  etc/profile<br>全局  profile的子配置文件：/etc/profile.d/下.sh结尾的文件<br>（profile被读取时，会自动加载所有子配置文件）<br>用户  仅对当前用户生效 ~/.bashrc<br>令配置文件立即生效：source 文件名</p>
 </blockquote>
-<h3 id="域和域名"><a href="#域和域名" class="headerlink" title="域和域名"></a>域和域名</h3><p>1,根域</p>
-<p>就是所谓的“.”，其实我们的网址<code>www.baidu.com</code>在配置当中应该是<code>www.baidu.com.</code>（最后有一点），一般我们在浏览器里输入时会省略后面的点，而这也已经成为了习惯。<br>根域服务器我们知道有13台，但是这是错误的观点。<br>根域服务器只是具有13个IP地址，但机器数量却不是13台，因为这些IP地址借助了任播的技术，所以我们可以在全球设立这些IP的镜像站点，你访问到的这个IP并不是唯一的那台主机。<br>具体的镜像分布可以参考维基百科。这些主机的内容都是一样的</p>
-<p>2,域的划分<br>根域下来就是顶级域或者叫一级域，<br>有两种划分方式，一种互联网刚兴起时的按照行业性质划分的com.，net.等，一种是按国家划分的如cn.，jp.，等。<br>具体多少你可以自己去查，我们这里不关心。<br>每个域都会有域名服务器，也叫权威域名服务器。<br><code>Baidu.com</code>就是一个顶级域名，而<code>www.baidu.com</code>却不是顶级域名，他是在<code>baidu.com</code>这个域里的一叫做www的主机。<br>一级域之后还有二级域，三级域，只要我买了一个顶级域，并且我搭建了自己BIND服务器注册到互联网中，那么我就可以随意在前面多加几个域了）。<br>比如<code>a.www.baidu.com</code>，在这个网址中，<code>www.baidu.com</code>变成了一个二级域而不是一台主机，主机名是a。</p>
-<p>3,域名服务器<br>能提供域名解析的服务器，上面的记录类型可以是A(address)记录，NS记录（name server），MX（mail），CNAME等。</p>
-<h4 id="DNS查询过程"><a href="#DNS查询过程" class="headerlink" title="DNS查询过程"></a><strong>DNS查询过程</strong></h4><p>例如：使用dig命令观察我家的PC机访问<code>www.163.com</code>的过程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** [root@localhost] ~ 18:27:07 </span><br><span class="line"># dig +trace www.163.com</span><br><span class="line">.			3169	IN	NS	h.root-servers.net.</span><br><span class="line">.			3169	IN	NS	d.root-servers.net.</span><br><span class="line">.			3169	IN	NS	e.root-servers.net.</span><br><span class="line">(省略很多)</span><br><span class="line">Received 707 bytes from 192.168.254.251#53(192.168.254.251) in 99 ms</span><br><span class="line">#本地DNS服务器：我这里没有他的ip，你等等我帮你问问root服务器。</span><br><span class="line"></span><br><span class="line">com.			172800	IN	NS	a.gtld-servers.net.</span><br><span class="line">com.			172800	IN	NS	b.gtld-servers.net.</span><br><span class="line">com.			172800	IN	NS	c.gtld-servers.net.</span><br><span class="line">(省略很多)</span><br><span class="line">Received 1171 bytes from 198.97.190.53#53(h.root-servers.net) in 197 ms</span><br><span class="line">#于是本地去询问了root服务器，root说：我不知道耶，但是com服务器应该知道，你去问问他（丢给本地服务器一堆com服务器的地址）</span><br><span class="line"></span><br><span class="line">163.com.		172800	IN	NS	ns3.nease.net.</span><br><span class="line">163.com.		172800	IN	NS	ns4.nease.net.</span><br><span class="line">163.com.		172800	IN	NS	ns5.nease.net.</span><br><span class="line">(省略很多)</span><br><span class="line">Received 712 bytes from 192.54.112.30#53(h.gtld-servers.net) in 481 ms</span><br><span class="line">#于是本地去询问了com服务器，com说：我也不知道耶，但是163.com服务器应该知道，你去问问他（丢给本地服务器一堆163.com服务器的地址）</span><br><span class="line"></span><br><span class="line">www.163.com.		600	IN	CNAME	www.163.com.lxdns.com.</span><br><span class="line">Received 72 bytes from 123.58.173.178#53(ns2.166.com) in 45 ms</span><br><span class="line">#于是本地去询问了163.com服务器，163.com说：我知道！我来告诉你！</span><br><span class="line"></span><br><span class="line">#最后，本地服务器把问到的结果返回给PC机！并把结果记在了小本本上。</span><br><span class="line"></span><br><span class="line">#过了一会儿，PC又跑来问www.163.com的ip地址，本地DNS服务器掏出了小本本，直接回答了PC的问题！</span><br><span class="line"></span><br><span class="line">emmm，其实我也不知道为啥解析完了还是个网址……</span><br><span class="line">使用nslookup命令查看到的ip地址如下：</span><br><span class="line">*** *** *** [root@localhost] ~ 19:13:24 </span><br><span class="line"># nslookup </span><br><span class="line">&gt; www.163.com</span><br><span class="line">Server:		192.168.254.251</span><br><span class="line">Address:	192.168.254.251#53</span><br><span class="line"></span><br><span class="line">Non-authoritative answer:</span><br><span class="line">www.163.com	canonical name = www.163.com.lxdns.com.</span><br><span class="line">Name:	www.163.com.lxdns.com</span><br><span class="line">Address: 211.161.83.41</span><br><span class="line">Name:	www.163.com.lxdns.com</span><br><span class="line">Address: 116.242.0.145</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="两种查询方式："><a href="#两种查询方式：" class="headerlink" title="两种查询方式："></a><strong>两种查询方式：</strong></h4><p>1,递归查询:<br>一般客户机和服务器之间属递归查询，当客户机向DNS服务器发出请求后,若DNS服务器本身不能解析,则会向另外的DNS服务器发出查询请求，直到得知最终结果后，才将结果转交给客户机； </p>
-<p>2,迭代查询(反复查询):<br>一般DNS服务器之间属迭代查询，如：若DNS2不能响应DNS1的请求，则DNS2会将DNS3的IP给DNS1，以便DNS1再向DNS3发出请求；</p>
-<h4 id="两种解析方式："><a href="#两种解析方式：" class="headerlink" title="两种解析方式："></a><strong>两种解析方式：</strong></h4><p>1,正向解析:<br>正向解析是指域名到IP 地址的解析过程。我们通过域名访问网站都是正向解析。</p>
-<p>2,反向解析:<br>反向解析是从IP 地址到域名的解析过程。反向解析的作用为服务器的身份验证。</p>
-<h4 id="DNS资源记录"><a href="#DNS资源记录" class="headerlink" title="DNS资源记录"></a><strong>DNS资源记录</strong></h4><p><strong>资源记录的通用格式</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name  [time]  IN   type   value</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>name：要解析的目标主机的名称</li>
-<li>time：解析结果的缓存时间(可不填)</li>
-<li>IN：关键词</li>
-<li>type：资源记录类型</li>
-<li>value：参数，如将目标主机解析到哪个ip地址等</li>
-</ul>
-<p>例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$TTL 1D</span><br><span class="line">@       IN SOA  @ rname.invalid.(</span><br><span class="line">                                        0       ; serial</span><br><span class="line">                                        1D      ; refresh</span><br><span class="line">                                        1H      ; retry</span><br><span class="line">                                        1W      ; expire</span><br><span class="line">                                        3H )    ; minimum</span><br><span class="line">        NS      @</span><br><span class="line">        A       127.0.0.1</span><br><span class="line">        AAAA    ::1</span><br><span class="line"></span><br><span class="line">aaa     IN A    114.116.53.47</span><br><span class="line">@       IN A    114.116.53.47</span><br></pre></td></tr></table></figure>
-<p><strong>资源记录的类型</strong></p>
-<p>1,SOA 资源记录<br>每个区的开始处都包含一个起始授权记录（Start of Authority Record），简称SOA。<br>SOA 定义了域的全局参数，进行整个域的管理设置。一个区域文件只允许存在唯一的SOA 记录。起始授权机构SOA资源记录总是处于任何标准区域中的第一位，它表示最初创建它的DNS服务器或现在是这个截获的主服务器的DNS服务器。它还用于存储会影响区域更新或过期的其他属性，如版本信息和计时，这些属性会影响在这个区域的域名服务器之间进行同步数据的频繁程度。<br>2,NS 资源记录<br>NS（Name Server）记录是域名服务器记录，用来指定该域名由哪个DNS服务器来进行解析。每个区在区根处至少包含一个NS 记录。<br>3,A 资源记录<br>地址（A）资源记录把FQDN 映射到IP 地址。 因为有此记录，所以DNS服务器能解析FQDN域名对应的IP 地址。<br>4,PTR 资源记录<br>相对于A 资源记录，指针（PTR）记录把IP地址映射到FQDN。 用于反向查询，通过IP地址，找到域名。<br>5,CNAME 资源记录<br>别名记录（CNAME）资源记录创建特定FQDN 的别名。用户可以使用CNAME 记录来隐藏用户网络的实现细节，使连接的客户机无法知道真正的域名。<br>6,MX 资源记录<br>邮件交换（MX）资源记录，为DNS 域名指定邮件交换服务器。<br>邮件交换服务器是为DNS 域名处理或转发邮件的主机。处理邮件指把邮件投递到目的地或转交另一不同类型的邮件传送者。转发邮件指把邮件发送到最终目的服务器，用简单邮件传输协议SMTP 把邮件发送给离最终目的地最近的邮件交换服务器，或使邮件经过一定时间的排队。<br>以上是相关概念。</p>
-<h2 id="部署DNS的软件-——-BIND"><a href="#部署DNS的软件-——-BIND" class="headerlink" title="部署DNS的软件 —— BIND"></a>部署DNS的软件 —— BIND</h2><p>BIND 全称为Berkeley Internet Name Domain(伯克利因特网名称域系统)。BIND 主要有三个版本：BIND4、BIND8、BIND9。BIND8融合了许多提高效率、稳定性和安全性的技术，而BIND9增加了一些超前的理念：IPv6支持、密钥加密、多处理器支持、线程安全操作、增量区传送等等。</p>
+<h3 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h3><p>grep 关键词 文件名<br>或者 带输出内容的命令 | grep 关键词<br>-i：不区分大小写<br>-n：显示找到关键词的行号<br>-v：取反 列出不包含关键词的行<br>-E：支持正则匹配<br>-o：只打印匹配到的内容<br>-c：统计匹配到的行数（可用wc代替）<br>-B &lt;数字&gt;：打印出匹配到关键词的前n行（包括匹配到的那行）<br>-A &lt;数字&gt;：同上，后n行</p>
+<p>如：去掉所有注释和空行<br><code>grep -E -v &quot;(^#)|(^$)&quot; testfile</code></p>
+<p>忽略大小写，kenn仍然能被找到<br><code>echo &quot;THIS IS KENn&quot; | grep -i &#39;kenn&#39;</code><br>THIS IS <strong>KENn</strong></p>
 <blockquote>
-<p>常用的配置文件：<br><strong>主配置文件（/etc/named.conf）</strong>　只有58行，而且在去除注释信息和空行之后，实际有效的参数仅有30行左右，这些参数用来定义bind服务程序的运行。<br><strong>区域配置文件（/etc/named.rfc1912.zones）</strong>　用来保存域名和IP地址对应关系的所在位置。类似于图书的目录，对应着每个域和相应IP地址所在的具体位置，当需要查看或修改时，可根据这个位置找到相关文件。<br><strong>数据配置文件目录（/var/named）</strong>　该目录用来保存域名和IP地址真实对应关系的数据配置文件。<br><strong>正向解析模板文件： /var/named/named.localhost</strong><br><strong>反向解析模板文件： /var/named/named.loopback</strong></p>
+<p>grep，xargs，find的区别：<br>grep 从前面的输出结果中匹配关键词<br>find  找文件名或文件的信息<br>xargs 格式化输出，将前面的输出结果作为后面命令的输入</p>
 </blockquote>
-<h3 id="部署DNS正向解析"><a href="#部署DNS正向解析" class="headerlink" title="部署DNS正向解析"></a>部署DNS正向解析</h3><p><strong>第一步：下载bind</strong><br>[root@ken ~]# yum install bind bind-utils -y</p>
-<p>bind   #该包为DNS 服务的主程序包。<br>bind-utils  #该包为客户端工具，默认安装，用于搜索域名指令</p>
-<p><strong>第二步：编辑/etc/named.conf文件</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">options &#123;</span><br><span class="line">    listen-on port 53 &#123; any; &#125;;          #修改为any</span><br><span class="line">    listen-on-v6 port 53 &#123; ::1; &#125;;</span><br><span class="line">    directory     &quot;/var/named&quot;;</span><br><span class="line">    dump-file     &quot;/var/named/data/cache_dump.db&quot;;</span><br><span class="line">    statistics-file &quot;/var/named/data/named_stats.txt&quot;;</span><br><span class="line">    memstatistics-file &quot;/var/named/data/named_mem_stats.txt&quot;;</span><br><span class="line">    recursing-file  &quot;/var/named/data/named.recursing&quot;;</span><br><span class="line">    secroots-file   &quot;/var/named/data/named.secroots&quot;;</span><br><span class="line">    allow-query     &#123; any; &#125;;             #修改为any</span><br></pre></td></tr></table></figure></p>
-<p>第一处修改为any表示：服务器上的所有IP地址均可提供DNS域名解析服务<br>第二处修改为any表示：允许所有人对本服务器发送DNS查询请求</p>
-<p><strong>第三步：修改区域配置文件/etc/named.rfc1912.zones</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zone &quot;你DNS服务器的域名&quot; IN &#123;</span><br><span class="line">    type master;</span><br><span class="line">    file &quot;你配置文件的名字&quot;;</span><br><span class="line">    allow-update &#123; none; &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>域名：如163.com<br>文件名：一般以zone结尾，如163.com.zone</p>
-<p><strong>第四步：编辑数据配置文件</strong><br>可以从/var/named目录中复制一份正向解析的模板文件（named.localhost），然后把域名和IP地址的对应数据填写数据配置文件中并保存。在复制时记得加上-a参数，这可以保留原始文件的所有者、所属组、权限属性等信息，以便让bind服务程序顺利读取文件内容<br>[root@ken ~]# cp -a /var/named/named.localhost /var/named/ken.com.zone</p>
-<p><strong>配置数据配置文件</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# cat /var/named/ken.com.zone</span><br><span class="line">$TTL 1D  #生存周期为1天</span><br><span class="line">@    IN SOA             @          rname.invalid.(</span><br><span class="line">    #授权信息开始    #DNS区域的地址    #管理员邮箱        0    ; serial  #更新序列号</span><br><span class="line">                                                   1D    ; refresh  #更新时间</span><br><span class="line">                                                   1H    ; retry    #重试时间</span><br><span class="line">                                                   1W    ; expire   #失效时间</span><br><span class="line">                                                 3H )    ; minimum  #无效解析记录的缓存时间</span><br><span class="line">    NS    @    #域名服务器记录</span><br><span class="line">    A    127.0.0.1 #地址记录</span><br><span class="line">www   IN A     192.168.4.190 #主机名为www，如www.163.com</span><br><span class="line">@   IN A     192.168.4.190  #主机名为空，如163.com</span><br><span class="line">. IN A     192.168.4.190  #泛解析，主机名随便填，如abc.163.com等</span><br><span class="line">注：设域名为163.com</span><br></pre></td></tr></table></figure></p>
-<p><strong>第五步：重启named服务</strong><br>[root@ken ~]# systemctl restart named</p>
-<p><strong>第六步：修改客户端的DNS地址</strong><br>[root@ken ~]# vim /etc/sysconfig/network-scripts/ifcfg-ens33</p>
-<p><strong>第七步：重启客户端网络</strong><br>[root@ken ~]# systemctl restart network</p>
-<p><strong>第八步：用nslookup命令测试</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** [root@localhost] ~ 17:15:52 </span><br><span class="line"># nslookup </span><br><span class="line">&gt; test.test</span><br><span class="line">Server:		192.168.19.141</span><br><span class="line">Address:	192.168.19.141#53</span><br><span class="line"></span><br><span class="line">Name:	test.test</span><br><span class="line">Address: 114.116.53.47</span><br><span class="line">Name:	test.test</span><br><span class="line">Address: 127.0.0.1</span><br></pre></td></tr></table></figure></p>
-<h3 id="部署DNS反向解析"><a href="#部署DNS反向解析" class="headerlink" title="部署DNS反向解析"></a>部署DNS反向解析</h3><p><strong>第一步：修改区域配置文件</strong><br>vim /etc/named.rfc1912.zones</p>
-<p>如192.168.19.0==&gt;19.168.192<br>ip地址要填↓<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zone &quot;19.168.192.in-addr.arpa&quot; IN &#123;</span><br><span class="line">        type master;</span><br><span class="line">        file &quot;test.back.zone&quot;;</span><br><span class="line">        allow-update &#123; none; &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p><strong>第二步：从模板复制域文件</strong><br>[root@ken named]# cp -a /var/named/named.loopback test.back.zone<br>反向解析模板文件/var/named/named.loopback<br>你自己的反向解析配置文件：test.back.zone （注意与区域配置文件中填写的文件名相同）</p>
-<p><strong>第二步：编辑反向配置文件</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$TTL 1D</span><br><span class="line">@       IN SOA  @ rname.invalid.(</span><br><span class="line">                                        0       ; serial</span><br><span class="line">                                        1D      ; refresh</span><br><span class="line">                                        1H      ; retry</span><br><span class="line">                                        1W      ; expire</span><br><span class="line">                                        3H )    ; minimum</span><br><span class="line">        NS      @</span><br><span class="line">        A       127.0.0.1</span><br><span class="line">        AAAA    ::1</span><br><span class="line">        PTR     localhost.</span><br><span class="line"></span><br><span class="line">111     PTR     www.baidu.com</span><br></pre></td></tr></table></figure>
-<p><strong>第三步：重启服务端DNS</strong><br>[root@ken named]# systemctl restart named</p>
-<p><strong>第四步：重启客户机network服务</strong><br>[root@ken named]# systemctl restart network</p>
-<p><strong>第五步：测试客户机</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** [root@localhost] ~ 17:15:52 </span><br><span class="line"># nslookup </span><br><span class="line">&gt; 192.168.19.111    </span><br><span class="line">Server:		192.168.19.141</span><br><span class="line">Address:	192.168.19.141#53</span><br><span class="line"></span><br><span class="line">111.19.168.192.in-addr.arpa	name = www.baidu.com.19.168.192.in-addr.arpa.</span><br></pre></td></tr></table></figure></p>
-<p>#NTP时间服务器</p>
-<ul>
-<li>软件时钟：由 Linux 系统根据 1970/01/01 开始计算的总秒数；</li>
-<li>硬件时钟：主机硬件系统上的时钟，例如 BIOS 记录的時間；</li>
-</ul>
-<p>其实，Linux 系统的计时方式主要是由 1970/01/01开始计算总秒数，如果你还记得 date 这个指令的话， 你就会发现它有个 +%s 的参数，可以取得总秒数，这个就是软件时钟啦！<br>但，电脑硬件主要是一BIOS内部的时间为主要时间依据，而偏偏这个时间可能因为BIOS内部本身的问题，而导致BIOS时间和标准时间（UTC）会有点点的差异存在！<br>所以为了避免主机时间因为长期运作下所导致的时间偏差，进行时间同步的工作就至关重要了！</p>
-<p>顺带一提:）<br>硬件时钟查看命令是<code>hwclock</code><br>软件时钟查看命令是<code>date</code></p>
-<blockquote>
-<p>那么怎么让時間同步化呢？<br>通过几部主要主机调校时间然后让他们的t时间同步之后，当作server端让client端连接，并提供client调整自己的时间，不就可以达到全部电脑时间同步化了吗！那就是 Network Time Protocol（NTP） 了。另外还有 Digital Time Synchronization Protocol (DTSS) 也可以达到相同的功能！</p>
-</blockquote>
-<p>##部署安装NTP服务器</p>
-<p>既然已经知道NTP是干什么的了，接下来就让我们开始部署吧:)</p>
-<ul>
-<li><p>第一步：安装NTP服务</p>
-<blockquote>
-<p>[root@ken ~]# yum install ntp -y</p>
-</blockquote>
-</li>
-<li><p>第二步：配置NTP文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# vim /etc/ntp.conf</span><br><span class="line">  server 127.127.1.0                        #本地时钟地址，以本机作为时间服务器</span><br><span class="line">  server ntp1.aliyun.com                    #也可以根据需要选择阿里时间服务器 </span><br><span class="line">  restrict 127.0.0.1                        #允许本机使用时间服务器</span><br><span class="line">  restrict 172.20.10.7 mask 255.255.255.240  #允许172.20.10.7使用本机的时间服务器</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><strong>利用 server 設定上層 NTP 伺服器</strong><br>上層 NTP 伺服器的設定方式為：<br>server [IP or hostname] [prefer]<br>在 server 後端可以接 IP 或主機名稱，鳥哥個人比較喜歡使用 IP 來設定說！至於那個 perfer 表示『優先使用』的伺服器囉～有夠簡單吧！</p>
-<p><strong>利用 restrict 來管理權限控制</strong><br>在 ntp.conf 檔案內可以利用『 restrict 』來控管權限，這個參數的設定方式為：<br>restrict [你的IP] mask [netmask_IP] [parameter]<br>其中 parameter 的參數主要有底下這些：</p>
-<ul>
-<li>ignore： 拒絕所有類型的 NTP 連線；</li>
-<li>nomodify： 用戶端不能使用 ntpc 與 ntpq 這兩支程式來修改伺服器的時間參數， 但用戶端仍可透過這部主機來進行網路校時的；</li>
-<li>noquery： 用戶端不能夠使用 ntpq, ntpc 等指令來查詢時間伺服器，等於不提供 NTP 的網路校時囉；</li>
-<li>notrap： 不提供 trap 這個遠端事件登錄 (remote event logging) 的功能。</li>
-<li>notrust： 拒絕沒有認證的用戶端。</li>
-</ul>
-<p>那如果你沒有在 parameter 的地方加上任何參數的話，這表示『該 IP 或網段不受任何限制』的意思喔！一般來說，我們可以先關閉 NTP 的使用權限，然後再一個一個的啟用允許登入的網段。</p>
-<ul>
-<li>第三步：重启NTP服务<blockquote>
-<p>[root@ken ~]# systemctl restart ntpd</p>
-</blockquote>
-</li>
-</ul>
-<p>查看启动NTP的端口：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# netstat -tlunp | grep ntp</span><br><span class="line">Proto Recv-Q Send-Q Local Address       Foreign Address  PID/Program name</span><br><span class="line">udp        0      0 192.168.100.254:123 0.0.0.0:*        3492/ntpd</span><br><span class="line">udp        0      0 192.168.1.100:123   0.0.0.0:*        3492/ntpd</span><br><span class="line">udp        0      0 127.0.0.1:123       0.0.0.0:*        3492/ntpd</span><br><span class="line">udp        0      0 0.0.0.0:123         0.0.0.0:*        3492/ntpd</span><br><span class="line">udp        0      0 ::1:123             :::*             3492/ntpd</span><br><span class="line">udp        0      0 :::123              :::*             3492/ntpd</span><br><span class="line"></span><br><span class="line">注意：ntp使用UDP 封包，且在 port 123 這個端口的啦！</span><br><span class="line">``` </span><br><span class="line"> </span><br><span class="line">* 第四步：检查NTP状态</span><br></pre></td></tr></table></figure>
-<p>[root@ken ~]# ntpstat<br>synchronised to local net at stratum 6<br>   time correct to within 7948 ms<br>   polling server every 64 s<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">补充：使用`ntpq -p` 命令可以列出目前我们的 NTP 和相关的上层 NTP 的状态：</span><br><span class="line"></span><br><span class="line">```    </span><br><span class="line">    [root@www ~]# ntpq -p</span><br><span class="line">    remote           refid      st t when poll reach   delay   offset  jitter</span><br><span class="line">    =============================================================================</span><br><span class="line">    *tock.stdtime.go 59.124.196.87    2 u   19  128  377   12.092   -0.953   0.942</span><br><span class="line">    +59-124-196-83.H 59.124.196.86    2 u    8  128  377   14.154    7.616   1.533</span><br><span class="line">    +59-124-196-84.H 59.124.196.86    2 u    2  128  377   14.524    4.354   1.079</span><br></pre></td></tr></table></figure></p>
-<p>remote：是 NTP 主机的 IP 或主机名喔～注意最左边的符号<br>如果有『 * 』代表目前正在作用当中的上层NTP<br>如果是『 + 』代表也有连上线，而且可作为下一个提供时间更新的候选者。<br>refid：参考的上一层 NTP 主机的位址<br>st：就是 stratum 阶层喔！<br>when：几秒钟曾经做过时间同步化更新的动作；<br>poll：下一次更新在几秒钟之后；<br>reach：已经向上层NTP伺服器要求更新的次数<br>delay：网路传输过程当中延迟的时间，单位为10^(-3）秒<br>offset：时间补偿的结果，单位与10^(-3)秒<br>jitter：Linux系统时间与BIOS硬体时间的差异时间，单位为10^(-3)）秒。</p>
-<ul>
-<li><p>第五步：客户端下载NTP</p>
-<blockquote>
-<p>[root@host1~]# yum install ntpdate -y</p>
-</blockquote>
-</li>
-<li><p>第六步：客户端进行时间同步</p>
-</li>
-</ul>
-<p>当前服务端时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# date</span><br><span class="line">Thu Feb 28 12:22:41 CST 2019</span><br></pre></td></tr></table></figure>
-<p>当前客户端时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    [root@host1 ~]# date</span><br><span class="line">Thu Feb 28 20:34:34 CST 2019</span><br></pre></td></tr></table></figure>
-<p>客户端进行同步</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@host1 ~]# ntpdate 172.20.10.6</span><br><span class="line">28 Feb 12:24:52 ntpdate[7551]: step time server 172.20.10.6 offset -29488.471623 sec</span><br><span class="line">[root@host1 ~]# date</span><br><span class="line">Thu Feb 28 12:25:10 CST 2019</span><br></pre></td></tr></table></figure>
-<p>如果出现下面的错误，稍等再次执行即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# ntpdate  192.168.1.163</span><br><span class="line">6 Mar 23:12:36 ntpdate[1541]: no server suitable for synchronization found</span><br></pre></td></tr></table></figure>
-<p>是因为服务端NTP服务刚启动，客户端立马就进行同步导致的。</p>
+<p>$SHELL 是Linux系统中的环境变量，它指明了当前使用的 Shell 程序的位置，也就是使用的哪个 Shell。</p>
+<p>$RANDOM 可以随机生成 0~32767之间的整数数字，在生成密码等随机内容时十分好用，它可以配合一些其他命令使用，如：md5sum。</p>
+<p>md5sum 将输入的内容使用md5校验算法进行加工，变成一串复杂的乱码。</p>
+<h3 id="cut命令"><a href="#cut命令" class="headerlink" title="cut命令"></a>cut命令</h3><p>-c &lt;数字&gt;-&lt;数字&gt; 表示截取第x到y个字符<br>-d &lt;分隔符&gt; -f &lt;数字&gt;<br>表示以-d 后面的参数为分隔符进行分割，以-f 后面的参数表示你要取第几个部分。</p>
+<p>举例：<br>截取用户名和shell类型<br>以冒号分割，取第1和第7列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** [root@costana] ~ 19:20:18 </span><br><span class="line"># tail -3 /etc/passwd</span><br><span class="line">shelltest1:x:1002:1002::/home/shelltest1:/bin/bash</span><br><span class="line">sheltest:x:1003:1003::/home/sheltest:/bin/bash</span><br><span class="line">shelltest2:x:1004:1004::/home/shelltest2:/bin/bash</span><br><span class="line">*** *** *** [root@costana] ~ 19:28:14 </span><br><span class="line"># tail -3 /etc/passwd |cut -d : -f 1,7</span><br><span class="line">shelltest1:/bin/bash</span><br><span class="line">sheltest:/bin/bash</span><br><span class="line">shelltest2:/bin/bash</span><br></pre></td></tr></table></figure></p>
+<p>生成6位随机密码<br>使用$RANDOM生成随机数，md5加密，再取其中的1-6位<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $RANDOM | md5sum |cut -c 1-6</span><br><span class="line">9f6a86</span><br></pre></td></tr></table></figure></p>
+<h3 id="sort命令"><a href="#sort命令" class="headerlink" title="sort命令"></a>sort命令</h3><p>Linux sort命令用于将文本文件内容加以排序。<br><strong>默认是升序</strong>，也就是<strong>从小到大</strong>排序。<br>常用参数说明：<br>-r 降序，从大到小排序<br>-n 依照数值的大小排序（默认是按ascii码排序）<br>-t&lt;分隔字符&gt; 指定排序时所用的栏位分隔字符<br>-k：根据切割后的那一段进行排序（跟-t一起用）<br>-u：去除重复的行（一般用uniq命令代替）</p>
+<p>例如：列出数字最大的3条<br>文件内容：<br>lihua 80<br>fangfang 70<br>xiaoming 150<br>lalafei 10</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** [root@costana] ~ 19:50:59 </span><br><span class="line">sort -rn -t &apos; &apos; -k 2 test | head -3</span><br><span class="line">xiaoming 150</span><br><span class="line">lihua 80</span><br><span class="line">fangfang 70</span><br></pre></td></tr></table></figure>
+<p>uniq命令<br>去除重复的行（<strong>相邻</strong>且相同，认定为重复）<br>选项：<br>-c：在行首用数字表示该行出现了多少次<br>-u：仅仅显示那些没有出现重复过的行</p>
+<p>例如：统计重复的行数（应该先sort再统计）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** [root@costana] ~ 19:56:55 </span><br><span class="line"># cat test</span><br><span class="line">aaaa</span><br><span class="line">aaaa</span><br><span class="line">bbbb</span><br><span class="line">bbbb</span><br><span class="line">aaaa</span><br><span class="line">cccc</span><br><span class="line">cccc</span><br><span class="line">cccc</span><br><span class="line"></span><br><span class="line">*** *** *** [root@costana] ~ 19:57:19 </span><br><span class="line"># uniq -c test</span><br><span class="line">      2 aaaa  不sort排序</span><br><span class="line">      2 bbbb  a行不相邻</span><br><span class="line">      1 aaaa  就不算重复</span><br><span class="line">      3 cccc</span><br><span class="line">      </span><br><span class="line">*** *** *** [root@costana] ~ 19:57:00 </span><br><span class="line"># sort test | uniq -c</span><br><span class="line">      3 aaaa</span><br><span class="line">      2 bbbb</span><br><span class="line">      3 cccc</span><br></pre></td></tr></table></figure></p>
+<h3 id="seq命令"><a href="#seq命令" class="headerlink" title="seq命令"></a>seq命令</h3><p>生成等差数列的命令<br>格式：seq （参数1）（参数2）（参数3）<br>参数1 指定从哪个数开始<br>参数2 指定间距<br>参数3 指定到哪个数结束<br>参数1和2都可以省略。写2个参数时模式为没写参数2</p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">seq 5</span><br><span class="line">显示1,2,3,4,5</span><br><span class="line">seq 2  5</span><br><span class="line">显示2,3,4,5</span><br><span class="line">seq 2 2 10</span><br><span class="line">显示2,4,6,8,10</span><br></pre></td></tr></table></figure></p>
+<h3 id="tr命令"><a href="#tr命令" class="headerlink" title="tr命令"></a>tr命令</h3><p>替换或删除指定字符的命令，似乎只能在管道符后面用。<br>tr 要替换的 用什么替换<br>tr -d 要删除的</p>
+<p>如：替换大小写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# echo &quot;this is ken&quot; | tr a-z A-Z</span><br><span class="line">THIS IS KEN</span><br><span class="line">[root@ken ~]# echo &quot;THIS IS KEN&quot; | tr A-Z a-z</span><br><span class="line">this is ken</span><br></pre></td></tr></table></figure></p>
+<p>删除所有s<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# cat test</span><br><span class="line">6 this:is:ke3</span><br><span class="line">2 this:is:ke4</span><br><span class="line">2 this:is:ke4</span><br><span class="line"></span><br><span class="line">[root@ken ~]# cat test | tr -d &apos;s&apos;</span><br><span class="line">6 thi:i:ke3</span><br><span class="line">2 thi:i:ke4</span><br><span class="line">2 thi:i:ke4</span><br></pre></td></tr></table></figure></p>
+<p><strong>习题：分别使用yum list installed 和rpm -qa 查看已安装软件包数量，并统计以26个字母开头的软件包各有多少个？</strong></p>
+<p>不知道有没有人试验过，yum list installed 和rpm -qa应该都是查看已安装软件包的命令，但是使用wc -l进行统计时发现，yum经常比rpm要多？这是为什么呢？</p>
+<p>今天就带大家来数一数到底是多了哪个软件！</p>
+<p>首先我使用yum查看软件包数量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum list installed | wc -l</span><br><span class="line">486</span><br></pre></td></tr></table></figure></p>
+<p>再使用rpm查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | wc -l</span><br><span class="line">485</span><br></pre></td></tr></table></figure></p>
+<p>可见我的电脑上差了一个包！<br>于是我用tr替换大小写 用sort排序 再取软件包的首字母 统计了各字母开头的软件包个数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">yum list installed|tr A-Z a-z |sort|cut -c 1|uniq -c</span><br><span class="line">      1  </span><br><span class="line">     26 a</span><br><span class="line">     15 b</span><br><span class="line">     20 c</span><br><span class="line">     19 d</span><br><span class="line">      9 e</span><br><span class="line">     10 f</span><br><span class="line">     28 g</span><br><span class="line">      7 h</span><br><span class="line">     18 i</span><br><span class="line">      3 j</span><br><span class="line">     16 k</span><br><span class="line">     99 l</span><br><span class="line">      7 m</span><br><span class="line">     24 n</span><br><span class="line">      7 o</span><br><span class="line">    100 p</span><br><span class="line">      2 q</span><br><span class="line">     11 r</span><br><span class="line">     24 s</span><br><span class="line">     11 t</span><br><span class="line">      6 u</span><br><span class="line">      5 v</span><br><span class="line">      3 w</span><br><span class="line">      6 x</span><br><span class="line">      6 y</span><br><span class="line">      3 z</span><br><span class="line">      </span><br><span class="line">rpm -qa|tr A-Z a-z |sort|cut -c 1|uniq -c</span><br><span class="line">     26 a</span><br><span class="line">     15 b</span><br><span class="line">     20 c</span><br><span class="line">     19 d</span><br><span class="line">      9 e</span><br><span class="line">     10 f</span><br><span class="line">     30 g</span><br><span class="line">      7 h</span><br><span class="line">     17 i</span><br><span class="line">      3 j</span><br><span class="line">     16 k</span><br><span class="line">     98 l</span><br><span class="line">      7 m</span><br><span class="line">     24 n</span><br><span class="line">      7 o</span><br><span class="line">    100 p</span><br><span class="line">      2 q</span><br><span class="line">     11 r</span><br><span class="line">     24 s</span><br><span class="line">     11 t</span><br><span class="line">      6 u</span><br><span class="line">      5 v</span><br><span class="line">      3 w</span><br><span class="line">      6 x</span><br><span class="line">      6 y</span><br><span class="line">      3 z</span><br></pre></td></tr></table></figure></p>
+<p>虽然有少许偏差，但是你会发现从a到z所有软件包最后的总数其实都是485个！<br>问题就出现在了yum查询时有一行是以空格开头的！</p>
+<p>然后我用grep -C查看了空格开头那行的上下文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python-backports-ssl_match_hostname.noarch</span><br><span class="line">                                      3.4.0.2-4.el7                  @os</span><br></pre></td></tr></table></figure></p>
+<p>原来是软件包的名字太长导致它换行了！</p>
+<p>所以，最后的结论是：<strong>最好不要用yum统计软件包的个数，因为它会换行！</strong></p>
 
       
 	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
@@ -320,11 +260,11 @@ daovoice('update');
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
@@ -380,7 +320,7 @@ daovoice('update');
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/05/22/DNS和NTP/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/05/29/shell和常用命令/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -394,18 +334,18 @@ daovoice('update');
   
 <nav id="article-nav">
   
-    <a href="/2019/05/24/apache/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2041/04/01/置顶/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          apache
+          【置顶】联系我&amp;赞助
         
       </div>
     </a>
   
   
-    <a href="/2019/05/21/NFS与DHCP/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">NFS与DHCP</div>
+    <a href="/2019/05/28/tomcat/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">tomcat</div>
       <i class="icon-circle-right"></i>
     </a>
   
