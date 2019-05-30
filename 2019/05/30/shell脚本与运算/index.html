@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href>
-  <title>Archives: 2019 | 那那喵的拉拉肥厨房</title>
+  <title>shell脚本与运算 | 那那喵的拉拉肥厨房</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="喵喵瞄，快出来！">
-<meta name="keywords" content="Linux，程序媛，ff14">
-<meta property="og:type" content="website">
-<meta property="og:title" content="那那喵的拉拉肥厨房">
-<meta property="og:url" content="/archives/2019/page/3/index.html">
+  <meta name="description" content="1.shell变量简介（1）定义变量 name=nana如果变量的值含有空格的话，需要用引号括起来，单引号，双引号，反引号都可以，详见命令进阶 。 （2）使用变量对于已经定义过的变量，我们可以使用3种方法使用： 123定义：name=nana方法一：$name方法二：$&amp;#123;name&amp;#125; 推荐给所有变量加上花括号{ }，这是个良好的编程习惯。 （3）修改变量的值对已经定义的变量进行重">
+<meta name="keywords" content="全部,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell脚本与运算">
+<meta property="og:url" content="/2019/05/30/shell脚本与运算/index.html">
 <meta property="og:site_name" content="那那喵的拉拉肥厨房">
-<meta property="og:description" content="喵喵瞄，快出来！">
+<meta property="og:description" content="1.shell变量简介（1）定义变量 name=nana如果变量的值含有空格的话，需要用引号括起来，单引号，双引号，反引号都可以，详见命令进阶 。 （2）使用变量对于已经定义过的变量，我们可以使用3种方法使用： 123定义：name=nana方法一：$name方法二：$&amp;#123;name&amp;#125; 推荐给所有变量加上花括号{ }，这是个良好的编程习惯。 （3）修改变量的值对已经定义的变量进行重">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://d.birdteam.net/data/f_64632913.jpg">
+<meta property="og:updated_time" content="2019-05-30T12:35:38.321Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="那那喵的拉拉肥厨房">
-<meta name="twitter:description" content="喵喵瞄，快出来！">
+<meta name="twitter:title" content="shell脚本与运算">
+<meta name="twitter:description" content="1.shell变量简介（1）定义变量 name=nana如果变量的值含有空格的话，需要用引号括起来，单引号，双引号，反引号都可以，详见命令进阶 。 （2）使用变量对于已经定义过的变量，我们可以使用3种方法使用： 123定义：name=nana方法一：$name方法二：$&amp;#123;name&amp;#125; 推荐给所有变量加上花括号{ }，这是个良好的编程习惯。 （3）修改变量的值对已经定义的变量进行重">
+<meta name="twitter:image" content="http://d.birdteam.net/data/f_64632913.jpg">
   
   
     <link rel="icon" href="/favicon.png">
@@ -175,36 +178,184 @@ daovoice('update');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-shell脚本与运算" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      shell脚本与运算
+    </h1>
+  
+
+        
+        <a href="/2019/05/30/shell脚本与运算/" class="archive-article-date">
+  	<time datetime="2019-05-30T12:34:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.shell变量简介<br>（1）定义变量<br> <code>name=nana</code><br>如果变量的值含有空格的话，需要用引号括起来，单引号，双引号，反引号都可以，详见<a href="https://cerezas95.github.io/2019/05/08/linux%E5%91%BD%E4%BB%A4%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86/" target="_blank" rel="noopener">命令进阶 </a>。</p>
+<p>（2）使用变量<br>对于已经定义过的变量，我们可以使用3种方法使用：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">定义：<span class="attribute">name</span>=nana</span><br><span class="line">方法一：<span class="variable">$name</span></span><br><span class="line">方法二：<span class="variable">$&#123;name&#125;</span></span><br></pre></td></tr></table></figure>
+<p>推荐给所有变量加上花括号{ }，这是个良好的编程习惯。</p>
+<p>（3）修改变量的值<br>对已经定义的变量进行重新赋值即可。<br>例：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">name</span>=nana</span><br><span class="line"><span class="attribute">name</span>=costa</span><br><span class="line">echo <span class="variable">$name</span> </span><br><span class="line">costa</span><br></pre></td></tr></table></figure></p>
+<p>（4）将命令的结果赋值给变量<br>方法一：使用反引号<br>方法二：使用$()</p>
+<p>如：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat costa</span><br><span class="line">asdfqwer</span><br><span class="line">name=<span class="variable">$(cat costa)</span></span><br><span class="line">echo $name</span><br><span class="line">asdfqwer</span><br></pre></td></tr></table></figure></p>
+<p>（5）删除变量<br>unset 变量名<br>只读的变量无法删除，想删除只读的变量，请关掉当前shell。</p>
+<p>2.系统变量<br>在命令行提示符直接执行 env、set 查看系统或环境变量。env 显示用户环境变量，set 显示 Shell 预先定义好的变量以及用户变量。<br>常见系统变量：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">$SHELL</span>  默认 Shell</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$HOME</span>   当前用户家目录</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$IFS</span>    内部字段分隔符</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$LANG</span>   默认语言</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$PATH</span>   默认可执行程序路径</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$PWD</span>    当前目录</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$UID</span>    当前用户 ID</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$USER</span>   当前用户</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$HISTSIZE</span>   历史命令大小</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$RANDOM</span> 随机生成一个 0 至 32767 的整数</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$HOSTNAME</span>   主机名</span></span><br></pre></td></tr></table></figure>
+<p>通过export声明变量<br>格式： export name=nana<br>这样声明的变量是临时的环境变量，可以在所有shell中生效，但是重启以后就没了。</p>
+<p>3.特殊变量列表</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">变量</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">\$0</td>
+<td style="text-align:left">当前脚本的文件名</td>
+</tr>
+<tr>
+<td style="text-align:left">\$n</td>
+<td style="text-align:left">传递给脚本或函数的参数。n是一个数字，表示第几个参数。例如，第一个参数是\$1，第二个参数是\$2。</td>
+</tr>
+<tr>
+<td style="text-align:left">\$#</td>
+<td style="text-align:left">传递给脚本或函数的参数个数。</td>
+</tr>
+<tr>
+<td style="text-align:left">\$*</td>
+<td style="text-align:left">传递给脚本或函数的所有参数。</td>
+</tr>
+<tr>
+<td style="text-align:left">\$?</td>
+<td style="text-align:left">上个命令的退出状态，或函数的返回值。</td>
+</tr>
+<tr>
+<td style="text-align:left">\$$</td>
+<td style="text-align:left">当前Shell进程ID。对于 Shell脚本，就是这些脚本所在的进程ID。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>\$n</strong><br>第10个要写成\${10}，因为如果写\$10，会认为你是\$1和0。</p>
+<p><strong>\$?</strong><br>可以获取上一个命令的退出状态。所谓退出状态，就是上一个命令执行后的返回结果。<br>一般情况下，大部分命令执行成功会返回 0，失败返回非零数字。</p>
+<p>4.shell表达式与运算符</p>
+<p>（1）条件表达式格式：<br>|表达式|实例|<br>|——|————|<br>|[ expression ]|[ 1 -eq 1 ]|<br>|[[ expression ]]|[[ 1 -eq 1 ]]|<br>|test  expression|test 1 -eq 1 ,等同于[]|</p>
+<p>条件表达式括号里的内容是个整体，他会进行运算然后返回运算的结果是正确还是错误。表达式中可以写整数的比较式（如1+1=2），字符串的比较式（如“abc”=“bdc”），文件的判断式（文件是否存在）等。<br><strong>大写的注意：表达式每个元素之间都有空格！！</strong><br><strong>【空格1空格-eq空格1空格】</strong></p>
+<p>（2）整数比较符<br>|符号|意义|<br>|—-|—-|<br>|-eq|等于|<br>|-ne|不等于|<br>|-lt|小于|<br>|-gt|大于|<br>|-le|小于等于|<br>|-ge|大于等于|</p>
+<p>（3）字符串比较符<br>|符号|意义|<br>|—-|—-|<br>|==|前后字符串完全相同|<br>|!=|前后字符串不同|<br>|-n|字符串不为空则为真|<br>|-z|字符串为空则为真|</p>
+<p><strong>注意：请养成好习惯，<h3>字符串比较时都加上双引号</h3>，以避免莫名其妙的错误</strong></p>
+<p>（4）文件判断符<br>|符号|意义|<br>|—-|—-|<br>|-e|存在则为真（exist）|<br>|-d|是目录则为真（directory）|<br>|-f|是普通文件则为真（file）|<br>|-r|有读权限则为真（read）|<br>|-w|有写权限则为真（write）|<br>|-x|有执行权限则为真（excute）|</p>
+<p>（5）逻辑判断符</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>意义</th>
+<th>在括号间的意义</th>
+<th>在双括号中的意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;&amp;</td>
+<td>逻辑和</td>
+<td>执行的上一条命令的退出状态为0（正确执行）时执行本条命令</td>
+<td>仅<strong>前后个条件都为真</strong>时总体状态为真</td>
+</tr>
+<tr>
+<td>\</td>
+<td>\</td>
+<td></td>
+<td>逻辑或</td>
+<td>执行的上一条命令的退出状态非0（执行错误）时执行本条命令</td>
+<td>两个条件<strong>任意一条为真</strong>则总体状态为真</td>
+</tr>
+</tbody>
+</table>
+<p>括号间举例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ 1 -eq 1 ] &amp;&amp; <span class="built_in">echo</span> <span class="string">'true'</span>||<span class="built_in">echo</span> <span class="string">'false'</span> &amp;&amp; <span class="built_in">echo</span> <span class="string">'doge'</span></span><br><span class="line">第一条是真，因此第二条输出<span class="literal">true</span></span><br><span class="line">第二条是真，因此第三条不执行</span><br><span class="line">第三条没被执行因此不进行判断</span><br><span class="line">第四条会判断在他前面执行的那条（也就是第二条）是真</span><br><span class="line">因此第四条输出doge</span><br></pre></td></tr></table></figure></p>
+<p>括号中举例：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[[ 1 -eq 1 &amp;&amp; 2 -eq 2]]</span></span><br><span class="line">两边都是真，所以整体为真</span><br><span class="line"><span class="string">[[ 1 -eq 1 &amp;&amp; 2 -eq 3]]</span></span><br><span class="line">只有左边为真，所以整体为假</span><br></pre></td></tr></table></figure></p>
+<p><strong>只能用于括号之间，或者[[]]形式的表达式之中！[]里写逻辑判断符会报错！</strong><br>（6）布尔运算符</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>！</td>
+<td>取反运算，把得到的结果反过来。</td>
+</tr>
+<tr>
+<td>-a</td>
+<td>和运算，和双括号中&amp;&amp;的意义相同。</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>或运算，和双括号中\</td>
+<td>\</td>
+<td>的意义相同。</td>
+</tr>
+</tbody>
+</table>
+<p>举例：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="number">1</span> -eq <span class="number">1</span> -a <span class="number">2</span> -eq <span class="number">2</span>]</span><br><span class="line">和运算，两边都是真，所以整体为真</span><br><span class="line">[ <span class="number">1</span> -eq <span class="number">1</span> -o <span class="number">2</span> -eq <span class="number">3</span>]</span><br><span class="line">或运算，只有左边为真，但整体为真</span><br></pre></td></tr></table></figure></p>
+<p>5.整数运算与运算工具<br>在shell脚本中可以进行以下常见的运算：</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>加法</td>
+</tr>
+<tr>
+<td>–</td>
+<td>减法</td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘法</td>
+</tr>
+<tr>
+<td>**</td>
+<td>乘幂</td>
+</tr>
+<tr>
+<td>/</td>
+<td>除法</td>
+</tr>
+<tr>
+<td>%</td>
+<td>取余</td>
+</tr>
+</tbody>
+</table>
+<p>运算时使用以下两种格式：<br>\$[]<br>\$(())</p>
+<p>例如：让num加3<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">num</span>=5</span><br><span class="line"><span class="attribute">num</span>=$((num+3))</span><br><span class="line">echo <span class="variable">$num</span></span><br><span class="line">8</span><br></pre></td></tr></table></figure></p>
+<p>除此之外，还可以使用命令进行整数运算，有很多命令，这里介绍let命令。<br>例如：让num加3<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">num</span>=<span class="number">5</span></span><br><span class="line"><span class="built_in">let</span> <span class="built_in">num</span>+=<span class="number">3</span></span><br><span class="line">echo $<span class="built_in">num</span></span><br><span class="line"><span class="number">8</span></span><br></pre></td></tr></table></figure></p>
+<p>6.shell括号用途总结</p>
+<p><img src="http://d.birdteam.net/data/f_64632913.jpg" alt></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/09/用户与用户组/" class="archive-article-date">
-  	<time datetime="2019-05-09T08:18:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/09/用户与用户组/">用户与用户组</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -214,196 +365,163 @@ daovoice('update');
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/05/30/shell脚本与运算/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/08/vim简单操作指南/" class="archive-article-date">
-  	<time datetime="2019-05-08T07:26:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2041/04/01/置顶/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【置顶】联系我&amp;赞助
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/30/nginx配置文件详解/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nginx配置文件详解</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/08/vim简单操作指南/">vim简单操作指南</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/08/linux命令第二部分/" class="archive-article-date">
-  	<time datetime="2019-05-08T07:01:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/08/linux命令第二部分/">linux命令进阶</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/08/linux命令第一部分/" class="archive-article-date">
-  	<time datetime="2019-05-08T02:51:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/08/linux命令第一部分/">linux基础命令整理</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/04/markdown使用指南/" class="archive-article-date">
-  	<time datetime="2019-04-04T02:49:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/04/markdown使用指南/">markdown使用指南</a>
-    </h1>
-  
+  <section id="comments" class="comments">
+    <style>
+      .comments{margin:30px;padding:10px;background:#fff}
+      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+    </style>
+    <div id="vcomment" class="comment"></div>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+   new Valine({
+            av: AV,
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            app_id: "Tm4DjQsib6maAvLYDEnnDRlT-gzGzoHsz",
+            app_key: "kBqbGAkprfQ6bxvHuNxunguy",
+            placeholder: "喵喵喵～快过来～",
+            avatar: "mp",
+            avatar_cdn: "https://sdn.geekzu.org/avatar/",
+            pageSize: 10
+    });
+    if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+</script>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  </section>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2019/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/2019/">1</a><a class="page-number" href="/archives/2019/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
+
+
+
   
 
 
@@ -427,8 +545,8 @@ daovoice('update');
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
