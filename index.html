@@ -241,6 +241,111 @@ daovoice('update');
 
 
   
+    <article id="post-shell流程控制-if-while-for-case" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/31/shell流程控制-if-while-for-case/">shell流程控制——if，while，for，case</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/31/shell流程控制-if-while-for-case/" class="archive-article-date">
+  	<time datetime="2019-05-31T05:11:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-if语句"><a href="#1-if语句" class="headerlink" title="1.if语句"></a>1.if语句</h3><p>格式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> 条件1</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	符合条件1时执行的命令</span><br><span class="line"><span class="keyword">elif</span> 条件2</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	符合条件2时执行的命令</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	所有条件都不符合时执行的命令</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<p>if和then也可以写在一行 那就用分号将条件和then隔开<br><code>if [ $num -ge 1000 -a $num -lt 2000 ] ; then</code></p>
+<h3 id="2-for循环"><a href="#2-for循环" class="headerlink" title="2.for循环"></a>2.for循环</h3><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for 变量 in 范围</span><br><span class="line">do</span><br><span class="line">	命令</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">范围可以写成：</span><br><span class="line">&#123;<span class="number">1.</span><span class="number">.100</span>&#125;表示变量为从<span class="number">1</span><span class="number">-100</span>的数字</span><br><span class="line">`seq <span class="number">100</span>` 用seq生成数列，也是从<span class="number">1</span><span class="number">-100</span>的数字</span><br><span class="line">`ls /root`变量为root下的所有文件的文件名</span><br></pre></td></tr></table></figure>
+<p>for的变量读取方式：<br>例如你使用{1..10}来定义变量范围:<br>for i in {1..10}<br>那么i的取值范围是：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &#123;<span class="number">1.</span><span class="number">.10</span>&#125;</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">10</span></span><br></pre></td></tr></table></figure></p>
+<p>也就是说第一次循环中i=1，第二次循环时i=2，…，直到第十次终止循环。</p>
+<p>当你输入的变量是多行时：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">如：你输入的变量为：</span><br><span class="line"><span class="number">11</span> <span class="number">22</span> <span class="number">33</span></span><br><span class="line"><span class="number">44</span> <span class="number">55</span> <span class="number">66</span></span><br><span class="line"><span class="number">77</span> <span class="number">88</span> <span class="number">99</span></span><br></pre></td></tr></table></figure></p>
+<p></p><h4 style="color:red">那么你的i第一次循环时是11，第二次是22，以此类推</h4><br>但它绝对不会是第一次“11 22 33” 第二次“44 55 66”，因为它是按空格切分变量的！<p></p>
+<h3 id="3-while循环"><a href="#3-while循环" class="headerlink" title="3.while循环"></a>3.while循环</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> 条件表达式; <span class="keyword">do</span></span><br><span class="line">    命令</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>while循环经常用于死循环，即条件部分写个true</p>
+<p>死循环会一直循环直到你使用break跳出去，你也可以通过给他设置延迟时间让它定时执行（类似于crond的计划任务）。</p>
+<p>这里介绍一下相关的命令：</p>
+<ul>
+<li><strong>break 终止循环命令</strong><br>终止循环的意思是：终止当前的循环，继续往下执行代码。如我的代码结构如下：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..10&#125;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    oooo（代码）</span><br><span class="line">    oooo（代码）</span><br><span class="line">    <span class="keyword">if</span> [某些条件] ;<span class="keyword">then</span></span><br><span class="line">        <span class="built_in">break</span>    </span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    oooo（代码）</span><br><span class="line">    oooo（代码）</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">xxxx（代码）</span><br><span class="line">xxxx（代码）</span><br><span class="line">xxxx（代码）</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>当你满足某些条件后，执行break，就会从for循环中跳出，不再执行oooo代码，而继续执行xxxx代码。</p>
+<ul>
+<li><p><strong>continue 跳出当前循环</strong><br>跳出当前循环的意思就是：当前循环内没有执行的命令不再执行，从下一次循环的开始处继续执行。</p>
+</li>
+<li><p><strong>sleep 延时命令</strong><br>默认以秒为单位<br>sleep 1 睡眠1秒<br>sleep 1m 睡眠1分<br>sleep 1h 睡眠1小时</p>
+</li>
+</ul>
+<h3 id="4-case开关语句"><a href="#4-case开关语句" class="headerlink" title="4.case开关语句"></a>4.case开关语句</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> $变量名 <span class="keyword">in</span></span><br><span class="line">模式1)</span><br><span class="line">    要执行的命令</span><br><span class="line">    ;;</span><br><span class="line">模式2)</span><br><span class="line">    要执行的命令</span><br><span class="line">    ;;</span><br><span class="line">*）</span><br><span class="line">    默认执行的命令</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>格式要求每个模式必须以右括号结束，命令结尾以双分号结束，最后一个模式不需要添加双分号。<br>模式的匹配方法：读取变量的值，如果某个右括号前面的内容与变量的值相等，则执行这个括号下面的命令，如果没有相等的，则执行*）下的命令，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">start)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"开始."</span></span><br><span class="line">　　;;</span><br><span class="line">stop)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"停止."</span></span><br><span class="line">　　;;</span><br><span class="line">restart)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"重启."</span></span><br><span class="line">　　;;</span><br><span class="line">*)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"不知道你在说什么."</span></span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>执行的效果为：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bash </span>test.<span class="keyword">sh </span>start</span><br><span class="line">开始.</span><br><span class="line"><span class="keyword">bash </span>test.<span class="keyword">sh </span>lalafei</span><br><span class="line">不知道你在说什么.</span><br></pre></td></tr></table></figure>
+<p>注意：<br>for循环的变量不带\$，case这里要加\$；for循环会改变变量的值，case并不会改变只是读取它的值来进行判断要进入那个模式。<br>支持正则*、?、[ ]、[.-.]、|</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/31/shell流程控制-if-while-for-case/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-shell脚本与运算" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -262,8 +367,8 @@ daovoice('update');
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.shell变量简介<br>（1）定义变量<br> <code>name=nana</code><br>如果变量的值含有空格的话，需要用引号括起来，单引号，双引号，反引号都可以，详见<a href="https://cerezas95.github.io/2019/05/08/linux%E5%91%BD%E4%BB%A4%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86/" target="_blank" rel="noopener">命令进阶 </a>。</p>
-<p>（2）使用变量<br>对于已经定义过的变量，我们可以使用3种方法使用：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">定义：<span class="attribute">name</span>=nana</span><br><span class="line">方法一：<span class="variable">$name</span></span><br><span class="line">方法二：<span class="variable">$&#123;name&#125;</span></span><br></pre></td></tr></table></figure>
+<p>（2）使用变量<br>对于已经定义过的变量，我们可以使用2种方法使用：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">方法一：$<span class="built_in">name</span></span><br><span class="line">方法二：$&#123;<span class="built_in">name</span>&#125;</span><br></pre></td></tr></table></figure>
 <p>推荐给所有变量加上花括号{ }，这是个良好的编程习惯。</p>
 <p>（3）修改变量的值<br>对已经定义的变量进行重新赋值即可。<br>例：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">name</span>=nana</span><br><span class="line"><span class="attribute">name</span>=costa</span><br><span class="line">echo <span class="variable">$name</span> </span><br><span class="line">costa</span><br></pre></td></tr></table></figure></p>
 <p>（4）将命令的结果赋值给变量<br>方法一：使用反引号<br>方法二：使用$()</p>
@@ -1467,185 +1572,6 @@ daovoice('update');
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/05/22/DNS和NTP/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-NFS与DHCP" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/21/NFS与DHCP/">NFS与DHCP</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/21/NFS与DHCP/" class="archive-article-date">
-  	<time datetime="2019-05-21T11:11:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="NFS服务器配置"><a href="#NFS服务器配置" class="headerlink" title="NFS服务器配置"></a>NFS服务器配置</h2><h3 id="NFS简介"><a href="#NFS简介" class="headerlink" title="NFS简介"></a>NFS简介</h3><p>　　NFS，是 Network File System 的简写，即网络文件系统。它的功能是可以通过网络让不同主机之间共享文件。NFS使用C/S架构，通常通过 2049 端口进行传输。但是由于文件系统非常的复杂，NFS还会随机使用 1024 以下的端口来进行传输。如果想知道到底使用了哪些端口，就需要用到<strong>RPC</strong>的帮忙了。</p>
-<h3 id="RPC简介"><a href="#RPC简介" class="headerlink" title="RPC简介"></a>RPC简介</h3><p>　　RPC（Remote Procedure Call），又叫远程过程调用服务。 它最主要的功能就是在指定每个 NFS 功能所对应的 port number ，并将信息发送给客户端，让客户端可以连接到正确的端口上。<strong>所以，在启动NFS服务之前，一定要先启动rpcbind。</strong></p>
-<p>　　另外还需要注意的是，如果你重启了RPC服务，他就会忘记刚才指定的端口信息。<strong>因此，如果RPC重启了，需要RPC支持的服务也需要重启才能正常运转。</strong>
-　　</p>
-<h3 id="部署NFS"><a href="#部署NFS" class="headerlink" title="部署NFS"></a>部署NFS</h3><p>　　</p>
-<h4 id="第一步：下载"><a href="#第一步：下载" class="headerlink" title="第一步：下载"></a>第一步：下载</h4><p> <code>yum install rpcbind nfs-utils -y</code><br>注意：服务端需要用到rpcbind和nfs-utils两个软件，客户端只需要nfs-utils即可。</p>
-<h4 id="第二步：编辑配置文件"><a href="#第二步：编辑配置文件" class="headerlink" title="第二步：编辑配置文件"></a>第二步：编辑配置文件</h4><p>配置文件的位置：<br>vim /etc/export<br>（没配置前是个空文件）</p>
-<p>文件内容：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">格式：</span><br><span class="line">[共享目录] [客户端地址<span class="number">1</span>（权限)] [客户端地址<span class="number">2</span>（权限)]</span><br><span class="line"></span><br><span class="line">#方式一：将/tmp目录对特定的ip共享：</span><br><span class="line">/tmp <span class="number">192.168</span><span class="number">.100</span><span class="number">.41</span>(rw) </span><br><span class="line">#方式二：将/tmp目录对特定的网段共享：</span><br><span class="line">/tmp <span class="number">192.168</span><span class="number">.100</span><span class="number">.0</span>/<span class="number">24</span>(rw) </span><br><span class="line">#方式三：将/tmp目录对所有ip共享：</span><br><span class="line">/tmp *(rw) </span><br><span class="line">#方式四：将特定的目录对特定的ip共享：</span><br><span class="line">/kenn <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span>(rw) <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span>(rw)</span><br><span class="line">/kaji <span class="number">192.168</span><span class="number">.20</span><span class="number">.0</span>/<span class="number">24</span>(ro)</span><br></pre></td></tr></table></figure></p>
-<p>ip后面的括号里可以填写的参数：</p>
-<table>
-<thead>
-<tr>
-<th>参数命令</th>
-<th>参数用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>rw</td>
-<td>读写权限</td>
-</tr>
-<tr>
-<td>ro</td>
-<td>只读权限</td>
-</tr>
-<tr>
-<td>sync</td>
-<td>写入数据时同步到服务器的硬盘中</td>
-</tr>
-<tr>
-<td>async</td>
-<td>写入数据时不同步到硬盘中</td>
-</tr>
-<tr>
-<td>no_root_squas</td>
-<td>root身份不压缩为nfsnobody身份</td>
-</tr>
-<tr>
-<td>root_squash</td>
-<td>root被压缩成为nfsnobody身份</td>
-</tr>
-<tr>
-<td>all_squash</td>
-<td>不管是谁登录都是nfsnobody身份</td>
-</tr>
-<tr>
-<td>anonuid，anongid</td>
-<td>指定匿名用户的uid和gid。默认是nfsnobody，uid=65534</td>
-</tr>
-</tbody>
-</table>
-<h4 id="第三步：权限配置"><a href="#第三步：权限配置" class="headerlink" title="第三步：权限配置"></a>第三步：权限配置</h4><p><strong>NFS的权限是根据uid判断的：</strong><br>服务端有2个账号：<br>uid=1004 名字叫yui1的账号<br>uid=65534 名字叫nfsnobody的账号</p>
-<p>客户端有2个账号：<br>uid=1003 名字叫yui2的账号<br>uid=1004 名字叫costa的账号</p>
-<p>在客户端上访问共享文件夹：<br>如果你用costa登录，你的权限是yui1的权限<br>如果你用yui2登录，你的权限是nfsnobody的权限<br>如果你用root登录，你的权限是nfsnobody的权限<br>(root权限是否压缩为匿名，可在配置文件中修改)</p>
-<p><strong>NFS的权限受共享文件的rwx属主属组权限限制：</strong></p>
-<p>如果nfsnobody想在/kenn下进行创建，删除文件的操作，nfsnobody需要拥有rwx权限。<br>可以通过：<code>chown nfsnobody: /kenn</code>或<code>chmod 777 /kenn</code>来实现，一般用第一个。</p>
-<h4 id="第四步：启动NFS服务"><a href="#第四步：启动NFS服务" class="headerlink" title="第四步：启动NFS服务"></a>第四步：启动NFS服务</h4><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># systemctl restart rpcbind</span></span><br><span class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># systemctl restart nfs</span></span><br></pre></td></tr></table></figure>
-<p>NFS启动后，可以使用以下命令检查服务的运行情况：</p>
-<blockquote>
-<p>rpcinfo  -p     检查nfs注册的端口信息<br>showmount -e ip地址   查看主机的export文件内容</p>
-</blockquote>
-<p>注意：ip地址可以为localhost检查服务端NFS是否运行正常</p>
-<h4 id="第五步：客户端访问"><a href="#第五步：客户端访问" class="headerlink" title="第五步：客户端访问"></a>第五步：客户端访问</h4><figure class="highlight golo"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看共享</span></span><br><span class="line">[root<span class="meta">@host</span>1 ~]<span class="comment"># showmount -e 192.168.19.141          </span></span><br><span class="line">Export <span class="keyword">list</span> <span class="keyword">for</span> <span class="number">192.168</span><span class="number">.19</span><span class="number">.141</span>:</span><br><span class="line">/kenn <span class="number">192.168</span><span class="number">.19</span><span class="number">.142</span></span><br><span class="line"><span class="comment">#创建目录并挂载</span></span><br><span class="line">[root<span class="meta">@host</span>1 ~]<span class="comment"># mkdir doge                       </span></span><br><span class="line">[root<span class="meta">@host</span>1 ~]<span class="comment">#mount -t nfs 192.168.19.141:/kenn doge</span></span><br><span class="line"><span class="comment">#测试</span></span><br><span class="line">[root<span class="meta">@host</span>1 ~]<span class="comment"># mkdir doge/muco</span></span><br></pre></td></tr></table></figure>
-<h2 id="DHCP服务器配置"><a href="#DHCP服务器配置" class="headerlink" title="DHCP服务器配置"></a>DHCP服务器配置</h2><h3 id="DHCP简介"><a href="#DHCP简介" class="headerlink" title="DHCP简介"></a>DHCP简介</h3><p>DHCP(Dynamic Host Configuration Protocol，动态主机配置协议)是一个局域网的网络协议，使用UDP协议工作，采用C/S 架构。它的主要用途是为内部网络中的主机自动分配IP地址，子网掩码，网关，DNS等参数，配置好DHCP服务后就不需要一台台进行配置了，可以十分便捷地管理内部网络。</p>
-<p>另外，DHCP服务使用了67(bootps)，68(bootpc)端口，并且启动的结果会记录在 /var/log/messages中。</p>
-<h3 id="DHCP的特点"><a href="#DHCP的特点" class="headerlink" title="DHCP的特点"></a>DHCP的特点</h3><ul>
-<li><p>优点：</p>
-<ul>
-<li>客户机可以自动获取IP地址</li>
-<li>客户机在不同子网间移动时不需要重新设置IP地址</li>
-<li>管理员可以为每个DHCP作用域设置很多选项</li>
-<li>管理员可以约束特定的计算机使用特定的IP地址</li>
-</ul>
-</li>
-<li><p>缺点：</p>
-<ul>
-<li>当网络上存在多个DHCP服务器时，一个DHCP服务器不能查出已被其它服务器租出去的IP地址</li>
-<li>DHCP服务器不能跨路由器与客户机通信，除非路由器允许BOOTP协议转发</li>
-</ul>
-</li>
-</ul>
-<h3 id="DHCP的工作原理"><a href="#DHCP的工作原理" class="headerlink" title="DHCP的工作原理"></a>DHCP的工作原理</h3><p><img src="http://xin.kendd.cn/wp-content/uploads/2019/05/15-1.png" alt></p>
-<p><strong>DHCP Client发现阶段：</strong><br>　　DHCP客户端寻找DHCP服务器。<br>　　客户端发送DHCP Discovery报文，因为客户端既不知道自己的ip也不知道服务端的ip，所客户端发出的是广播包，源地址为 0.0.0.0，目的地址为 255.255.255.255。<br>　　网络上的所有支持TCP/IP的主机都会收到该DHCP Discovery报文，但是只有DHCP Server会响应该报文。</p>
-<p><em>注意：客户端执行DHCP DISCOVER 后，如果没有DHCP 服务器响应客户端的请求，客户端会随机使用169.254.0.0/16 网段中的一个IP 地址配置本机地址。</em><br><em>169.254.0.0/16是windows的自动专有IP寻址范围，也就是在无法通过DHCP获取IP地址时，由系统自动分配的IP地址段。</em></p>
-<p><strong>DHCP Server 提供阶段：</strong><br>　　DHCP服务器响应报文并为客户端分配IP地址。<br>　　服务器接收到DHCP Discovery报文就会做出响应，从尚未出租的IP地址中挑选一个分配给客户机，向客户机发送一个包含IP地址和其他设置的DHCPoffer提供信息。如果有多台DHCP服务器，他们都会对这个报文进行响应。<br>　　<br><strong>DHCP Client 确认阶段：</strong><br>　　DHCP客户机选择DHCP服务器提供的IP地址。<br>　　如果有多台DHCP服务器向DHCP客户机发来的DHCPoffer提供信息，则DHCP客户机只接受<strong>第一个收到</strong>的DHCPoffer提供信息，并且以广播方式回答一个DHCPrequest请求信息。请求信息中包含了客户端向所选定的DHCP服务器请求IP地址的内容。<br>　　之所以要以广播方式回答，是为了通知所有的DHCP服务器，该客户端选择了哪台服务器为它提供IP地址。</p>
-<p><strong>DHCP Server确认阶段：</strong><br>　　DHCP服务器确认并为客户端提供IP地址。<br>　　当DHCP服务器收到客户机回答的DHCPrequest请求信息后，它便向客户机发送一个包含它所提供的IP地址和其他设置的DHCPack确认信息，告诉客户机可以使用它所提供的IP地址，客户机收到后将其TCP/IP协议与网卡绑定。另外，除DHCP客户机选中的服务器外，其他的DHCP服务器都将收回曾提供的IP地址。</p>
-<p><strong>DHCP Client重新登录网络：</strong><br>当DHCP Client重新登录后，就不需要再发送DHCP discover发现信息了，而是直接发送包含前一次所分配的IP地址的DHCP request请求信息。当DHCP服务器收到这一信息后，它会尝试让DHCP客户机继续使用原来的IP地址，并回答一个DHCP ack确认信息。如果此IP地址已无法再分配给原来的DHCP客户机使用时（比如此IP地址已分配给其它DHCP客户机使用），则DHCP服务器给DHCP客户机回答一个DHCP nack否认信息。当原来的DHCP客户机收到此DHCP nack否认信息后，它就必须重新发送DHCP discover发现信息来请求新的IP地址。</p>
-<p><strong>DHCP Client更新租约：</strong><br>DHCP获取到的IP地址都有一个租约，租约过期后，DHCP Server将回收该IP地址，所以如果DHCP Client如果想继续使用该IP地址，则必须更新租约。更新的方式就是，当当前租约期限过了一半后，DHCP Client都会发送DHCP Renew报文来续约租期。</p>
-<h3 id="部署DHCP"><a href="#部署DHCP" class="headerlink" title="部署DHCP"></a>部署DHCP</h3><h4 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h4><p>使用VMware进行DHCP服务器部署实验，需要将虚拟机设置成NAT或仅主机模式，并且关掉vmware自带的DHCP服务。</p>
-<p><img src="http://xin.kendd.cn/wp-content/uploads/2019/05/16.png" alt></p>
-<h4 id="第一步：安装DHCP"><a href="#第一步：安装DHCP" class="headerlink" title="第一步：安装DHCP"></a>第一步：安装DHCP</h4><p>yum install dhcp -y</p>
-<h4 id="第二步：编辑配置文件-1"><a href="#第二步：编辑配置文件-1" class="headerlink" title="第二步：编辑配置文件"></a>第二步：编辑配置文件</h4><p>文件位置：<br>vim /etc/dhcp/dhcpd.conf</p>
-<p>导入样本文件：<br>:r /usr/share/doc/dhcp*/dhcpd.conf.example</p>
-<p>配置文件内容：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#指定网段</span><br><span class="line">subnet <span class="number">192.168</span><span class="number">.19</span><span class="number">.0</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> &#123;</span><br><span class="line">  #指定IP池 </span><br><span class="line">  range <span class="number">192.168</span><span class="number">.19</span><span class="number">.20</span> <span class="number">192.168</span><span class="number">.19</span><span class="number">.30</span>;</span><br><span class="line">  #指定默认租约时间</span><br><span class="line">  <span class="section">default</span>-lease-time <span class="number">600</span>;</span><br><span class="line">  #指定最大租约时间</span><br><span class="line">  max-lease-time <span class="number">7200</span>;</span><br><span class="line">  </span><br><span class="line">  #指定DNS地址(选填)</span><br><span class="line">  option domain-name-servers ns1.internal.example.org;</span><br><span class="line">  #指定域名 (选填)</span><br><span class="line">  option domain-name <span class="string">"internal.example.org"</span>; </span><br><span class="line">  #指定网关(选填)</span><br><span class="line">  option routers <span class="number">192.168</span><span class="number">.19</span><span class="number">.2</span>;</span><br><span class="line">  #定义广播地址(选填)</span><br><span class="line">  option broadcast-address <span class="number">192.168</span><span class="number">.19</span><span class="number">.255</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="第三步：重启DHCP"><a href="#第三步：重启DHCP" class="headerlink" title="第三步：重启DHCP"></a>第三步：重启DHCP</h4><p>systemctl restart dhcpd</p>
-<h4 id="第四步：客户端使用DHCP服务"><a href="#第四步：客户端使用DHCP服务" class="headerlink" title="第四步：客户端使用DHCP服务"></a>第四步：客户端使用DHCP服务</h4><p>将网卡配置文件中的BOOTPROTO设置成dhcp<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">TYPE</span>=Ethernet</span><br><span class="line"><span class="attr">BOOTPROTO</span>=dhcp</span><br><span class="line"><span class="attr">DEVICE</span>=ens33</span><br><span class="line"><span class="attr">ONBOOT</span>=<span class="literal">yes</span></span><br></pre></td></tr></table></figure></p>
-<p>之后重启network服务即可</p>
-<h2 id="SCP命令"><a href="#SCP命令" class="headerlink" title="SCP命令"></a>SCP命令</h2><p>远程复制命令，使用ssh协议。用法和cp命令基本相同，只不过每次复制都需要输入密码，想免密需要配置ssh秘钥。</p>
-<p>格式：scp [要复制的] [复制到哪]<br>远程路径的格式：用户名@ip地址：文件路径<br>例如：<a href="mailto:`yui@192.168.19.41" target="_blank" rel="noopener">`yui@192.168.19.41</a>:/tmp`</p>
-<p>常用选项：<br>-r 对目录使用<br>-P 指定端口<br><em>注意：端口不指定的话默认是22，但是固定端口容易出现安全隐患，因此一般都会指定一个端口</em></p>
-<p>例如： 将file2文件复制到192.168.19.20的/home/123下<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="attr"># scp file2</span> <span class="number">192.168.</span><span class="number">19.20</span>:/home/<span class="number">123</span></span><br><span class="line">file<span class="number">2</span>     <span class="number">100</span><span class="meta">%</span>    <span class="number">0</span>     <span class="number">0.0</span>KB/s   <span class="number">00</span>:<span class="number">00</span>   </span><br><span class="line"></span><br><span class="line">将/home/<span class="number">123</span>目录中的内容下载到桌面上</span><br><span class="line">[root@localhost]<span class="attr"># scp -r root@192</span><span class="number">.168.</span><span class="number">19.20</span>:/home/<span class="number">123</span> /桌面</span><br><span class="line">file<span class="number">2</span>     <span class="number">100</span><span class="meta">%</span>    <span class="number">0</span>     <span class="number">0.0</span>KB/s   <span class="number">00</span>:<span class="number">00</span>    </span><br><span class="line">file<span class="number">3</span>     <span class="number">100</span><span class="meta">%</span>    <span class="number">0</span>     <span class="number">0.0</span>KB/s   <span class="number">00</span>:<span class="number">00</span></span><br></pre></td></tr></table></figure></p>
-<p>再来复习一遍ssh秘钥的配置：<br>1.<code>ssh-keygen</code>生成公钥<br>2.<code>ssh-copy-id root@192.168.19.20</code>传输公钥</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/21/NFS与DHCP/">展开全文 >></a>
         </p>
       
 

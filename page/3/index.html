@@ -177,6 +177,95 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-权限管理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/10/权限管理/">权限管理</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/10/权限管理/" class="archive-article-date">
+  	<time datetime="2019-05-10T12:25:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="多用户与用户组的概念"><a href="#多用户与用户组的概念" class="headerlink" title="多用户与用户组的概念"></a>多用户与用户组的概念</h2><p>由于Linux是多用户、多任务的操作系统，因此可能常常有多人同时在某台主机上工作，如果不区分用户的权限，某个人的文档所有人都能看到，非常的不安全。因此，在Linux上文件的权限设定是非常重要的。</p>
+<h3 id="1-ls-l看到的文件权限信息"><a href="#1-ls-l看到的文件权限信息" class="headerlink" title="1. ls -l看到的文件权限信息"></a>1. ls -l看到的文件权限信息</h3><p>我们以前学过，输入ls -l或者ll 可以查看文件的详细信息，其内容如下：<br><img src="http://d.birdteam.net/data/f_20184179.jpg" alt><br>其实这里的“档案类型权限”，“档案拥有者”，“档案所属群组”三个部分就是该文件的权限信息，下面我们来依次介绍一下。</p>
+<h3 id="1-权限的类别"><a href="#1-权限的类别" class="headerlink" title="1. 权限的类别"></a>1. 权限的类别</h3><p><img src="http://d.birdteam.net/data/f_76665189.jpg" alt><br>在Linux中分别有读、写、执行权限：</p>
+<ul>
+<li><p><strong>读权限：</strong><br>　　对于<strong>目录</strong>来说，读权限影响用户<strong>是否能够列出目录结构</strong><br>　　对于<strong>文件</strong>来说，读权限影响用户<strong>是否可以查看文件内容</strong></p>
+</li>
+<li><p><strong>写权限：</strong><br>　　对于<strong>目录</strong>来说，写权限影响用户<strong>是否可以在该目录下“创建/删除/复制/移动”文档</strong><br>　　对于<strong>文件</strong>来说，写权限影响用户<strong>是否可以编辑文件内容</strong></p>
+</li>
+<li><p><strong>执行权限：</strong><br>　　对于<strong>目录</strong>来说：执行权限影响用户<strong>是否可以执行cd操作</strong><br>　　对于<strong>文件</strong>来说，特别是脚本文件，执行权限影响文件<strong>是否可以运行</strong></p>
+</li>
+</ul>
+<p>除了这三个普通权限以外，还有三个特殊权限—— SUID, SGID, SBIT。<br>…<br>
+        
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </p></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/10/权限管理/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-用户管理命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
