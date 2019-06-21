@@ -241,6 +241,139 @@ daovoice('update');
 
 
   
+    <article id="post-进程线程协程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/21/进程线程协程/">python数据类型</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/21/进程线程协程/" class="archive-article-date">
+  	<time datetime="2019-06-21T10:46:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="多进程、多进程与协程"><a href="#多进程、多进程与协程" class="headerlink" title="多进程、多进程与协程"></a>多进程、多进程与协程</h2><h3 id="多任务的实现方式："><a href="#多任务的实现方式：" class="headerlink" title="多任务的实现方式："></a>多任务的实现方式：</h3><ul>
+<li>多进程模式；</li>
+<li>多线程模式；</li>
+<li>多进程+多线程（太复杂一般不用）</li>
+</ul>
+<h3 id="1-多进程（multiprocessing）"><a href="#1-多进程（multiprocessing）" class="headerlink" title="1.多进程（multiprocessing）"></a>1.多进程（multiprocessing）</h3><blockquote>
+<p><strong>操作系统中的进程创建</strong><br>Linux操作系统提供了一个fork()系统调用。<br>普通的函数调用，调用一次，返回一次，但是fork()调用一次，返回两次，因为操作系统自动把当前进程（父进程）复制了一份（子进程），然后分别在父进程和子进程内各进行了一次返回。子进程返回0，而父进程返回子进程的ID。</p>
+</blockquote>
+<p>Python的os模块封装了常见的系统调用，其中就包括fork。（仅限Linux/Mac/Unix使用）由于Windows没有fork调用，如果你打算编写多进程的服务程序，可以使用multiprocessing模块，实现代码如下 :</p>
+<figure class="highlight moonscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> <span class="built_in">os</span></span><br><span class="line"></span><br><span class="line"># 子进程要执行的代码</span><br><span class="line">def run_proc(name):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Run child process %s (%s), my parent is (%s).'</span> % (name, <span class="built_in">os</span>.getpid(),<span class="built_in">os</span>.getppid()))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Parent process %s.'</span> % <span class="built_in">os</span>.getpid())</span><br><span class="line">    p = Process(target=run_proc, args=(<span class="string">'test'</span>,))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Child process will start.'</span>)</span><br><span class="line">    p.start()</span><br><span class="line">    p.join()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Child process end.'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释:"></a><strong>代码解释:</strong></h4><p><strong>创建实例:</strong><br><code>p = Process(target=run_proc, args=(&#39;test&#39;,))</code><br><strong>Process类常用方法：</strong><br>· start()：启动进程实例（创建子进程）；<br>· terminate()：不管任务是否完成，立即终止；<br>· close()：关闭进程,无法在任务完成前进行(不然会报错)；<br>· join([timeout])：是否等待进程实例执行结束，或等待多少秒；<br>· is_alive()：判断进程实例是否还在执行；<br><strong>Process类常用属性：</strong><br>· pid：当前进程实例的PID值；<br>· ppid：当前进程实例父进程的PID值；</p>
+<h4 id="进程池Pool"><a href="#进程池Pool" class="headerlink" title="进程池Pool"></a><strong>进程池Pool</strong></h4><p>如果要启动大量的子进程，可以用进程池的方式批量创建子进程：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Pool</span><br><span class="line">import <span class="built_in">os</span>, <span class="built_in">time</span>, <span class="built_in">random</span></span><br><span class="line"></span><br><span class="line">def long_time_task(name):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Run task %s (%s)...'</span> % (name, <span class="built_in">os</span>.getpid()))</span><br><span class="line">    start = <span class="built_in">time</span>.<span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">time</span>.sleep(<span class="built_in">random</span>.<span class="built_in">random</span>() * <span class="number">3</span>)</span><br><span class="line">    <span class="keyword">end</span> = <span class="built_in">time</span>.<span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Task %s runs %0.2f seconds.'</span> % (name, (<span class="keyword">end</span> - start)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Parent process %s.'</span> % <span class="built_in">os</span>.getpid())</span><br><span class="line">    p = Pool(<span class="number">4</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        p.apply_async(long_time_task, args=(i,))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Waiting for all subprocesses done...'</span>)</span><br><span class="line">    p.<span class="built_in">close</span>()</span><br><span class="line">    p.join()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'All subprocesses done.'</span>)</span><br></pre></td></tr></table></figure></p>
+<h4 id="代码解释-1"><a href="#代码解释-1" class="headerlink" title="代码解释:"></a><strong>代码解释:</strong></h4><p>1.以前我们变成可以不写主函数,但是如果想编写多进程的程序,必须要将执行的代码写在主函数中.因为在windows中是通过重载自身模块来创建子进程的,如果不写会导致程序无限循环创建进程的过程…</p>
+<p>2.对Pool对象调用join()方法会等待所有子进程执行完毕，<strong>调用join()之前必须先调用close()</strong>，调用close()之后就不能继续添加新的Process了。</p>
+<p>3.请注意输出的结果，task 0，1，2，3是立刻执行的，而task 4要等待前面某个task完成后才执行，这是因为我定义了<code>p = Pool(4)</code> ，因此，最多同时执行4个进程。<br>如果不填数字,则Pool的默认大小是CPU的核数。</p>
+<h4 id="进程间的通信"><a href="#进程间的通信" class="headerlink" title="进程间的通信:"></a><strong>进程间的通信:</strong></h4><p>进程有自己的地址空间，能读取但是不能改写进程外的全局变量.</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import multiprocessing</span><br><span class="line">import os</span><br><span class="line"><span class="built_in">num</span> = <span class="number">0</span></span><br><span class="line">def test1():</span><br><span class="line">    <span class="built_in">global</span> <span class="built_in">num</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        <span class="built_in">num</span> += <span class="number">1</span></span><br><span class="line">    print(<span class="string">'进程1 pid:&#123;&#125; num值为:&#123;&#125;'</span>.<span class="built_in">format</span>(os.getpid(),<span class="built_in">num</span>))</span><br><span class="line">def test2():</span><br><span class="line">    <span class="built_in">global</span> <span class="built_in">num</span></span><br><span class="line">    print(<span class="string">'进程2 pid:&#123;&#125; num值为:&#123;&#125;'</span>.<span class="built_in">format</span>(os.getpid(),<span class="built_in">num</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    p1 = multiprocessing.Process(target=test1)</span><br><span class="line">    p2 = multiprocessing.Process(target=test2)</span><br><span class="line">    p1.<span class="built_in">start</span>()</span><br><span class="line">    p2.<span class="built_in">start</span>()</span><br><span class="line">    print(<span class="string">'主进程 pid:&#123;&#125; num值为:&#123;&#125;'</span>.<span class="built_in">format</span>(os.getpid(),<span class="built_in">num</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出结果:</span></span><br><span class="line"><span class="comment">#主进程 pid:15480 num值为:0</span></span><br><span class="line"><span class="comment"># 进程1 pid:15256 num值为:10</span></span><br><span class="line"><span class="comment"># 进程2 pid:13844 num值为:0</span></span><br></pre></td></tr></table></figure>
+<p>(补充内容) 进程之间肯定是需要通信的，我们该怎么办呢? 其实，操作系统提供了很多机制来实现进程间的通信。<br>在Python中，multiprocessing模块包装了底层的机制，提供了Queue、Pipes等多种方式来交换数据。这里以Queue为例，在主进程中创建两个子进程，一个往Queue里写数据，一个从Queue里读数据：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">from</span> multiprocessing import Process, Queue</span><br><span class="line">import os, <span class="built_in">time</span>, <span class="built_in">random</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写数据进程执行的代码:</span></span><br><span class="line">def <span class="built_in">write</span>(q,neirong):</span><br><span class="line">    print(<span class="string">'Process to write: %s'</span> % os.getpid())</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">value</span> <span class="keyword">in</span> neirong:</span><br><span class="line">        print(<span class="string">'Put %s to queue...'</span> % <span class="built_in">value</span>)</span><br><span class="line">        q.<span class="built_in">put</span>(<span class="built_in">value</span>)</span><br><span class="line">        <span class="built_in">time</span>.sleep(<span class="built_in">random</span>.<span class="built_in">random</span>())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读数据进程执行的代码:</span></span><br><span class="line">def <span class="built_in">read</span>(q):</span><br><span class="line">    print(<span class="string">'Process to read: %s'</span> % os.getpid())</span><br><span class="line">    <span class="keyword">while</span> True:</span><br><span class="line">        <span class="built_in">value</span> = q.<span class="built_in">get</span>(True)</span><br><span class="line">        print(<span class="string">'Get %s from queue.'</span> % <span class="built_in">value</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 父进程创建Queue，并传给各个子进程：</span></span><br><span class="line">    q = Queue()</span><br><span class="line">    pw = Process(target=<span class="built_in">write</span>, args=(q,[<span class="string">'HELLO'</span>,<span class="string">'WORLD'</span>]))</span><br><span class="line">    pr = Process(target=<span class="built_in">read</span>, args=(q,))</span><br><span class="line">    <span class="comment"># 启动子进程pw，写入:</span></span><br><span class="line">    pw.<span class="built_in">start</span>()</span><br><span class="line">    <span class="comment"># 启动子进程pr，读取:</span></span><br><span class="line">    pr.<span class="built_in">start</span>()</span><br><span class="line">    <span class="comment"># 等待pw结束:</span></span><br><span class="line">    pw.join()</span><br><span class="line">    <span class="comment"># pr进程里是死循环，无法等待其结束，只能强行终止:</span></span><br><span class="line">    pr.terminate()</span><br></pre></td></tr></table></figure>
+<p>总结:</p>
+<ul>
+<li>一个进程下至少有一个线程</li>
+<li>进程是资源分配的最小单位,线程是CPU调度的最小单位</li>
+<li>进程可以利用多个cpu,因此cpu密集的时候适合用多进程</li>
+<li>进程之间是相互独立的，要想通信需要借助Queue、Pipes等实现</li>
+</ul>
+<h3 id="2-多线程（multiprocessing）"><a href="#2-多线程（multiprocessing）" class="headerlink" title="2.多线程（multiprocessing）"></a>2.多线程（multiprocessing）</h3><p>多任务可以由多进程完成，也可以由一个进程内的多线程完成。<br>我们前面提到了进程是由若干线程组成的，一个进程至少有一个线程。<br>由于线程是操作系统直接支持的执行单元，因此，高级语言通常都内置多线程的支持，Python也不例外，并且，Python的线程是真正的Posix Thread，而不是模拟出来的线程。<br>Python的标准库提供了两个模块：_thread和threading，_thread是低级模块，threading是高级模块，对_thread进行了封装。绝大多数情况下，我们只需要使用threading这个高级模块。<br>启动一个线程就是把一个函数传入并创建Thread实例，然后调用start()开始执行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time,threading</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        print(<span class="string">'task1'</span>, i)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        print(<span class="string">'task2'</span>, i)</span><br><span class="line">t1 = threading.Thread(target=test1,args=(<span class="number">10</span>,))</span><br><span class="line">t2 = threading.Thread(target=test2,args=(<span class="number">10</span>,))</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br></pre></td></tr></table></figure>
+<p><strong>注意: 线程的启动是无序的</strong><br>我们在代码中写的是:<br>t1.start()<br>t2.start()<br>但是先运行的不一定是t1线程</p>
+<h4 id="线程间的通信"><a href="#线程间的通信" class="headerlink" title="线程间的通信"></a><strong>线程间的通信</strong></h4><p>多线程和多进程最大的不同在于，多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响，而多线程中，所有变量都由所有线程共享 :</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#多线程共享全局变量</span></span><br><span class="line"><span class="meta"># num = 0</span></span><br><span class="line"><span class="meta"># def test1():</span></span><br><span class="line"><span class="meta">#     global num</span></span><br><span class="line"><span class="meta">#     for i in range(10):</span></span><br><span class="line"><span class="meta">#         num += 1</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta"># def test2():</span></span><br><span class="line"><span class="meta">#     global num</span></span><br><span class="line"><span class="meta">#     print(num)</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta"># t1 = threading.Thread(target=test1)</span></span><br><span class="line"><span class="meta"># t2 = threading.Thread(target=test2)</span></span><br><span class="line"><span class="meta"># t1.start()</span></span><br><span class="line"><span class="meta"># t2.start()</span></span><br></pre></td></tr></table></figure>
+<p>但是，由于变量是共享的，任何一个变量都可以被任何一个线程修改，因此，线程之间共享数据最大的危险在于多个线程同时改一个变量，把内容给改乱了。<br>来看看多个线程同时操作一个变量怎么把内容给改乱了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line">global_num = <span class="number">0</span></span><br><span class="line">lock = threading.Lock()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> global_num</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000000</span>):</span><br><span class="line">        global_num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> global_num</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000000</span>):</span><br><span class="line">        global_num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">t1 = threading.Thread(target=test1)</span><br><span class="line">t2 = threading.Thread(target=test2)</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br><span class="line">t1.join()</span><br><span class="line">t2.join()</span><br><span class="line">print(global_num)</span><br></pre></td></tr></table></figure>
+<p>在执行这段代码时,我们可以看出,本来应该加到2000000的global_num,不论我们实验几次都到不了应该达到的数值.原因是因为GIL全局解释器锁的存在.</p>
+<blockquote>
+<p><strong>全局解释器锁（Global Interpreter Lock）</strong><br>GIL是计算机程序设计语言解释器用于同步线程的工具，使得在同一进程内任何时刻仅有一个线程在执行。<br>Python的线程是操作系统线程。在Linux上为pthread，在Windows上为Win thread，完全由操作系统调度线程的执行。一个python解释器进程内有一条主线程，以及多条用户程序的执行线程。即使在多核CPU平台上，由于GIL的存在，所以禁止多线程的并行执行。</p>
+</blockquote>
+<p>GIL的存在导致了，在线程t1访问共享变量时，还没来得及将结果赋值给变量，系统就要求线程t1归还GIL锁。结果线程t2在访问该变量时拿到的是没有更新的变量。<br>为了解决这种问题，我们将线程中需要共享数据的代码再套一层锁——threading.Lock()。<br>这个锁的作用是，被它包起来的代码按照串行方式执行，也就是在线程t1完成global_num的运算和赋值前，其他线程不能同时执行，只能等待，直到锁被释放。<br>实现的代码如下:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import threading</span><br><span class="line">global_num = <span class="number">0</span></span><br><span class="line"><span class="meta"># 定义一把进程锁</span></span><br><span class="line"><span class="keyword">lock</span> = threading.Lock()</span><br><span class="line"><span class="function">def <span class="title">test1</span>(<span class="params"></span>):</span></span><br><span class="line"><span class="function">    <span class="keyword">global</span> global_num</span></span><br><span class="line"><span class="function">    # 申请锁</span></span><br><span class="line"><span class="function">    <span class="keyword">lock</span>.<span class="title">acquire</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="title">range</span>(<span class="params"><span class="number">1000000</span></span>):</span></span><br><span class="line"><span class="function">        global_num +</span>= <span class="number">1</span></span><br><span class="line">    <span class="meta"># 释放锁</span></span><br><span class="line">    <span class="keyword">lock</span>.release()</span><br><span class="line"></span><br><span class="line"><span class="function">def <span class="title">test2</span>(<span class="params"></span>):</span></span><br><span class="line"><span class="function">    <span class="keyword">global</span> global_num</span></span><br><span class="line"><span class="function">    <span class="keyword">lock</span>.<span class="title">acquire</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="title">range</span>(<span class="params"><span class="number">1000000</span></span>):</span></span><br><span class="line"><span class="function">        global_num +</span>= <span class="number">1</span></span><br><span class="line">    <span class="keyword">lock</span>.release()</span><br><span class="line"></span><br><span class="line">t1 = threading.Thread(target=test1)</span><br><span class="line">t2 = threading.Thread(target=test2)</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br><span class="line">t1.<span class="keyword">join</span>()</span><br><span class="line">t2.<span class="keyword">join</span>()</span><br><span class="line">print(global_num)</span><br></pre></td></tr></table></figure>
+<p><strong>线程互斥锁和GIL的区别 </strong><br>1.线程互斥锁是Python代码层面的锁，解决Python程序中多线程共享资源的问题(如在线程数据共享时，多个线程都要访问某一数据资源，出现竞争状态，造成数据混乱的问题)</p>
+<p>2.GIL是Python解释层面的锁，解决解释器中多个线程的竞争资源问题（如多个子线程在系统资源竞争时，都在等待对象某个部分资源解除占用状态，导致程序无法执行下去的问题）</p>
+<h3 id="3-协程"><a href="#3-协程" class="headerlink" title="3.协程"></a>3.协程</h3><p>简介:</p>
+<ul>
+<li>协程：又称微线程，英文名Coroutine。</li>
+<li>协程是在一个线程里面的,先有进程，再有线程，才能有协程</li>
+<li>异步IO：遇到io请求就切换</li>
+<li>进程是资源分配的单位</li>
+<li>线程是操作系统调度的单位</li>
+<li>进程切换需要的资源最大，效率低</li>
+<li>线程切换需要的资源一般，效率一般</li>
+<li>协程切换任务资源很小，效率高</li>
+<li>多进程、多线程根据cpu核数不一样可能是并行的，但是协程是在一个线程中，通过类似中断的子程序交替执行的，本质上其实是串行的</li>
+</ul>
+<h4 id="gevent模块"><a href="#gevent模块" class="headerlink" title="gevent模块"></a><strong>gevent模块</strong></h4><p>Python通过yield提供了对协程的基本支持，但是不完全。而第三方的gevent为Python提供了比较完善的协程支持。<br>gevent是第三方库，通过greenlet实现协程，其基本思想是：<br>当一个greenlet遇到IO操作时，比如访问网络，就自动切换到其他的greenlet，等到IO操作完成，再在适当的时候切换回来继续执行。由于IO操作非常耗时，经常使程序处于等待状态，有了gevent为我们自动切换协程，就保证总有greenlet在运行，而不是等待IO。<br>由于切换是在IO操作时自动完成，所以gevent需要修改Python自带的一些标准库，这一过程在启动时通过monkey patch完成<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</span><br><span class="line">monkey.patch_all()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="comment"># gevent.sleep(1)</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        print(<span class="string">'task1'</span>,i)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="comment"># gevent.sleep(1)</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        print(<span class="string">'task2'</span>,i)</span><br><span class="line"></span><br><span class="line">g1 = gevent.spawn(test1,<span class="number">10</span>)</span><br><span class="line">g2 = gevent.spawn(test2,<span class="number">10</span>)</span><br><span class="line">g1.join()</span><br><span class="line">g2.join()</span><br></pre></td></tr></table></figure></p>
+<h4 id="asyncio模块"><a href="#asyncio模块" class="headerlink" title="asyncio模块"></a><strong>asyncio模块</strong></h4><p>asyncio是Python 3.4版本引入的标准库，直接内置了对异步IO的支持。<br>asyncio的编程模型就是一个消息循环。我们从asyncio模块中直接获取一个EventLoop的引用，然后把需要执行的协程扔到EventLoop中执行，就实现了异步IO。<br>@asyncio.coroutine把一个generator标记为coroutine类型，然后，我们就把这个coroutine扔到EventLoop中执行。<br>hello()会首先打印出Hello world!，然后，yield from语法可以让我们方便地调用另一个generator。由于asyncio.sleep()也是一个coroutine，所以线程不会等待asyncio.sleep()，而是直接中断并执行下一个消息循环。当asyncio.sleep()返回时，线程就可以从yield from拿到返回值（此处是None），然后接着执行下一行语句。<br>把asyncio.sleep(1)看成是一个耗时1秒的IO操作，在此期间，主线程并未等待，而是去执行EventLoop中其他可以执行的coroutine了，因此可以实现并发执行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="meta">@asyncio.coroutine</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'Hello world! (%s)'</span> % threading.currentThread())</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> asyncio.sleep(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">'Hello again! (%s)'</span> % threading.currentThread())</span><br><span class="line"></span><br><span class="line"><span class="meta">@asyncio.coroutine</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hi</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'Hi world! (%s)'</span> % threading.currentThread())</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> asyncio.sleep(<span class="number">1.5</span>)</span><br><span class="line">    print(<span class="string">'Hi again! (%s)'</span> % threading.currentThread())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">tasks = [hi(), hello()]</span><br><span class="line">loop.run_until_complete(asyncio.wait(tasks))</span><br><span class="line">loop.close()</span><br><span class="line"></span><br><span class="line">执行结果:</span><br><span class="line">Hello world! (&lt;_MainThread(MainThread, started <span class="number">14168</span>)&gt;)</span><br><span class="line">Hi world! (&lt;_MainThread(MainThread, started <span class="number">14168</span>)&gt;)</span><br><span class="line">...等了大概<span class="number">1</span>s...</span><br><span class="line">Hello again! (&lt;_MainThread(MainThread, started <span class="number">14168</span>)&gt;)</span><br><span class="line">Hi again! (&lt;_MainThread(MainThread, started <span class="number">14168</span>)&gt;)</span><br><span class="line">可见同一个线程内的两个函数被交替执行了!节省了很多运行时间!</span><br></pre></td></tr></table></figure>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/21/进程线程协程/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-python数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1282,210 +1415,6 @@ define(‘DB_PASSWORD’, ‘123’);
 
 
   
-    <article id="post-cobbler安装与配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/25/cobbler安装与配置/">cobbler安装与配置</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/25/cobbler安装与配置/" class="archive-article-date">
-  	<time datetime="2019-05-25T06:59:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="WordPress数据库保存的信息"><a href="#WordPress数据库保存的信息" class="headerlink" title="WordPress数据库保存的信息"></a>WordPress数据库保存的信息</h4><p>1.用户评论<br>2.保存了网页连接信息<br>3.保存了网页文章<br>4.保存了网页文章的分类信息<br>5.用户注册信息<br>6.其他的一些组件信息</p>
-<h4 id="没被保存在WP数据库的信息"><a href="#没被保存在WP数据库的信息" class="headerlink" title="没被保存在WP数据库的信息"></a>没被保存在WP数据库的信息</h4><p>图片<br>视频</p>
-<h3 id="cobbler介绍"><a href="#cobbler介绍" class="headerlink" title="cobbler介绍"></a>cobbler介绍</h3><p><strong>1.背景介绍</strong><br>作为运维，在公司经常遇到一些机械性重复工作要做，例如：为新机器装系统，一台两台机器装系统，可以用光盘、U盘等介质安装，1小时也完成了，但是如果有成百台的服务器还要用光盘、U盘去安装，就显得有些力不从心了。PXE技术就能很好的解决这个问题，本文将会对PXE的工作原理有所介绍，而cobbler则是基于PXE技术的工作原理的二次封装，通过命令的方式简化了PXE配置过程。</p>
-<p><strong>2.PXE工作原理</strong><br>PXE工作步骤如下图：<br><img src="http://d.birdteam.net/data/f_92682211.jpg" alt></p>
-<p>Client向PXE Server上的DHCP发送IP地址请求消息，DHCP检测Client是否合法（主要是检测Client的网卡MAC地址），如果合法则返回Client的IP地址，同时将启动文件pxelinux.0的位置信息一并传送给Client<br>Client向PXE Server上的TFTP发送获取pxelinux.0请求消息，TFTP接收到消息之后再向Client发送pxelinux.0大小信息，试探Client是否满意，当TFTP收到Client发回的同意大小信息之后，正式向Client发送pxelinux.0<br>Client执行接收到的pxelinux.0文件<br>Client向TFTP Server发送针对本机的配置信息文件（在TFTP服务的pxelinux.cfg目录下，这是系统菜单文件，格式和isolinux.cfg格式一样，功能也是类似），TFTP将配置文件发回Client，继而Client根据配置文件执行后续操作。<br>Client向TFTP发送Linux内核请求信息，TFTP接收到消息之后将内核文件发送给Client<br>Client向TFTP发送根文件请求信息，TFTP接收到消息之后返回Linux根文件系统<br>Client启动Linux内核<br>Client下载安装源文件，读取自动化安装脚本</p>
-<p><strong>3.Cobbler介绍</strong><br>Cobbler是一个Linux服务器快速网络安装的服务，由python开发，小巧轻便（15k行python代码），可以通过PXE的方式来快速安装、重装物理服务器和虚拟机，同时还可以管理DHCP，DNS，TFTP、RSYNC以及yum仓库、构造系统ISO镜像。<br>Cobbler可以使用命令行方式管理，也提供了基于Web的界面管理工具(cobbler-web)，还提供了API接口，可以方便二次开发使用。</p>
-<p><strong>4.Cobbler工作原理</strong></p>
-<p><img src="http://d.birdteam.net/data/f_41116663.jpg" alt></p>
-<p>client裸机配置了从网络启动后，开机后会广播包请求DHCP服务器 （cobbler server）发送其分配好的一个IP<br>DHCP服务器（cobbler server）收到请求后发送responese，包括其ip地址<br>client裸机拿到ip后再向cobbler server发送请求OS引导文件的请求<br>cobbler server告诉裸机OS引导文件的名字和TFTP server的ip和 port<br>client裸机通过上面告知的TFTP server地址通信，下载引导文件<br>client裸机执行执行该引导文件，确定加载信息，选择要安装的os， 期间会再向cobbler server请求kickstart文件和os image<br>cobbler server发送请求的kickstart和os iamge<br>client裸机加载kickstart文件<br>client裸机接收os image，安装该os image</p>
-<p><strong>5.Cobbler集成的服务</strong></p>
-<ul>
-<li>PXE服务支持</li>
-<li>DHCP服务管理</li>
-<li>DNS服务管理(可选bind,dnsmasq)</li>
-<li>电源管理</li>
-<li>Kickstart服务支持</li>
-<li>YUM仓库管理</li>
-<li>TFTP(PXE启动时需要)</li>
-<li>Apache(提供kickstart的安装源，并提供定制化的kickstart配置)</li>
-</ul>
-<p><strong>6.配置目录</strong></p>
-<ul>
-<li><p>配置文件目录：<br>/etc/cobbler<br>/etc/cobbler/settings : cobbler 主配置文件<br>/etc/cobbler/iso/: iso模板配置文件<br>/etc/cobbler/pxe: pxe模板文件<br>/etc/cobbler/power: 电源配置文件<br>/etc/cobbler/user.conf: web服务授权配置文件<br>/etc/cobbler/users.digest: web访问的用户名密码配置文件<br>/etc/cobbler/dhcp.template : dhcp服务器的的配置末班<br>/etc/cobbler/dnsmasq.template : dns服务器的配置模板<br>/etc/cobbler/tftpd.template : tftp服务的配置模板<br>/etc/cobbler/modules.conf : 模块的配置文件</p>
-</li>
-<li><p>数据目录：<br>/var/lib/cobbler/config/: 用于存放distros，system，profiles 等信 息配置文件<br>/var/lib/cobbler/triggers/: 用于存放用户定义的cobbler命令<br>/var/lib/cobbler/kickstart/: 默认存放kickstart文件<br>/var/lib/cobbler/loaders/: 存放各种引导程序  镜像目录<br>/var/www/cobbler/ks_mirror/: 导入的发行版系统的所有数据<br>/var/www/cobbler/images/ : 导入发行版的kernel和initrd镜像用于 远程网络启动<br>/var/www/cobbler/repo_mirror/: yum 仓库存储目录</p>
-</li>
-<li><p>日志目录：<br>/var/log/cobbler/installing: 客户端安装日志<br>/var/log/cobbler/cobbler.log : cobbler日志</p>
-</li>
-</ul>
-<p><strong>7.命令介绍</strong></p>
-<p>cobbler commands介绍<br>cobbler check 核对当前设置是否有问题<br>cobbler list 列出所有的cobbler元素<br>cobbler report 列出元素的详细信息<br>cobbler sync 同步配置到数据目录,更改配置最好都要执行下<br>cobbler reposync 同步yum仓库<br>cobbler distro 查看导入的发行版系统信息<br>cobbler system 查看添加的系统信息<br>cobbler profile 查看配置信息</p>
-<h3 id="部署cobbler服务器"><a href="#部署cobbler服务器" class="headerlink" title="部署cobbler服务器"></a>部署cobbler服务器</h3><h4 id="1-准备环境"><a href="#1-准备环境" class="headerlink" title="1.准备环境"></a><strong>1.准备环境</strong></h4><p>使用NAT或仅主机模式</p>
-<h4 id="2-下载相关软件包"><a href="#2-下载相关软件包" class="headerlink" title="2.下载相关软件包"></a><strong>2.下载相关软件包</strong></h4><p>这里使用yum的方式<br>需要下载的包:</p>
-<ul>
-<li><p><strong>httpd</strong><br>Apache是世界使用排名第一的Web服务器软件。它可以运行在几乎所有广泛使用的计算机平台上，由于其跨平台和安全性被广泛使用，是最流行的Web服务器端软件之一。它快速、可靠并且可通过简单的API扩充，将Perl/Python等解释器编译到服务器中。</p>
-</li>
-<li><p><strong>dhcp</strong><br>DHCP（Dynamic Host Configuration Protocol，动态主机配置协议）是一个局域网的网络协议，使用UDP协议工作， 主要有两个用途：给内部网络或网络服务供应商自动分配IP地址，给用户或者内部网络管理员作为对所有计算机作中央管理的手段。DHCP有3个端口，其中UDP67和UDP68为正常的DHCP服务端口，分别作为DHCP Server和DHCP Client的服务端口；546号端口用于DHCPv6 Client，而不用于DHCPv4，是为DHCP failover服务，这是需要特别开启的服务，DHCP failover是用来做“双机热备”的。</p>
-</li>
-<li><p><strong>tftp-server</strong><br>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是TCP/IP协议族中的一个用来在客户机与服务器之间进行简单文件传输的协议，提供不复杂、开销不大的文件传输服务。使用UDP数据报, 端口号为69。<br>默认情况下，Linux内部是安装了tftp服务器包的。但是默认是不启动的。</p>
-</li>
-<li><p><strong>xinetd</strong><br>extended internet daemon<br>xinetd是新一代的网络守护进程服务程序，又叫超级Internet服务器,常用来管理多种轻量级Internet服务。<br>xinetd提供类似于inetd+tcp_wrapper的功能，但是更加强大和安全。<br>在本实验中xinetd用于为tftp提供配置文件</p>
-</li>
-<li><p><strong>syslinux</strong><br>本实验中syslinux用于提供pxelinux.0这个文件 ，pxelinux.0引导文件引导vmlinux和initrd两个启动文件。</p>
-<blockquote>
-<p>PXE:预启动执行环境（Preboot eXecution Environment，PXE，也被称为预执行环境)提供了一种使用网络接口（Network Interface）启动计算机的机制。这种机制让计算机的启动可以不依赖本地数据存储设备（如硬盘）或本地已安装的操作系统。</p>
-</blockquote>
-</li>
-<li><p><strong>cobbler</strong><br>Cobbler 可以用来快速建立 Linux 网络安装环境。它封装了DHCP、TFTP、XINTED等服务，结合了PXE、kickstart等安装方法，以实现自动化安装操作系统，并且可以同时提供多种版本，以实现在线安装不同版本的系统。</p>
-</li>
-<li><p><strong>pykickstart</strong><br>pykickstart是一个python库，用于读写kickstart文件。 </p>
-<blockquote>
-<p>如果下载失败,找不到镜像,则需要配置yum源<br>将下面的代码粘贴至/etc/yum.repo.d/下的随便一个xxx.repo中:<br>[epel]<br>name=epel<br>enabled=1<br>gpgcheck=0<br>baseurl=<a href="https://mirrors.aliyun.com/epel/7/x86_64/" target="_blank" rel="noopener">https://mirrors.aliyun.com/epel/7/x86_64/</a><br>[centos]<br>name=centos base<br>enabled=1<br>gpgcheck=0<br>baseurl=<a href="http://mirrors.163.com/centos/7/os/x86_64/" target="_blank" rel="noopener">http://mirrors.163.com/centos/7/os/x86_64/</a></p>
-</blockquote>
-</li>
-</ul>
-<h4 id="3-启动服务"><a href="#3-启动服务" class="headerlink" title="3.启动服务"></a><strong>3.启动服务</strong></h4><p>1.启动tftp服务<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@kenn ~]<span class="comment"># vim /etc/xinetd.d/tftp</span></span><br><span class="line">修改为disable = <span class="literal">no</span></span><br><span class="line">[root@kenn ~]<span class="comment"># systemctl restart xinetd</span></span><br></pre></td></tr></table></figure></p>
-<p>2.配置dhcp服务<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">subnet <span class="number">192.168</span><span class="number">.19</span><span class="number">.0</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> &#123;</span><br><span class="line">range <span class="number">192.168</span><span class="number">.19</span><span class="number">.30</span> <span class="number">192.168</span><span class="number">.19</span><span class="number">.40</span>;</span><br><span class="line"><span class="section">default</span>-lease-time <span class="number">600</span>;</span><br><span class="line">max-lease-time <span class="number">7200</span>;</span><br><span class="line">filename “pxelinux<span class="number">.0</span>”;</span><br><span class="line">&#125;</span><br><span class="line">[root@kenn ~]# systemctl restart dhcpd</span><br></pre></td></tr></table></figure></p>
-<p>3.启动httpd<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@kenn</span> ~]<span class="meta"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure></p>
-<p>4.启动cobbler<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@kenn</span> ~]<span class="meta"># systemctl restart cobblerd</span></span><br></pre></td></tr></table></figure></p>
-<p>5.cobbler检测<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@kenn</span> ~]<span class="meta"># cobbler check</span></span><br></pre></td></tr></table></figure></p>
-<p>检测后根据提示修改相关配置文件:</p>
-<p>1 : The ‘server’ field in /etc/cobbler/settings must be set to something other than localhost, or kickstarting features will not work. This should be a resolvable hostname or IP for the boot server as reachable by all machines that will use it.</p>
-<blockquote>
-<p>解决方法:在/etc/cobbler/settings中<br>修改server: 把127.0.0.1改为你主机的ip</p>
-</blockquote>
-<p>2 : For PXE to be functional, the ‘next_server’ field in /etc/cobbler/settings must be set to something other than 127.0.0.1, and should match the IP of the boot server on the PXE network.<br>把next_server指定的本地IP改为提供cobbler服务的IP地址</p>
-<blockquote>
-<p>解决方法:在/etc/cobbler/settings中<br>next server: 把127.0.0.1改为你主机的ip</p>
-</blockquote>
-<p>3 : enable and start rsyncd.service with systemctl</p>
-<blockquote>
-<p>解决方法:用systemctl enable然后restart rsyncd..<br>[root@ken ~]# systemctl restart rsyncd<br>[root@ken ~]# systemctl enable rsyncd</p>
-</blockquote>
-<p>4 : The default password used by the sample templates for newly installed machines (default_password_crypted in /etc/cobbler/settings) is still set to ‘cobbler’ and should be changed, try: “openssl passwd -1 -salt ‘random-phrase-here’ ‘your-password-here’” to generate new one</p>
-<blockquote>
-<p>解决方法:修改一个新密码。尝试: “openssl passwd -1 -salt ‘随机瞎填点数’ ‘你的新密码’”<br>[root@ken ~]# openssl passwd -1 -salt ‘123’ ‘123’<br>$1$123$nE5gIYTYiF1PIXVOFjQaW/<br>生成完后vim /etc/cobbler/settings 将default_password_crypted项改为这串乱码</p>
-</blockquote>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span> :Some network boot-loaders are missing <span class="built_in">from</span> /var/lib/cobbler/loaders, you may run <span class="string">'cobbler get-loaders'</span> <span class="built_in">to</span> download them, <span class="keyword">or</span>, <span class="keyword">if</span> you only want <span class="built_in">to</span> handle x86/x86_64 netbooting, you may ensure that you have installed <span class="keyword">a</span> *recent* <span class="built_in">version</span> <span class="keyword">of</span> <span class="keyword">the</span> syslinux package installed <span class="keyword">and</span> can ignore this message entirely.  Files <span class="keyword">in</span> this <span class="built_in">directory</span>, should you want <span class="built_in">to</span> support all architectures, should <span class="built_in">include</span> pxelinux<span class="number">.0</span>, menu.c32, elilo.efi, <span class="keyword">and</span> yaboot. The <span class="string">'cobbler get-loaders'</span> <span class="keyword">command</span> <span class="title">is</span> <span class="title">the</span> <span class="title">easiest</span> <span class="title">way</span> <span class="title">to</span> <span class="title">resolve</span> <span class="title">these</span> <span class="title">requirements</span>.</span><br><span class="line">这个问题其实放着也行,你也可以运行<span class="string">'cobbler get-loaders'</span>下载他们解决这个问题,那就运行一下呗</span><br><span class="line">运行完成会提示*** TASK COMPLETE ***</span><br><span class="line"><span class="number">6</span> :debmirror package is <span class="keyword">not</span> installed, <span class="keyword">it</span> will be required <span class="built_in">to</span> manage debian deployments <span class="keyword">and</span> repositories</span><br><span class="line">跟debian 相关，可以忽略</span><br><span class="line"><span class="number">7</span> : fencing tools were <span class="keyword">not</span> found, <span class="keyword">and</span> are required <span class="built_in">to</span> use <span class="keyword">the</span> (optional) power management features. install cman <span class="keyword">or</span> fence-agents <span class="built_in">to</span> use them</span><br><span class="line">fence设备相关，可以忽略</span><br></pre></td></tr></table></figure>
-<p>6.重启cobbler并再次检测<br>[root@ken ~]# systemctl restart cobblerd<br>[root@ken ~]# cobbler check</p>
-<p>11.sync同步配置<br>[root@ken ~]# cobbler sync<br>成功会提示<strong><em> TASK COMPLETE </em></strong></p>
-<h4 id="4-导入镜像和制作kickstart配置文件"><a href="#4-导入镜像和制作kickstart配置文件" class="headerlink" title="4.导入镜像和制作kickstart配置文件"></a><strong>4.导入镜像和制作kickstart配置文件</strong></h4><p>1.挂载镜像<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# mount /dev/cdrom /mnt</span><br><span class="line">可以df -h检查是否成功,提示这个就是成功了↓</span><br><span class="line">/dev/sr0                 <span class="number">4.3</span>G  <span class="number">4.3</span>G     <span class="number">0</span>  <span class="number">100</span>% /mnt</span><br></pre></td></tr></table></figure></p>
-<p>2.导入镜像到cobbler<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# cobbler import --path=/mnt --name=<span class="string">"centos7"</span></span><br><span class="line">成功会提示*** TASK COMPLETE ***</span><br><span class="line"><span class="meta"># --path 镜像路径</span></span><br><span class="line"><span class="meta"># --name 为安装源定义一个名字</span></span><br><span class="line"><span class="meta"># --arch 指定安装源是32位、64位、ia64, 目前支持的选项有: x86│x86_64│ia64</span></span><br><span class="line"><span class="meta"># 安装源的唯一标示就是根据name参数来定义，本例导入成功后，安装源的唯一标示就是：CentOS-7-x86_64，如果重复，系统会提示导入失败</span></span><br></pre></td></tr></table></figure></p>
-<p>3.查看生成的distro<br>[root@ken ~]# cobbler distro list<br>centos7-x86_64</p>
-<p>4.查看生成的profile<br>[root@ken ~]# cobbler profile list<br>centos7-x86_64</p>
-<blockquote>
-<p>补充:删除导入的镜像<br><code>cobbler profile remove --name=xxx</code><br><code>cobbler distro remove --name=xxx</code><br>删除distro前要先删除使用它的profile</p>
-</blockquote>
-<p>5.准备kickstart文件<br>这里使用本机的配置文件进行复制<br>[root@ken ~]# cp anaconda-ks.cfg /var/lib/cobbler/kickstarts/ks.cfg</p>
-<p>6.编辑kickstart文件<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim  /var/<span class="class"><span class="keyword">lib</span>/<span class="title">cobbler</span>/<span class="title">kickstarts</span>/<span class="title">ks</span>.<span class="title">cfg</span></span></span><br><span class="line">找到<span class="comment"># Use CDROM installation media</span></span><br><span class="line">将下面的cdrom更改为：</span><br><span class="line">url --url=<span class="symbol">http:</span>/<span class="regexp">/你cobbler服务器的ip/cobbler</span><span class="regexp">/ks_mirror/centos</span>7/</span><br></pre></td></tr></table></figure></p>
-<p>7.制作自己的profile<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# cobbler<span class="built_in"> profile </span><span class="builtin-name">add</span> <span class="attribute">--distro</span>=centos7-x86_64 <span class="attribute">--kickstart</span>=/var/lib/cobbler/kickstarts/ks.cfg <span class="attribute">--name</span>=cent7_ken</span><br><span class="line">--distro指定镜像</span><br><span class="line">--kickstart指定配置文件</span><br><span class="line">--name指定profile的名字</span><br></pre></td></tr></table></figure></p>
-<p>8.删除默认的profile<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# cobbler<span class="built_in"> profile </span><span class="builtin-name">remove</span> <span class="attribute">--name</span>=centos7-x86_64</span><br><span class="line">[root@ken ~]# cobbler<span class="built_in"> profile </span>list</span><br><span class="line">cent7_ken</span><br></pre></td></tr></table></figure></p>
-<p>9.开启客户端进行验证<br>注意：<br>1.客户端网络模式需要与服务器一致<br>2.客户端要没安装过系统(最好是新创建的虚拟机)<br>3.客户端内存最少3个G<br>4.关于<code>--name=</code>后面要不要加引号: 可以加,但是请务必检查不要敲成中文的引号!</p>
-<h3 id="find详解"><a href="#find详解" class="headerlink" title="find详解"></a>find详解</h3><ol>
-<li><p>name： 指定文件名<br>例子1. 找到以ken结尾的文件<br>[root@ken ~]# find / -name “<em>ken”<br>/sys/firmware/dmi/entries/15-0/system_event_log/change_token<br>/etc/yum.repos.d/ken<br>/var/spool/mail/ken<br>/home/ken<br>例子2：找到包含ken的文件<br>[root@ken ~]# find / -name “</em>ken*” | head -3<br>/sys/bus/hid/drivers/kensington<br>/sys/devices/pci0000:00/0000:00:00.0/broken_parity_status<br>/sys/devices/pci0000:00/0000:00:01.0/broken_parity_status</p>
-</li>
-<li><p>perm：指定文件权限<br>例子1：找到所有644权限的文件<br>[root@ken ~]# find / -perm 644 | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>[root@ken ~]# ls -l /boot/grub2/device.map<br>-rw-r–r–. 1 root root 64 Feb 26 22:25 /boot/grub2/device.map<br>例子2：模糊匹配644权限<br>[root@ken ~]# find / -perm -644 | head -3<br>/boot/efi<br>/boot/efi/EFI<br>/boot/efi/EFI/centos<br>[root@ken ~]# ls -l /boot/efi<br>total 0<br>drwxr-xr-x. 3 root root 20 Feb 26 22:21 EFI</p>
-</li>
-<li><p>user：指定属主<br>例子1：找到属主是ken的文件<br>[root@ken ~]# find /etc -user ken<br>[root@ken ~]# find / -user ken<br>find: ‘/proc/1672/task/1672/fd/6’: No such file or directory<br>find: ‘/proc/1672/task/1672/fdinfo/6’: No such file or directory<br>find: ‘/proc/1672/fd/5’: No such file or directory<br>find: ‘/proc/1672/fdinfo/5’: No such file or directory<br>/var/spool/mail/ken<br>[root@ken ~]# ls -l /var/spool/mail/ken<br>-rw-rw—- 1 ken mail 0 Mar 11 18:16 /var/spool/mail/ken</p>
-</li>
-<li><p>group：指定属组<br>例子1：<br>[root@ken ~]# ls -l /var/spool/mail/ken<br>-rw-rw—- 1 ken mail 0 Mar 11 18:16 /var/spool/mail/ken<br>[root@ken ~]# find / -group ken<br>find: ‘/proc/1709/task/1709/fd/6’: No such file or directory<br>find: ‘/proc/1709/task/1709/fdinfo/6’: No such file or directory<br>find: ‘/proc/1709/fd/5’: No such file or directory<br>find: ‘/proc/1709/fdinfo/5’: No such file or directory<br>/home/ken<br>/home/ken/.bash_logout<br>/home/ken/.bash_profile<br>/home/ken/.bashrc<br>/home/ken/.bash_history<br>[root@ken ~]# ls -l /home/ken -d<br>drwx—— 2 ken ken 83 Mar 11 18:16 /home/ken</p>
-</li>
-<li><p>nouser：指定无属主<br>例子1：<br>[root@ken ~]# useradd kenken<br>[root@ken ~]# touch test<br>[root@ken ~]# chown kenken: test<br>[root@ken ~]# userdel kenken<br>[root@ken ~]# find / -nouser<br>find: ‘/proc/1811/task/1811/fd/6’: No such file or directory<br>find: ‘/proc/1811/task/1811/fdinfo/6’: No such file or directory<br>find: ‘/proc/1811/fd/5’: No such file or directory<br>find: ‘/proc/1811/fdinfo/5’: No such file or directory<br>/root/test<br>/var/spool/mail/kenken<br>/home/kenken<br>/home/kenken/.bash_logout<br>/home/kenken/.bash_profile</p>
-</li>
-<li><p>nogroup：指定无属主<br>[root@ken ~]# find / -nogroup<br>find: ‘/proc/1848/task/1848/fd/6’: No such file or directory<br>find: ‘/proc/1848/task/1848/fdinfo/6’: No such file or directory<br>find: ‘/proc/1848/fd/5’: No such file or directory<br>find: ‘/proc/1848/fdinfo/5’: No such file or directory<br>/root/test<br>/home/kenken<br>/home/kenken/.bash_logout<br>/home/kenken/.bash_profile<br>/home/kenken/.bashrc</p>
-</li>
-<li><p>type：指定文件类型<br>例子1：找到所有的链接文件<br>[root@ken ~]# find / -type l | head -3<br>/dev/cdrom<br>/dev/snd/by-path/pci-0000:02:02.0<br>/dev/initctl<br>[root@ken ~]# ls -l /dev/cdrom<br>lrwxrwxrwx 1 root root 3 May 24 19:19 /dev/cdrom -&gt; sr0<br>[root@ken ~]#<br>例子2： 找到所有普通文件<br>[root@ken ~]# find / -type f | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>[root@ken ~]# ls -l /boot/grub2/device.map<br>-rw-r–r–. 1 root root 64 Feb 26 22:25 /boot/grub2/device.map<br>[root@ken ~]#</p>
-</li>
-<li><p>size：指定文件大小<br>例子1：找到大于100M的文件<br>[root@ken ~]# find / -size +100M<br>/proc/kcore<br>find: ‘/proc/2018/task/2018/fd/6’: No such file or directory<br>find: ‘/proc/2018/task/2018/fdinfo/6’: No such file or directory<br>find: ‘/proc/2018/fd/5’: No such file or directory<br>find: ‘/proc/2018/fdinfo/5’: No such file or directory<br>/sys/devices/pci0000:00/0000:00:0f.0/resource1_wc<br>/sys/devices/pci0000:00/0000:00:0f.0/resource1<br>/root/gitlab-ce-8.9.5-ce.0.el7.x86_64.rpm<br>^C<br>[root@ken ~]# ls -lh /root/gitlab-ce-8.9.5-ce.0.el7.x86_64.rpm<br>-rw-r–r– 1 root root 265M Nov 13 2018 /root/gitlab-ce-8.9.5-ce.0.el7.x86_64.rpm</p>
-</li>
-<li><p>mtime: 指文件修改时间，权限，属主，属组<br>例子1:找到文件修改时间一天以上的<br>[root@ken ~]# find / -mtime +1 | head -3<br>/boot<br>/boot/efi<br>/boot/efi/EFI<br>[root@ken ~]# stat /boot<br>File: ‘/boot’<br>Size: 4096 Blocks: 8 IO Block: 4096 directory<br>Device: 801h/2049d Inode: 64 Links: 5<br>Access: (0555/dr-xr-xr-x) Uid: ( 0/ root) Gid: ( 0/ root)<br>Access: 2019-05-24 19:31:37.453000000 +0800<br>Modify: 2019-02-26 22:25:57.574000000 +0800<br>Change: 2019-03-14 18:49:48.066000000 +0800<br>Birth: –</p>
-</li>
-<li><p>atime：指定文件访问时间<br>[root@ken ~]# find / -atime +1 | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>^C<br>[root@ken ~]# stat /boot/grub2/device.map<br>File: ‘/boot/grub2/device.map’<br>Size: 64 Blocks: 8 IO Block: 4096 regular file<br>Device: 801h/2049d Inode: 1572929 Links: 1<br>Access: (0644/-rw-r–r–) Uid: ( 0/ root) Gid: ( 0/ root)<br>Access: 2019-02-26 22:25:05.730000000 +0800<br>Modify: 2019-02-26 22:25:05.582000000 +0800<br>Change: 2019-02-26 22:25:05.582000000 +0800<br>Birth: –</p>
-</li>
-<li><p>ctime:指定文件内容<br>例子1：指定文件内容修改一天以上<br>[root@ken ~]# find / -ctime +1 | head -3<br>/boot<br>/boot/efi<br>/boot/efi/EFI<br>^C^<br>[root@ken ~]# stat /boot<br>File: ‘/boot’<br>Size: 4096 Blocks: 8 IO Block: 4096 directory<br>Device: 801h/2049d Inode: 64 Links: 5<br>Access: (0555/dr-xr-xr-x) Uid: ( 0/ root) Gid: ( 0/ root)<br>Access: 2019-05-24 19:31:37.453000000 +0800<br>Modify: 2019-02-26 22:25:57.574000000 +0800<br>Change: 2019-03-14 18:49:48.066000000 +0800<br>Birth: –</p>
-</li>
-<li><p>exec: 执行命令<br>例子1：删除无属主的文件<br>[root@ken ~]# find / -nouser<br>find: ‘/proc/2395/task/2395/fd/6’: No such file or directory<br>find: ‘/proc/2395/task/2395/fdinfo/6’: No such file or directory<br>find: ‘/proc/2395/fd/5’: No such file or directory<br>find: ‘/proc/2395/fdinfo/5’: No such file or directory<br>/root/test<br>/var/spool/mail/kenken<br>/home/kenken<br>/home/kenken/.bash_logout<br>/home/kenken/.bash_profile<br>/home/kenken/.bashrc<br>[root@ken ~]# find / -nouser -exec rm -rf {} ;<br>find: missing argument to `-exec’<br>[root@ken ~]# find / -nouser -exec rm -rf {} \;<br>find: ‘/proc/2451/task/2451/fd/6’: No such file or directory<br>find: ‘/proc/2451/task/2451/fdinfo/6’: No such file or directory<br>find: ‘/proc/2451/fd/5’: No such file or directory<br>find: ‘/proc/2451/fdinfo/5’: No such file or directory<br>find: ‘/home/kenken’: No such file or directory<br>[root@ken ~]# find / -nouser<br>find: ‘/proc/2463/task/2463/fd/6’: No such file or directory<br>find: ‘/proc/2463/task/2463/fdinfo/6’: No such file or directory<br>find: ‘/proc/2463/fd/5’: No such file or directory<br>find: ‘/proc/2463/fdinfo/5’: No such file or directory</p>
-</li>
-</ol>
-<p>例子2：xargs<br>[root@ken ~]# touch {1..100}.txt<br>[root@ken ~]# powd<br>-bash: powd: command not found<br>[root@ken ~]# pwd<br>/root<br>[root@ken ~]# ls<br>100.txt 19.txt 28.txt 37.txt 46.txt 55.txt 64.txt 73.txt 82.txt 91.txt anaconda-ks.cfg<br>10.txt 1.txt 29.txt 38.txt 47.txt 56.txt 65.txt 74.txt 83.txt 92.txt a.out<br>11.txt 20.txt 2.txt 39.txt 48.txt 57.txt 66.txt 75.txt 84.txt 93.txt gitlab-ce-8.9.5-ce.0.el7.x86_64.rpm<br>12.txt 21.txt 30.txt 3.txt 49.txt 58.txt 67.txt 76.txt 85.txt 94.txt ken1<br>13.txt 22.txt 31.txt 40.txt 4.txt 59.txt 68.txt 77.txt 86.txt 95.txt<br>14.txt 23.txt 32.txt 41.txt 50.txt 5.txt 69.txt 78.txt 87.txt 96.txt<br>15.txt 24.txt 33.txt 42.txt 51.txt 60.txt 6.txt 79.txt 88.txt 97.txt<br>16.txt 25.txt 34.txt 43.txt 52.txt 61.txt 70.txt 7.txt 89.txt 98.txt<br>17.txt 26.txt 35.txt 44.txt 53.txt 62.txt 71.txt 80.txt 8.txt 99.txt<br>18.txt 27.txt 36.txt 45.txt 54.txt 63.txt 72.txt 81.txt 90.txt 9.txt<br>[root@ken ~]# find /root -name “*txt” | xargs rm -rf<br>[root@ken ~]# ls<br>anaconda-ks.cfg a.out gitlab-ce-8.9.5-ce.0.el7.x86_64.rpm ken1</p>
-<ol start="13">
-<li>find可以使用-a和-o或！<br>例子1：找到所有普通文件并且权限是777<br>[root@ken ~]# find / -type f -a -perm 644 | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>[root@ken ~]# ls -l /boot/grub2/device.map<br>-rw-r–r–. 1 root root 64 Feb 26 22:25 /boot/grub2/device.map</li>
-</ol>
-<h3 id="补充：cobbler配置文件pxedefault详解"><a href="#补充：cobbler配置文件pxedefault详解" class="headerlink" title="补充：cobbler配置文件pxedefault详解"></a>补充：cobbler配置文件pxedefault详解</h3><p>该文件的作用是配置客户机上cobbler的蓝色菜单（就是选择系统的那个列表）<br>文件的位置是：/etc/cobbler/pxe/pxedefault.template</p>
-<p>文件内容如下：<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">DEFAULT menu</span><br><span class="line">PROMPT <span class="number">0</span></span><br><span class="line">MENU TITLE Cobbler | http:<span class="comment">//cobbler.github.io/</span></span><br><span class="line">↑↑配置小蓝列表页最上边的标题显示的文字</span><br><span class="line">TIMEOUT <span class="number">50</span></span><br><span class="line">↑↑配置超时时间单位是毫秒</span><br><span class="line">TOTALTIMEOUT <span class="number">50</span></span><br><span class="line">↑↑配置总超时时间</span><br><span class="line"><span class="meta">#ONTIMEOUT $pxe_timeout_profile</span></span><br><span class="line">ONTIMEOUT cent7_ken</span><br><span class="line">↑↑配置超时之后选择哪个选项</span><br><span class="line"></span><br><span class="line">↓↓下面是配置标签的格式</span><br><span class="line"><span class="meta">#LABEL local</span></span><br><span class="line"><span class="meta">#        MENU LABEL (local)</span></span><br><span class="line"><span class="meta">#        MENU DEFAULT</span></span><br><span class="line"><span class="meta">#        LOCALBOOT -1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#LABEL doge</span></span><br><span class="line"><span class="meta">#       MENU LABEL (doge)</span></span><br><span class="line"><span class="meta">#       kernel /images/centos7-x86_64/vmlinuz</span></span><br><span class="line"><span class="meta">#       append initrd=/images/centos7-x86_64/initrd.img ksdevice=bootif lang= kssendmac text  ks=http://192.168.19.141/cblr/svc/op/ks/profile/cent7_ken</span></span><br><span class="line"><span class="meta">#       ipappend 2</span></span><br><span class="line"></span><br><span class="line">$pxe_menu_items</span><br><span class="line"></span><br><span class="line">MENU end</span><br></pre></td></tr></table></figure></p>
-<p>我们会发现明明我们使用cobbler profile list 看不到（local）这一项，但是实际在小蓝列表中却有显示，就是因为在这里配置了local的标签。同理，我们也可以在这个配置文件中直接添加标签，格式如doge那段所示。不会写？没关系，你也可以用cobbler profile制作！制作完了可以进入小蓝列表按下tab，你会发现它显示了这么一串字符：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/images/centos7-x86_64/vmlinuz </span><br><span class="line"><span class="attribute">initrd</span>=/images/centos7-x86_64/initrd.img <span class="attribute">ksdevice</span>=bootif lang= kssendmac text  <span class="attribute">ks</span>=http://192.168.19.141/cblr/svc/op/ks/profile/cent7_ken </span><br><span class="line"><span class="attribute">BOOTIF</span>=01-00-0c-29-fa-b7-64</span><br></pre></td></tr></table></figure></p>
-<p>然后你会惊奇的发现！第一行的字符就是kernel后面的那一串！第二行则是append那行！<br>是的，其实不管是使用指令还是直接在文件中添加列表项，其实方法都是类似的！</p>
-<p>最后，再补充一下自动安装某个镜像的办法：改一下ONTIMEOUT即可，将ONTIMEOUT后面的那串改成你想要安装的那项就可以了！<br>注意是填写<strong>LABEL或profile</strong>的名字，而不是菜单里显示的名字！<br>比如你想默认启动local就改成 <code>ONTIMEOUT local</code> 不要写成 <code>ONTIMEOUT （local）</code></p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/25/cobbler安装与配置/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1593,11 +1522,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">python3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">转载</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1606,10 +1531,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
             
             <div class="clearfix"></div>
