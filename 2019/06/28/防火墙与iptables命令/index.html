@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href>
-  <title>Archives: 2019 | 那那喵的拉拉肥厨房</title>
+  <title>防火墙与iptables命令 | 那那喵的拉拉肥厨房</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="喵喵瞄，快出来！">
-<meta name="keywords" content="Linux，程序媛，ff14">
-<meta property="og:type" content="website">
-<meta property="og:title" content="那那喵的拉拉肥厨房">
-<meta property="og:url" content="/archives/2019/page/2/index.html">
+  <meta name="description" content="防火墙firewalld与iptables命令 iptables命令选项输入顺序：  iptables -t 表名 &amp;lt;-A/I/D/R&amp;gt; 规则链名 [规则号] &amp;lt;-i/o 网卡名&amp;gt; -p 协议名 &amp;lt;-s 源IP/源子网&amp;gt; –sport 源端口 &amp;lt;-d 目标IP/目标子网&amp;gt; –dport 目标端口 -j 动作  1. -t&amp;lt;表&amp;gt;：指定要操纵">
+<meta name="keywords" content="全部,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="防火墙与iptables命令">
+<meta property="og:url" content="/2019/06/28/防火墙与iptables命令/index.html">
 <meta property="og:site_name" content="那那喵的拉拉肥厨房">
-<meta property="og:description" content="喵喵瞄，快出来！">
+<meta property="og:description" content="防火墙firewalld与iptables命令 iptables命令选项输入顺序：  iptables -t 表名 &amp;lt;-A/I/D/R&amp;gt; 规则链名 [规则号] &amp;lt;-i/o 网卡名&amp;gt; -p 协议名 &amp;lt;-s 源IP/源子网&amp;gt; –sport 源端口 &amp;lt;-d 目标IP/目标子网&amp;gt; –dport 目标端口 -j 动作  1. -t&amp;lt;表&amp;gt;：指定要操纵">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://d.birdteam.net/data/f_79149390.jpg">
+<meta property="og:updated_time" content="2019-06-28T06:11:09.435Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="那那喵的拉拉肥厨房">
-<meta name="twitter:description" content="喵喵瞄，快出来！">
+<meta name="twitter:title" content="防火墙与iptables命令">
+<meta name="twitter:description" content="防火墙firewalld与iptables命令 iptables命令选项输入顺序：  iptables -t 表名 &amp;lt;-A/I/D/R&amp;gt; 规则链名 [规则号] &amp;lt;-i/o 网卡名&amp;gt; -p 协议名 &amp;lt;-s 源IP/源子网&amp;gt; –sport 源端口 &amp;lt;-d 目标IP/目标子网&amp;gt; –dport 目标端口 -j 动作  1. -t&amp;lt;表&amp;gt;：指定要操纵">
+<meta name="twitter:image" content="http://d.birdteam.net/data/f_79149390.jpg">
   
   
     <link rel="icon" href="/favicon.png">
@@ -175,36 +178,59 @@ daovoice('update');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-防火墙与iptables命令" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      防火墙与iptables命令
+    </h1>
+  
+
+        
+        <a href="/2019/06/28/防火墙与iptables命令/" class="archive-article-date">
+  	<time datetime="2019-06-28T06:10:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="防火墙firewalld与iptables命令"><a href="#防火墙firewalld与iptables命令" class="headerlink" title="防火墙firewalld与iptables命令"></a>防火墙firewalld与iptables命令</h2><p><img src="http://d.birdteam.net/data/f_79149390.jpg" alt></p>
+<h3 id="iptables命令"><a href="#iptables命令" class="headerlink" title="iptables命令"></a>iptables命令</h3><p><strong>选项输入顺序：</strong></p>
+<blockquote>
+<p>iptables -t 表名 &lt;-A/I/D/R&gt; 规则链名 [规则号] &lt;-i/o 网卡名&gt; -p 协议名 &lt;-s 源IP/源子网&gt; –sport 源端口 &lt;-d 目标IP/目标子网&gt; –dport 目标端口 -j 动作</p>
+</blockquote>
+<p><strong>1. -t&lt;表&gt;：指定要操纵的表, 默认为filter；</strong><br>raw：高级功能，如：网址过滤。<br>mangle：数据包修改（QOS），用于实现服务质量。<br>net：地址转换，用于网关路由器。<br>filter：包过滤，用于防火墙规则。</p>
+<p><strong>2. 要进行的操作:</strong><br>-D：从规则链中删除条目；<br>-R：替换规则链中的条目；<br>-A：向链中追加条目(优先级低)；<br>-I：向链中插入条目(优先级高)；<br>-P：设定链的默认规则；</p>
+<p><strong>3. 要操作的链：</strong><br>INPUT：处理输入数据包。<br>OUTPUT：处理输出数据包。<br>PORWARD：处理转发数据包。<br>PREROUTING：用于目标地址转换（DNAT）。<br>POSTOUTING：用于源地址转换（SNAT）。</p>
+<p><strong>4. 要进行的操作:</strong><br>链管理:<br>-N：创建用户自定义链；<br>-F：清除规则链中已有的条目；<br>-X：清除用户自定义的链；<br>查看信息：<br>-L：显示规则链中已有的条目；<br>-n：以数字形式显示；<br>--line-num：显示行号；<br>-v：显示详细信息；<br>-h：显示帮助信息；<br>匹配动作:<br>-p：指定要匹配的数据包协议类型；<br>-s：指定源IP/子网；<br>--sport：指定源端口；<br>-d：指定目标IP/子网；<br>--dport：指定目标端口；<br>-i：指定数据包进入本机的网卡号；<br>-o：指定数据包离开本机的网卡号；<br>-j：指定操作，包括：</p>
+<ul>
+<li>ACCEPT：接收数据包。</li>
+<li>REJECT：拒绝数据包。</li>
+<li>DROP：丢弃数据包。</li>
+<li>SNAT：源地址转换。</li>
+<li>--to-source ：（SNAT专用）指定源地址</li>
+<li>DNAT：目标地址转换。</li>
+<li>--to-destination：（DNAT专用）指定目标地址</li>
+<li>REDIRECT：重定向、映射、透明代理。</li>
+<li>MASQUERADE：IP伪装（NAT），用于ADSL。</li>
+<li>LOG：日志记录。</li>
+<li>……</li>
+</ul>
+<blockquote>
+<p>举例：<br>查看已添加的iptables规则<br>iptables -L -n -v<br><br>把filter中forward链的默认策略打成drop<br>iptables -P FORWARD DROP<br><br>开放指定的端口<br>iptables -I INPUT -p tcp -d 192.168.64.4 -j ACCEPT<br>-I:插入INPUT链 -p:类型为tcp -d:目标ip -j:接受<br><br>屏蔽IP<br>iptables -I INPUT -s 123.45.6.7 -j DROP       #屏蔽单个IP<br>iptables -I INPUT -s 123.0.0.0/8 -j DROP      #屏蔽某个网段<br><br>拒绝所有主机(0.0.0.0)的ping数据包<br>iptables -t filter -A INPUT -s 0.0.0.0 -d 192.168.254.24 -p icmp -j REJECT<br><br>删除已添加的iptables规则<br>（1）将所有iptables以序号标记显示：<br>iptables -L -n –line-numbers<br>（2）删除对应序号的规则,如删除第8号：<br>iptables -D INPUT 8<br><br>设置在POSTROUTING链上设置SNAT<br>iptables -t nat -A POSTROUTING -s 192.168.19.10 -d 172.16.20.2 -p tcp --dport 80 -j SNAT --to-source 172.16.20.1 </p>
+</blockquote>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/25/cobbler安装与配置/" class="archive-article-date">
-  	<time datetime="2019-05-25T06:59:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/25/cobbler安装与配置/">cobbler安装与配置</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -214,406 +240,163 @@ daovoice('update');
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/06/28/防火墙与iptables命令/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/24/apache/" class="archive-article-date">
-  	<time datetime="2019-05-24T01:10:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-24</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2041/04/01/置顶/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【置顶】联系我&amp;赞助
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/06/21/进程线程协程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">python数据类型</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/24/apache/">apache</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/22/DNS和NTP/" class="archive-article-date">
-  	<time datetime="2019-05-22T12:34:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/22/DNS和NTP/">DNS和NTP</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/21/NFS与DHCP/" class="archive-article-date">
-  	<time datetime="2019-05-21T11:11:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/21/NFS与DHCP/">NFS与DHCP</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/20/samba-ftp-sshd/" class="archive-article-date">
-  	<time datetime="2019-05-20T12:28:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/20/samba-ftp-sshd/">samba、ftp和sshd服务</a>
-    </h1>
-  
+  <section id="comments" class="comments">
+    <style>
+      .comments{margin:30px;padding:10px;background:#fff}
+      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+    </style>
+    <div id="vcomment" class="comment"></div>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+   new Valine({
+            av: AV,
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            app_id: "Tm4DjQsib6maAvLYDEnnDRlT-gzGzoHsz",
+            app_key: "kBqbGAkprfQ6bxvHuNxunguy",
+            placeholder: "喵喵喵～快过来～",
+            avatar: "mp",
+            avatar_cdn: "https://sdn.geekzu.org/avatar/",
+            pageSize: 10
+    });
+    if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+</script>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  </section>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/17/rpm和yum/" class="archive-article-date">
-  	<time datetime="2019-05-17T11:14:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/17/rpm和yum/">rpm和yum</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/17/虚拟机网络配置/" class="archive-article-date">
-  	<time datetime="2019-05-17T07:06:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/17/虚拟机网络配置/">虚拟机网络配置</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/16/网络和进程管理命令篇/" class="archive-article-date">
-  	<time datetime="2019-05-16T12:46:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/16/网络和进程管理命令篇/">网络和进程管理—命令篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/16/网络和进程管理原理篇/" class="archive-article-date">
-  	<time datetime="2019-05-16T07:16:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/16/网络和进程管理原理篇/">网络和进程管理—原理篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/15/磁盘阵列/" class="archive-article-date">
-  	<time datetime="2019-05-15T02:07:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/15/磁盘阵列/">磁盘阵列</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2019/">&laquo; Prev</a><a class="page-number" href="/archives/2019/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2019/page/3/">3</a><a class="extend next" rel="next" href="/archives/2019/page/3/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -637,8 +420,8 @@ daovoice('update');
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

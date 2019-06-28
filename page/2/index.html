@@ -177,6 +177,205 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-nginx" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/28/nginx/">nginx(po主罢工了由科斯塔代写)</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/28/nginx/" class="archive-article-date">
+  	<time datetime="2019-05-28T10:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="php-fpm"><a href="#php-fpm" class="headerlink" title="php-fpm"></a>php-fpm</h3><p>PHP-FPM(FastCGI Process Manager：FastCGI进程管理器)是一个PHPFastCGI管理器，旨在将FastCGI进程管理与PHP进行整合。如果你使用Nginx的话，若想支持php，就需要安装php-fpm。<br>安装方式yum install php-fpm<br>启动方式systemctl restart php-fpm</p>
+<h3 id="Maria-DB"><a href="#Maria-DB" class="headerlink" title="Maria-DB"></a>Maria-DB</h3><p>MariaDB数据库管理系统是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可 MariaDB的目的是完全兼容MySQL，包括API和命令行，使之能轻松成为MySQL的代替品。现在由于mysql被Oracle收购，很多公司都开始使用MariaDB。<br>安装方式yum install mariadb-server<br>启动方式systemctl restart mariadb<br>进入数据库的方式mysql -u root -p 你的密码（没有密码就不要加-p）</p>
+<blockquote>
+<p><strong>建站常用sql语句：</strong><br><strong>- 创建数据库：</strong><br><code>create database 数据库名；</code><br><strong>- 删除数据库：</strong><br><code>drop database 数据库名；</code><br><strong>- 创建用户：</strong><br><code>create user &#39;test&#39;@&#39;%&#39; identified by &#39;1234&#39;;</code><br>%：匹配所有主机，该地方还可以设置成‘localhost’，代表只能本地访问<br><strong>- 删除用户：</strong><br><code>drop user test@&#39;%&#39;;</code><br><strong>- 为用户设置权限：</strong><br><code>grant 权限 on &#39;数据库名&#39;.&#39;表名&#39; to &#39;用户名&#39;@&#39;localhost&#39; identified by &#39;密码&#39;;</code><br>权限：包括create,alter,drop,select,insert,update,delete等。<br>例如：授予kenn用户所有的权限对WordPress库内所有的表，且只能本地访问：<br><code>grant all on &#39;WordPress&#39;.* to &#39;kenn&#39;@&#39;localhost&#39; indentified by &#39;1234&#39;;</code><br><strong>- 修改用户密码：</strong><br>方法1，密码实时更新<br><code>SET password for 用户名 =password(&#39;新密码&#39;);</code><br>方法2，需要刷新<br><code>UPDATE  mysql.user set  password=password(&#39;新密码&#39;)  WHERE user=&#39;用户名&#39;</code><br>刷新： <code>flush privileges;</code><br><strong>- 查看数据库信息：</strong><br><code>show databases;</code><br><strong>- 查看已有用户：</strong><br><code>select user,host from mysql.user;</code><br><strong>- 查看用户权限：</strong><br><code>show grants for root@localhost;</code><br>你要是忘记了怎么授权看一下以外的好用..<br><strong>- 刷新权限设置：</strong><br><code>flush privileges;</code><br>注：sql语句不区分大小写。</p>
+</blockquote>
+<h3 id="iptable命令"><a href="#iptable命令" class="headerlink" title="iptable命令"></a>iptable命令</h3><p>常用参数:<br>-t&lt;表&gt;：指定要操纵的表；</p>
+<p>-A：向规则链中添加条目；<br>-D：从规则链中删除条目；<br>-I：向规则链中插入条目；<br>-R：替换规则链中的条目；</p>
+<p>-L：显示规则链中已有的条目；<br>-F：清除规则链中已有的条目（全部）；<br>-X：清除规则链中已有的条目（用户自定义的）；<br>-Z：清空规则链中的数据包计算器和字节计数器；</p>
+<p>-h：显示帮助信息；<br>-p：指定要匹配的数据包协议类型；<br>-j&lt;目标&gt;：指定要跳转的目标；<br>-s：指定源IP/子网；<br>-d：指定目标IP/子网；</p>
+<p>-i&lt;网络接口&gt;：指定数据包进入本机的网络接口；<br>-o&lt;网络接口&gt;：指定数据包要离开本机所使用的网络接口。</p>
+<p><strong>iptables命令选项输入顺序：</strong></p>
+<blockquote>
+<p>iptables -t 指定表名<br>指定插入还是删除&lt;-A/I/D/R&gt;<br>指定规则类型：INPUT,OUTPUT<br>指定出入的网卡&lt;-i/o 网卡名&gt;<br>-p 指定协议名:TCP,UDP<br>指定源 &lt;-s 源IP/源子网&gt; –sport 源端口<br>指定目标 &lt;-d 目标IP/目标子网&gt; –dport 目标端口<br>-j 指定动作：接受、丢弃等</p>
+</blockquote>
+<ul>
+<li><p>表名包括：<br>raw：高级功能，如：网址过滤。<br>mangle：数据包修改（QOS），用于实现服务质量。<br>net：地址转换，用于网关路由器。<br>filter：包过滤，用于防火墙规则。</p>
+</li>
+<li><p>规则类型包括：<br>INPUT：处理输入数据包。<br>OUTPUT：处理输出数据包。<br>PORWARD：处理转发数据包。<br>PREROUTING：用于目标地址转换（DNAT）。<br>POSTOUTING：用于源地址转换（SNAT）。</p>
+</li>
+<li><p>动作包括：<br>accept：接收数据包。<br>DROP：丢弃数据包。<br>REDIRECT：重定向、映射、透明代理。<br>SNAT：源地址转换。<br>DNAT：目标地址转换。<br>MASQUERADE：IP伪装（NAT），用于ADSL。<br>LOG：日志记录。</p>
+</li>
+</ul>
+<blockquote>
+<p>举例：<br>查看已添加的iptables规则<br>iptables -L -n -v<br><br>开放指定的端口<br>iptables -I INPUT -p tcp -d 192.168.64.4 -j ACCEPT<br>-I:插入 -p:类型为tcp -d:目标ip -j:接受<br><br>屏蔽IP<br>iptables -I INPUT -s 123.45.6.7 -j DROP       #屏蔽单个IP<br>iptables -I INPUT -s 123.0.0.0/8 -j DROP      #屏蔽某个网段<br><br>删除已添加的iptables规则<br>1.将所有iptables以序号标记显示：<br>iptables -L -n –line-numbers<br>2.删除对应序号的规则,如删除第8号：<br>iptables -D INPUT 8</p>
+</blockquote>
+<h3 id="Nginx介绍"><a href="#Nginx介绍" class="headerlink" title="Nginx介绍"></a>Nginx介绍</h3><ul>
+<li>Nginx同Apache一样都是一种WEB服务器。基于REST架构，以统一资源描述符(Uniform Resources Identifier)URI或者统一资源定位符(Uniform Resources Locator)URL作为沟通依据，通过HTTP协议提供各种网络服务。</li>
+<li>Apache之所以是重量级的，是因为它出现的时期比较久远，技术不如当下飞速发展的时代，但它能够被运用到今，就证明它十分的稳定，并且支持跨平台使用，还是开源的。在当下这个时代，人们已经不满足如此消耗大量资源，请求响应速度又很慢的服务器了。所以轻量级高并发Nginx就出现了！</li>
+<li>Nginx是一个高性能的HTTP和反向代理web服务器，其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，咱们使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。Nginx还是一个跨平台服务器，可以运行在Linux，Windows，FreeBSD，Solaris，AIX，Mac OS等操作系统上。</li>
+</ul>
+<blockquote>
+<p>  小介绍：淘宝自己研发的 “Tengine” web服务器 ，而且它还是开源的！有兴趣的小伙伴可以去百度一下！因为现在逐渐有一些企业开始使用它了喔。</p>
+</blockquote>
+<h3 id="Nginx和Apache的对比"><a href="#Nginx和Apache的对比" class="headerlink" title="Nginx和Apache的对比"></a>Nginx和Apache的对比</h3><h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">轻量级，采用 C 进行编写，同样的 web 服务，会占用更少的内存及资源</span><br><span class="line">抗并发，nginx 以 epoll and kqueue 作为开发模型，处理请求是异步非阻塞的，负载能力比 apache 高很多，而 apache 则是阻塞型的。在高并发下 nginx 能保持低资源低消耗高性能 ，而 apache 在 PHP 处理慢或者前端压力很大的情况下，很容易出现进程数飙升，从而拒绝服务的现象。</span><br><span class="line">nginx 处理静态文件好，静态处理性能比 apache 高三倍以上</span><br><span class="line">nginx 的设计高度模块化，编写模块相对简单</span><br><span class="line">nginx 配置简洁，正则配置让很多事情变得简单，而且改完配置能使用 -t 测试配置有没有问题，apache 配置复杂 ，重启的时候发现配置出错了，会很崩溃</span><br><span class="line">nginx 作为负载均衡服务器，支持 <span class="number">7</span> 层负载均衡</span><br><span class="line">nginx 本身就是一个反向代理服务器，而且可以作为非常优秀的邮件代理服务器</span><br><span class="line">启动特别容易, 并且几乎可以做到 <span class="number">7</span>*<span class="number">24</span> 不间断运行，即使运行数个月也不需要重新启动，还能够不间断服务的情况下进行软件版本的升级</span><br><span class="line">社区活跃，各种高性能模块出品迅速</span><br></pre></td></tr></table></figure>
+<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">apache</span> 的 rewrite 比 nginx 强大，在 rewrite 频繁的情况下，用 apache</span><br><span class="line"><span class="symbol">apache</span> 发展到现在，模块超多，基本想到的都可以找到</span><br><span class="line"><span class="symbol">apache</span> 更为成熟，少 <span class="keyword">bug </span>，nginx 的 <span class="keyword">bug </span>相对较多</span><br><span class="line"><span class="symbol">apache</span> 超稳定</span><br><span class="line"><span class="symbol">apache</span> 对 PHP 支持比较简单，nginx 需要配合其他后端用</span><br><span class="line"><span class="symbol">apache</span> 在处理动态请求有优势，nginx 在这方面是鸡肋，一般动态请求要 apache 去做，nginx 适合静态和反向。</span><br><span class="line"><span class="symbol">apache</span> 仍然是目前的主流，拥有丰富的特性，成熟的技术和开发社区</span><br></pre></td></tr></table></figure>
+<h3 id="Nginx的部署"><a href="#Nginx的部署" class="headerlink" title="Nginx的部署"></a>Nginx的部署</h3><h4 id="Nginx配置文件详解"><a href="#Nginx配置文件详解" class="headerlink" title="Nginx配置文件详解"></a>Nginx配置文件详解</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">user nginx;<span class="comment">#运行用户，默认即是nginx，可不设置</span></span><br><span class="line">worker_processes auto;<span class="comment">#nginx进程,一般设置为和cpu核数一样</span></span><br><span class="line">error_log /var/<span class="built_in">log</span>/nginx/<span class="keyword">error</span>.<span class="built_in">log</span>;<span class="comment">#错误日志存放目录</span></span><br><span class="line">pid /<span class="built_in">run</span>/nginx.pid;<span class="comment">#进程pid存放位置</span></span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections <span class="number">1024</span>; <span class="comment">#单个后台worker process进程的最大并发链接数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    log_format  main  '$remote_addr - $remote_user [$time_local] <span class="string">"$request"</span> '</span><br><span class="line">                      '$status $body_bytes_sent <span class="string">"$http_referer"</span> '</span><br><span class="line">                      '<span class="string">"$http_user_agent"</span> <span class="string">"$http_x_forwarded_for"</span>';  <span class="comment">#设置日志模式</span></span><br><span class="line"></span><br><span class="line">    access_log  /var/<span class="built_in">log</span>/nginx/access.<span class="built_in">log</span>  main;</span><br><span class="line"></span><br><span class="line">    sendfile            <span class="keyword">on</span>; <span class="comment">#开启高效传输模式 </span></span><br><span class="line">    tcp_nopush          <span class="keyword">on</span>; <span class="comment">#激活tcp_nopush参数可以允许把httpresponse header和文件的开始放在一个文件里发布，</span></span><br><span class="line">  积极的作用是减少网络报文段的数量</span><br><span class="line">    tcp_nodelay         <span class="keyword">on</span>; <span class="comment">#激活tcp_nodelay，内核会等待将更多的字节组成一个数据包，从而提高I/O性能</span></span><br><span class="line">    keepalive_timeout   <span class="number">65</span>; <span class="comment">#连接超时时间，单位是秒</span></span><br><span class="line"></span><br><span class="line">    gzip <span class="keyword">on</span>； <span class="comment">#开启gzip压缩功能</span></span><br><span class="line"></span><br><span class="line">    gzip_min_length  <span class="number">1</span>k; <span class="comment">#设置允许压缩的页面最小字节数，页面字节数从header头的Content-Length中获取。默认值是0，表示不管页面多大都进行压缩。建议设置成大于1K。如果小于1K可能会越压越大。</span></span><br><span class="line"></span><br><span class="line">    gzip_buffers    <span class="number">4</span> <span class="number">16</span>k; <span class="comment">#压缩缓冲区大小。表示申请4个单位为16K的内存作为压缩结果流缓存，默认值是申请与原始数据大小相同的内存空间来存储gzip压缩结果。</span></span><br><span class="line"></span><br><span class="line">    gzip_http_version <span class="number">1.0</span>; <span class="comment">#压缩版本（默认1.1，前端为squid2.5时使用1.0）用于设置识别HTTP协议版本，默认是1.1，目前大部分浏览器已经支持GZIP解压，使用默认即可。</span></span><br><span class="line"></span><br><span class="line">    gzip_comp_level <span class="number">9</span>; <span class="comment">#压缩比率。用来指定GZIP压缩比，1压缩比最小，处理速度最快；9压缩比最大，传输速度快，但处理最慢，也比较消耗cpu资源。</span></span><br><span class="line"></span><br><span class="line">    gzip_types       <span class="built_in">text</span>/plain <span class="built_in">application</span>/x-javascript <span class="built_in">text</span>/css <span class="built_in">application</span>/xml; <span class="comment">#用来指定压缩的类型，“text/html”类型总是会被压缩</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">  gzip_vary off; <span class="comment">#vary header支持。该选项可以让前端的缓存服务器缓存经过GZIP压缩的页面，例如用</span></span><br><span class="line">Squid缓存经过Nginx压缩的数据。</span><br><span class="line"></span><br><span class="line">    ssi <span class="keyword">on</span>;</span><br><span class="line">    ssi_silent_errors <span class="keyword">on</span>；<span class="comment">#开启ssi支持，默认是off</span></span><br><span class="line"></span><br><span class="line">    include             /etc/nginx/mime.types; <span class="comment">#文件扩展名与类型映射表</span></span><br><span class="line">    default_type        <span class="built_in">application</span>/octet-stream;<span class="comment">#默认文件类型</span></span><br><span class="line"></span><br><span class="line">    server &#123;            <span class="comment">#基于域名的虚拟机</span></span><br><span class="line">        listen       <span class="number">80</span> default_server;</span><br><span class="line">        listen       [::]:<span class="number">80</span> default_server;</span><br><span class="line">        server_name  _;</span><br><span class="line">        root         /usr/share/nginx/html; <span class="comment">#网站根目录，所有网站上的程序都在这</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Load configuration files for the default server block.</span></span><br><span class="line">        include /etc/nginx/default.d/*.conf;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">upstream backend_server &#123;     <span class="comment">#负载均衡服务器池，名字为banckend——se</span></span><br><span class="line">    server   <span class="number">10.254</span><span class="number">.244</span><span class="number">.20</span>:<span class="number">81</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30</span>s;</span><br><span class="line">    server   <span class="number">10.254</span><span class="number">.242</span><span class="number">.40</span>:<span class="number">81</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30</span>s;</span><br><span class="line">    server   <span class="number">10.254</span><span class="number">.245</span><span class="number">.19</span>:<span class="number">81</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30</span>s;</span><br><span class="line">    server   <span class="number">10.254</span><span class="number">.243</span><span class="number">.39</span>:<span class="number">81</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30</span>s;</span><br><span class="line"></span><br><span class="line"><span class="comment">#这里是在30s内尝试连接主机2次失败即认为主机不可用！</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">#  location / &#123;   下面的nginx支持动态服务器的时候会用到</span></span><br><span class="line">        &#125;</span><br><span class="line">        location ~ \.php$  &#123;     <span class="comment">#符合php扩展名的请求调度到fcgi server</span></span><br><span class="line">         fastcgi_pass  <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9000</span>;  <span class="comment">#抛给本机的9000端口</span></span><br><span class="line">              fastcgi_index index.php;    <span class="comment">#设定动态首页</span></span><br><span class="line">              include fastcgi.conf;</span><br><span class="line">&#125;</span><br><span class="line">        error_page <span class="number">404</span> /<span class="number">404.</span>html; <span class="comment">#404错误网页</span></span><br><span class="line">            location = /<span class="number">40</span>x.html &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        error_page <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span> /<span class="number">50</span>x.html;  <span class="comment">#500等错误网页</span></span><br><span class="line">            location = /<span class="number">50</span>x.html &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="模拟集群——利用Nginx实现动静分离"><a href="#模拟集群——利用Nginx实现动静分离" class="headerlink" title="模拟集群——利用Nginx实现动静分离"></a>模拟集群——利用Nginx实现动静分离</h3><h4 id="集群的概念"><a href="#集群的概念" class="headerlink" title="集群的概念"></a>集群的概念</h4><p>服务器集群就是指将很多服务器集中起来一起进行同一种服务，在客户端看来就像是只有一个服务器。<br>（其实就是一堆电脑）</p>
+<h4 id="反向代理的概念"><a href="#反向代理的概念" class="headerlink" title="反向代理的概念"></a>反向代理的概念</h4><p>正向代理和反向代理：<br><img src="http://d.birdteam.net/data/f_99972812.jpg" alt></p>
+<ul>
+<li><p>正向代理：<br>客户端向代理服务器发送请求，比如访问谷歌。服务器收到请求后修改源地址为本服务器的地址，再向谷歌发送请求。谷歌不会知道其实是客户端发送的请求，返回数据后，代理服务器再将数据返回给客户端。常见应用比如 梯子 。</p>
+</li>
+<li><p>反向代理：<br>客户端向服务器发送请求，但客户其实不知道，服务器的IP其实是代理服务器的IP。代理服务器修改目标地址，将请求转发到负责处理的内部服务器上，返回数据后，代理服务器再把数据返回给客户端。常见应用比如 实现负载均衡。</p>
+</li>
+</ul>
+<h4 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h4><p><strong>第一部分:配置反向代理服务器</strong><br>第一步:下载Nginx 自己yum,略<br>第二步:修改Nginx配置文件<br>文件位置/etc/nginx/nginx.conf</p>
+<ul>
+<li>设置location<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    <span class="attribute">locaation</span> <span class="regexp">~ html$</span> &#123;  <span class="comment">#这里是配置静态网站</span></span><br><span class="line">    <span class="attribute">proxy_pass</span> http://172.20.10.8;</span><br><span class="line">&#125;</span><br><span class="line">    <span class="attribute">locaation</span> <span class="regexp">~ php$</span> &#123;   <span class="comment">#这里是配置动态网站</span></span><br><span class="line">    <span class="attribute">proxy_pass</span> http://172.20.10.9;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>第三步：检查语法<br>            <code>nginx -t</code><br>第四步：重启服务<br>            <code>systemctl restart nginx</code><br><strong>第二部分:配置动态服务器</strong><br>（1）apache版<br>第一步：安装apache<br>略<br>第二步：安装php<br>略<br>第三步：给172.20.10.9准备好动态文件<br><code>echo  &lt;?php phpinfo(); ?&gt; &gt; /var/www/html/index.html</code></p>
+<p>（2）nginx版<br>第一步：安装nginx<br>略<br>第二步：安装php、php-fpm<br>略<br>第三步：修改nginx配置文件<br>让Nginx支持php<br>vim /etc/nginx/conf.d/default.conf<br>如果没有这个文件,可以直接在主配置文件中添加以下代码:<br><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">在所支持的主页面格式中添加php格式的主页，如下所示：</span><br><span class="line">    <span class="keyword">location</span> / &#123;</span><br><span class="line">        root   /usr/share/nginx/html;</span><br><span class="line">        <span class="keyword">index</span> <span class="keyword">index</span>.php <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">取消如下内容的注释，并设置字体加粗部分为nginx的默认路径，如下图所示：</span><br><span class="line">    <span class="keyword">location</span> ~ \.php$ &#123;</span><br><span class="line">        root           html;</span><br><span class="line">        fastcgi_pass   <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9000</span>;</span><br><span class="line">        fastcgi_index  <span class="keyword">index</span>.php;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME /usr/share/nginx/html$fastcgi_script_name;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>重启nginx服务和php-fpm服务</p>
+<p>第四步：给172.20.10.9准备好动态文件<br><code>echo &lt;?php phpinfo(); ?&gt; &gt; /usr/share/nginx/html/index.html.php</code></p>
+<p><strong>第三部分:配置静态服务器</strong><br>(1)apache版：<br>第一步：安装apache<br>略<br>第二步：给172.20.10.8准备好静态文件<br>echo  static test &gt; /var/www/html/index.html</p>
+<p>(2)nginx版：<br>第一步：安装nginx<br>略<br>第二步：给172.20.10.8准备好静态文件<br>echo  static test &gt; /usr/share/nginx/index.html</p>
+<h3 id="upstream模块"><a href="#upstream模块" class="headerlink" title="upstream模块"></a><strong>upstream模块</strong></h3><ul>
+<li><p>upstream就是实现nginx反向代理 负载均衡的指令啦<br>下面我们需要了解几个概念：</p>
+<ul>
+<li>调度器：分发用户的请求到一个后端节点</li>
+<li>上游服务器(真实服务器)：每个真正用来处理用户请求的节点都是一个上游服务器</li>
+<li>RIP：真实服务器的IP地址</li>
+<li>VIP：虚拟IP，用户所看到的是也是虚拟IP</li>
+</ul>
+</li>
+<li><p>如何使用upstream指令：(可以参考上面的配置详解中)</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream name ｛</span><br><span class="line">           <span class="built_in"> server </span> #上游服务器1  参数 参数;</span><br><span class="line">           <span class="built_in"> server </span> #上游服务器1  参数 参数;</span><br><span class="line">           <span class="built_in"> server </span> #上游服务器1  参数 参数;</span><br><span class="line">        ｝</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>参数 ：</p>
+</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">weight=<span class="comment">#：  设置服务器的权重（数字越大，权重越高）</span></span><br><span class="line"><span class="section">backup:     设置服务器处于备用状态（其他节点出现故障，备用节点才开始工作）</span></span><br><span class="line">down：  设置让一个节点处于离线状态（经常用在维护一个节点的情况下）</span><br><span class="line">max_fails=number：  设置连续几次转发失败就认为该节点出现故障，然后就不再向该节点转发用户请求了</span><br><span class="line">fail_timeout=time:     和上个参数组合使用，作用是设置等待上游服务器响应超时时间</span><br></pre></td></tr></table></figure>
+<p>实验步骤：</p>
+<p>第一步：配置nginx服务端</p>
+<ul>
+<li>安装nginx<br>略</li>
+<li>修改nginx配置文件<br>vim /etc/nginx/conf.d/default.conf</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span> ken &#123;   <span class="comment">#给配置好的动静态网页实现负载均衡</span></span><br><span class="line">        <span class="attribute">server</span> <span class="number">172.20.10.8</span> weight=<span class="number">1</span> max_fails=<span class="number">3</span> fail_timeout=<span class="number">5</span>;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">172.20.10.9</span> weight=<span class="number">2</span> max_fails=<span class="number">3</span> fail_timeout=<span class="number">5</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://ken/;  <span class="comment">#这里的k en就是上面upsteam设置的ken</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>语法检测<br><code>nginx -t</code></li>
+<li>重启nginx服务<br><code>systemctl restart nginx</code></li>
+</ul>
+<p>第二步：配置web服务端<br>跟上面反向代理配置一样。</p>
+<p>第三步：测试<br>由于在upstream给172.20.10.9配置的weight（权重）为2，就是说刷新2次动态网页（即PHP网页），会出现一次172.20.10.8的静态网页（即static test）。</p>
+<h3 id="LNMP架构搭建"><a href="#LNMP架构搭建" class="headerlink" title="LNMP架构搭建"></a>LNMP架构搭建</h3><p>LNMP代表的就是：Linux系统下Nginx+MySQL+PHP这种网站服务器架构。</p>
+<h3 id="实验步骤："><a href="#实验步骤：" class="headerlink" title="实验步骤："></a>实验步骤：</h3><ul>
+<li>第一步：安装各种服务程序<br>[root@ken ~]# yum install nginx php php-mysql php-fpm mariadb-server -y</li>
+</ul>
+<ul>
+<li>第二步：修改配置文件，让nginx支持php</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"><span class="attribute">listen</span> <span class="number">80</span> default_server;</span><br><span class="line"><span class="attribute">listen</span> [::]:<span class="number">80</span> default_server;</span><br><span class="line"><span class="attribute">server_name</span> _;       <span class="comment">#你的域名SEVRERNAME</span></span><br><span class="line"><span class="attribute">root</span> /var/www/html;  <span class="comment">#相当于 Documentroot</span></span><br><span class="line"><span class="attribute">index</span> index.php index.html; <span class="comment">#网页文件DirectoryIndex</span></span><br><span class="line"><span class="comment"># Load configuration files for the default server block.</span></span><br><span class="line"><span class="attribute">include</span> /etc/nginx/default.d/<span class="regexp">*.conf</span>;   <span class="comment">#取消注释就好了让nginx支持php</span></span><br><span class="line"><span class="attribute">location</span> / &#123;       </span><br><span class="line">&#125;</span><br><span class="line"><span class="attribute">location</span> <span class="regexp">~ php$</span> &#123;</span><br><span class="line"><span class="attribute">fastcgi_pass</span> <span class="number">127.0.0.1:9000</span>;</span><br><span class="line"><span class="attribute">include</span> fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>第三步：重启服务<br><code>systemctl restart nginx</code></p>
+</li>
+<li><p>第四步：启动php-fpm<br><code>systemctl restart php-fpm</code><br>检查php-fpm是否已经开启<br><code>ss-tnl</code>   <code>lsof -i :9000</code></p>
+</li>
+<li><p>第五步：重启数据库并创建用户和设置密码</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[root@ken yum.repos.d]</span># <span class="selector-tag">systemtl</span> <span class="selector-tag">restart</span> <span class="selector-tag">mariabd</span></span><br><span class="line"><span class="selector-tag">MariaDB</span> <span class="selector-attr">[(none)]</span>&gt; <span class="selector-tag">create</span> <span class="selector-tag">database</span> <span class="selector-tag">ken</span>;</span><br><span class="line"><span class="selector-tag">Query</span> <span class="selector-tag">OK</span>, 1 <span class="selector-tag">row</span> <span class="selector-tag">affected</span> (0<span class="selector-class">.00</span> <span class="selector-tag">sec</span>)</span><br><span class="line"><span class="selector-tag">MariaDB</span> <span class="selector-attr">[(none)]</span>&gt; <span class="selector-tag">grant</span> <span class="selector-tag">all</span> <span class="selector-tag">on</span> <span class="selector-tag">ken</span>.* <span class="selector-tag">to</span> <span class="selector-tag">ken</span>@’<span class="keyword">localhost</span>’ identified by ‘<span class="number">123</span>’;</span><br><span class="line"><span class="selector-tag">Query</span> <span class="selector-tag">OK</span>, 0 <span class="selector-tag">rows</span> <span class="selector-tag">affected</span> (0<span class="selector-class">.00</span> <span class="selector-tag">sec</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>设置密码还有另外的方法：</li>
+</ul>
+<ul>
+<li>第一种方法：设置数据库root账号的密码:<br><code>SET password for &#39;root&#39;@&#39;localhost&#39;=password(&#39;newpassword&#39;);</code>  </li>
+<li>第二种方法:利用向导模式设置密码<br><code>mysql_secure_installation</code></li>
+<li>第三种方法:直接修改数据库<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; use mysql;  </span><br><span class="line">MariaDB [mysql]&gt; UPDATE<span class="built_in"> user </span><span class="builtin-name">SET</span> <span class="attribute">password</span>=password('newpassword') WHERE <span class="attribute">user</span>=<span class="string">'root'</span>;  </span><br><span class="line">MariaDB [mysql]&gt; flush privileges;  </span><br><span class="line">MariaDB [mysql]&gt; exit;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>第六步：上传wordpress安装包至nginx网站根目录下/usr/share/nginx/html 并解压<br><code>[root@ken html]# yum install unzip -y</code><br><code>[root@ken html]# unzip wordpress-3.3.1-zh_CN.zip</code></p>
+</li>
+<li><p>第七步：配置数据库文件</p>
+<pre><code>[root@ken html]# cp wp-config-sample.php wp-config.php
+[root@ken html]# vim wp-config.php
+define(‘DB_NAME’, ‘ken’);
+/** MySQL 数据库用户名 */
+define(‘DB_USER’, ‘ken’);
+/** MySQL 数据库密码 */
+define(‘DB_PASSWORD’, ‘123’);
+</code></pre></li>
+<li>第八步：浏览器访问</li>
+</ul>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/28/nginx/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-cobbler安装与配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1574,100 +1773,9 @@ daovoice('update');
 
 
   
-    <article id="post-磁盘阵列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/15/磁盘阵列/">磁盘阵列</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/15/磁盘阵列/" class="archive-article-date">
-  	<time datetime="2019-05-15T02:07:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="磁盘阵列：多块磁盘协同工作完成存储任务"><a href="#磁盘阵列：多块磁盘协同工作完成存储任务" class="headerlink" title="磁盘阵列：多块磁盘协同工作完成存储任务"></a>磁盘阵列：多块磁盘协同工作完成存储任务</h3><pre><code>常见磁盘阵列 
-</code></pre><p> RAID0：条带卷，2+，100%，读写速度快，不容错<br> RAID1：镜像卷，2+，50%，读写速度一般，容错<br> RAID5：奇偶校验，3+，(n-1)/n,读写速度快，容错，允许坏一块<br> RAID10: 由多个RAID1组建的RAID0，4+，50%，读写速度快，容错 </p>
-<pre><code>创建阵列方式
-</code></pre><p>硬件：磁盘阵列盒<br>软件： mdadm</p>
-<pre><code>mdadm命令
-</code></pre><p>-C: 创建<br>-v: 显示创建过程<br>-a: 添加磁盘、自动检测设备<br>-l: 阵列级别<br>-n: 磁盘数量<br>-x: 备份盘数量<br>-f: 模拟损坏<br>-D：查看阵列详细信息<br>-S：停止阵列<br>-r: 移除磁盘</p>
-<h4 id="搭建-RAID10-阵列"><a href="#搭建-RAID10-阵列" class="headerlink" title="搭建 RAID10 阵列"></a><strong>搭建 RAID10 阵列</strong></h4><p>先下载mdadm：yum install mdadm -y</p>
-<p>创建阵列： mdadm -Cv /dev/md10 -n 4 -l 10 /dev/sd{b,c,d,e} </p>
-<ul>
-<li>磁盘阵列损坏处理<br>1.模拟损坏<br>  mdadm /dev/md10 -f /dev/sdd<br>2.磁盘损坏后的操作<br>  umount<br>  poweroff<br>  移除坏磁盘<br>  新硬盘添加 mdadm /dev/md10 -a /dev/sdd </li>
-</ul>
-<h4 id="RAID5-搭建-热备盘"><a href="#RAID5-搭建-热备盘" class="headerlink" title="RAID5 搭建+热备盘"></a><strong>RAID5 搭建+热备盘</strong></h4><p>创建阵列：mdadm -Cv /dev/md5 -n3 -l5 -x1 /dev/sd{b,c,d,e} </p>
-<p>开机自动挂载：echo “/dev/md5 /ken xfs defaults 0 0” &gt;&gt; /etc/fstab</p>
-<h3 id="CentOS7-系统启动流程"><a href="#CentOS7-系统启动流程" class="headerlink" title="CentOS7 系统启动流程"></a>CentOS7 系统启动流程</h3><p> 第一步：uefi/Bios 初始化，post 开机自检<br> 第二步：加载 MBR 到内存（bootloader）<br> 第三步：grub 阶段<br> 第四步：加载内核加载 initramfs 模块<br> 第五步：<br> 1.内核初始化，centos7系统使用的是systemd替换了centos6当中的init<br> 2./etc/fstab–&gt;自动挂载<br> 3.完成了服务的开机自启<br> 4.执行/etc/rc.d/rc.local(/etc/rc.local)（该文件在系统启动最后阶段执行） </p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/15/磁盘阵列/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
