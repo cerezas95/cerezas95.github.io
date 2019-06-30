@@ -177,6 +177,118 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-tomcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/28/tomcat/">tomcat</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/28/tomcat/" class="archive-article-date">
+  	<time datetime="2019-05-28T10:11:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Tomcat服务器是一个免费的开放源代码的Web应用服务器，属于轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，<strong>是开发和调试JSP程序的首选。</strong><br>Tomcat和Nginx、Apache(httpd)、lighttpd等Web服务器一样，具有处理HTML页面的功能，另外它还是一个Servlet和JSP容器，独立的Servlet容器是Tomcat的默认模式。不过，<br>Tomcat处理静态HTML的能力不如Nginx/Apache服务器。<br>目前Tomcat最新版本为9.0。Java容器还有resin、weblogic等。</p>
+<h3 id="tomcat的安装"><a href="#tomcat的安装" class="headerlink" title="tomcat的安装"></a>tomcat的安装</h3><p>tomcat是绿色安装,解压就能用.<br>第一步：下载</p>
+<blockquote>
+<p>你 自 己 去 官 网 搜 （逐渐暴躁）</p>
+</blockquote>
+<p>你可以下载到Windows上用rz，samba，ftp等各种方式上传到Linux虚拟机中。<br>也可以使用wget，curl等命令直接下载。<br><strong>各版本的区别:</strong><br>core 正式版本<br>full document 技术文档<br>deployer 开发版本<br>embedded 嵌入版本<br>source code 源码<br>平时我们一般使用第一个 正式版本 即可。</p>
+<p>第二步：解压<br>tar -xzf 或者 unzip 根据压缩包格式选择即可。</p>
+<p>第三步：设置执行权限<br>解压完成后，你可以查看一下tomcat目录下文件的权限，你会发现他们都没有执行权限，这样就无法运行。<br>因此要给他们执行权限，命令为：<br><code>chmod -R a+w tomcat/</code></p>
+<p>第四步：安装JDK<br>你现在启动tomacat会发现报错了，这可能是因为你没有安装Java环境导致的。<br>你可以选择去官网下载JDK的rpm包或者直接 <code>yum install java</code> 进行安装。</p>
+<p>关于环境变量的配置：<br>如果你的JDK是自己下载的，则需要配置一下环境变量。<br>你可以在家目录下的 <code>.bashrc</code> 中配置，这样环境变量将只对你当前登录的用户生效。<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=<span class="regexp">/usr/local</span><span class="regexp">/java/jdk</span>1.<span class="number">8.0</span></span><br><span class="line">export PATH=$JAVA_HOME/<span class="symbol">bin:</span>$PATH</span><br><span class="line">export CLASSPATH=.:$JAVA_HOME/<span class="class"><span class="keyword">lib</span>/<span class="title">dt</span>.<span class="title">jar</span>:$<span class="title">JAVA_HOME</span>/<span class="title">lib</span>/<span class="title">tools</span>.<span class="title">jar</span></span></span><br></pre></td></tr></table></figure></p>
+<p>第五步：tomcat，启动！<br>启动方式：进入bin目录下./startup.sh即可<br>验证:访问192.168.19.141:8080</p>
+<blockquote>
+<p>nat模式下Windows上无法访问页面的解决办法:<br>你的防火墙把请求拦住了,详情<a href="https://blog.csdn.net/hskw444273663/article/details/81301470" target="_blank" rel="noopener">请点击这里</a>设置完了别忘记重启浏览器</p>
+</blockquote>
+<p>第六步：tomcat，停止！<br>停止方式：进入bin目录下./shutdown.sh即可</p>
+<h3 id="tomcat的配置"><a href="#tomcat的配置" class="headerlink" title="tomcat的配置"></a>tomcat的配置</h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]<span class="comment"># cd /usr/local/tomcat/</span></span><br><span class="line">[root@ken tomcat]<span class="comment"># tree -L 1</span></span><br><span class="line">.</span><br><span class="line">├── bin         <span class="comment">#存放功能脚本（.bat和.sh文件）</span></span><br><span class="line">├── conf        <span class="comment">#存放配置文件(XML及DTD文件)</span></span><br><span class="line">├── <span class="class"><span class="keyword">lib</span>         <span class="comment">#存放web应用能访问的JAR包</span></span></span><br><span class="line">├── LICENSE</span><br><span class="line">├── logs        <span class="comment">#Catalina(实时日志)和其它日志文件</span></span><br><span class="line">├── NOTICE</span><br><span class="line">├── RELEASE-NOTES</span><br><span class="line">├── RUNNING.txt</span><br><span class="line">├── temp        <span class="comment">#临时文件</span></span><br><span class="line">├── webapps     <span class="comment">#Web应用程序根目录</span></span><br><span class="line">└── work        <span class="comment">#用以产生有JSP编译出的Servlet的.java和.class文件</span></span><br><span class="line"><span class="number">7</span> directories, <span class="number">4</span> files</span><br><span class="line"></span><br><span class="line">[root@ken tomcat]<span class="comment"># cd webapps/</span></span><br><span class="line">[root@ken webapps]<span class="comment"># ll</span></span><br><span class="line">total <span class="number">20</span></span><br><span class="line">drwxr-xr-x   docs          <span class="comment">#tomcat帮助文档</span></span><br><span class="line">drwxr-xr-x   examples      <span class="comment">#web应用实例</span></span><br><span class="line">drwxr-xr-x   host-manager  <span class="comment">#管理界面</span></span><br><span class="line">drwxr-xr-x   manager       <span class="comment">#管理界面</span></span><br><span class="line">drwxr-xr-x   ROOT          <span class="comment">#默认网站根目录</span></span><br></pre></td></tr></table></figure>
+<p>其中有几个比较重要的:<br>根目录:tomcat/webapps/ROOT<br>主配置文件:tomcat/conf/server.xml<br>日志文件:tomcat/logs/catalina.out</p>
+<h3 id="主配置文件详解"><a href="#主配置文件详解" class="headerlink" title="主配置文件详解"></a>主配置文件详解</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version='1.0' encoding='utf-8'?&gt;</span></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">&lt;Server&gt;元素代表整个容器,是Tomcat实例的顶层元素.由org.apache.catalina.Server接口来定义.它包含一个&lt;Service&gt;元素.并且它不能做为任何元素的子元素.</span></span><br><span class="line"><span class="comment">    port指定Tomcat监听shutdown命令端口.终止服务器运行时,必须在Tomcat服务器所在的机器上发出shutdown命令.该属性是必须的.</span></span><br><span class="line"><span class="comment">    shutdown指定终止Tomcat服务器运行时,发给Tomcat服务器的shutdown监听端口的字符串.该属性必须设置</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Server</span> <span class="attr">port</span>=<span class="string">"8005"</span> <span class="attr">shutdown</span>=<span class="string">"SHUTDOWN"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.startup.VersionLoggerListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.AprLifecycleListener"</span> <span class="attr">SSLEngine</span>=<span class="string">"on"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.JreMemoryLeakPreventionListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.ThreadLocalLeakPreventionListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">GlobalNamingResources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Resource</span> <span class="attr">name</span>=<span class="string">"UserDatabase"</span> <span class="attr">auth</span>=<span class="string">"Container"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">type</span>=<span class="string">"org.apache.catalina.UserDatabase"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">description</span>=<span class="string">"User database that can be updated and saved"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">factory</span>=<span class="string">"org.apache.catalina.users.MemoryUserDatabaseFactory"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">pathname</span>=<span class="string">"conf/tomcat-users.xml"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">GlobalNamingResources</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--service服务组件--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Service</span> <span class="attr">name</span>=<span class="string">"Catalina"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    connector：接收用户请求，类似于httpd的listen配置监听端口.</span></span><br><span class="line"><span class="comment">        port指定服务器端要创建的端口号，并在这个端口监听来自客户端的请求。</span></span><br><span class="line"><span class="comment">        address：指定连接器监听的地址，默认为所有地址（即0.0.0.0）</span></span><br><span class="line"><span class="comment">        protocol连接器使用的协议，支持HTTP和AJP。AJP（Apache Jserv Protocol）专用于tomcat与apache建立通信的， 在httpd反向代理用户请求至tomcat时使用（可见Nginx反向代理时不可用AJP协议）。</span></span><br><span class="line"><span class="comment">        minProcessors服务器启动时创建的处理请求的线程数</span></span><br><span class="line"><span class="comment">        maxProcessors最大可以创建的处理请求的线程数</span></span><br><span class="line"><span class="comment">        enableLookups如果为true，则可以通过调用request.getRemoteHost()进行DNS查询来得到远程客户端的实际主机名，若为false则不进行DNS查询，而是返回其ip地址</span></span><br><span class="line"><span class="comment">        redirectPort指定服务器正在处理http请求时收到了一个SSL传输请求后重定向的端口号</span></span><br><span class="line"><span class="comment">        acceptCount指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理</span></span><br><span class="line"><span class="comment">        connectionTimeout指定超时的时间数(以毫秒为单位)</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8009"</span> <span class="attr">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--engine,核心容器组件,catalina引擎,负责通过connector接收用户请求,并处理请求,将请求转至对应的虚拟主机host</span></span><br><span class="line"><span class="comment">        defaultHost指定缺省的处理请求的主机名，它至少与其中的一个host元素的name属性值是一样的</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Engine</span> <span class="attr">name</span>=<span class="string">"Catalina"</span> <span class="attr">defaultHost</span>=<span class="string">"localhost"</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--Realm表示存放用户名，密码及role的数据库--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.LockOutRealm"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.UserDatabaseRealm"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">resourceName</span>=<span class="string">"UserDatabase"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">Realm</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">      host表示一个虚拟主机</span></span><br><span class="line"><span class="comment">        name指定主机名</span></span><br><span class="line"><span class="comment">        appBase应用程序基本目录，即存放应用程序的目录.一般为appBase="webapps" ，相对于CATALINA_HOME而言的，也可以写绝对路径。</span></span><br><span class="line"><span class="comment">        unpackWARs如果为true，则tomcat会自动将WAR文件解压，否则不解压，直接从WAR文件中运行应用程序</span></span><br><span class="line"><span class="comment">        autoDeploy：在tomcat启动时，是否自动部署。</span></span><br><span class="line"><span class="comment">        xmlValidation：是否启动xml的校验功能，一般xmlValidation="false"。</span></span><br><span class="line"><span class="comment">        xmlNamespaceAware：检测名称空间，一般xmlNamespaceAware="false"。</span></span><br><span class="line"><span class="comment">      --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        Context表示一个web应用程序，通常为WAR文件</span></span><br><span class="line"><span class="comment">            docBase应用程序的路径或者是WAR文件存放的路径,也可以使用相对路径，起始路径为此Context所属Host中appBase定义的路径。</span></span><br><span class="line"><span class="comment">            path表示此web应用程序的url的前缀，这样请求的url为http://localhost:8080/path/****</span></span><br><span class="line"><span class="comment">            reloadable这个属性非常重要，如果为true，则tomcat会自动检测应用程序的/WEB-INF/lib 和/WEB-INF/classes目录的变化，自动装载新的应用程序，可以在不重启tomcat的情况下改变应用程序</span></span><br><span class="line"><span class="comment">        --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">""</span> <span class="attr">docBase</span>=<span class="string">""</span> <span class="attr">debug</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attr">directory</span>=<span class="string">"logs"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">prefix</span>=<span class="string">"localhost_access_log"</span> <span class="attr">suffix</span>=<span class="string">".txt"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">pattern</span>=<span class="string">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">Host</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Engine</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">Service</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Server</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="tomcat的三个端口"><a href="#tomcat的三个端口" class="headerlink" title="tomcat的三个端口"></a>tomcat的三个端口</h3><p>Tomcat主配置文件Server.xml文件里面有三个端口<br><strong>第一个：接收SHUTDOWN指令</strong><br>    port指定Tomcat监听shutdown命令端口.终止服务器运行时,必须在Tomcat服务器所在的机器上发出shutdown命令.该属性是必须的.<br>    shutdown指定终止Tomcat服务器运行时,发给Tomcat服务器的shutdown监听端口的字符串.该属性必须设置<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Server <span class="attribute">port</span>=<span class="string">"8005"</span> <span class="attribute">shutdown</span>=<span class="string">"SHUTDOWN"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>第二个：接收HTTP协议</strong><br>   connector：接收用户请求，类似于httpd的listen配置监听端口.<br>        port指定服务器端要创建的端口号，并在这个端口监听来自客户端的请求。<br> redirectPort指定服务器正在处理http请求时收到了一个SSL传输请求后重定向的端口号<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector <span class="attribute">port</span>=<span class="string">"8080"</span> <span class="attribute">protocol</span>=<span class="string">"HTTP/1.1"</span></span><br><span class="line">             <span class="attribute">connectionTimeout</span>=<span class="string">"20000"</span></span><br><span class="line">             <span class="attribute">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>第三个：接收AJP协议</strong><br>  protocol连接器使用的协议，支持HTTP和AJP。AJP（Apache Jserv Protocol）专用于tomcat与apache建立通信的， 在httpd反向代理用户请求至tomcat时使用（可见Nginx反向代理时不可用AJP协议）<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector <span class="attribute">port</span>=<span class="string">"8009"</span> <span class="attribute">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attribute">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="tomcat多实例部署"><a href="#tomcat多实例部署" class="headerlink" title="tomcat多实例部署"></a>tomcat多实例部署</h3><p>tomcat是绿色安装版的软件,因此若想运行多个tomcat只需要复制一份就可以了。<br>这里需要注意，为了避免端口冲突，需要将配置文件中的默认端口进行修改。<br>在主配置文件中搜索port，把8005，8009，8080改成其他的数字（略）</p>
+<h3 id="tomcat搭建集群"><a href="#tomcat搭建集群" class="headerlink" title="tomcat搭建集群"></a>tomcat搭建集群</h3><p>用一台nginx服务器+一台运行了2个tomcat的服务器……只是模拟实验啦不要太<br>因为使用location路由搭建集群时，无法在ip后面添加指定端口号。所以这里选用了nginx的upstream模块。<br>我们在nginx服务器上，修改/etc/nginx/nginx.conf<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    <span class="attribute">upstream</span> kenn &#123;          </span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.19.143:8081</span>;      <span class="comment">#定义转发地址</span></span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.19.143:8082</span> weight=<span class="number">2</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://kenn;   <span class="comment">#转发至代理</span></span><br><span class="line">        &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后重启nginx服务：<code>systemctl restart nginx</code></p>
+<p>在tomcat服务器上<br>修改配置文件中的端口号：<code>vim conf/server.xml</code><br>修改两个tomcat的首页以验证实验: <code>vim webapps/ROOT/index.html</code><br>启动两个tomcat：<code>./startup.sh</code></p>
+<h3 id="tomcat上线jpress博客系统"><a href="#tomcat上线jpress博客系统" class="headerlink" title="tomcat上线jpress博客系统"></a>tomcat上线jpress博客系统</h3><p>第一步：下载jpress<br><a href="https://gitee.com/fuhai/jpress/blob/alpha/wars/jpress-web-newest.war" target="_blank" rel="noopener">https://gitee.com/fuhai/jpress/blob/alpha/wars/jpress-web-newest.war</a></p>
+<p>第二步：上传软件包并解压<br>[root@ken ROOT]# ls<br>fuhai-jpress-alpha.zip<br>[root@ken ROOT]# unzip fuhai-jpress-alpha.zip</p>
+<p>第三步：复制<br>[root@ken ROOT]# cp jpress/wars/jpress-web-newest.war .<br>[root@ken ROOT]# ls<br>fuhai-jpress-alpha.zip jpress jpress-web-newest.war</p>
+<p>第四步：解压jpress-web-newest.war<br>[root@ken ROOT]# unzip jpress-web-newest.war</p>
+<p>第五步：浏览器访问<br>输入ip:8080/jpress</p>
+<p>第六步：下载数据库并启动<br>[root@ken ROOT]# yum install mariadb-server -y<br>[root@ken ROOT]# systemctl restart mariadb</p>
+<p>第七步：创建数据库和用户<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">【进入数据库】</span><br><span class="line"><span class="selector-attr">[root@ken ROOT]</span># <span class="selector-tag">mysql</span> <span class="selector-tag">-uroot</span></span><br><span class="line">【创建数据库<span class="selector-tag">kenn</span>】</span><br><span class="line"><span class="selector-tag">MariaDB</span> <span class="selector-attr">[(none)]</span>&gt; <span class="selector-tag">create</span> <span class="selector-tag">database</span> <span class="selector-tag">kenn</span>;</span><br><span class="line"><span class="selector-tag">Query</span> <span class="selector-tag">OK</span>, 1 <span class="selector-tag">row</span> <span class="selector-tag">affected</span> (0<span class="selector-class">.00</span> <span class="selector-tag">sec</span>)</span><br><span class="line">【为用户授予权限】</span><br><span class="line"><span class="selector-tag">MariaDB</span> <span class="selector-attr">[(none)]</span>&gt; <span class="selector-tag">grant</span> <span class="selector-tag">all</span> <span class="selector-tag">on</span> *.* <span class="selector-tag">to</span> <span class="selector-tag">username</span>@’<span class="keyword">localhost</span>’ identified by ‘password’;</span><br><span class="line"><span class="selector-tag">Query</span> <span class="selector-tag">OK</span>, 0 <span class="selector-tag">rows</span> <span class="selector-tag">affected</span> (0<span class="selector-class">.00</span> <span class="selector-tag">sec</span>)</span><br></pre></td></tr></table></figure></p>
+<p>第八步：浏览器输入数据库相关的库和用户<br>略</p>
+<p>第九步：重启tomcat<br>[root@ken bin]# ./shutdown.sh<br>[root@ken bin]# ./startup.sh<br>Tomcat started.</p>
+<p>第十步：再次访问浏览器<br>就可以访问了</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/28/tomcat/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-nginx" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1581,198 +1693,6 @@ define(‘DB_PASSWORD’, ‘123’);
 
 
   
-    <article id="post-网络和进程管理原理篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/16/网络和进程管理原理篇/">网络和进程管理—原理篇</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/16/网络和进程管理原理篇/" class="archive-article-date">
-  	<time datetime="2019-05-16T07:16:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="OSI七层模型与TCP-IP四层模型"><a href="#OSI七层模型与TCP-IP四层模型" class="headerlink" title="OSI七层模型与TCP/IP四层模型"></a>OSI七层模型与TCP/IP四层模型</h3><p><img src="http://d.birdteam.net/data/f_97274494.jpg" alt></p>
-<ul>
-<li><p>第一层物理层：<br>传输的媒介，如网线、光纤等，作用是将0或1转换为电信号或光信号进行传输<br>集线器（hub）属于第一层</p>
-</li>
-<li><p>第二层数据链路层：<br>简称数链层，网桥，交换机属于第二层，它分为两个子层：<br>下层是MAC地址所在层，作用是相邻的两个设备之间互相通信，使用CSMA/CD访问控制方式<br>上层是LLC逻辑链路控制层 </p>
-</li>
-</ul>
-<blockquote>
-<p>MAC地址<br>任何一个网络设备都有唯一的身份识别码，称为物理地址（MAC地址）48bit（16进制12位）<br>查看MAC地址的方式：ipconfig /all #查看详细网络配置</p>
-</blockquote>
-<ul>
-<li><p>第三层网络层<br>ip地址所在层，作用是寻址，让数据包找到目的地 路由器属于第三层。<br>IP地址：v4是32位，v6是64位。</p>
-</li>
-<li><p>第四层传输层：<br>TCP、UDP协议都属于这层，作用是建立和断开连接<br>  TCP：握手建立连接再进行传输的协议 安全可靠速度慢<br>  UDP：无需连接 不管是否会丢包直接扔报文的协议 速度快不可靠</p>
-</li>
-<li><p>第五层会话层：<br>用于控制传输层什么时候该建立连接什么是时候该断开连接</p>
-</li>
-<li><p>第六层表示层：<br>将应用层的协议转换成电脑可以识别的语言</p>
-</li>
-<li><p>第七层应用层：<br>在网络中我们需要传输不同类型的数据，传不同类型的数据需要遵循不同的协议。比如说：寄信去邮局，买衣服用圆通，买电器用顺丰。如FTP、HTTP这些协议都在应用层。</p>
-</li>
-</ul>
-<p>数据在发送时从上到下的封装，数据在接收时从下到上的解包。</p>
-<pre><code>几款防火墙介绍
-</code></pre><ul>
-<li><p>iptables<br>iptables用于过滤数据包，属于网络层防火墙。<br>在设置iptables后需要重启iptables，会重新加载防火墙模块，而模块的装载将会破坏状态防火墙和确立的连接。会破坏已经对外提供数据链接的程序。可能需要重启程序。</p>
-</li>
-<li><p>firewalld<br>又叫动态防火墙，是CentOS 7.0默认使用的防火墙。相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。</p>
-<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart firewalld <span class="meta">#开启firewall</span></span><br><span class="line">systemctl status firewalld <span class="meta">#查看firewall状态</span></span><br><span class="line">systemctl <span class="keyword">stop</span> firewalld <span class="meta">#停止firewall</span></span><br><span class="line">systemctl <span class="keyword">disable</span> firewalld <span class="meta">#禁止firewall开机启动</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>SELinux<br>全称Security Enhanced Linux，是美国国家安全局（NSA）对于强制访问控制的实现。它整合在Linux内核中，是控制文件权限设定的安全系统。它其实不是防火墙，而是控制权限的，如果你想关闭它，可以通过 <code>vim /etc/selinux/config</code> 修改它的配置文件。</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This file controls the state of SELinux on the system.</span></span><br><span class="line"><span class="comment"># SELINUX= can take one of these three values:</span></span><br><span class="line"><span class="comment">#     enforcing - SELinux security policy is enforced.</span></span><br><span class="line"><span class="comment">#     permissive - SELinux prints warnings instead of enforcing.</span></span><br><span class="line"><span class="comment">#     disabled - No SELinux policy is loaded.</span></span><br><span class="line">SELINUX=enforcing  ====&gt;把这个改成disabled</span><br><span class="line"><span class="comment"># SELINUXTYPE= can take one of three values:</span></span><br><span class="line"><span class="comment">#     targeted - Targeted processes are protected,</span></span><br><span class="line"><span class="comment">#     minimum - Modification of targeted policy. Only selected processes are protected. </span></span><br><span class="line"><span class="comment">#     mls - Multi Level Security protection.</span></span><br><span class="line">SELINUXTYPE=targeted</span><br><span class="line"></span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br><span class="line">setenforce 0 <span class="comment">#使配置立即生效</span></span><br></pre></td></tr></table></figure>
-<p>  Telnet 命令（不安全，需要手动开启）<br>telnet命令用于登录远程主机，对远程主机进行管理。telnet因为采用明文传送报文，安全性不好，很多Linux服务器都不开放telnet服务，而改用更安全的ssh方式了。但仍然有很多别的系统可能采用了telnet方式来提供远程登录，因此弄清楚telnet客户端的使用方式仍是很有必要的。<br>使用方法：telnet ip port<br><a href="https://jingyan.baidu.com/article/fb48e8bee0d7446e622e143d.html" target="_blank" rel="noopener">Windows打开Telnet</a><br><a href="https://www.cnblogs.com/zuochuang/p/6511285.html" target="_blank" rel="noopener">Linux上的安装步骤</a></p>
-<p>  常用端口介绍</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>端口号</th>
-<th style="text-align:left">协议</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>20-21/tcp</td>
-<td style="text-align:left">文件传输协议（FTP ）</td>
-</tr>
-<tr>
-<td>22/tcp</td>
-<td style="text-align:left">安全登录、文件传送SCP和端口重定向 (SSH )</td>
-</tr>
-<tr>
-<td>23/tcp</td>
-<td style="text-align:left">不安全的文本传送(Telnet)</td>
-</tr>
-<tr>
-<td>25/tcp</td>
-<td style="text-align:left">Simple Mail Transfer Protocol (  SMTP )</td>
-</tr>
-<tr>
-<td>69/udp</td>
-<td style="text-align:left">Trivial File Transfer Protocol (TFTP)</td>
-</tr>
-<tr>
-<td>79/tcp</td>
-<td style="text-align:left">finger Finger</td>
-</tr>
-<tr>
-<td>80/tcp</td>
-<td style="text-align:left">超文本传送协议 (HTTP)</td>
-</tr>
-<tr>
-<td>88/tcp</td>
-<td style="text-align:left">Kerberos Authenticating agent</td>
-</tr>
-<tr>
-<td>110/tcp</td>
-<td style="text-align:left">POP3 Post Office Protocol (E-mail)</td>
-</tr>
-<tr>
-<td>113/tcp</td>
-<td style="text-align:left">ident old identification server system</td>
-</tr>
-<tr>
-<td>119/tcp</td>
-<td style="text-align:left">used for usenet newsgroups(NNTP)</td>
-</tr>
-<tr>
-<td>220/tcp</td>
-<td style="text-align:left">IMAP3</td>
-</tr>
-<tr>
-<td>443/tcp</td>
-<td style="text-align:left">used for securely transferring web pages(HTTPS)</td>
-</tr>
-</tbody>
-</table>
-<p>　</p>
-<pre><code>TCP工作原理
-</code></pre><p>TCP在传输之前会进行三次沟通，一般称为“三次握手”，传完数据断开的时候要进行四次沟通，一般称为“四次挥手”。<br>两个序号和三个标志位：<br>  （1）序号：seq序号，占32位，用来标识从TCP源端向目的端发送的字节流，发起方发送数据时对此进行标记。<br>  （2）确认序号：ack序号，占32位，只有ACK标志位为1时，确认序号字段才有效，ack=seq+1。<br>  （3）标志位：共6个，即URG、ACK、PSH、RST、SYN、FIN等，具体含义如下：<br>  （A）URG：紧急指针（urgent pointer）有效。<br>  （B）ACK：确认序号有效。<br>  （C）PSH：接收方应该尽快将这个报文交给应用层。<br>  （D）RST：重置连接。<br>  （E）SYN：发起一个新连接。<br>  （F）FIN：释放一个连接。</p>
-<p>  TCP的工作方式如下图所示：<br>  <img src="http://d.birdteam.net/data/f_79698832.jpg" alt></p>
-<h4 id="连接的建立与断开"><a href="#连接的建立与断开" class="headerlink" title="连接的建立与断开"></a><strong>连接的建立与断开</strong></h4><ul>
-<li><p>为什么要三次握手？<br>就像qq聊天时，A在地铁上给B发了个在吗，但是地铁上信号不好人又多，A发完消息就把手机收起来了。十分钟后，B接到A的消息，并回复了A。你认为A会及时回复吗？这时A根本都没有在看手机肯定不行啦！因此只是确认+回复就建立连接并不能很靠谱。<br>但如果B回复收到了的同时反问A一句：你还在吗？如果A收到了一定会回复，这样就能确保他俩都在线了。因此三次握手要比两次更加可靠！</p>
-</li>
-<li><p>建立连接三次握手<br>第一次握手：客户端发送syn包(seq=x)到服务器，并进入SYN_SEND状态，等待服务器确认;第二次握手：服务器收到syn包，必须确认客户的SYN(ack=x+1)，同时自己也发送一个SYN包(seq=y)，即SYN+ACK包，此时服务器进入SYN_RECV状态;第三次握手：客户端收到服务器的SYN+ACK包，向服务器发送确认包ACK(ack=y+1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。<br>握手过程中传送的包里不包含数据，三次握手完毕后，客户端与服务器才正式开始传送数据。理想状态下，TCP连接一旦建立，在通信双方中的任何一方主动关闭连接之前，TCP 连接都将被一直保持下去。</p>
-</li>
-<li><p>断开连接四次挥手<br>一次挥手：主动关闭方发送一个FIN，用来关闭主动方到被动关闭方的数据传送，也就是主动关闭方告诉被动关闭方：我已经不会再给你发数据了(当 然，在fin包之前发送出去的数据，如果没有收到对应的ack确认报文，主动关闭方依然会重发这些数据)，但此时主动关闭方还可以接受数据。<br>第二次挥手：被动关闭方收到FIN包后，发送一个ACK给对方，确认序号为收到序号+1(与SYN相同，一个FIN占用一个序号)。<br>第三次挥手：被动关闭方发送一个FIN，用来关闭被动关闭方到主动关闭方的数据传送，也就是告诉主动关闭方，我的数据也发送完了，不会再给你发数据了。<br>第四次挥手：主动关闭方收到FIN后，发送一个ACK给被动关闭方，确认序号为收到序号+1，至此，完成四次挥手。</p>
-</li>
-<li><p>我的脑洞<br>建立连接：<br>　　A 在吗 SYN<br>　　B 在，你呢 SYN+ACK<br>　　A 我也在，那我们开始工作吧 ACK<br>断开连接：<br>　　A 小B我想回家了 FIN<br>　　B 好的，你稍等我马上就做完工作了 ACK<br>　　B 好了我做完了我们回家吧 FIN<br>　　A 好的！ACK<br>注意：<br>1.B说的两句话中间会有一段间隔<br>2.B说完我们回家吧之后，A回复了B，但B可能没听见，这时B会重新跟A说一遍“我们回家吧”，因此A在说完“好的”之后，需要等待一段时间（2MSL），确定B听见了（也就是没有再说一遍回家吧），才会断开连接。</p>
-</li>
-</ul>
-<p>TCP与UDP的区别：</p>
-<p>1.基于连接与无连接；<br>2.对系统资源的要求（TCP较多，UDP少）；<br>3.UDP程序结构较简单；UDP信息包的标题很短，只有8个字节，相对于TCP的20个字节信息包的额外开销很小。所以传输速度可更快<br>4.TCP保证数据正确性，UDP可能丢包；TCP保证数据顺序，UDP不保证。</p>
-<p>port 和 socket 的区别：<br>端口port：0-65535之间的一个整数，如果说ip地址是房子port就是一扇门。<br>套接字socket：socket=ip+port，应用程序通常通过”socket”向网络发出请求或者应答网络请求。</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/16/网络和进程管理原理篇/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1880,15 +1800,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">学习</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
             
             <div class="clearfix"></div>

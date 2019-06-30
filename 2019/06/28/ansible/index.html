@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href>
-  <title>vim简单操作指南 | 那那喵的拉拉肥厨房</title>
+  <title>ansible基础 | 那那喵的拉拉肥厨房</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="vim简单操作指南1. vim编辑器     三种模式：             命令模式（普通模式）         输入模式（编辑模式）         末行模式 2. 模式之间的切换     命令模式--&amp;gt;输入模式（a,i,o）     输入模式--&amp;gt;命令模式（esc）     命令模式--&amp;gt;末行模式（：）     末行模式--&amp;gt;命令模式（esc） 3. 命令模式下的">
-<meta name="keywords" content="全部,Linux">
+  <meta name="description" content="ansible简介ansible是一个自动化批量部署工具 ansible的特点： Stupied Simple ，上手简单，学习曲线平滑 SSH by default ，安全，无需安装客户端 配置简单、功能强大、扩展性强 幂等性：一种操作重复多次结果相同，比如：拷贝过的文件再次拷贝时，ansible会检查该文件的内容是否有修改，如果没有任何改动就不会重复拷贝了。  注意：幂等性仅在使用ansibl">
+<meta name="keywords" content="学习,linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vim简单操作指南">
-<meta property="og:url" content="/2019/05/08/vim简单操作指南/index.html">
+<meta property="og:title" content="ansible基础">
+<meta property="og:url" content="/2019/06/28/ansible/index.html">
 <meta property="og:site_name" content="那那喵的拉拉肥厨房">
-<meta property="og:description" content="vim简单操作指南1. vim编辑器     三种模式：             命令模式（普通模式）         输入模式（编辑模式）         末行模式 2. 模式之间的切换     命令模式--&amp;gt;输入模式（a,i,o）     输入模式--&amp;gt;命令模式（esc）     命令模式--&amp;gt;末行模式（：）     末行模式--&amp;gt;命令模式（esc） 3. 命令模式下的">
+<meta property="og:description" content="ansible简介ansible是一个自动化批量部署工具 ansible的特点： Stupied Simple ，上手简单，学习曲线平滑 SSH by default ，安全，无需安装客户端 配置简单、功能强大、扩展性强 幂等性：一种操作重复多次结果相同，比如：拷贝过的文件再次拷贝时，ansible会检查该文件的内容是否有修改，如果没有任何改动就不会重复拷贝了。  注意：幂等性仅在使用ansibl">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-28T10:14:07.771Z">
+<meta property="og:updated_time" content="2019-06-30T01:36:02.218Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vim简单操作指南">
-<meta name="twitter:description" content="vim简单操作指南1. vim编辑器     三种模式：             命令模式（普通模式）         输入模式（编辑模式）         末行模式 2. 模式之间的切换     命令模式--&amp;gt;输入模式（a,i,o）     输入模式--&amp;gt;命令模式（esc）     命令模式--&amp;gt;末行模式（：）     末行模式--&amp;gt;命令模式（esc） 3. 命令模式下的">
+<meta name="twitter:title" content="ansible基础">
+<meta name="twitter:description" content="ansible简介ansible是一个自动化批量部署工具 ansible的特点： Stupied Simple ，上手简单，学习曲线平滑 SSH by default ，安全，无需安装客户端 配置简单、功能强大、扩展性强 幂等性：一种操作重复多次结果相同，比如：拷贝过的文件再次拷贝时，ansible会检查该文件的内容是否有修改，如果没有任何改动就不会重复拷贝了。  注意：幂等性仅在使用ansibl">
   
   
     <link rel="icon" href="/favicon.png">
@@ -176,110 +176,70 @@ daovoice('update');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-vim简单操作指南" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-ansible" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      vim简单操作指南
+      ansible基础
     </h1>
   
 
         
-        <a href="/2019/05/08/vim简单操作指南/" class="archive-article-date">
-  	<time datetime="2019-05-08T07:26:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
+        <a href="/2019/06/28/ansible/" class="archive-article-date">
+  	<time datetime="2019-06-28T12:03:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="vim简单操作指南"><a href="#vim简单操作指南" class="headerlink" title="vim简单操作指南"></a>vim简单操作指南</h1><pre><code>1. vim编辑器
-    三种模式：    
-        命令模式（普通模式）
-        输入模式（编辑模式）
-        末行模式
-2. 模式之间的切换
-    命令模式--&gt;输入模式（a,i,o）
-    输入模式--&gt;命令模式（esc）
-    命令模式--&gt;末行模式（：）
-    末行模式--&gt;命令模式（esc）
-3. 命令模式下的常用操作
-    yy: 复制，nyy就是复制n行
-    p: 粘贴
-    dd: 剪切
-    dG: 删除光标所在行到末尾的全部行
-    u: 撤销（等于Windows的ctrl+z）
-    ctrl+r：恢复（等于Windows的ctrl+y）
-    G：跳转到最后一行
-    nG： 跳转到第n行，如1G就是跳转到首行
-    home: 跳转到行首
-    end: 跳转到行尾
-    pgup: 上翻一页,或者ctrl+f
-    pgdn: 下翻一页，或者ctrl+b
-    /: 查找
-        n: 从上往下查找
-        N：从下往上查找
+        <h2 id="ansible简介"><a href="#ansible简介" class="headerlink" title="ansible简介"></a>ansible简介</h2><p>ansible是一个自动化批量部署工具</p>
+<h4 id="ansible的特点："><a href="#ansible的特点：" class="headerlink" title="ansible的特点："></a>ansible的特点：</h4><ul>
+<li>Stupied Simple ，上手简单，学习曲线平滑</li>
+<li>SSH by default ，安全，无需安装客户端</li>
+<li>配置简单、功能强大、扩展性强</li>
+<li>幂等性：一种操作重复多次结果相同，比如：拷贝过的文件再次拷贝时，ansible会检查该文件的内容是否有修改，如果没有任何改动就不会重复拷贝了。</li>
+</ul>
+<p>注意：幂等性仅在使用ansible中集成的模块时有效，如：使用copy模块会判断幂等性，但是使用command执行copy命令则不会判断。</p>
+<h3 id="ansible的核心组件："><a href="#ansible的核心组件：" class="headerlink" title="ansible的核心组件："></a>ansible的核心组件：</h3><ul>
+<li><strong>Ansible：</strong> Ansible的核心程序</li>
+<li><strong>Host Lnventory：</strong> 记录了每一个由Ansible管理的主机信息，信息包括ssh端口，root帐号密码，ip地址等等。可以通过file来加载，可以通过CMDB加载</li>
+<li><strong>Playbooks：</strong> YAML格式文件，多个任务定义在一个文件中，使用时可以统一调用，“剧本”用来定义那些主机需要调用那些模块来完成的功能.</li>
+<li><strong>Core Modules：</strong> Ansible执行任何管理任务都不是由Ansible自己完成，而是由核心模块完成；Ansible管理主机之前，先调用core Modules中的模块，然后指明管理Host Lnventory中的主机，就可以完成管理主机。</li>
+<li><strong>Custom Modules：</strong> 自定义模块，完成Ansible核心模块无法完成的功能，此模块支持任何语言编写。</li>
+<li><strong>Connection Plugins：</strong> 连接插件，Ansible和Host通信使用</li>
+</ul>
+<h3 id="ansible的工作原理："><a href="#ansible的工作原理：" class="headerlink" title="ansible的工作原理："></a>ansible的工作原理：</h3><p>ansible的底层使用python编写，并用到了这些模块:</p>
+<ul>
+<li>paramiko</li>
+<li>jinja2 </li>
+<li>yaml</li>
+</ul>
+<p>在 Ansible 中，我们通过编辑host文件添加需要控制的主机的信息，并借由 SSH 和 Python 进行沟通。也就是说ansible服务器只需要和客户端<strong>建立SSH连接</strong>，客户端只要<strong>安装Python环境</strong>即可正常运作了！</p>
+<p><strong>ansible服务器配置</strong><br>如果使用的是Centos系统，一般都会内置Python2.7的环境，因此只需安装ansible即可：<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ yum install epel-release  #安装第三方套件来源</span><br><span class="line">$ yum install ansible       #安装ansible</span><br><span class="line"></span><br><span class="line">### ansible也可以通过pip进行安装：###</span><br><span class="line"># 升级 pip。</span><br><span class="line">$ sudo pip install -U pip</span><br><span class="line"># 安装 Ansible。</span><br><span class="line">$ sudo pip install ansible</span><br></pre></td></tr></table></figure></p>
+<h3 id="ansible-server管理客户端的两种配置方式"><a href="#ansible-server管理客户端的两种配置方式" class="headerlink" title="ansible server管理客户端的两种配置方式"></a>ansible server管理客户端的两种配置方式</h3><p><strong>方法1：通过公钥配对</strong><br>1 服务器端: ssh-keygen 生成公钥<br>2 使用 <code>ssh-copy-id root@192.168.1.10</code> 或<br><code>scp id_rsa.pub root@192.168.1.10:/root/.ssh/authorized_keys</code><br>将公钥拷贝到客户端上<br>3 将客户端的ip记录到/etc/ansible/hosts中</p>
+<p><strong>方法2：通过参数配对</strong><br>修改/etc/ansible/hosts文件，在客户端的ip地址后面添加如下参数：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.10 <span class="attribute">ansible_ssh_user</span>=root <span class="attribute">ansible_ssh_port</span>=22 <span class="attribute">ansible_ssh_pass</span>=1234</span><br></pre></td></tr></table></figure></p>
+<p>测试ansible server跟client端的连通性<br><code>ansible testhosts -m ping</code></p>
+<h3 id="ansible使用入门"><a href="#ansible使用入门" class="headerlink" title="ansible使用入门"></a>ansible使用入门</h3><p>我们可以用 Ad-Hoc Commands 和 Playbook 两种方式来操作Ansible。<br>Ad-Hoc Commands 命令模式：<br>一次只能执行一个任务。<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ansible-doc -l <span class="comment">#查看支持的模块</span></span><br><span class="line">ansible-doc -s MODEL_NAME <span class="comment">#查看模块用法</span></span><br><span class="line"></span><br><span class="line">ansible 要操作的主机 [选项]</span><br><span class="line">    -f forks:启动并发线程数（默认是<span class="number">5</span>）</span><br><span class="line">    -m model_name:指定使用的模块</span><br><span class="line">    -a args:指定该模块后跟的参数</span><br><span class="line">    -u <span class="keyword">user</span>:指定操作的用户</span><br><span class="line"></span><br><span class="line">例子：</span><br><span class="line">ansible <span class="literal">all</span> -m ping <span class="comment">#查看client端是否正常ping通</span></span><br><span class="line">ansible webserver -m setup <span class="comment">#查看客户端信息</span></span><br><span class="line">ansible webserver -m copy -a 'src=/root/git_test/code.txt dest=/root/test' <span class="comment">#copy文件到cient端</span></span><br><span class="line">ansible webserver -m <span class="keyword">user</span> -a <span class="string">"name=test state=present"</span> <span class="comment">#创建test用户</span></span><br><span class="line">ansible webserver -m <span class="keyword">user</span> -a <span class="string">"name=test state=absent"</span> <span class="comment">#删除test用户</span></span><br><span class="line">ansible webserver -m yum -a ‘name=epel-relese <span class="keyword">state</span>=latest‘ <span class="comment">#yum安装</span></span><br><span class="line">ansible webserver -m service -a ‘name=httpd <span class="keyword">state</span>=stopped enabled=no‘ <span class="comment">#停止httpd服务</span></span><br><span class="line">（启动，停止，重启都是被动语态）</span><br><span class="line">ansible webserver -m script -a ‘/tmp/test.sh‘ <span class="comment">#运行脚本</span></span><br><span class="line">ansible webserver -m command 'date' <span class="comment">#查看时间</span></span><br><span class="line">ansible webserver -m shell -a ‘bash /root/test.sh’ <span class="comment">#执行脚本</span></span><br><span class="line">ansible webservers -m git -a <span class="string">"repo=https://foo.example.org/repo.git dest=/srv/myapp version=HEAD"</span>  <span class="comment">#从git上部署</span></span><br></pre></td></tr></table></figure></p>
+<p>command和shell模块的区别：<br>command只支持一些基本的shell命令，如果需要使用正则，重定向，管道符等扩展shell命令请使用shell模块。</p>
+<p>playbook 剧本模式：<br>将命令写入文件中，一次可以执行多个任务，文件后缀为yml或yaml。<br>执行剧本：ansible-playbook 剧本文件名<br>检查语法：–syntax-check<br>查看主机：–list-hosts</p>
+<p>基础格式：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- name:</span> <span class="string">say</span> <span class="string">'hello world'</span></span><br><span class="line"><span class="attr">  hosts:</span> <span class="string">all</span>                        <span class="comment">#指定组名</span></span><br><span class="line"><span class="attr">  remote_user:</span> <span class="string">root</span>                 <span class="comment">#指定操作用户</span></span><br><span class="line"><span class="attr">  vars:</span></span><br><span class="line"><span class="attr">  - str:</span> <span class="string">'hello world'</span>              <span class="comment">#定义变量</span></span><br><span class="line"><span class="attr">  tasks:</span>                            <span class="comment">#指定任务</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">echo</span> <span class="string">string</span>             <span class="comment">#任务1打印字符串</span></span><br><span class="line"><span class="attr">      command:</span> <span class="string">echo</span> <span class="string">'<span class="template-variable">&#123;&#123; str &#125;&#125;</span>'</span></span><br><span class="line"><span class="attr">      register:</span> <span class="string">result</span>              <span class="comment">#将结果记录为变量</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">print</span> <span class="string">stdout</span>            <span class="comment">#任务2打印结果</span></span><br><span class="line"><span class="attr">      debug:</span></span><br><span class="line"><span class="attr">        msg:</span> <span class="string">"<span class="template-variable">&#123;&#123; result.stdout &#125;&#125;</span>"</span>  <span class="comment">#打印结果标准输出</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h3><p><strong>主机与用户</strong><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- hosts:</span> <span class="string">webservers</span></span><br><span class="line"><span class="attr">  remote_user:</span> <span class="string">root</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  become:</span> <span class="literal">yes</span>          <span class="comment">#另一个用户身份运行</span></span><br><span class="line"><span class="attr">  become_method:</span> <span class="string">sudo</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>任务列表</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在tasks中编写你剧本的动作：</span><br><span class="line">tasks:</span><br><span class="line">  - name: <span class="builtin-name">run</span> this command <span class="keyword">and</span> ignore the result</span><br><span class="line">    shell: date</span><br><span class="line">    ignore_errors: <span class="literal">True</span></span><br><span class="line">    </span><br><span class="line">ignore_errors：<span class="literal">True</span>或<span class="literal">yes</span></span><br><span class="line">开启异常处理：命令执行出现问题时不停止脚本而是忽略错误继续进行。</span><br></pre></td></tr></table></figure></p>
+<p><strong>变量</strong><br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">定义变量的三种方法：</span><br><span class="line"><span class="number">1.</span>在yml文件中定义：</span><br><span class="line">  vars:</span><br><span class="line">  - <span class="keyword">str</span>: <span class="string">'hello world'</span>   </span><br><span class="line"><span class="number">2.</span>在host文件中定义：</span><br><span class="line">  <span class="number">192.168</span><span class="number">.10</span><span class="number">.10</span> <span class="keyword">str</span>=<span class="string">'hello world'</span></span><br><span class="line"><span class="number">3.</span>在执行剧本时定义：</span><br><span class="line">  ansible-playbook play.yml --extra-vars <span class="string">"str='hello world'"</span></span><br><span class="line">引用变量</span><br><span class="line">&#123;&#123; 变量名 &#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>register注册变量</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tasks</span>:                            #指定任务</span><br><span class="line"></span><br><span class="line">  - name: echo string             #任务1打印字符串</span><br><span class="line">    <span class="attribute">command</span>: echo '&#123;&#123; str &#125;&#125;'</span><br><span class="line">    <span class="attribute">register</span>: result              #将结果记录为变量</span><br><span class="line"></span><br><span class="line">  - name: print stdout            #任务2打印结果</span><br><span class="line">    <span class="attribute">debug:</span></span><br><span class="line">      msg: "&#123;&#123; result.stdout &#125;&#125;"  #打印结果标准输出</span><br></pre></td></tr></table></figure></p>
+<p><strong>when条件判断</strong><br>名字叫when实际上是if的条件判断模块。<br>可以配合<code>ansible -m setup 192.168.10.10</code><br>中的参数进行条件判断，从而筛选出需要操作的主机。<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tasks:                            <span class="comment">#指定任务</span></span><br><span class="line">      - name: add <span class="keyword">user</span></span><br><span class="line">        when: ansible_default_ipv4.address == '<span class="number">192.168</span>.<span class="number">19.11</span>'</span><br><span class="line">        <span class="keyword">user</span>: name=&#123;&#123; item.name &#125;&#125; groups=&#123;&#123; item.<span class="keyword">group</span> &#125;&#125; <span class="keyword">state</span>=present</span><br><span class="line">        with_items:</span><br><span class="line">        - &#123; name: 'test3', <span class="keyword">group</span>: test &#125;</span><br><span class="line">        - &#123; name: 'test2', <span class="keyword">group</span>: test &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>item循环语句</strong><br>使用playbook自带的变量item进行循环，以创建多个用户为例：：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- hosts: <span class="number">192.168</span>.<span class="number">19.10</span></span><br><span class="line">  remote_user:<span class="built_in"> root</span></span><br><span class="line">  tasks:</span><br><span class="line">  -<span class="built_in"> name</span>: add several user</span><br><span class="line">    user:<span class="built_in"> name</span>=&#123;&#123;<span class="type">item</span><span class="built_in">.name</span>&#125;&#125; state=present groups=&#123;&#123;<span class="type">item</span>.groups&#125;&#125;</span><br><span class="line">    with_items:</span><br><span class="line">    - &#123;<span class="built_in"> name</span>: <span class="string">'testuser1'</span>, groups: <span class="string">'wheel'</span>&#125;</span><br><span class="line">    - &#123;<span class="built_in"> name</span>: <span class="string">'testuser2'</span>, groups: <span class="string">'root'</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意name：后面有空格，不写会报错<em>(:з」∠)</em></p>
+<p><strong>handlers触发器</strong><br>notify监听，任务执行成功时，执行对应的handler中的任务。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- name:<span class="built_in"> config </span>HTTPD</span><br><span class="line">  hosts: all                        #指定组名</span><br><span class="line">  remote_user: root                 #指定操作用户</span><br><span class="line">  tasks:                            #指定任务</span><br><span class="line">        - name: copy file</span><br><span class="line">          copy: <span class="attribute">src</span>=<span class="string">'/etc/ansible/httpd.conf'</span> <span class="attribute">dest</span>=<span class="string">'/etc/httpd/conf/httpd.conf'</span></span><br><span class="line">          notify: restart HTTPD     #这里名字</span><br><span class="line">  handlers:</span><br><span class="line">        - name: restart HTTPD       #要一样</span><br><span class="line">          service: <span class="attribute">name</span>=httpd <span class="attribute">state</span>=restarted</span><br></pre></td></tr></table></figure></p>
+<p><strong>template模板替换</strong><br>用于修改配置文件中的参数，比如我有3台服务器，配置文件中需要填写每台服务器自己的ip地址。如果用copy传递的话无法实现。<br>template设置步骤：<br>1.把剧本中的copy模块改为template模块<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task<span class="variable">s:</span>                           </span><br><span class="line">      - name: <span class="keyword">copy</span> <span class="keyword">file</span></span><br><span class="line">        template: src=<span class="string">'xxx'</span> dest=<span class="string">'xxx'</span></span><br></pre></td></tr></table></figure></p>
+<p>2.把配置文件中需要修改的地方改为变量的格式如：<code>Listen </code></p>
+<p>3.在host文件中为变量分别赋值<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">192.168</span><span class="number">.19</span><span class="number">.10</span> port=<span class="number">8080</span></span><br></pre></td></tr></table></figure></p>
+<p>附录：<br>ansible官方文档：<a href="https://docs.ansible.com/" target="_blank" rel="noopener">https://docs.ansible.com/</a><br>ad-hoc 看这页：<a href="https://docs.ansible.com/ansible/latest/user_guide/intro_adhoc.html" target="_blank" rel="noopener">https://docs.ansible.com/ansible/latest/user_guide/intro_adhoc.html</a><br>用谷歌浏览器自带的翻译看简直爽…</p>
 
-4. 末行模式下的操作
-    q: 退出
-    w: 保存
-    wq: 保存并退出
-    q!: 强制退出
-    wq!: 保存并强制退出
-
-    跳转至n行：冒号 行号
-    缩进：
-    set ai：自动缩进
-    set noai：不自动缩进
-    set tabstop=n：设置缩进，tab为n个空格
-
-    r /文件路径/文件a ：导入文件a的内容到当前的文件中
-    w /路径/文件名 ：将当前文件另存为
-
-    set nu: 显示行号
-    set nonu： 不显示行号
-    nohl: 取消高亮
-    set hls:打开高亮
-
-    1,3 d: 删除1-3行内容
-    1，3 m 5: 移动1,3内容至5行下
-    1,3 co 5: 复制1,3内容至5行下
-
-    替换：
-    格式：行号起,行号止 s/源字符/替换内容/g (g是global的意思，表示全部替换)
-    如果不加g每行只有符合条件的第一段文字会被替换
-    其中，/可以被各种符号替代，只要统一就行，如：
-    将文件中全部的/替换为+
-    :% s@/@+@g
-    全局替换：
-    1，$ s///g或者% s///g
-    示例：
-    % s/^/#/g: 在每行的行首添加#
-    % s/$/#/g: 在每行的行尾添加#
-    % s/^#//g：删除行首的#
-    % s/#$//g: 删除行尾的#
-
-    ^：表示行首
-    $：表示行尾
-
-5. vim配置文件
-    全局配置：/etc/vimrc
-    个人配置：~/.vimrc(默认不存在，需要自己手动创建)
-
-6. 崩溃缓存文件
-    遇到意外情况时，vim会保存一个.原文件名.swp的文件
-    在下次编辑此文件时，会提示你是否需要恢复备份
-    ※恢复：可以 按R键 查看备份文件，wq保存，再用rm命令删除备份文件，或者使用 vim -r 原文件名 查看备份文件
-    ※不想恢复：可以按Q键先退出编辑，用rm命令删除备份文件即可（命令为： rm -f .文件名.swp ）
-
-7. 分屏操作
-    vim -o： 水平分屏
-    vim -O: 垂直分屏
-    ctrl+w: 切换文件
-</code></pre>
       
 	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
       
@@ -292,11 +252,11 @@ daovoice('update');
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
@@ -352,7 +312,7 @@ daovoice('update');
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/05/08/vim简单操作指南/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/06/28/ansible/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -366,18 +326,18 @@ daovoice('update');
   
 <nav id="article-nav">
   
-    <a href="/2019/05/09/用户与用户组/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2041/04/01/置顶/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          用户与用户组
+          【置顶】联系我&amp;赞助
         
       </div>
     </a>
   
   
-    <a href="/2019/05/08/linux命令第二部分/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">linux命令进阶</div>
+    <a href="/2019/06/28/防火墙与iptables命令/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">防火墙与iptables命令</div>
       <i class="icon-circle-right"></i>
     </a>
   
