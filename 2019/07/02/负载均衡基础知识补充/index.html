@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href>
-  <title>Archives: 2019/5 | 那那喵的拉拉肥厨房</title>
+  <title>负载均衡与高可用基础知识补充 | 那那喵的拉拉肥厨房</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="喵喵瞄，快出来！">
-<meta name="keywords" content="Linux，程序媛，ff14">
-<meta property="og:type" content="website">
-<meta property="og:title" content="那那喵的拉拉肥厨房">
-<meta property="og:url" content="/archives/2019/05/index.html">
+  <meta name="description" content="网卡的工作模式网卡具有如下的几种工作模式： 1) 广播模式（Broad Cast Model）:它的物理地址（MAC）地址是 0Xffffff 的帧为广播帧，工作在广播模式的网卡接收广播帧。 2）多播传送（MultiCast Model）：多播传送地址作为目的物理地址的帧可以被组内的其它主机同时接收，而组外主机却接收不到。但是，如果将网卡设置为多播传送模式，它可以接收所有的多播传送帧，而不论它是不">
+<meta name="keywords" content="全部,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="负载均衡与高可用基础知识补充">
+<meta property="og:url" content="/2019/07/02/负载均衡基础知识补充/index.html">
 <meta property="og:site_name" content="那那喵的拉拉肥厨房">
-<meta property="og:description" content="喵喵瞄，快出来！">
+<meta property="og:description" content="网卡的工作模式网卡具有如下的几种工作模式： 1) 广播模式（Broad Cast Model）:它的物理地址（MAC）地址是 0Xffffff 的帧为广播帧，工作在广播模式的网卡接收广播帧。 2）多播传送（MultiCast Model）：多播传送地址作为目的物理地址的帧可以被组内的其它主机同时接收，而组外主机却接收不到。但是，如果将网卡设置为多播传送模式，它可以接收所有的多播传送帧，而不论它是不">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-02T12:03:34.201Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="那那喵的拉拉肥厨房">
-<meta name="twitter:description" content="喵喵瞄，快出来！">
+<meta name="twitter:title" content="负载均衡与高可用基础知识补充">
+<meta name="twitter:description" content="网卡的工作模式网卡具有如下的几种工作模式： 1) 广播模式（Broad Cast Model）:它的物理地址（MAC）地址是 0Xffffff 的帧为广播帧，工作在广播模式的网卡接收广播帧。 2）多播传送（MultiCast Model）：多播传送地址作为目的物理地址的帧可以被组内的其它主机同时接收，而组外主机却接收不到。但是，如果将网卡设置为多播传送模式，它可以接收所有的多播传送帧，而不论它是不">
   
   
     <link rel="icon" href="/favicon.png">
@@ -175,36 +176,59 @@ daovoice('update');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-负载均衡基础知识补充" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      负载均衡与高可用基础知识补充
+    </h1>
+  
+
+        
+        <a href="/2019/07/02/负载均衡基础知识补充/" class="archive-article-date">
+  	<time datetime="2019-07-02T12:02:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="网卡的工作模式"><a href="#网卡的工作模式" class="headerlink" title="网卡的工作模式"></a>网卡的工作模式</h3><p>网卡具有如下的几种工作模式：</p>
+<p>1) 广播模式（Broad Cast Model）:<br>它的物理地址（MAC）地址是 0Xffffff 的帧为广播帧，工作在广播模式的网卡接收广播帧。</p>
+<p>2）多播传送（MultiCast Model）：<br>多播传送地址作为目的物理地址的帧可以被组内的其它主机同时接收，而组外主机却接收不到。但是，如果将网卡设置为多播传送模式，它可以接收所有的多播传送帧，而不论它是不是组内成员。</p>
+<p>3）直接模式（Direct Model）:<br>工作在直接模式下的网卡只接收目地址是自己 Mac地址的帧。</p>
+<p>4）混杂模式（Promiscuous Model）:<br>工作在混杂模式下的网卡接收所有的流过网卡的帧，信包捕获程序就是在这种模式下运行的。网卡的缺省工作模式包含广播模式和直接模式，即它只接收广播帧和发给自己的帧。如果采用混杂模式，一个站点的网卡将接受同一网络内所有站点所发送的数据包这样就可以到达对于网络信息监视捕获的目的。</p>
+<h3 id="防火墙配置SNAT与DNAT"><a href="#防火墙配置SNAT与DNAT" class="headerlink" title="防火墙配置SNAT与DNAT"></a>防火墙配置SNAT与DNAT</h3><p>模拟实验：<br>0.原材料<br>三台Linux主机：<br>PC:192.168.10.1<br>防火墙：192.168.10.2和172.16.12.34<br>web：172.16.12.56</p>
+<p>1.打开防火墙的路由转发功能：<br>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</p>
+<p>2.配置源地址转换：<br>iptables -t nat -F<br>iptables -t nat -X<br>iptables -t nat -A POSTROUTING -s 192.168.10.1 -d 172.16.12.56 -p tcp –dport 80 -j SNAT –to-source 172.16.12.34</p>
+<p>注意：<br>SNAT必须在postrouting上设置<br>DNAT必须在prerouting上设置</p>
+<h3 id="ifconfig命令"><a href="#ifconfig命令" class="headerlink" title="ifconfig命令"></a>ifconfig命令</h3><p>　ifconfig命令被用于配置和显示Linux内核中网络接口的网络参数。它只是临时生效，关掉网卡或重启机器都会失效。<br>　<br><strong>查看网卡信息</strong><br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">不加网卡名就是全列出来</span><br><span class="line"><span class="comment"># ifconfig ens33</span></span><br><span class="line">ens33: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.19.143  netmask 255.255.255.0  broadcast 192.168.19.255</span><br><span class="line">        inet6 fe80::250:56ff:fe3b:ac57  prefixlen<span class="number"> 64 </span> scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:50:56:3b:ac:57  txqueuelen<span class="number"> 1000 </span> (Ethernet)</span><br><span class="line">        RX packets<span class="number"> 5020 </span> bytes<span class="number"> 572541 </span>(559.1 KiB)</span><br><span class="line">        RX errors<span class="number"> 0 </span> dropped<span class="number"> 0 </span> overruns<span class="number"> 0 </span> frame 0</span><br><span class="line">        TX packets<span class="number"> 5650 </span> bytes<span class="number"> 6481805 </span>(6.1 MiB)</span><br><span class="line">        TX errors<span class="number"> 0 </span> dropped<span class="number"> 0 </span>overruns<span class="number"> 0 </span> carrier<span class="number"> 0 </span> collisions 0</span><br></pre></td></tr></table></figure></p>
+<p><strong>开启，关闭网卡</strong><br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig ens33:<span class="number">0</span> <span class="meta">up</span></span><br><span class="line">ifconfig eth0 <span class="meta">down</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>为网卡设置ip地址</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">为<span class="selector-tag">ens33</span>添加多个<span class="selector-tag">ip</span>地址</span><br><span class="line"><span class="selector-tag">ifconfig</span> <span class="selector-tag">ens33</span><span class="selector-pseudo">:0</span> 192<span class="selector-class">.168</span><span class="selector-class">.254</span><span class="selector-class">.250</span> <span class="selector-tag">broadcast</span> 192<span class="selector-class">.168</span><span class="selector-class">.254</span><span class="selector-class">.250</span> <span class="selector-tag">netmask</span> 255<span class="selector-class">.255</span><span class="selector-class">.255</span><span class="selector-class">.255</span> <span class="selector-tag">up</span></span><br><span class="line">删除<span class="selector-tag">ip</span>地址（嗯 直接关掉就好）</span><br><span class="line"><span class="selector-tag">ifconfig</span> <span class="selector-tag">ens33</span><span class="selector-pseudo">:0</span> <span class="selector-tag">down</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>设置混杂模式</strong><br>ifconfig eth1 promisc   #设置<br>ifconfig eth1 -promisc  #取消</p>
+<p><strong>修改网卡的mac地址</strong><br>ifconfig eth0 hw ether 00:AA:BB:CC:dd:EE</p>
+<p><strong>设置网卡的最大传输单元（MTU）</strong><br>ifconfig eth0 mtu 1500</p>
+<h3 id="route命令"><a href="#route命令" class="headerlink" title="route命令"></a>route命令</h3><p>　route命令用来显示并设置Linux内核中的网络路由表，route命令设置的路由主要是静态路由。话说这个东西重启一下network服务就会失效…可以在/etc/rc.local中添加route命令来保证该路由设置永久有效。</p>
+<p><strong>显示路由表</strong><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line"><span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">192.168</span><span class="number">.19</span><span class="number">.2</span>    <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         UG    <span class="number">101</span>    <span class="number">0</span>        <span class="number">0</span> ens33</span><br><span class="line"><span class="number">192.168</span><span class="number">.19</span><span class="number">.0</span>    <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">101</span>    <span class="number">0</span>        <span class="number">0</span> ens33</span><br><span class="line"><span class="number">192.168</span><span class="number">.19</span><span class="number">.10</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> UH    <span class="number">0</span>      <span class="number">0</span>        <span class="number">0</span> ens33</span><br><span class="line"><span class="number">192.168</span><span class="number">.122</span><span class="number">.0</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">0</span>      <span class="number">0</span>        <span class="number">0</span> virbr0</span><br><span class="line"><span class="number">192.168</span><span class="number">.142</span><span class="number">.0</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">100</span>    <span class="number">0</span>        <span class="number">0</span> ens37</span><br></pre></td></tr></table></figure></p>
+<p>其中Flags为路由标志，标记当前网络节点的状态，Flags标志说明：<br>U Up表示此路由当前为启动状态。<br>H Host，表示此网关为一主机。<br>G Gateway，表示此网关为一路由器。<br>! 表示此路由当前为关闭状态。</p>
+<p><strong>添加路由</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#到一个主机</span></span><br><span class="line">route <span class="builtin-name">add</span> -host 192.168.19.19 dev ens37</span><br><span class="line"><span class="comment">#到一个网段</span></span><br><span class="line">route <span class="builtin-name">add</span> -net 192.168.19.0 netmask 255.255.255.0 dev ens33</span><br></pre></td></tr></table></figure></p>
+<p><strong>删除路由</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">去掉目标网关，把add换成del<span class="built_in">..</span>.</span><br><span class="line">route <span class="builtin-name">add</span> -host 192.168.19.19</span><br></pre></td></tr></table></figure></p>
+<p><strong>设置默认路由</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route <span class="builtin-name">add</span><span class="built_in"> default </span>gw 192.168.120.240</span><br></pre></td></tr></table></figure></p>
+<h3 id="几个常用的内核参数介绍："><a href="#几个常用的内核参数介绍：" class="headerlink" title="几个常用的内核参数介绍："></a>几个常用的内核参数介绍：</h3><p><strong>1.ip_forward：是否开启路由转发</strong><br>　开启后Linux系统可以作为路由器使用<br>　0：关闭<br>　1：开启</p>
+<p>　临时打开路由转发功能：<br>　echo 1 &gt; /proc/sys/net/ipv4/ip_forward<br>　这个东西重启一下network服务就会失效…</p>
+<p>　永久打开：<br>　vim /etc/sysctl.conf<br>　net.ipv4.ip_forward=1</p>
+<p><strong>2.arp_ignore：定义接收到ARP请求时的响应级别</strong><br>　0：响应任意网卡上接收到的对本机IP地址的arp请求（包括环回网卡上的地址），而不管该目的IP是否在接收网卡上。<br>　1：只响应目的IP地址为接收网卡上的本地地址的arp请求。<br>　8：不回应所有的arp请求<br>　<br><strong>3.arp_announce：控制系统在对外发送arp请求时，如何选择arp请求数据包的源IP地址</strong><br>　0：默认，允许使用任意网卡上的IP地址作为arp请求的源IP，通常就是使用数据包的源IP<br>　1：尽量避免使用不属于该发送网卡子网的本地地址作为发送arp请求的源IP地址<br>　2：仅向与本地接口上地址匹配的网络进行通告<br>　<br><strong>arp_ignore和arp_announce参数的配置方法</strong><br>　arp_ignore和arp_announce参数分别有all,default,lo,eth1,eth2…等对应不同网卡的具体参数。当all和具体网卡的参数值不一致时，取较大值生效。一般只需修改all和某个具体网卡的参数即可（取决于你需要修改哪个网卡）。下面以修改lo网卡为例：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.修改/etc/sysctl.<span class="keyword">conf</span>文件，然后sysctl -<span class="keyword">p</span>刷新到内存。</span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">all</span>.arp_ignore=<span class="number">1</span></span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">lo</span>.arp_ignore=<span class="number">1</span></span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">all</span>.arp_announce=<span class="number">2</span></span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">lo</span>.arp_announce=<span class="number">2</span></span><br><span class="line"><span class="number">2</span>.修改/proc文件系统：</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"1"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_ignore</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"1"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_ignore</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"2"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_announce</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"2"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_announce</span><br></pre></td></tr></table></figure></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/31/shell流程控制-if-while-for-case/" class="archive-article-date">
-  	<time datetime="2019-05-31T05:11:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/31/shell流程控制-if-while-for-case/">shell流程控制——if，while，for，case</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -220,385 +244,157 @@ daovoice('update');
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/07/02/负载均衡基础知识补充/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/30/shell脚本与运算/" class="archive-article-date">
-  	<time datetime="2019-05-30T12:34:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2041/04/01/置顶/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【置顶】联系我&amp;赞助
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/07/02/keepalived/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">keepalived</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/30/shell脚本与运算/">shell脚本与运算</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/30/nginx配置文件详解/" class="archive-article-date">
-  	<time datetime="2019-05-30T10:30:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/30/nginx配置文件详解/">nginx配置文件详解</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/29/shell和常用命令/" class="archive-article-date">
-  	<time datetime="2019-05-29T12:23:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/29/shell和常用命令/">Shell 及脚本常用命令介绍</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/28/tomcat/" class="archive-article-date">
-  	<time datetime="2019-05-28T10:11:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/28/tomcat/">tomcat</a>
-    </h1>
-  
+  <section id="comments" class="comments">
+    <style>
+      .comments{margin:30px;padding:10px;background:#fff}
+      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+    </style>
+    <div id="vcomment" class="comment"></div>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+   new Valine({
+            av: AV,
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            app_id: "Tm4DjQsib6maAvLYDEnnDRlT-gzGzoHsz",
+            app_key: "kBqbGAkprfQ6bxvHuNxunguy",
+            placeholder: "喵喵喵～快过来～",
+            avatar: "mp",
+            avatar_cdn: "https://sdn.geekzu.org/avatar/",
+            pageSize: 10
+    });
+    if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+</script>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  </section>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/28/nginx/" class="archive-article-date">
-  	<time datetime="2019-05-28T10:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/28/nginx/">nginx(po主罢工了由科斯塔代写)</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/25/cobbler安装与配置/" class="archive-article-date">
-  	<time datetime="2019-05-25T06:59:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/25/cobbler安装与配置/">cobbler安装与配置</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/24/apache/" class="archive-article-date">
-  	<time datetime="2019-05-24T01:10:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/24/apache/">apache</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/22/DNS和NTP/" class="archive-article-date">
-  	<time datetime="2019-05-22T12:34:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/22/DNS和NTP/">DNS和NTP</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/21/NFS与DHCP/" class="archive-article-date">
-  	<time datetime="2019-05-21T11:11:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/21/NFS与DHCP/">NFS与DHCP</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2019/05/page/2/">2</a><a class="page-number" href="/archives/2019/05/page/3/">3</a><a class="extend next" rel="next" href="/archives/2019/05/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -622,8 +418,8 @@ daovoice('update');
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

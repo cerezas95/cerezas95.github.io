@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href>
-  <title>Archives: 2019/5 | 那那喵的拉拉肥厨房</title>
+  <title>keepalived | 那那喵的拉拉肥厨房</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="喵喵瞄，快出来！">
-<meta name="keywords" content="Linux，程序媛，ff14">
-<meta property="og:type" content="website">
-<meta property="og:title" content="那那喵的拉拉肥厨房">
-<meta property="og:url" content="/archives/2019/05/index.html">
+  <meta name="description" content="keepalived简介keepalived是一款高可用集群软件，利用vrrp协议实现vip地址的漂移。 　　Keepalived的作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，Keepalived将检测到，并将有故障的服务器从系统中剔除，同时使用其他服务器代替该服务器的工作，当服务器工作正常后Keepalived自动将服务器加入到服务器群中。 　　启动了keepalived">
+<meta name="keywords" content="全部,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="keepalived">
+<meta property="og:url" content="/2019/07/02/keepalived/index.html">
 <meta property="og:site_name" content="那那喵的拉拉肥厨房">
-<meta property="og:description" content="喵喵瞄，快出来！">
+<meta property="og:description" content="keepalived简介keepalived是一款高可用集群软件，利用vrrp协议实现vip地址的漂移。 　　Keepalived的作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，Keepalived将检测到，并将有故障的服务器从系统中剔除，同时使用其他服务器代替该服务器的工作，当服务器工作正常后Keepalived自动将服务器加入到服务器群中。 　　启动了keepalived">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-02T12:01:56.649Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="那那喵的拉拉肥厨房">
-<meta name="twitter:description" content="喵喵瞄，快出来！">
+<meta name="twitter:title" content="keepalived">
+<meta name="twitter:description" content="keepalived简介keepalived是一款高可用集群软件，利用vrrp协议实现vip地址的漂移。 　　Keepalived的作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，Keepalived将检测到，并将有故障的服务器从系统中剔除，同时使用其他服务器代替该服务器的工作，当服务器工作正常后Keepalived自动将服务器加入到服务器群中。 　　启动了keepalived">
   
   
     <link rel="icon" href="/favicon.png">
@@ -175,36 +176,46 @@ daovoice('update');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-keepalived" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      keepalived
+    </h1>
+  
+
+        
+        <a href="/2019/07/02/keepalived/" class="archive-article-date">
+  	<time datetime="2019-07-02T12:00:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="keepalived简介"><a href="#keepalived简介" class="headerlink" title="keepalived简介"></a>keepalived简介</h3><p>keepalived是一款高可用集群软件，利用vrrp协议实现vip地址的漂移。</p>
+<p>　　Keepalived的作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，Keepalived将检测到，并将有故障的服务器从系统中剔除，同时使用其他服务器代替该服务器的工作，当服务器工作正常后Keepalived自动将服务器加入到服务器群中。</p>
+<p>　　启动了keepalived的主服务器会每隔一段时间向备用服务器发送一个“我还活着”的信息，备用服务器会一直监听，如果收到信息则继续待机，如果收不到了就会代替主服务器开始工作。工作的方法是将自己的虚拟ip改为主服务器的虚拟ip，这个动作也叫ip的‘漂移’。</p>
+<p>keepalived可以和多种负载均衡软件配合使用：<br>　- keepalived+lvs<br>　- keepalived+nginx<br>　- keepalived+haproxy</p>
+<p>keepalived也有同类软件，如hacmp，它是IBM的高可用集群软件，一般用于非x86架构中，是收费软件。</p>
+<h3 id="keepalived的配置："><a href="#keepalived的配置：" class="headerlink" title="keepalived的配置："></a>keepalived的配置：</h3><p>配置文件位置：<br>vim /etc/keepalived/keepalived.conf</p>
+<p>配置文件主要分为三类分别是：<br>（1）全局配置<br>（2）VRRP配置<br>（3）LVS配置</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#全局配置 里面可以不写东西但不能删掉</span></span><br><span class="line">global_defs &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#VRRP配置</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    <span class="keyword">state</span> MASTER            <span class="comment">#类型MASTER或BACKUP</span></span><br><span class="line">    interface ens33         <span class="comment">#指定网卡</span></span><br><span class="line">    virtual_router_id <span class="number">141</span>   <span class="comment">#虚拟路由id（主备需一致）</span></span><br><span class="line">    priority <span class="number">100</span>            <span class="comment">#优先级，100最高</span></span><br><span class="line">    advert_int <span class="number">1</span>            <span class="comment">#检测间隔秒数</span></span><br><span class="line">    authentication &#123;        <span class="comment">#认证信息，需要主备服务器保持一致</span></span><br><span class="line">        auth_type PASS      <span class="comment">#认证模式</span></span><br><span class="line">        auth_pass <span class="number">1111</span>      <span class="comment">#认证密码</span></span><br><span class="line">    &#125;   </span><br><span class="line">    virtual_ipaddress &#123;     <span class="comment">#虚拟ip配置</span></span><br><span class="line">        <span class="number">192.168</span>.<span class="number">19.55</span>       <span class="comment">#可填写多个</span></span><br><span class="line">    &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line">vrrp_instance VI_2 &#123;</span><br><span class="line">    <span class="keyword">state</span> BACKUP</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id <span class="number">142</span></span><br><span class="line">    priority <span class="number">99</span></span><br><span class="line">    advert_int <span class="number">1</span></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass <span class="number">2222</span></span><br><span class="line">    &#125;   </span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        <span class="number">192.168</span>.<span class="number">19.66</span> </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"><span class="comment">#LVS配置在后面</span></span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+<p>　但是，上面提到的ip地址漂移是在主服务器的keepalived进行挂掉了的情况下才会发生，那么如果主服务器的httpd挂了但是keepalived没挂的话，就不能进行ip地址漂移了。这时我们可以设置keepalived在运行时监听某服务的运行情况并自动进行一些处理。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">global_defs &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行脚本检查httpd服务的状态 一定要写在调用chk_httpd的内容的前面！！</span></span><br><span class="line">vrrp_script chk_httpd &#123;</span><br><span class="line">       <span class="built_in"> script </span><span class="string">"/root/httpdcheck.sh"</span>  #指定脚本位置</span><br><span class="line">        interval 2                    #指定间隔时间</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">   <span class="built_in"> interface </span>ens33 </span><br><span class="line">    virtual_router_id 11</span><br><span class="line">    priority 100</span><br><span class="line">    nopreempt                         #非抢占模式  </span><br><span class="line">    advert_int 1                    </span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.142.55/24</span><br><span class="line">    &#125; </span><br><span class="line">    track_script &#123;                   #调用chk_httpd</span><br><span class="line">        chk_httpd </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>脚本httpdcheck.sh 的内容：<br>检查httpd状态，若不正常则自动重启服务，若重启失败则关闭keepalived服务从而进行ip漂移。除此之外还能将检查中出现的错误记录追加到logs.txt文件中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">systemctl status httpd</span><br><span class="line"><span class="keyword">if</span> [ $? -ne 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"httpd restarting..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line">        systemctl restart httpd</span><br><span class="line">        <span class="keyword">if</span> [ $? -ne 0 ] ; <span class="keyword">then</span></span><br><span class="line">                systemctl stop keepalived</span><br><span class="line">                <span class="built_in">echo</span> <span class="string">"fail to restart httpd..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"httpd is running..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<p>keepalived集成了LVS的功能，如果你想和LVS一起使用的话，只要在keepalived.cfg中增加LVS相关的配置即可。<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#VRRP配置DS1</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER                    <span class="comment">#角色类型MASTER|BACKUP</span></span><br><span class="line">    interface ens33                    <span class="comment">#网卡名称</span></span><br><span class="line">    virtual_router_id<span class="number"> 51 </span>           <span class="comment">#虚拟路由id（需要与BACKUP一致）</span></span><br><span class="line">    priority<span class="number"> 100 </span>                   <span class="comment">#优先级</span></span><br><span class="line">    advert_int<span class="number"> 1 </span>                   <span class="comment">#1秒检查一次</span></span><br><span class="line">    <span class="comment">#nopreempt                        #非抢占模式</span></span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS                <span class="comment">#认证类型  主备之间必须一样</span></span><br><span class="line">        auth_pass<span class="number"> 1111 </span>               <span class="comment">#认证密码  主备之间必须一样</span></span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.254.250                <span class="comment">#虚拟ip（vip）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#LVS配置</span></span><br><span class="line"><span class="comment">#对虚拟ip 192.168.254.250进行设置</span></span><br><span class="line">virtual_server 192.168.254.250<span class="number"> 80 </span>&#123;    </span><br><span class="line">    delay_loop<span class="number"> 3 </span>                   <span class="comment">#健康检查时间间隔</span></span><br><span class="line">    lb_algo rr                        <span class="comment">#负载均衡调度算法  </span></span><br><span class="line">    lb_kind DR                        <span class="comment">#负载均衡转发规则 </span></span><br><span class="line">    protocol TCP                    <span class="comment">#协议</span></span><br><span class="line">    <span class="comment">#添加一个真实服务器</span></span><br><span class="line">    real_server 192.168.254.18<span class="number"> 80 </span>&#123;    <span class="comment">#要监控的real_server的ip和端口号</span></span><br><span class="line">            weight<span class="number"> 1 </span>                <span class="comment">#权重</span></span><br><span class="line">        TCP_CHECK &#123;                    <span class="comment">#基于tcp协议的检查</span></span><br><span class="line">            connect_timeout<span class="number"> 3 </span>         <span class="comment">#连接时间超时</span></span><br><span class="line">            retry<span class="number"> 3 </span>                   <span class="comment">#重连次数</span></span><br><span class="line">            delay_before_retry<span class="number"> 3 </span>   <span class="comment">#重连间隔时间</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#再添加一个真实服务器</span></span><br><span class="line">    real_server 192.168.254.19<span class="number"> 80 </span>&#123;</span><br><span class="line">            weight 1</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 3</span><br><span class="line">            retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">        &#125;   </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/31/shell流程控制-if-while-for-case/" class="archive-article-date">
-  	<time datetime="2019-05-31T05:11:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/31/shell流程控制-if-while-for-case/">shell流程控制——if，while，for，case</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -220,385 +231,157 @@ daovoice('update');
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/07/02/keepalived/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/30/shell脚本与运算/" class="archive-article-date">
-  	<time datetime="2019-05-30T12:34:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/07/02/负载均衡基础知识补充/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          负载均衡与高可用基础知识补充
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/06/28/ansible/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ansible基础</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/30/shell脚本与运算/">shell脚本与运算</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/30/nginx配置文件详解/" class="archive-article-date">
-  	<time datetime="2019-05-30T10:30:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/30/nginx配置文件详解/">nginx配置文件详解</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/29/shell和常用命令/" class="archive-article-date">
-  	<time datetime="2019-05-29T12:23:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/29/shell和常用命令/">Shell 及脚本常用命令介绍</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/28/tomcat/" class="archive-article-date">
-  	<time datetime="2019-05-28T10:11:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/28/tomcat/">tomcat</a>
-    </h1>
-  
+  <section id="comments" class="comments">
+    <style>
+      .comments{margin:30px;padding:10px;background:#fff}
+      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+    </style>
+    <div id="vcomment" class="comment"></div>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+   new Valine({
+            av: AV,
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            app_id: "Tm4DjQsib6maAvLYDEnnDRlT-gzGzoHsz",
+            app_key: "kBqbGAkprfQ6bxvHuNxunguy",
+            placeholder: "喵喵喵～快过来～",
+            avatar: "mp",
+            avatar_cdn: "https://sdn.geekzu.org/avatar/",
+            pageSize: 10
+    });
+    if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+</script>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  </section>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/28/nginx/" class="archive-article-date">
-  	<time datetime="2019-05-28T10:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/28/nginx/">nginx(po主罢工了由科斯塔代写)</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/25/cobbler安装与配置/" class="archive-article-date">
-  	<time datetime="2019-05-25T06:59:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/25/cobbler安装与配置/">cobbler安装与配置</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/24/apache/" class="archive-article-date">
-  	<time datetime="2019-05-24T01:10:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/24/apache/">apache</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/22/DNS和NTP/" class="archive-article-date">
-  	<time datetime="2019-05-22T12:34:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/22/DNS和NTP/">DNS和NTP</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/21/NFS与DHCP/" class="archive-article-date">
-  	<time datetime="2019-05-21T11:11:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/21/NFS与DHCP/">NFS与DHCP</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2019/05/page/2/">2</a><a class="page-number" href="/archives/2019/05/page/3/">3</a><a class="extend next" rel="next" href="/archives/2019/05/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -622,8 +405,8 @@ daovoice('update');
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

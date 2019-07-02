@@ -177,6 +177,293 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-vim简单操作指南" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/08/vim简单操作指南/">vim简单操作指南</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/08/vim简单操作指南/" class="archive-article-date">
+  	<time datetime="2019-05-08T07:26:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="vim简单操作指南"><a href="#vim简单操作指南" class="headerlink" title="vim简单操作指南"></a>vim简单操作指南</h1><pre><code>1. vim编辑器
+    三种模式：    
+        命令模式（普通模式）
+        输入模式（编辑模式）
+        末行模式
+2. 模式之间的切换
+    命令模式--&gt;输入模式（a,i,o）
+    输入模式--&gt;命令模式（esc）
+    命令模式--&gt;末行模式（：）
+    末行模式--&gt;命令模式（esc）
+3. 命令模式下的常用操作
+    yy: 复制，nyy就是复制n行
+    p: 粘贴
+    dd: 剪切
+    dG: 删除光标所在行到末尾的全部行
+    u: 撤销（等于Windows的ctrl+z）
+    ctrl+r：恢复（等于Windows的ctrl+y）
+    G：跳转到最后一行
+    nG： 跳转到第n行，如1G就是跳转到首行
+    home: 跳转到行首
+    end: 跳转到行尾
+    pgup: 上翻一页,或者ctrl+f
+    pgdn: 下翻一页，或者ctrl+b
+    /: 查找
+        n: 从上往下查找
+        N：从下往上查找
+
+4. 末行模式下的操作
+    q: 退出
+    w: 保存
+    wq: 保存并退出
+    q!: 强制退出
+    wq!: 保存并强制退出
+
+    跳转至n行：冒号 行号
+    缩进：
+    set ai：自动缩进
+    set noai：不自动缩进
+    set tabstop=n：设置缩进，tab为n个空格
+
+    r /文件路径/文件a ：导入文件a的内容到当前的文件中
+    w /路径/文件名 ：将当前文件另存为
+
+    set nu: 显示行号
+    set nonu： 不显示行号
+    nohl: 取消高亮
+    set hls:打开高亮
+
+    1,3 d: 删除1-3行内容
+    1，3 m 5: 移动1,3内容至5行下
+    1,3 co 5: 复制1,3内容至5行下
+
+    替换：
+    格式：行号起,行号止 s/源字符/替换内容/g (g是global的意思，表示全部替换)
+    如果不加g每行只有符合条件的第一段文字会被替换
+    其中，/可以被各种符号替代，只要统一就行，如：
+    将文件中全部的/替换为+
+    :% s@/@+@g
+    全局替换：
+    1，$ s///g或者% s///g
+    示例：
+    % s/^/#/g: 在每行的行首添加#
+    % s/$/#/g: 在每行的行尾添加#
+    % s/^#//g：删除行首的#
+    % s/#$//g: 删除行尾的#
+
+    ^：表示行首
+    $：表示行尾
+
+5. vim配置文件
+    全局配置：/etc/vimrc
+    个人配置：~/.vimrc(默认不存在，需要自己手动创建)
+
+6. 崩溃缓存文件
+    遇到意外情况时，vim会保存一个.原文件名.swp的文件
+    在下次编辑此文件时，会提示你是否需要恢复备份
+    ※恢复：可以 按R键 查看备份文件，wq保存，再用rm命令删除备份文件，或者使用 vim -r 原文件名 查看备份文件
+    ※不想恢复：可以按Q键先退出编辑，用rm命令删除备份文件即可（命令为： rm -f .文件名.swp ）
+
+7. 分屏操作
+    vim -o： 水平分屏
+    vim -O: 垂直分屏
+    ctrl+w: 切换文件
+</code></pre>
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/08/vim简单操作指南/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linux命令第二部分" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/08/linux命令第二部分/">linux命令进阶</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/08/linux命令第二部分/" class="archive-article-date">
+  	<time datetime="2019-05-08T07:01:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="高级命令进阶"><a href="#高级命令进阶" class="headerlink" title="高级命令进阶"></a>高级命令进阶</h1><h1 id="Linux磁盘系统简介"><a href="#Linux磁盘系统简介" class="headerlink" title="Linux磁盘系统简介"></a>Linux磁盘系统简介</h1><hr>
+<pre><code>1. 输出重定向
+    &gt;: 正确覆盖输出
+    &gt;&gt;: 正确追加输出
+    2&gt;: 错误覆盖输出
+    2&gt;&gt;: 错误追加输出
+    &amp;&gt;: 正确和错误覆盖输出
+    &amp;&gt;&gt;: 正确和错误追加输出
+    如：执行一个系统中没有的命令，如 ken，会返回“bash：command not found” 所谓的错误输出就是把这句话记录在文件里，后期shell编程测试结果会经常使用&amp;&gt;和&amp;&gt;&gt;
+2. 输入重定向（不常用）
+    &lt;
+3. 管道符
+    前面命令输出的结果，交给后面的命令继续处理
+4. 通配符
+    *： 表示匹配0或者多个
+    ？： 表示匹配单个字符,该字符必须存在
+    [0-9]: 表示匹配0-9之间的一个数字
+        [123]: 表示匹配1或者2或者3
+    [a-z]: 表示匹配a-z之间的一个字母
+        [abc]: 表示匹配a或者b或者c
+    [0-9a-z]：匹配到一个字符，是数字或小写字母
+5. 引号的作用
+    单引号：所见即所得
+    双引号：解释变量
+    反引号：执行命令
+    如： name = `ls`    加反引号name=ls输出的内容 不加反引号就是name=ls
+        &apos;I am $name&apos; 输出I am $name
+        &quot;I am $name&quot;输出 I am xxx（ls的输出）
+6. 软硬连接
+    软连接：ln -s 源文件 目标文件
+        1. 删除连接文件对源文件无影响
+        2. 删除源文件连接文件失效
+        3. 修改源文件连接文件也会跟着变
+        4.  修改连接文件源文件也会跟着变
+        5. 源文件别删除后在创建同名源文件，连接文件自动连接
+    硬链接：ln  源文件 目标文件
+        1. 删除源文件连接文件不会失效
+        2. 删除连接文件源文件无影响
+        3. 修改源文件连接文件也会跟着变
+        4. 修改连接文件源文件也会跟着变
+7. Linux磁盘系统
+    /root: root用户家目录
+    /home/用户名: 普通用户家目录
+    /var: 放置经常变动的文件如日志
+    /etc 放置服务程序的配置文件
+    /usr/local 用户自定义程序的安装位置
+    /tmp: 共享临时文件的目录
+    /bin，/sbin: 放置二进制命令
+    /mnt,/media： 挂载光盘
+    /dev: 磁盘设备
+</code></pre>
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/08/linux命令第二部分/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-linux命令第一部分" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -611,19 +898,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">学习</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">学习</a>
               </li>
             
             <div class="clearfix"></div>

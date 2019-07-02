@@ -242,6 +242,197 @@ daovoice('update');
 
 
   
+    <article id="post-负载均衡基础知识补充" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/02/负载均衡基础知识补充/">负载均衡与高可用基础知识补充</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/02/负载均衡基础知识补充/" class="archive-article-date">
+  	<time datetime="2019-07-02T12:02:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="网卡的工作模式"><a href="#网卡的工作模式" class="headerlink" title="网卡的工作模式"></a>网卡的工作模式</h3><p>网卡具有如下的几种工作模式：</p>
+<p>1) 广播模式（Broad Cast Model）:<br>它的物理地址（MAC）地址是 0Xffffff 的帧为广播帧，工作在广播模式的网卡接收广播帧。</p>
+<p>2）多播传送（MultiCast Model）：<br>多播传送地址作为目的物理地址的帧可以被组内的其它主机同时接收，而组外主机却接收不到。但是，如果将网卡设置为多播传送模式，它可以接收所有的多播传送帧，而不论它是不是组内成员。</p>
+<p>3）直接模式（Direct Model）:<br>工作在直接模式下的网卡只接收目地址是自己 Mac地址的帧。</p>
+<p>4）混杂模式（Promiscuous Model）:<br>工作在混杂模式下的网卡接收所有的流过网卡的帧，信包捕获程序就是在这种模式下运行的。网卡的缺省工作模式包含广播模式和直接模式，即它只接收广播帧和发给自己的帧。如果采用混杂模式，一个站点的网卡将接受同一网络内所有站点所发送的数据包这样就可以到达对于网络信息监视捕获的目的。</p>
+<h3 id="防火墙配置SNAT与DNAT"><a href="#防火墙配置SNAT与DNAT" class="headerlink" title="防火墙配置SNAT与DNAT"></a>防火墙配置SNAT与DNAT</h3><p>模拟实验：<br>0.原材料<br>三台Linux主机：<br>PC:192.168.10.1<br>防火墙：192.168.10.2和172.16.12.34<br>web：172.16.12.56</p>
+<p>1.打开防火墙的路由转发功能：<br>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</p>
+<p>2.配置源地址转换：<br>iptables -t nat -F<br>iptables -t nat -X<br>iptables -t nat -A POSTROUTING -s 192.168.10.1 -d 172.16.12.56 -p tcp –dport 80 -j SNAT –to-source 172.16.12.34</p>
+<p>注意：<br>SNAT必须在postrouting上设置<br>DNAT必须在prerouting上设置</p>
+<h3 id="ifconfig命令"><a href="#ifconfig命令" class="headerlink" title="ifconfig命令"></a>ifconfig命令</h3><p>　ifconfig命令被用于配置和显示Linux内核中网络接口的网络参数。它只是临时生效，关掉网卡或重启机器都会失效。<br>　<br><strong>查看网卡信息</strong><br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">不加网卡名就是全列出来</span><br><span class="line"><span class="comment"># ifconfig ens33</span></span><br><span class="line">ens33: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.19.143  netmask 255.255.255.0  broadcast 192.168.19.255</span><br><span class="line">        inet6 fe80::250:56ff:fe3b:ac57  prefixlen<span class="number"> 64 </span> scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:50:56:3b:ac:57  txqueuelen<span class="number"> 1000 </span> (Ethernet)</span><br><span class="line">        RX packets<span class="number"> 5020 </span> bytes<span class="number"> 572541 </span>(559.1 KiB)</span><br><span class="line">        RX errors<span class="number"> 0 </span> dropped<span class="number"> 0 </span> overruns<span class="number"> 0 </span> frame 0</span><br><span class="line">        TX packets<span class="number"> 5650 </span> bytes<span class="number"> 6481805 </span>(6.1 MiB)</span><br><span class="line">        TX errors<span class="number"> 0 </span> dropped<span class="number"> 0 </span>overruns<span class="number"> 0 </span> carrier<span class="number"> 0 </span> collisions 0</span><br></pre></td></tr></table></figure></p>
+<p><strong>开启，关闭网卡</strong><br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig ens33:<span class="number">0</span> <span class="meta">up</span></span><br><span class="line">ifconfig eth0 <span class="meta">down</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>为网卡设置ip地址</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">为<span class="selector-tag">ens33</span>添加多个<span class="selector-tag">ip</span>地址</span><br><span class="line"><span class="selector-tag">ifconfig</span> <span class="selector-tag">ens33</span><span class="selector-pseudo">:0</span> 192<span class="selector-class">.168</span><span class="selector-class">.254</span><span class="selector-class">.250</span> <span class="selector-tag">broadcast</span> 192<span class="selector-class">.168</span><span class="selector-class">.254</span><span class="selector-class">.250</span> <span class="selector-tag">netmask</span> 255<span class="selector-class">.255</span><span class="selector-class">.255</span><span class="selector-class">.255</span> <span class="selector-tag">up</span></span><br><span class="line">删除<span class="selector-tag">ip</span>地址（嗯 直接关掉就好）</span><br><span class="line"><span class="selector-tag">ifconfig</span> <span class="selector-tag">ens33</span><span class="selector-pseudo">:0</span> <span class="selector-tag">down</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>设置混杂模式</strong><br>ifconfig eth1 promisc   #设置<br>ifconfig eth1 -promisc  #取消</p>
+<p><strong>修改网卡的mac地址</strong><br>ifconfig eth0 hw ether 00:AA:BB:CC:dd:EE</p>
+<p><strong>设置网卡的最大传输单元（MTU）</strong><br>ifconfig eth0 mtu 1500</p>
+<h3 id="route命令"><a href="#route命令" class="headerlink" title="route命令"></a>route命令</h3><p>　route命令用来显示并设置Linux内核中的网络路由表，route命令设置的路由主要是静态路由。话说这个东西重启一下network服务就会失效…可以在/etc/rc.local中添加route命令来保证该路由设置永久有效。</p>
+<p><strong>显示路由表</strong><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line"><span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">192.168</span><span class="number">.19</span><span class="number">.2</span>    <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         UG    <span class="number">101</span>    <span class="number">0</span>        <span class="number">0</span> ens33</span><br><span class="line"><span class="number">192.168</span><span class="number">.19</span><span class="number">.0</span>    <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">101</span>    <span class="number">0</span>        <span class="number">0</span> ens33</span><br><span class="line"><span class="number">192.168</span><span class="number">.19</span><span class="number">.10</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> UH    <span class="number">0</span>      <span class="number">0</span>        <span class="number">0</span> ens33</span><br><span class="line"><span class="number">192.168</span><span class="number">.122</span><span class="number">.0</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">0</span>      <span class="number">0</span>        <span class="number">0</span> virbr0</span><br><span class="line"><span class="number">192.168</span><span class="number">.142</span><span class="number">.0</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">100</span>    <span class="number">0</span>        <span class="number">0</span> ens37</span><br></pre></td></tr></table></figure></p>
+<p>其中Flags为路由标志，标记当前网络节点的状态，Flags标志说明：<br>U Up表示此路由当前为启动状态。<br>H Host，表示此网关为一主机。<br>G Gateway，表示此网关为一路由器。<br>! 表示此路由当前为关闭状态。</p>
+<p><strong>添加路由</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#到一个主机</span></span><br><span class="line">route <span class="builtin-name">add</span> -host 192.168.19.19 dev ens37</span><br><span class="line"><span class="comment">#到一个网段</span></span><br><span class="line">route <span class="builtin-name">add</span> -net 192.168.19.0 netmask 255.255.255.0 dev ens33</span><br></pre></td></tr></table></figure></p>
+<p><strong>删除路由</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">去掉目标网关，把add换成del<span class="built_in">..</span>.</span><br><span class="line">route <span class="builtin-name">add</span> -host 192.168.19.19</span><br></pre></td></tr></table></figure></p>
+<p><strong>设置默认路由</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route <span class="builtin-name">add</span><span class="built_in"> default </span>gw 192.168.120.240</span><br></pre></td></tr></table></figure></p>
+<h3 id="几个常用的内核参数介绍："><a href="#几个常用的内核参数介绍：" class="headerlink" title="几个常用的内核参数介绍："></a>几个常用的内核参数介绍：</h3><p><strong>1.ip_forward：是否开启路由转发</strong><br>　开启后Linux系统可以作为路由器使用<br>　0：关闭<br>　1：开启</p>
+<p>　临时打开路由转发功能：<br>　echo 1 &gt; /proc/sys/net/ipv4/ip_forward<br>　这个东西重启一下network服务就会失效…</p>
+<p>　永久打开：<br>　vim /etc/sysctl.conf<br>　net.ipv4.ip_forward=1</p>
+<p><strong>2.arp_ignore：定义接收到ARP请求时的响应级别</strong><br>　0：响应任意网卡上接收到的对本机IP地址的arp请求（包括环回网卡上的地址），而不管该目的IP是否在接收网卡上。<br>　1：只响应目的IP地址为接收网卡上的本地地址的arp请求。<br>　8：不回应所有的arp请求<br>　<br><strong>3.arp_announce：控制系统在对外发送arp请求时，如何选择arp请求数据包的源IP地址</strong><br>　0：默认，允许使用任意网卡上的IP地址作为arp请求的源IP，通常就是使用数据包的源IP<br>　1：尽量避免使用不属于该发送网卡子网的本地地址作为发送arp请求的源IP地址<br>　2：仅向与本地接口上地址匹配的网络进行通告<br>　<br><strong>arp_ignore和arp_announce参数的配置方法</strong><br>　arp_ignore和arp_announce参数分别有all,default,lo,eth1,eth2…等对应不同网卡的具体参数。当all和具体网卡的参数值不一致时，取较大值生效。一般只需修改all和某个具体网卡的参数即可（取决于你需要修改哪个网卡）。下面以修改lo网卡为例：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.修改/etc/sysctl.<span class="keyword">conf</span>文件，然后sysctl -<span class="keyword">p</span>刷新到内存。</span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">all</span>.arp_ignore=<span class="number">1</span></span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">lo</span>.arp_ignore=<span class="number">1</span></span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">all</span>.arp_announce=<span class="number">2</span></span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">lo</span>.arp_announce=<span class="number">2</span></span><br><span class="line"><span class="number">2</span>.修改/proc文件系统：</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"1"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_ignore</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"1"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_ignore</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"2"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_announce</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"2"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_announce</span><br></pre></td></tr></table></figure></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/02/负载均衡基础知识补充/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-keepalived" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/02/keepalived/">keepalived</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/02/keepalived/" class="archive-article-date">
+  	<time datetime="2019-07-02T12:00:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="keepalived简介"><a href="#keepalived简介" class="headerlink" title="keepalived简介"></a>keepalived简介</h3><p>keepalived是一款高可用集群软件，利用vrrp协议实现vip地址的漂移。</p>
+<p>　　Keepalived的作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，Keepalived将检测到，并将有故障的服务器从系统中剔除，同时使用其他服务器代替该服务器的工作，当服务器工作正常后Keepalived自动将服务器加入到服务器群中。</p>
+<p>　　启动了keepalived的主服务器会每隔一段时间向备用服务器发送一个“我还活着”的信息，备用服务器会一直监听，如果收到信息则继续待机，如果收不到了就会代替主服务器开始工作。工作的方法是将自己的虚拟ip改为主服务器的虚拟ip，这个动作也叫ip的‘漂移’。</p>
+<p>keepalived可以和多种负载均衡软件配合使用：<br>　- keepalived+lvs<br>　- keepalived+nginx<br>　- keepalived+haproxy</p>
+<p>keepalived也有同类软件，如hacmp，它是IBM的高可用集群软件，一般用于非x86架构中，是收费软件。</p>
+<h3 id="keepalived的配置："><a href="#keepalived的配置：" class="headerlink" title="keepalived的配置："></a>keepalived的配置：</h3><p>配置文件位置：<br>vim /etc/keepalived/keepalived.conf</p>
+<p>配置文件主要分为三类分别是：<br>（1）全局配置<br>（2）VRRP配置<br>（3）LVS配置</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#全局配置 里面可以不写东西但不能删掉</span></span><br><span class="line">global_defs &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#VRRP配置</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    <span class="keyword">state</span> MASTER            <span class="comment">#类型MASTER或BACKUP</span></span><br><span class="line">    interface ens33         <span class="comment">#指定网卡</span></span><br><span class="line">    virtual_router_id <span class="number">141</span>   <span class="comment">#虚拟路由id（主备需一致）</span></span><br><span class="line">    priority <span class="number">100</span>            <span class="comment">#优先级，100最高</span></span><br><span class="line">    advert_int <span class="number">1</span>            <span class="comment">#检测间隔秒数</span></span><br><span class="line">    authentication &#123;        <span class="comment">#认证信息，需要主备服务器保持一致</span></span><br><span class="line">        auth_type PASS      <span class="comment">#认证模式</span></span><br><span class="line">        auth_pass <span class="number">1111</span>      <span class="comment">#认证密码</span></span><br><span class="line">    &#125;   </span><br><span class="line">    virtual_ipaddress &#123;     <span class="comment">#虚拟ip配置</span></span><br><span class="line">        <span class="number">192.168</span>.<span class="number">19.55</span>       <span class="comment">#可填写多个</span></span><br><span class="line">    &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line">vrrp_instance VI_2 &#123;</span><br><span class="line">    <span class="keyword">state</span> BACKUP</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id <span class="number">142</span></span><br><span class="line">    priority <span class="number">99</span></span><br><span class="line">    advert_int <span class="number">1</span></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass <span class="number">2222</span></span><br><span class="line">    &#125;   </span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        <span class="number">192.168</span>.<span class="number">19.66</span> </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"><span class="comment">#LVS配置在后面</span></span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+<p>　但是，上面提到的ip地址漂移是在主服务器的keepalived进行挂掉了的情况下才会发生，那么如果主服务器的httpd挂了但是keepalived没挂的话，就不能进行ip地址漂移了。这时我们可以设置keepalived在运行时监听某服务的运行情况并自动进行一些处理。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">global_defs &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行脚本检查httpd服务的状态 一定要写在调用chk_httpd的内容的前面！！</span></span><br><span class="line">vrrp_script chk_httpd &#123;</span><br><span class="line">       <span class="built_in"> script </span><span class="string">"/root/httpdcheck.sh"</span>  #指定脚本位置</span><br><span class="line">        interval 2                    #指定间隔时间</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">   <span class="built_in"> interface </span>ens33 </span><br><span class="line">    virtual_router_id 11</span><br><span class="line">    priority 100</span><br><span class="line">    nopreempt                         #非抢占模式  </span><br><span class="line">    advert_int 1                    </span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.142.55/24</span><br><span class="line">    &#125; </span><br><span class="line">    track_script &#123;                   #调用chk_httpd</span><br><span class="line">        chk_httpd </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>脚本httpdcheck.sh 的内容：<br>检查httpd状态，若不正常则自动重启服务，若重启失败则关闭keepalived服务从而进行ip漂移。除此之外还能将检查中出现的错误记录追加到logs.txt文件中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">systemctl status httpd</span><br><span class="line"><span class="keyword">if</span> [ $? -ne 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"httpd restarting..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line">        systemctl restart httpd</span><br><span class="line">        <span class="keyword">if</span> [ $? -ne 0 ] ; <span class="keyword">then</span></span><br><span class="line">                systemctl stop keepalived</span><br><span class="line">                <span class="built_in">echo</span> <span class="string">"fail to restart httpd..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"httpd is running..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<p>keepalived集成了LVS的功能，如果你想和LVS一起使用的话，只要在keepalived.cfg中增加LVS相关的配置即可。<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#VRRP配置DS1</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER                    <span class="comment">#角色类型MASTER|BACKUP</span></span><br><span class="line">    interface ens33                    <span class="comment">#网卡名称</span></span><br><span class="line">    virtual_router_id<span class="number"> 51 </span>           <span class="comment">#虚拟路由id（需要与BACKUP一致）</span></span><br><span class="line">    priority<span class="number"> 100 </span>                   <span class="comment">#优先级</span></span><br><span class="line">    advert_int<span class="number"> 1 </span>                   <span class="comment">#1秒检查一次</span></span><br><span class="line">    <span class="comment">#nopreempt                        #非抢占模式</span></span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS                <span class="comment">#认证类型  主备之间必须一样</span></span><br><span class="line">        auth_pass<span class="number"> 1111 </span>               <span class="comment">#认证密码  主备之间必须一样</span></span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.254.250                <span class="comment">#虚拟ip（vip）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#LVS配置</span></span><br><span class="line"><span class="comment">#对虚拟ip 192.168.254.250进行设置</span></span><br><span class="line">virtual_server 192.168.254.250<span class="number"> 80 </span>&#123;    </span><br><span class="line">    delay_loop<span class="number"> 3 </span>                   <span class="comment">#健康检查时间间隔</span></span><br><span class="line">    lb_algo rr                        <span class="comment">#负载均衡调度算法  </span></span><br><span class="line">    lb_kind DR                        <span class="comment">#负载均衡转发规则 </span></span><br><span class="line">    protocol TCP                    <span class="comment">#协议</span></span><br><span class="line">    <span class="comment">#添加一个真实服务器</span></span><br><span class="line">    real_server 192.168.254.18<span class="number"> 80 </span>&#123;    <span class="comment">#要监控的real_server的ip和端口号</span></span><br><span class="line">            weight<span class="number"> 1 </span>                <span class="comment">#权重</span></span><br><span class="line">        TCP_CHECK &#123;                    <span class="comment">#基于tcp协议的检查</span></span><br><span class="line">            connect_timeout<span class="number"> 3 </span>         <span class="comment">#连接时间超时</span></span><br><span class="line">            retry<span class="number"> 3 </span>                   <span class="comment">#重连次数</span></span><br><span class="line">            delay_before_retry<span class="number"> 3 </span>   <span class="comment">#重连间隔时间</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#再添加一个真实服务器</span></span><br><span class="line">    real_server 192.168.254.19<span class="number"> 80 </span>&#123;</span><br><span class="line">            weight 1</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 3</span><br><span class="line">            retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">        &#125;   </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/02/keepalived/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ansible" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -318,7 +509,7 @@ daovoice('update');
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -1108,225 +1299,6 @@ daovoice('update');
 
 
   
-    <article id="post-nginx配置文件详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/30/nginx配置文件详解/">nginx配置文件详解</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/30/nginx配置文件详解/" class="archive-article-date">
-  	<time datetime="2019-05-30T10:30:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>nginx其实在前面由可爱的科斯塔同学写过一篇了，那篇主要是介绍了nginx的安装配置以及通过php-fpm使nginx支持php。今天这一篇将着重讲解它的配置，其中包括它比较擅长的负载均衡和反向代理，还有虚拟主机功能。</p>
-<h3 id="nginx启动和关闭"><a href="#nginx启动和关闭" class="headerlink" title="nginx启动和关闭"></a>nginx启动和关闭</h3><blockquote>
-<p>先说下配置文件的位置：<br>默认网站根目录/usr/share/nginx/html<br>主配置文件/etc/nginx/nginx.conf<br>子配置文件/etc/nginx/conf.d/default.conf<br>注：我的配置文件里是这样的，这是yum版的默认位置。</p>
-</blockquote>
-<p><strong>nginx.conf配置文件详解</strong><br>其实，对比，apache的配置文件，它的相对比较清晰和简单，基本就分为以下几块：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">main</span><br><span class="line"></span><br><span class="line">events   &#123;</span><br><span class="line">  <span class="built_in">..</span><span class="built_in">..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http        &#123;</span><br><span class="line">  <span class="built_in">..</span><span class="built_in">..</span></span><br><span class="line"></span><br><span class="line">  upstream myproject &#123;</span><br><span class="line">    <span class="built_in">..</span><span class="built_in">..</span>.</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> <span class="built_in"> server </span> &#123;</span><br><span class="line">    <span class="built_in">..</span><span class="built_in">..</span></span><br><span class="line"></span><br><span class="line">    location &#123;</span><br><span class="line">        <span class="built_in">..</span><span class="built_in">..</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> <span class="built_in"> server </span> &#123;</span><br><span class="line">    <span class="built_in">..</span><span class="built_in">..</span></span><br><span class="line">    location &#123;</span><br><span class="line">        <span class="built_in">..</span><span class="built_in">..</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">..</span><span class="built_in">..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>nginx配置文件主要分为六个区域：<br>main(全局设置)、events(nginx工作模式)、http(http设置)、<br>sever(主机设置)、location(URL匹配)、upstream(负载均衡服务器设置)。</p>
-<h4 id="main模块"><a href="#main模块" class="headerlink" title="main模块"></a><strong>main模块</strong></h4><p>下面时一个main区域，他是一个全局的设置：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">user nobody nobody;</span><br><span class="line">worker_processes <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">error_log  <span class="regexp">/usr/</span>share<span class="regexp">/var/</span>log<span class="regexp">/nginx/</span>error.log  notice;</span><br><span class="line">pid        <span class="regexp">/usr/</span>share<span class="regexp">/var/</span>run<span class="regexp">/nginx/</span>nginx.pid;</span><br><span class="line"></span><br><span class="line">worker_rlimit_nofile <span class="number">1024</span>;</span><br></pre></td></tr></table></figure>
-<p>user 来指定Nginx Worker进程运行用户以及用户组，默认由nobody账号运行。<br>worker_processes来指定了Nginx要开启的子进程数。每个Nginx进程平均耗费10M~12M内存。根据经验，一般指定1个进程就足够了，如果是多核CPU，建议指定和CPU的数量一样的进程数即可。我这里写2，那么就会开启2个子进程，总共3个进程。<br>error_log用来定义全局错误日志文件。日志输出级别有debug、info、notice、warn、error、crit可供选择，其中，debug输出日志最为最详细，而crit输出日志最少。<br>pid用来指定进程id的存储文件位置。<br>worker_rlimit_nofile用于指定一个nginx进程可以打开的最多文件描述符数目，这里是65535，需要使用命令“ulimit -n 65535”来设置。</p>
-<h4 id="events-模块"><a href="#events-模块" class="headerlink" title="events 模块"></a><strong>events 模块</strong></h4><p>events模块来用指定nginx的工作模式和工作模式及连接数上限，一般是这样：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">use</span> <span class="literal">kqueue</span>; <span class="comment">#mac平台</span></span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>use用来指定Nginx的工作模式。Nginx支持的工作模式有select、poll、kqueue、epoll、rtsig和/dev/poll。其中select和poll都是标准的工作模式，kqueue和epoll是高效的工作模式，不同的是epoll用在Linux平台上，而kqueue用在BSD系统中，因为Mac基于BSD,所以Mac也得用这个模式，对于Linux系统，epoll工作模式是首选。<br>worker_connections用于定义Nginx每个进程的最大连接数，即接收前端的最大请求数，默认是1024。最大客户端连接数由worker_processes和worker_connections决定，即Max_clients=worker_processes<em>worker_connections，在作为反向代理时，Max_clients变为：Max_clients = worker_processes </em> worker_connections/4。<br>进程的最大连接数受Linux系统进程的最大打开文件数限制，在执行操作系统命令“ulimit -n 65536”后worker_connections的设置才能生效。</p>
-<h4 id="http-模块"><a href="#http-模块" class="headerlink" title="http 模块"></a><strong>http 模块</strong></h4><p>http模块可以说是最核心的模块了，它负责HTTP服务器相关属性的配置，它里面的server和upstream子模块，至关重要，等到反向代理和负载均衡以及虚拟目录等会仔细说。</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">http&#123;</span><br><span class="line">    <span class="keyword">include</span>       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  '<span class="variable">$remote_addr</span> - <span class="variable">$remote_user</span> [<span class="variable">$time_local</span>] <span class="string">"$request"</span> '</span><br><span class="line">                      '<span class="variable">$status</span> <span class="variable">$body_bytes_sent</span> <span class="string">"$http_referer"</span> '</span><br><span class="line">                      '<span class="string">"$http_user_agent"</span> <span class="string">"$http_x_forwarded_for"</span>';</span><br><span class="line"></span><br><span class="line">    access_log  /usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">log</span>/nginx/access.<span class="keyword">log</span>  main;</span><br><span class="line"></span><br><span class="line">    sendfile        <span class="keyword">on</span>;</span><br><span class="line">    tcp_nopush      <span class="keyword">on</span>;</span><br><span class="line">    tcp_nodelay     <span class="keyword">on</span>;</span><br><span class="line"></span><br><span class="line">    keepalive_timeout  10;</span><br><span class="line"></span><br><span class="line">    #gzip  <span class="keyword">on</span>;</span><br><span class="line"></span><br><span class="line">    upstream myproject &#123;</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>下面详细介绍下这段代码中每个配置选项的含义。<br>include 用来设定文件的mime类型,类型在配置文件目录下的mime.type文件定义，来告诉nginx来识别文件类型。<br>default_type设定了默认的类型为二进制流，也就是当文件类型未定义时使用这种方式，例如在没有配置asp 的locate 环境时，Nginx是不予解析的，此时，用浏览器访问asp文件就会出现下载了。<br>log_format用于设置日志的格式，和记录哪些参数，这里设置为main，刚好用于access_log来记录这种类型。<br>main的类型日志如下：也可以增删部分参数。</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0.0.1</span> - - <span class="string">[21/Apr/2015:18:09:54 +0800]</span> <span class="string">"<span class="keyword">GET</span> /index.php HTTP/1.1"</span> <span class="number">200</span> <span class="number">87151</span> <span class="string">"-"</span> <span class="string">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36"</span></span><br></pre></td></tr></table></figure>
-<p>access_log 用来纪录每次的访问日志的文件地址，后面的main是日志的格式样式，对应于log_format的main。<br>sendfile参数用于开启高效文件传输模式。将tcp_nopush和tcp_nodelay两个指令设置为on用于防止网络阻塞。<br>keepalive_timeout设置客户端连接保持活动的超时时间。在超过这个时间之后，服务器会关闭该连接。<br>还有很多各种配置，以后等用到来再说。</p>
-<h4 id="server-模块"><a href="#server-模块" class="headerlink" title="server 模块"></a><strong>server 模块</strong></h4><p>sever 模块是http的子模块，它用来定一个虚拟主机，我们先讲最基本的配置，这些在后面再讲。<br>我们看一下一个简单的server 是如何做的？</p>
-<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       <span class="number">8080</span>;</span><br><span class="line">        server_name  localhost <span class="number">192.168</span>.12.10 www.yangyi.com;</span><br><span class="line">        # 全局定义，如果都是这一个目录，这样定义最简单。</span><br><span class="line">        root   /Users/yangyi/www;</span><br><span class="line">        index  index.php index.html index.htm; </span><br><span class="line"></span><br><span class="line">        charset utf-<span class="number">8</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        access_log  usr/<span class="built_in">local</span>/<span class="built_in">var</span>/<span class="built_in">log</span>/host.access.<span class="built_in">log</span>  main;</span><br><span class="line">        aerror_log  usr/<span class="built_in">local</span>/<span class="built_in">var</span>/<span class="built_in">log</span>/host.<span class="built_in">error</span>.<span class="built_in">log</span>  <span class="built_in">error</span>;</span><br><span class="line"></span><br><span class="line">        ....</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>server标志定义虚拟主机开始。<br>listen用于指定虚拟主机的服务端口。<br>server_name用来指定IP地址或者域名，多个域名之间用空格分开。<br>root 表示在这整个server虚拟主机内，全部的root web根目录。注意要和locate {}下面定义的区分开来。<br>index 全局定义访问的默认首页地址。注意要和locate {}下面定义的区分开来。<br>charset用于设置网页的默认编码格式。<br>access_log用来指定此虚拟主机的访问日志存放路径，最后的main用于指定访问日志的输出格式。</p>
-<h4 id="location-模块"><a href="#location-模块" class="headerlink" title="location 模块"></a><strong>location 模块</strong></h4><p>location模块是nginx中用的最多的，也是最重要的模块了，什么负载均衡啊、反向代理啊、虚拟域名啊都与它相关。慢慢来讲：<br>location 根据它字面意思就知道是来定位的，定位URL，解析URL，所以，它也提供了强大的正则匹配功能，也支持条件判断匹配，用户可以通过location指令实现Nginx对动、静态网页进行过滤处理。像我们的php环境搭建就是用到了它。<br>我们先来看这个，设定默认首页和虚拟机目录。</p>
-<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">location</span> / &#123;</span><br><span class="line">            root   /Users/yangyi/www;</span><br><span class="line">            <span class="keyword">index</span>  <span class="keyword">index</span>.php <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-<p>location /表示匹配访问根目录。<br>root指令用于指定访问根目录时，虚拟主机的web目录，这个目录可以是相对路径（相对路径是相对于nginx的安装目录）。也可以是绝对路径。<br>index用于设定我们只输入域名后访问的默认首页地址，有个先后顺序：index.php index.html index.htm，如果没有开启目录浏览权限，又找不到这些默认首页，就会报403错误。<br>location 还有一种方式就是正则匹配，开启正则匹配这样：location ~。后面加个~。<br>下面这个例子是运用正则匹配来链接php。我们之前搭建环境也是这样做：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> <span class="regexp">~ \.php$</span> &#123;</span><br><span class="line">            <span class="attribute">root</span>           /Users/yangyi/www;</span><br><span class="line">            <span class="attribute">fastcgi_pass</span>   <span class="number">127.0.0.1:9000</span>;</span><br><span class="line">            <span class="attribute">fastcgi_index</span>  index.php;</span><br><span class="line">            <span class="attribute">include</span>        fastcgi.conf;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-<p>.php$ 熟悉正则的我们直到，这是匹配.php结尾的URL，用来解析php文件。里面的root也是一样，用来表示虚拟主机的根目录。<br>fast_pass链接的是php-fpm 的地址，之前我们也搭建过。其他几个参数我们以后再说。<br>location 还有其他用法，等讲到实例的时候，再看吧。</p>
-<h4 id="upstream-模块"><a href="#upstream-模块" class="headerlink" title="upstream 模块"></a><strong>upstream 模块</strong></h4><p>upstream 模块负债负载均衡模块，通过一个简单的调度算法来实现客户端IP到后端服务器的负载均衡。我先学习怎么用，具体的使用实例以后再说。</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream iyangyi.com&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">   <span class="built_in"> server </span>192.168.12.1:80;</span><br><span class="line">   <span class="built_in"> server </span>192.168.12.2:80 down;</span><br><span class="line">   <span class="built_in"> server </span>192.168.12.3:8080  <span class="attribute">max_fails</span>=3  <span class="attribute">fail_timeout</span>=20s;</span><br><span class="line">   <span class="built_in"> server </span>192.168.12.4:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的例子中，通过upstream指令指定了一个负载均衡器的名称iyangyi.com。这个名称可以任意指定，在后面需要的地方直接调用即可。<br>里面是ip_hash这是其中的一种负载均衡调度算法，下面会着重介绍。紧接着就是各种服务器了。用server关键字表识，后面接ip。<br>Nginx的负载均衡模块目前支持4种调度算法:<br>weight 轮询（默认）。每个请求按时间顺序逐一分配到不同的后端服务器，如果后端某台服务器宕机，故障系统被自动剔除，使用户访问不受影响。weight。指定轮询权值，weight值越大，分配到的访问机率越高，主要用于后端每个服务器性能不均的情况下。<br>ip_hash。每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题。<br>fair。比上面两个更加智能的负载均衡算法。此种算法可以依据页面大小和加载时间长短智能地进行负载均衡，也就是根据后端服务器的响应时间来分配请求，响应时间短的优先分配。Nginx本身是不支持fair的，如果需要使用这种调度算法，必须下载Nginx的upstream_fair模块。<br>url_hash。按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。Nginx本身是不支持url_hash的，如果需要使用这种调度算法，必须安装Nginx 的hash软件包。<br>在HTTP Upstream模块中，可以通过server指令指定后端服务器的IP地址和端口，同时还可以设定每个后端服务器在负载均衡调度中的状态。常用的状态有：<br>down，表示当前的server暂时不参与负载均衡。<br>backup，预留的备份机器。当其他所有的非backup机器出现故障或者忙的时候，才会请求backup机器，因此这台机器的压力最轻。<br>max_fails，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。<br>fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用。<br>注意 当负载调度算法为ip_hash时，后端服务器在负载均衡调度中的状态不能是weight和backup。</p>
-<p>参考文件：<br><a href="http://blog.csdn.net/xifeijian/article/details/20956605" target="_blank" rel="noopener">http://blog.csdn.net/xifeijian/article/details/20956605</a><br><a href="http://www.360doc.com/content/13/1114/12/7694408_329125489.shtml" target="_blank" rel="noopener">http://www.360doc.com/content/13/1114/12/7694408_329125489.shtml</a><br><a href="http://www.cnblogs.com/xiaogangqq123/archive/2011/03/02/1969006.html" target="_blank" rel="noopener">http://www.cnblogs.com/xiaogangqq123/archive/2011/03/02/1969006.html</a><br><a href="http://ixdba.blog.51cto.com/2895551/790611" target="_blank" rel="noopener">http://ixdba.blog.51cto.com/2895551/790611</a><br><a href="http://freeloda.blog.51cto.com/2033581/1288553" target="_blank" rel="noopener">http://freeloda.blog.51cto.com/2033581/1288553</a></p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/30/nginx配置文件详解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-shell和常用命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/29/shell和常用命令/">Shell 及脚本常用命令介绍</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/29/shell和常用命令/" class="archive-article-date">
-  	<time datetime="2019-05-29T12:23:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Shell 是一个 C 语言编写的脚本语言，它是用户与 Linux 的桥梁，用户输入命令交给 Shell 处理， Shell 将相应的操作传递给内核（Kernel），内核把处理的结果输出给用户。<br>下面是流程示意图：<br><img src="http://d.birdteam.net/data/f_19530029.jpg" alt></p>
-<p>Shell 分类</p>
-<p>图形界面 Shell（GUI Shell）<br>GUI 为 Unix 或者类 Unix 操作系统构造一个功能完善、操作简单以及界面友好的桌面环境。主流桌 面环境有 KDE，Gnome 等。</p>
-<p>命令行界面 Shell（CLI Shell）<br>CLI 是在用户提示符下键入可执行指令的界面，用户通过键盘输入指令，完成一系列操作。 在 Linux 系统上主流的 CLI 实现是 Bash，是许多 Linux 发行版默认的 Shell。还有许多 Unix 上 Shell，例如 tcsh、csh、ash、bsh、ksh 等。</p>
-<h3 id="第一个shell脚本"><a href="#第一个shell脚本" class="headerlink" title="第一个shell脚本"></a>第一个shell脚本</h3><p>在shell中显示Hello world!<br>vim test.sh<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">echo "Hello world!"</span><br></pre></td></tr></table></figure></p>
-<h3 id="脚本的执行方法"><a href="#脚本的执行方法" class="headerlink" title="脚本的执行方法"></a>脚本的执行方法</h3><p>方法一：bash执行<br><code>bash test.sh</code><br>用 bash 解释器执行，当前终端会新生成一个子shell去执行脚本，这种方式不需要给该文件赋予执行权限。</p>
-<p>方法二：source执行<br><code>source test.sh</code><br>以当前默认shell解释器执行，这种方式不需要给该文件赋予执行权限。也不会建立新的子shell</p>
-<p>方法三：路径执行<br><code>chmod a+x test.sh</code><br><code>./test.sh</code></p>
-<p>如果脚本第一行是<code>#!/bin/bash</code>，则和bash执行一样用bash解释器执行，会新生成一个子 shell 去执行脚本；如果脚本没有指定，则和source一样以当前默认shell解释器执行，不会建立新的子shell。<br>另外，以路径方式执行时，文件需要具有执行权限。<br>注意，这里在运行时一定要写成 ./test.sh（绝对路径亦可），而不是 test.sh，运行其它二进制的程序也一样，直接写 test.sh，Linux 系统会去 PATH（环境变量） 里寻找有没有叫 test.sh 的，而只有 /bin, /sbin, /usr/bin，/usr/sbin 等在 PATH 里，你的当前目录通常不在 PATH 里，所以写成 test.sh 是会找不到命令的，要用 ./test.sh 告诉系统说，就在当前目录找。</p>
-<p>是否生成子shell对脚本运行的影响<br>我们可以使用命令pstree查看我们当前所处的位置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** [root@costana] ~ 16:29:32 </span><br><span class="line"><span class="meta">#</span><span class="bash"> pstree</span></span><br><span class="line">systemd─┬─YDLive───&#123;YDLive&#125;</span><br><span class="line">        ├─YDService───9*[&#123;YDService&#125;]</span><br><span class="line">        ├─acpid</span><br><span class="line">      省    略    很    多    内    容</span><br><span class="line">        ├─polkitd───5*[&#123;polkitd&#125;]</span><br><span class="line">        ├─rsyslogd───2*[&#123;rsyslogd&#125;]</span><br><span class="line">        ├─sgagent───&#123;sgagent&#125;</span><br><span class="line">        ├─sshd─┬─sshd───bash</span><br><span class="line">        │      ├─2*[sshd───sshd]</span><br><span class="line">        │      ├─sshd───bash───pstree</span><br><span class="line">        │      └─sshd───bash───vim</span><br><span class="line">        ├─systemd-journal</span><br><span class="line">        ├─systemd-logind</span><br><span class="line">        ├─systemd-udevd</span><br><span class="line">        └─tuned───4*[&#123;tuned&#125;]</span><br></pre></td></tr></table></figure>
-<p>主要看这部分：<br><code>sshd───bash───pstree</code><br>当你执行bash命令的之后再次查看pstree你会发现它变成了<br><code>sshd───bash───bash───pstree</code><br>说明bash命令生成了一个子shell<br>当我们在这个子shell中时，如果我们定义一个变量，是可以正常输出的：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span> <span class="attribute">name</span>=nana</span><br><span class="line">echo <span class="variable">$name</span> </span><br><span class="line">成功输出：nana</span><br></pre></td></tr></table></figure></p>
-<p>然后我们使用<code>exit</code>命令退出这个子shell，此时使用pstree会发现：<br><code>sshd───bash───pstree</code><br>又变回来了<br>这时我们再次打印刚才的变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$name</span> </span><br><span class="line">输出为空</span><br></pre></td></tr></table></figure></p>
-<p>但是如果在父shell中定义变量，进入子shell查看，会发现可以正常输出！<br><strong>总结就是一句话：子shell可以继承父shell的变量，但父shell不能继承子shell的变量</strong></p>
-<p>另外，如果在/etc/profile等文件中定义了全局变量，则不管在哪都可以使用该变量！</p>
-<blockquote>
-<p>常用定义变量的几个位置<br>全局  etc/profile<br>全局  profile的子配置文件：/etc/profile.d/下.sh结尾的文件<br>（profile被读取时，会自动加载所有子配置文件）<br>用户  仅对当前用户生效 ~/.bashrc<br>令配置文件立即生效：source 文件名</p>
-</blockquote>
-<h3 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h3><p>grep 关键词 文件名<br>或者 带输出内容的命令 | grep 关键词<br>-i：不区分大小写<br>-n：显示找到关键词的行号<br>-v：取反 列出不包含关键词的行<br>-E：支持正则匹配<br>-o：只打印匹配到的内容<br>-c：统计匹配到的行数（可用wc代替）<br>-B &lt;数字&gt;：打印出匹配到关键词的前n行（包括匹配到的那行）<br>-A &lt;数字&gt;：同上，后n行</p>
-<p>如：去掉所有注释和空行<br><code>grep -E -v &quot;(^#)|(^$)&quot; testfile</code></p>
-<p>忽略大小写，kenn仍然能被找到<br><code>echo &quot;THIS IS KENn&quot; | grep -i &#39;kenn&#39;</code><br>THIS IS <strong>KENn</strong></p>
-<blockquote>
-<p>grep，xargs，find的区别：<br>grep 从前面的输出结果中匹配关键词<br>find  找文件名或文件的信息<br>xargs 格式化输出，将前面的输出结果作为后面命令的输入</p>
-</blockquote>
-<p>$SHELL 是Linux系统中的环境变量，它指明了当前使用的 Shell 程序的位置，也就是使用的哪个 Shell。</p>
-<p>$RANDOM 可以随机生成 0~32767之间的整数数字，在生成密码等随机内容时十分好用，它可以配合一些其他命令使用，如：md5sum。</p>
-<p>md5sum 将输入的内容使用md5校验算法进行加工，变成一串复杂的乱码。</p>
-<h3 id="cut命令"><a href="#cut命令" class="headerlink" title="cut命令"></a>cut命令</h3><p>-c &lt;数字&gt;-&lt;数字&gt; 表示截取第x到y个字符<br>-d &lt;分隔符&gt; -f &lt;数字&gt;<br>表示以-d 后面的参数为分隔符进行分割，以-f 后面的参数表示你要取第几个部分。</p>
-<p>举例：<br>截取用户名和shell类型<br>以冒号分割，取第1和第7列<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** [root@costana] ~ <span class="number">19</span><span class="symbol">:</span><span class="number">20</span><span class="symbol">:</span><span class="number">18</span> </span><br><span class="line"><span class="comment"># tail -3 /etc/passwd</span></span><br><span class="line"><span class="symbol">shelltest1:</span><span class="symbol">x:</span><span class="number">1002</span><span class="symbol">:</span><span class="number">1002</span><span class="symbol">:</span><span class="symbol">:/home/shelltest1</span><span class="symbol">:/bin/bash</span></span><br><span class="line"><span class="symbol">sheltest:</span><span class="symbol">x:</span><span class="number">1003</span><span class="symbol">:</span><span class="number">1003</span><span class="symbol">:</span><span class="symbol">:/home/sheltest</span><span class="symbol">:/bin/bash</span></span><br><span class="line"><span class="symbol">shelltest2:</span><span class="symbol">x:</span><span class="number">1004</span><span class="symbol">:</span><span class="number">1004</span><span class="symbol">:</span><span class="symbol">:/home/shelltest2</span><span class="symbol">:/bin/bash</span></span><br><span class="line">*** *** *** [root@costana] ~ <span class="number">19</span><span class="symbol">:</span><span class="number">28</span><span class="symbol">:</span><span class="number">14</span> </span><br><span class="line"><span class="comment"># tail -3 /etc/passwd |cut -d : -f 1,7</span></span><br><span class="line"><span class="symbol">shelltest1:</span>/bin/bash</span><br><span class="line"><span class="symbol">sheltest:</span>/bin/bash</span><br><span class="line"><span class="symbol">shelltest2:</span>/bin/bash</span><br></pre></td></tr></table></figure></p>
-<p>生成6位随机密码<br>使用$RANDOM生成随机数，md5加密，再取其中的1-6位<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $RANDOM | md5sum |cut -c <span class="number">1</span><span class="number">-6</span></span><br><span class="line"><span class="number">9</span>f6a86</span><br></pre></td></tr></table></figure></p>
-<h3 id="sort命令"><a href="#sort命令" class="headerlink" title="sort命令"></a>sort命令</h3><p>Linux sort命令用于将文本文件内容加以排序。<br><strong>默认是升序</strong>，也就是<strong>从小到大</strong>排序。<br>常用参数说明：<br>-r 降序，从大到小排序<br>-n 依照数值的大小排序（默认是按ascii码排序）<br>-t&lt;分隔字符&gt; 指定排序时所用的栏位分隔字符<br>-k：根据切割后的那一段进行排序（跟-t一起用）<br>-u：去除重复的行（一般用uniq命令代替）</p>
-<p>例如：列出数字最大的3条<br>文件内容：<br>lihua 80<br>fangfang 70<br>xiaoming 150<br>lalafei 10</p>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** <span class="built_in">[root</span>@costana] ~ <span class="number">19</span>:<span class="number">50</span>:<span class="number">59</span> </span><br><span class="line">sort -rn -t <span class="string">' '</span> -k <span class="number">2</span> test |<span class="built_in"> head</span> -<span class="number">3</span></span><br><span class="line">xiaoming <span class="number">150</span></span><br><span class="line">lihua <span class="number">80</span></span><br><span class="line">fangfang <span class="number">70</span></span><br></pre></td></tr></table></figure>
-<p>uniq命令<br>去除重复的行（<strong>相邻</strong>且相同，认定为重复）<br>选项：<br>-c：在行首用数字表示该行出现了多少次<br>-u：仅仅显示那些没有出现重复过的行</p>
-<p>例如：统计重复的行数（应该先sort再统计）<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">*** *** *** [root@costana] ~ 19:56:55 </span><br><span class="line"><span class="comment"># cat test</span></span><br><span class="line">aaaa</span><br><span class="line">aaaa</span><br><span class="line">bbbb</span><br><span class="line">bbbb</span><br><span class="line">aaaa</span><br><span class="line">cccc</span><br><span class="line">cccc</span><br><span class="line">cccc</span><br><span class="line"></span><br><span class="line">*** *** *** [root@costana] ~ 19:57:19 </span><br><span class="line"><span class="comment"># uniq -c test</span></span><br><span class="line">     <span class="number"> 2 </span>aaaa  不sort排序</span><br><span class="line">     <span class="number"> 2 </span>bbbb  a行不相邻</span><br><span class="line">     <span class="number"> 1 </span>aaaa  就不算重复</span><br><span class="line">     <span class="number"> 3 </span>cccc</span><br><span class="line">      </span><br><span class="line">*** *** *** [root@costana] ~ 19:57:00 </span><br><span class="line"><span class="comment"># sort test | uniq -c</span></span><br><span class="line">     <span class="number"> 3 </span>aaaa</span><br><span class="line">     <span class="number"> 2 </span>bbbb</span><br><span class="line">     <span class="number"> 3 </span>cccc</span><br></pre></td></tr></table></figure></p>
-<h3 id="seq命令"><a href="#seq命令" class="headerlink" title="seq命令"></a>seq命令</h3><p>生成等差数列的命令<br>格式：seq （参数1）（参数2）（参数3）<br>参数1 指定从哪个数开始<br>参数2 指定间距<br>参数3 指定到哪个数结束<br>参数1和2都可以省略。写2个参数时模式为没写参数2</p>
-<p>例如：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">seq <span class="number">5</span></span><br><span class="line">显示<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span></span><br><span class="line">seq <span class="number">2</span>  <span class="number">5</span></span><br><span class="line">显示<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span></span><br><span class="line">seq <span class="number">2</span> <span class="number">2</span> <span class="number">10</span></span><br><span class="line">显示<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="tr命令"><a href="#tr命令" class="headerlink" title="tr命令"></a>tr命令</h3><p>替换或删除指定字符的命令，似乎只能在管道符后面用。<br>tr 要替换的 用什么替换<br>tr -d 要删除的</p>
-<p>如：替换大小写<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]<span class="comment"># echo "this is ken" | tr a-z A-Z</span></span><br><span class="line">THIS IS KEN</span><br><span class="line">[root@ken ~]<span class="comment"># echo "THIS IS KEN" | tr A-Z a-z</span></span><br><span class="line"><span class="keyword">this</span> <span class="keyword">is</span> ken</span><br></pre></td></tr></table></figure></p>
-<p>删除所有s<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">root@</span>ken ~]# cat test</span><br><span class="line"><span class="number">6</span> <span class="keyword">this</span>:<span class="keyword">is</span>:ke3</span><br><span class="line"><span class="number">2</span> <span class="keyword">this</span>:<span class="keyword">is</span>:ke4</span><br><span class="line"><span class="number">2</span> <span class="keyword">this</span>:<span class="keyword">is</span>:ke4</span><br><span class="line"></span><br><span class="line">[<span class="symbol">root@</span>ken ~]# cat test | tr -d <span class="string">'s'</span></span><br><span class="line"><span class="number">6</span> thi:i:ke3</span><br><span class="line"><span class="number">2</span> thi:i:ke4</span><br><span class="line"><span class="number">2</span> thi:i:ke4</span><br></pre></td></tr></table></figure></p>
-<p><strong>习题：分别使用yum list installed 和rpm -qa 查看已安装软件包数量，并统计以26个字母开头的软件包各有多少个？</strong></p>
-<p>不知道有没有人试验过，yum list installed 和rpm -qa应该都是查看已安装软件包的命令，但是使用wc -l进行统计时发现，yum经常比rpm要多？这是为什么呢？</p>
-<p>今天就带大家来数一数到底是多了哪个软件！</p>
-<p>首先我使用yum查看软件包数量<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="type">list</span> installed | wc -l</span><br><span class="line"><span class="number">486</span></span><br></pre></td></tr></table></figure></p>
-<p>再使用rpm查看<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa <span class="string">| wc -l</span></span><br><span class="line"><span class="number">485</span></span><br></pre></td></tr></table></figure></p>
-<p>可见我的电脑上差了一个包！<br>于是我用tr替换大小写 用sort排序 再取软件包的首字母 统计了各字母开头的软件包个数：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="type">list</span> installed|tr A-Z a-z |sort|cut -c <span class="number">1</span>|uniq -c</span><br><span class="line">      <span class="number">1</span>  </span><br><span class="line">     <span class="number">26</span> a</span><br><span class="line">     <span class="number">15</span> b</span><br><span class="line">     <span class="number">20</span> c</span><br><span class="line">     <span class="number">19</span> d</span><br><span class="line">      <span class="number">9</span> e</span><br><span class="line">     <span class="number">10</span> f</span><br><span class="line">     <span class="number">28</span> g</span><br><span class="line">      <span class="number">7</span> h</span><br><span class="line">     <span class="number">18</span> i</span><br><span class="line">      <span class="number">3</span> j</span><br><span class="line">     <span class="number">16</span> k</span><br><span class="line">     <span class="number">99</span> l</span><br><span class="line">      <span class="number">7</span> m</span><br><span class="line">     <span class="number">24</span> n</span><br><span class="line">      <span class="number">7</span> o</span><br><span class="line">    <span class="number">100</span> p</span><br><span class="line">      <span class="number">2</span> q</span><br><span class="line">     <span class="number">11</span> r</span><br><span class="line">     <span class="number">24</span> s</span><br><span class="line">     <span class="number">11</span> t</span><br><span class="line">      <span class="number">6</span> u</span><br><span class="line">      <span class="number">5</span> v</span><br><span class="line">      <span class="number">3</span> w</span><br><span class="line">      <span class="number">6</span> x</span><br><span class="line">      <span class="number">6</span> y</span><br><span class="line">      <span class="number">3</span> z</span><br><span class="line">      </span><br><span class="line">rpm -qa|tr A-Z a-z |sort|cut -c <span class="number">1</span>|uniq -c</span><br><span class="line">     <span class="number">26</span> a</span><br><span class="line">     <span class="number">15</span> b</span><br><span class="line">     <span class="number">20</span> c</span><br><span class="line">     <span class="number">19</span> d</span><br><span class="line">      <span class="number">9</span> e</span><br><span class="line">     <span class="number">10</span> f</span><br><span class="line">     <span class="number">30</span> g</span><br><span class="line">      <span class="number">7</span> h</span><br><span class="line">     <span class="number">17</span> i</span><br><span class="line">      <span class="number">3</span> j</span><br><span class="line">     <span class="number">16</span> k</span><br><span class="line">     <span class="number">98</span> l</span><br><span class="line">      <span class="number">7</span> m</span><br><span class="line">     <span class="number">24</span> n</span><br><span class="line">      <span class="number">7</span> o</span><br><span class="line">    <span class="number">100</span> p</span><br><span class="line">      <span class="number">2</span> q</span><br><span class="line">     <span class="number">11</span> r</span><br><span class="line">     <span class="number">24</span> s</span><br><span class="line">     <span class="number">11</span> t</span><br><span class="line">      <span class="number">6</span> u</span><br><span class="line">      <span class="number">5</span> v</span><br><span class="line">      <span class="number">3</span> w</span><br><span class="line">      <span class="number">6</span> x</span><br><span class="line">      <span class="number">6</span> y</span><br><span class="line">      <span class="number">3</span> z</span><br></pre></td></tr></table></figure></p>
-<p>虽然有少许偏差，但是你会发现从a到z所有软件包最后的总数其实都是485个！<br>问题就出现在了yum查询时有一行是以空格开头的！</p>
-<p>然后我用grep -C查看了空格开头那行的上下文：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">python-backports-ssl_match_hostname</span><span class="selector-class">.noarch</span></span><br><span class="line">                                      3<span class="selector-class">.4</span><span class="selector-class">.0</span><span class="selector-class">.2-4</span><span class="selector-class">.el7</span>                  @<span class="keyword">os</span></span><br></pre></td></tr></table></figure></p>
-<p>原来是软件包的名字太长导致它换行了！</p>
-<p>所以，最后的结论是：<strong>最好不要用yum统计软件包的个数，因为它会换行！</strong></p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/29/shell和常用命令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1430,19 +1402,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">学习</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">学习</a>
               </li>
             
             <div class="clearfix"></div>
