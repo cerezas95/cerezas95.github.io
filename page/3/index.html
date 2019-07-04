@@ -177,6 +177,276 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-samba-ftp-sshd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/20/samba-ftp-sshd/">samba、ftp和sshd服务</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/20/samba-ftp-sshd/" class="archive-article-date">
+  	<time datetime="2019-05-20T12:28:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="samba服务"><a href="#samba服务" class="headerlink" title="samba服务"></a>samba服务</h1><p>Samba是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务器及客户端程序构成。</p>
+<h3 id="安装samba"><a href="#安装samba" class="headerlink" title="安装samba"></a>安装samba</h3><p>方法一：编译安装<br><a href="https://www.colabug.com/4873787.html" target="_blank" rel="noopener">教程链接</a></p>
+<p>方法二：yum安装<br>就一句话：<code>yum install samba -y</code></p>
+<h3 id="启动samba"><a href="#启动samba" class="headerlink" title="启动samba"></a>启动samba</h3><blockquote>
+<p><strong>systemctl 的用法</strong><br>status : 查看服务状态<br>start： 启动服务<br>stop： 停止服务<br>restart：重启服务（也可以启动服务）<br>reload：平滑重启<br>enable：开机自启动<br>disable：取消开机自启</p>
+</blockquote>
+<h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a><strong>修改配置文件</strong></h4><p>文件位置：/etc/samba/smb.conf</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># See smb.conf.example for a more detailed config file or</span></span><br><span class="line"><span class="comment"># read the smb.conf manpage.</span></span><br><span class="line"><span class="comment"># Run 'testparm' to verify the config is correct after</span></span><br><span class="line"><span class="comment"># you modified it.</span></span><br><span class="line"></span><br><span class="line">[global]</span><br><span class="line">        workgroup = SAMBA  </span><br><span class="line">        #设定 Samba<span class="built_in"> Server </span>所要加入的工作组</span><br><span class="line">        security =<span class="built_in"> user </span>   </span><br><span class="line">        #设置用户访问SambaServer的验证方式，一共有4种：</span><br><span class="line">        #user：共享目录只能被授权的用户访问</span><br><span class="line">        #share：centos7已经不能用了</span><br><span class="line">        #domain：域安全级别（没用过</span><br><span class="line">        #server：代理验证（没用过</span><br><span class="line"></span><br><span class="line">        passdb backend = tdbsam</span><br><span class="line">用户后台，目前有三种：</span><br><span class="line">    #smbpasswd：使用smb自己的工具smbpasswd给系统用户设置Samba专用的密码。smbpasswd文件默认在/etc/samba目录下</span><br><span class="line">    #tdbsam：使用一个数据库文件来建立用户数据库</span><br><span class="line">    #ldapsam：基于LDAP的账户管理方式来验证用户</span><br><span class="line">    </span><br><span class="line">[homes]</span><br><span class="line">        comment = Home Directories</span><br><span class="line">        valid<span class="built_in"> users </span>= %S, %D%w%S</span><br><span class="line">        browseable = <span class="literal">No</span></span><br><span class="line">        read only = <span class="literal">No</span></span><br><span class="line">        inherit acls = <span class="literal">Yes</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">#####下面的内容都是打印机的配置#####</span></span><br><span class="line">        printing = cups </span><br><span class="line">        printcap name = cups</span><br><span class="line">        load printers = <span class="literal">yes</span></span><br><span class="line">        cups options = raw</span><br><span class="line">        </span><br><span class="line">[printers]</span><br><span class="line">        comment = All Printers</span><br><span class="line">        path = /var/tmp</span><br><span class="line">        printable = <span class="literal">Yes</span></span><br><span class="line">        create mask = 0600</span><br><span class="line">        browseable = <span class="literal">No</span></span><br><span class="line">        </span><br><span class="line">[print$]</span><br><span class="line">        comment = Printer Drivers</span><br><span class="line">        path = /var/lib/samba/drivers</span><br><span class="line">        write list = @printadmin root</span><br><span class="line">        force<span class="built_in"> group </span>= @printadmin</span><br><span class="line">        create mask = 0664</span><br><span class="line">        directory mask = 0775</span><br></pre></td></tr></table></figure>
+<h4 id="共享参数"><a href="#共享参数" class="headerlink" title="共享参数"></a><strong>共享参数</strong></h4><blockquote>
+<p>[共享名称]<br>comment = 任意字符串<br>说明：对该共享的描述<br><br>path = 共享路径<br>说明：指定共享目录的路径<br><br>browseable = yes/no<br>说明：该共享是否可以浏览<br><br>writable = yes/no<br>说明：该共享是否可写<br><br>available = yes/no<br>说明：该共享资源是否可用<br><br>admin user = 该共享管理者<br>说明：指定该共享的管理用户<br><br>valid users = 允许访问该共享的用户(个别指定)<br>说明：多个用户之间用逗号隔开，用户组用@组名<br><br>write list = 允许写入该共享的用户<br>说明：多个用户之间用逗号隔开，用户组用@组名<br><br>public = yes/no<br>说明：public用来指定该共享目录是否允许guest账户访问<br><br>guest ok = yes/no<br>说明：同public<br><br>read only = yes/no<br>说明：是否只读<br><br><strong>注意：等号两边都有空格！！</strong></p>
+</blockquote>
+<h4 id="pdbedit命令"><a href="#pdbedit命令" class="headerlink" title="pdbedit命令"></a><strong>pdbedit命令</strong></h4><p>用于管理samba用户。我猜pdb是password data base 的缩写。<br>（太难记了！一堆桑巴里跳出个皮大巴 …）</p>
+<p>常用参数（懒得翻译）：<br>-L, –list                         list all users<br>-a, –create                       create user<br>-r, –modify                       modify user<br>-x, –delete                       delete user<br>-u, –user=USER                    use username</p>
+<p><strong>举例</strong>：为用户kenn添加一个共享路径<br>步骤一：添加kenn用户</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[root@ecs-5121 ~]</span><span class="comment"># useradd kenn</span></span><br><span class="line"><span class="section">[root@ecs-5121 ~]</span><span class="comment"># id kenn</span></span><br><span class="line"><span class="attr">uid</span>=<span class="number">1004</span>(ken) gid=<span class="number">1004</span>(kenn) groups=<span class="number">1004</span>(kenn)</span><br></pre></td></tr></table></figure>
+<p>步骤二：创建samba用户<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ecs<span class="number">-5121</span> ~]<span class="comment"># pdbedit -a -u kenn</span></span><br><span class="line"><span class="keyword">new</span> password:</span><br><span class="line">retype <span class="keyword">new</span> password:</span><br></pre></td></tr></table></figure></p>
+<p>步骤三：修改配置文件<br>vim /etc/samba/smb.conf<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[kenn]</span></span><br><span class="line">        <span class="string">path</span> <span class="string">=</span> <span class="string">/home/fenxiang</span></span><br><span class="line">        <span class="string">read</span> <span class="string">only</span> <span class="string">=</span> <span class="literal">no</span></span><br><span class="line">        <span class="string">public</span> <span class="string">=</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure></p>
+<p>步骤四：重启samba服务<br>systemctl restart smb</p>
+<p>步骤五：关闭防火墙<br>setenforce 0 #关闭SELinux<br>systemctl stop firewalld #关闭firewall</p>
+<p>步骤六：为共享路径配置权限<br>chmod 777 /home/fenxiang</p>
+<p>步骤七：在Windows系统中访问<br>在运行中输入<code>\\你的ip地址</code>，输入账号密码，访问成功！</p>
+<blockquote>
+<p><strong>如果配置了kenn路径，但创建用户不小心建成了kennnn，会有几个共享文件夹呢？</strong><br><strong>解答：</strong>会看到2个共享文件夹 一个是 kenn 一个是kennn。原因：配置文件中自带本地用户登录时，共享其家目录的设置。因为kennn不符合kenn的配置，所以自动读取了home配置，就会看到两个文件夹。</p>
+</blockquote>
+<h1 id="ftp服务"><a href="#ftp服务" class="headerlink" title="ftp服务"></a>ftp服务</h1><h3 id="安装ftp"><a href="#安装ftp" class="headerlink" title="安装ftp"></a>安装ftp</h3><p>还是一句话：<code>yum install vsftpd</code></p>
+<h3 id="ftp工作原理"><a href="#ftp工作原理" class="headerlink" title="ftp工作原理"></a>ftp工作原理</h3><p>ftp：文件传输协议（英文：File Transfer Protocol）是用于在网络上进行文件传输的一套标准协议，使用客户/服务器模式。它属于网络传输协议的应用层。ftp使用控制通道（21端口）和数据通道（20端口），工作模式分为主动和被动两种。</p>
+<h4 id="主动模式："><a href="#主动模式：" class="headerlink" title="主动模式："></a><strong>主动模式：</strong></h4><p>1.客户端开放某高位端口A，像服务器21端口传输：用户名密码端口B等（指令是port指令）<br>2.服务端收到请求，返回ack=1 建立连接<br><strong>3.服务端用自己的20端口去连接端口B进行数据传送</strong><br>4.客户端返回ack=1 开始数据传送<br><img src="http://152.136.127.116/wp-content/uploads/2019/05/6-3.png" alt></p>
+<h4 id="被动模式："><a href="#被动模式：" class="headerlink" title="被动模式："></a><strong>被动模式：</strong></h4><p>1.客户端开放某高位端口A，像服务器21端口传输：用户名密码端口B等（指令是pasv指令）<br>2.服务端收到请求，返回ack=1 建立连接<br><strong>3.客户端使用自己的端口B去连接服务器端的一个高位端口</strong><br>4.服务器返回ack=1开始数据传送<br><img src="http://152.136.127.116/wp-content/uploads/2019/05/7-3.png" alt><br>注：高位端口1024以上</p>
+<h3 id="配置ftp"><a href="#配置ftp" class="headerlink" title="配置ftp"></a>配置ftp</h3><h4 id="匿名登录模式"><a href="#匿名登录模式" class="headerlink" title="匿名登录模式"></a><strong>匿名登录模式</strong></h4><p>步骤一：编辑配置文件<br>vim /etc/vsftpd/vsftpd.conf<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">匿名模式必须的几条配置：</span><br><span class="line">anonymous_enable=YES <span class="comment">#开启匿名模式</span></span><br><span class="line">anon_upload_enable=YES <span class="comment">#上传权限</span></span><br><span class="line">anon_mkdir_write_enable=YES <span class="comment">#创建目录权限</span></span><br><span class="line">anon_other_write_enable=YES <span class="comment">#其他人写权限</span></span><br></pre></td></tr></table></figure></p>
+<p>步骤二：重启vsftpd服务<br>systemctl restart vsftpd</p>
+<p>步骤三：关闭防火墙<br>setenforce 0 #关闭SELinux<br>systemctl stop firewalld #关闭firewall</p>
+<p>步骤四：为共享路径配置权限<br>匿名模式下默认的共享路径为：<strong>/var/ftp/pub</strong><br>添加写权限：chmod o+w /var/ftp/pub</p>
+<p>步骤五：在Windows系统中访问<br>在“此电脑”中，输入<code>file://你的ip地址</code>，访问成功！</p>
+<blockquote>
+<p><strong>出现：“打开 FTP 服务器上的文件夹时发生错误。请检查是否有权限访问该文件夹”该怎么办？</strong><br><br>详细信息:<br>200 Switching to ASCII mode.<br>227 Entering Passive Mode (0,0,0,0,227,175).<br><br><strong>解决方法：</strong>在windows下打开 “网络和共享中心”，找到“Internet选项” –&gt;【高级】，取消“使用被动FTP(用于防火墙和DSL调制解调器的兼容)”选项，点击确定。</p>
+</blockquote>
+<h4 id="本地用户登录模式"><a href="#本地用户登录模式" class="headerlink" title="本地用户登录模式"></a><strong>本地用户登录模式</strong></h4><p>更改配置文件：<br>anonymous_enable=NO<br>把匿名模式关掉，其余的操作都一样……</p>
+<p>#sshd服务</p>
+<p>就是让我们可以顺利连接xshell的那个服务，使用22端口，系统默认开启因此不需要手动启动。</p>
+<p><strong>配置文件：</strong><br>/etc/ssh/sshd_config</p>
+<blockquote>
+<p>UseDNS 选项打开状态下，当客户端试图登录SSH服务器时，服务器端先根据客户端的IP地址进行DNS PTR反向查询出客户端的主机名，然后根据查询出的客户端主机名进行DNS正向A记录查询，验证与其原始IP地址是否一致，这是防止客户端欺骗的一种措施，但一般我们的是动态IP不会有PTR记录。<br><strong>总之，将文件中的UseDNS改成 no可以大大加快xshell的连接速度！</strong></p>
+</blockquote>
+<p>远程连接命令：<br>ssh 用户名@ip地址</p>
+<p>退出登录：<br>exit</p>
+<h4 id="免密登录远程主机："><a href="#免密登录远程主机：" class="headerlink" title="免密登录远程主机："></a><strong>免密登录远程主机：</strong></h4><p>第一步 生成秘钥对<br>ssh-genkey<br>生成的秘钥会自动保存在 ~/.ssh/id_rsa.pub中</p>
+<p>第二步：查看秘钥</p>
+<ul>
+<li>id_rsa: 私钥（执行ssh-keygen生成）</li>
+<li>id_rsa.pub: 公钥（执行ssh-keygen生成）</li>
+<li>known_hosts: 主机信息</li>
+</ul>
+<p>第三步：传输公钥<br>ssh-copy-id 用户名@ip地址<br>（用户名@可省略，会自动使用你当前登录的用户）<br>这一步会要求你输入密码，一定要输入<strong>目标主机</strong>的密码！不是你自己的！</p>
+<p>第四步：取消配对<br>删除authorized_keys文件即可</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/20/samba-ftp-sshd/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-rpm和yum" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/17/rpm和yum/">rpm和yum</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/17/rpm和yum/" class="archive-article-date">
+  	<time datetime="2019-05-17T11:14:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="软件安装方式总结"><a href="#软件安装方式总结" class="headerlink" title="软件安装方式总结"></a><strong>软件安装方式总结</strong></h3><ul>
+<li><p><strong>方式1：编译安装  ——最复杂，使用最多</strong><br>（将源码程序按照需求进行先编译，后安装）</p>
+<ul>
+<li>缺点：安装过程复杂，而且很慢</li>
+<li>优点：安装过程可控，真正的按需求进行安装</li>
+</ul>
+</li>
+<li><p><strong>方式2：rpm安装——相对，但不怎么使用</strong><br>（用rpm来安装rpm后缀的安装包）</p>
+<ul>
+<li>优点：安装和卸载过程非常方便</li>
+<li>缺点：安装过程不可控，需要手动安装依赖包</li>
+</ul>
+</li>
+<li><p><strong>方式3：yum安装——最简单，使用最多普遍</strong><br>（自动分析rpm包的依赖关系，然后按照需要的顺序依次安装)</p>
+<ul>
+<li>优点：安装最为方便</li>
+<li>缺点：yum安装的版本会比较落后</li>
+</ul>
+</li>
+</ul>
+<h3 id="Linux和Windows的文件互传"><a href="#Linux和Windows的文件互传" class="headerlink" title="Linux和Windows的文件互传"></a><strong>Linux和Windows的文件互传</strong></h3><p>lrzsz是一款在linux里可代替ftp上传和下载的程序<br>安装命令：<code>yum -y install lrzsz</code><br>需要在xshell等软件上远程连接Linux系统时才能使用！</p>
+<p>向Linux上传文件：rz<br>向Windows上传文件：sz</p>
+<p>查看系统是否安装lrzsz <code>rpm -q lrzsz</code></p>
+<h3 id="方式一：编译安装"><a href="#方式一：编译安装" class="headerlink" title="方式一：编译安装"></a><strong>方式一：编译安装</strong></h3><p>例如：用编译安装的方式安装redis<br>第一步：下载redis解压并编译redis：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span> wget http:<span class="comment">//download.redis.io/releases/redis-5.0.5.tar.gz</span></span><br><span class="line"><span class="symbol">$</span> tar xzf redis<span class="number">-5.0</span><span class="number">.5</span>.tar.gz</span><br><span class="line"><span class="symbol">$</span> cd redis<span class="number">-5.0</span><span class="number">.5</span></span><br><span class="line"><span class="symbol">$</span> make</span><br><span class="line">……</span><br><span class="line">……</span><br><span class="line">你可能会发现，编译失败了，提示如下：</span><br><span class="line">make:    ***  [<span class="keyword">all</span>] Error <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>这可能是因为你没有安装c++的编译器，我偷懒使用 yum install gcc-c++.x86_64 进行了安装。<br>安装完再次make，终于编译成功了！<br>成功后，编译好的二进制文件会位于你刚才解压的那个redis-5.0.5下的src目录中。</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">运行Redis：</span><br><span class="line"><span class="symbol">$</span> src / redis-server</span><br><span class="line">然后进入Redis交互模式：</span><br><span class="line"><span class="symbol">$</span> src / redis-cli</span><br><span class="line">随便敲点字证明自己安装成功了：</span><br><span class="line"><span class="symbol">$</span> src/redis-cli</span><br><span class="line">redis&gt; <span class="keyword">set</span> foo <span class="comment">bar</span></span><br><span class="line">OK</span><br><span class="line">redis&gt; get <span class="comment">foo</span></span><br><span class="line"><span class="string">"bar"</span></span><br></pre></td></tr></table></figure>
+<p>编译安装的过程非常的复杂，但是可以根据自己的需要将软件安装在自己想安装的位置，在配置方面更加多样，可以按照自己的需求去安装。</p>
+<h3 id="方式二：rpm安装"><a href="#方式二：rpm安装" class="headerlink" title="方式二：rpm安装"></a><strong>方式二：rpm安装</strong></h3><ul>
+<li>rpm（Redhat Package Manager）<br>通过读取数据库，判断软件是否已经安装，如果已经安装，可以读取出来所有文件的所在位置等，并可以实现删除这些文件。</li>
+</ul>
+<p>安装软件时常用<code>rpm -ivh</code><br>常用选项：<br>-i&lt;软件包&gt;：安装指定的软件包；<br>-h：用#表示安装进度（# 2%)<br>-v：显示指令执行过程；<br>-vv：详细显示指令执行过程，便于排错。<br>-e&lt;软件名&gt;：删除指定的软件；<br>-q：进入询问模式和其他命令一起使用，q+软件名=查看软件是否安装<br>-f&lt;文件&gt;+：查询文件是哪个程序生成的，需要和q一起用<br>-a：统计当前系统安装了哪些软件，需要和q一起用（可以加wc -l统计数量）<br>-l：显示软件的文件列表，需要和q一起用<br>-R：显示软件的关联性信息，需要和q一起用<br>-U：升级或安装软件<br>-F：仅仅是升级操作<br>–scripts:查看软件相关的脚本</p>
+<p>例如：使用rpm安装redis<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">第一步：使用各种手段搞到安装文件</span><br><span class="line">如：用lrzsz传输</span><br><span class="line"></span><br><span class="line">第二步：rpm -ivh redis-<span class="number">3.2</span>.<span class="number">12</span>-<span class="number">2</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span><span class="selector-class">.rpm</span></span><br><span class="line">进行安装，安装可能会提示需要安装依赖：</span><br><span class="line">\warning: redis-<span class="number">3.2</span>.<span class="number">12</span>-<span class="number">2</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span><span class="selector-class">.rpm</span>: Header V3 RSA/SHA256 Signature, key ID <span class="number">352</span>c64e5: NOKEY</span><br><span class="line">error: Failed dependencies:</span><br><span class="line">libjemalloc<span class="selector-class">.so</span>.<span class="number">1</span>()(<span class="number">64</span>bit) is needed by redis-<span class="number">3.2</span>.<span class="number">12</span>-<span class="number">2</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span></span><br><span class="line"></span><br><span class="line">第三步：安装所需要的依赖包</span><br><span class="line">rpm -ivh lib64jemalloc1-<span class="number">3.6</span>.<span class="number">0</span>-<span class="number">2</span><span class="selector-class">.mga5</span><span class="selector-class">.x86_64</span><span class="selector-class">.rpm</span></span><br><span class="line"></span><br><span class="line">第四步：再次安装redis，提示安装成功</span><br><span class="line">rpm -ivh redis-<span class="number">3.2</span>.<span class="number">12</span>-<span class="number">2</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span><span class="selector-class">.rpm</span></span><br><span class="line"></span><br><span class="line">第五步：启动redis服务</span><br><span class="line">systemctl restart redis</span><br><span class="line"></span><br><span class="line">第六步：redis-cli 进去随便敲点字证明自己安装成功</span><br><span class="line"></span><br><span class="line">如果想卸载：rpm -e redis 即可！</span><br></pre></td></tr></table></figure></p>
+<p>可见，rpm相比编译安装简单了很多，它会告诉你你需要安装什么依赖，并且为你配置好环境变量。但是仍然需要手动安装依赖，如果依赖很多的话还是不方便，这是就需要yum登场了！</p>
+<h4 id="使用rpm命令进行查询"><a href="#使用rpm命令进行查询" class="headerlink" title="使用rpm命令进行查询"></a><strong>使用rpm命令进行查询</strong></h4><p>使用 <code>rpm -q 软件名</code> 查询软件是否安装：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -<span class="selector-tag">q</span> redis</span><br><span class="line">package redis is not installed    #未安装</span><br><span class="line">$ rpm -<span class="selector-tag">q</span> redis</span><br><span class="line">redis-<span class="number">3.2</span>.<span class="number">12</span>-<span class="number">2</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span>       #已安装</span><br></pre></td></tr></table></figure></p>
+<p>使用 <code>rpm -qf 文件名</code> 查询文件是由哪个程序生成的<br><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ which <span class="keyword">ls</span></span><br><span class="line"><span class="keyword">alias</span> <span class="keyword">ls</span>=’<span class="keyword">ls</span> –<span class="keyword">color</span>=auto’</span><br><span class="line">/usr/bin/<span class="keyword">ls</span></span><br><span class="line">$ rpm -qf /usr/bin/<span class="keyword">ls</span></span><br><span class="line">coreutils<span class="number">-8.22</span><span class="number">-21.</span>el7.x86_64</span><br></pre></td></tr></table></figure></p>
+<h3 id="方式三：yum安装"><a href="#方式三：yum安装" class="headerlink" title="方式三：yum安装"></a><strong>方式三：yum安装</strong></h3><h4 id="yum的特点"><a href="#yum的特点" class="headerlink" title="yum的特点"></a><strong>yum的特点</strong></h4><p>本地源： 下载速度快，不需要联网<br>网络源： 下载速度依赖网络速度</p>
+<p>yum的主配置文件 /etc/yum.conf<br>yum的子配置文件存放在 /etc/yum.repos.d/ 目录中<br>一般我们不对主配置文件进行修改，配置yum源需要自己建立子配置文件</p>
+<h4 id="yum配置文件的构成"><a href="#yum配置文件的构成" class="headerlink" title="yum配置文件的构成"></a><strong>yum配置文件的构成</strong></h4><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【localRpm】      &lt;&lt;&lt; 指定yum仓库的id，可以随便写，但是中间不能有空格</span><br><span class="line">name=xxx        &lt;&lt;&lt; 指定yum仓库的名称，可以随便写</span><br><span class="line">enabled=0|1     &lt;&lt;&lt; 指定是否使用该yum仓库，0表示不使用；1表示使用</span><br><span class="line">gpgcheck=0|1    &lt;&lt;&lt; 指定是否对rpm包做完整性和来源合法性验证，0表示不做验证；1表示必须做验证</span><br><span class="line">gpgkey=         &lt;&lt;&lt; 指定公钥文件（如果gpgcheck=1，那么该项不能省略）</span><br><span class="line">baseurl=        &lt;&lt;&lt; 指定yum仓库的url</span><br></pre></td></tr></table></figure>
+<h4 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a><strong>配置步骤</strong></h4><ul>
+<li><strong>第一步：配置本地yum源</strong><br>baseurl=file://<br>例如：我想将/mnt目录作为yum源，则我的配置文件为：</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【nana】</span><br><span class="line">name=bendi</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">baseurl=file:///mnt</span><br><span class="line">gpgkey=file:///mnt/RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure>
+<p>本地源一般都是使用光盘中的软件包，光盘需要进行挂载，这里我将光盘挂载到了/mnt目录下<br>命令为：mount /dev/cdrom  /mnt<br>挂载后可以使用df -h 命令查看是否成功，或者直接cd /mnt 查看是不是读取到光盘中的文件了
+　</p>
+<ul>
+<li><strong>第一步：配置网络yum源</strong><br>baseurl=http://<br>例如：配置阿里镜像站为yum源<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">【keke】</span><br><span class="line">name=wangluo</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">baseurl=https://mirrors.aliyun.com/epel/7/x86_64/</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>　</p>
+<ul>
+<li><strong>第二步：清除缓存</strong></li>
+</ul>
+<p>　yum clean all<br><img src="http://d.birdteam.net/data/f_92901871.jpg" alt></p>
+<ul>
+<li><strong>第三步：查看包列表</strong></li>
+</ul>
+<p>　yum repolist<br><img src="http://d.birdteam.net/data/f_53881548.jpg" alt></p>
+<ul>
+<li><strong>第四步：下载redis验证是否成功</strong></li>
+</ul>
+<p>　yum install redis -y</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/17/rpm和yum/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-虚拟机网络配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1297,196 +1567,6 @@ daovoice('update');
 
 
   
-    <article id="post-用户管理命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/09/用户管理命令/">用户管理命令及用户的分类</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/09/用户管理命令/" class="archive-article-date">
-  	<time datetime="2019-05-09T10:28:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="用户管理命令"><a href="#用户管理命令" class="headerlink" title="用户管理命令"></a>用户管理命令</h1><h2 id="id"><a href="#id" class="headerlink" title="id"></a>id</h2><p>　作用：查看指定用户的用户id,基本组id,附加组id</p>
-<h2 id="su"><a href="#su" class="headerlink" title="su"></a>su</h2><p>　作用：切换用户<br>　　su 用户名<br>　　su - 用户名<br>　　su和su - 的区别：前者不切换工作目录</p>
-<h2 id="passwd"><a href="#passwd" class="headerlink" title="passwd"></a>passwd</h2><p>　作用：解锁／锁定用户，设置／清除密码。如果不指定用户名，则为对当前用户操作。（注意只能指定用户名）<br>　-u：解锁，解锁会使密码清空，强制解锁需-uf<br>　-l：锁定用户，锁定后无法以该用户身份登录系统（root除外）<br>　-e：让用户密码过期<br>　-d：删除用户密码<br>　–stdin：设置密码，用法: echo “密码“ | passwd –stdin “用户名”</p>
-<h2 id="useradd"><a href="#useradd" class="headerlink" title="useradd"></a>useradd</h2><p>　作用：创建用户<br>　　-g:指定基本组<br>　　-G:指定附加组<br>　　-u:指定用户id<br>　　-r:创建系统用户<br>　　-s:指定shell类型（可登录/bin/bash，不可登录/sbin/nologin）<br>　　-o:允许uid相同</p>
-<h2 id="usermod"><a href="#usermod" class="headerlink" title="usermod"></a>usermod</h2><p>　作用：修改用户信息<br>　　-u:更改用户id<br>　　-s:更改shell<br>　　-g:更改基本组<br>　　-G:更改附加组,可以同时增加多个（用逗号隔开）<br>　　-l:更改用户名<br>　　-d:更改家目录<br>　　-m:将原来家目录中的内容搬到新的家目录中（有-d才会用到）<br>　　-e:加上密码有效期(日期格式为MM/DD/YY,不填表示永久有效)<br>　　-p:更改密码</p>
-<h2 id="userdel"><a href="#userdel" class="headerlink" title="userdel"></a>userdel</h2><p>　作用：删除用户，加个-r选项会把该用户的家目录也删除</p>
-<h2 id="groupadd"><a href="#groupadd" class="headerlink" title="groupadd"></a>groupadd</h2><p>　作用：创建用户组<br>　　-g:指定gid<br>　　-o:允许gid相同</p>
-<h2 id="groupmod"><a href="#groupmod" class="headerlink" title="groupmod"></a>groupmod</h2><p>　作用：修改用户组</p>
-<h2 id="groupdel"><a href="#groupdel" class="headerlink" title="groupdel"></a>groupdel</h2><p>　作用：删除用户组</p>
-<h1 id="用户分类"><a href="#用户分类" class="headerlink" title="用户分类"></a>用户分类</h1><ul>
-<li>管理员UID为0：系统的管理员用户。<br>系统用户UID为1～999： Linux系统为了避免因某个服务程序出现漏洞而被黑客提权至整台服务器，默认服务程序会有独立的系统用户负责运行，进而有效控制被破坏范围。<br>普通用户UID从1000开始：1000-60000（自定义uid最大4294967294）是由管理员创建的用于日常工作的用户。</li>
-<li>系统用户的特点</li>
-</ul>
-<ol>
-<li>因为不需要登录，所以shell类型通常为/sbin/nologin</li>
-<li>系统用户没有家目录</li>
-<li>系统用户id通常是小于1000</li>
-</ol>
-<h1 id="习题"><a href="#习题" class="headerlink" title="习题"></a>习题</h1><p>批量创建100个用户，user【1..100】，并设置8位随机密码。</p>
-<center>点击展开全文查看答案</center><br><center>↓</center><br><center>↓</center><br><center>↓</center>
-        
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/09/用户管理命令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-用户与用户组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/09/用户与用户组/">用户与用户组</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/09/用户与用户组/" class="archive-article-date">
-  	<time datetime="2019-05-09T08:18:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="用户与用户组"><a href="#用户与用户组" class="headerlink" title="用户与用户组"></a>用户与用户组</h1><h2 id="用户管理相关文件"><a href="#用户管理相关文件" class="headerlink" title="用户管理相关文件"></a>用户管理相关文件</h2><ul>
-<li><strong> /etc/passwd：记录用户基本信息 </strong><br>&#160; &#160; &#160; &#160;格式：<br>&#160; &#160; &#160; &#160;账号:密码（只显示一个x）:用户id:用户组id:描述:家目录位置:shell类型<br>&#160; &#160; &#160; &#160;shell类型分为：<br>&#160; &#160; &#160; &#160;可以登录系统的/bin/bash<br>&#160; &#160; &#160; &#160;无法登录系统的/sbin/nologin</li>
-<li><strong> /etc/shadow：记录用户密码信息、过期时间等 </strong><br>&#160; &#160; &#160; &#160;用户名:加密成乱码的密码:从1970.1.1到上次修改密码的时间:密码最短使用时间（0表示不限制）:密码最长有效期（99999表示不限制）:密码到期前几天开始提醒:密码到期后的宽限时间:密码过期时间:空的保留字段</li>
-<li><strong> /etc/group：记录用户组信息 </strong><br>&#160; &#160; &#160; &#160;组名:密码（只有x）:组id: 【用户1, 用户2..】<br>&#160; &#160; &#160; &#160;主组和附加组<br>&#160; &#160; &#160; &#160;在Linux系统中创建每个用户时，将自动创建一个与其同名的基本用户组，而且这个基本用户组只有该用户一个人。如果该用户以后被归纳入其他用户组，则这个其他用户组称之为扩展用户组。一个用户只有一个基本用户组，但是可以有多个扩展用户组。</li>
-<li><strong> /etc/gshadow：记录用户组密码 </strong><br>&#160; &#160; &#160; &#160;组名：密码：管理员：组员信息<br>&#160; &#160; &#160; &#160;现在又sudo等方便的指令，群组管理员已经很少使用了。</li>
-<li><strong> /etc/default/useradd：使用useradd创建用户时的默认参数在此文件中配置 </strong><br>文件内容详解：<br>&#160; &#160;GROUP=100&#160; &#160; &#160; &#160;表示可创建普通组[1]<br>&#160; &#160;HOME=/home&#160; &#160; &#160; &#160;用户的家目录建在哪里<br>&#160; &#160;INACTIVE=-1&#160; &#160; &#160; &#160;是否启用帐号过期停权，-1表示不启用，自然数表示宽限的天数<br>&#160; &#160;EXPIRE=&#160; &#160; &#160; &#160;&#160; &#160; &#160; &#160;帐号终止日期，空表示不启用<br>&#160; &#160;SHELL=/bin/bash&#160; &#160; &#160; &#160;SHELL类型，用户可否登录<br>&#160; &#160;SKEL=/etc/skel&#160; &#160; &#160; &#160;从哪里复制家目录文件<br>&#160; &#160;CREATE_MAIL_SPOOL=yes&#160; &#160; &#160; &#160;是否创建用户邮件缓冲，yes表示创建</li>
-<li><strong> /etc/skel/：用户家目录模板，创建目录时在用户家目录中的三个隐藏文件就是从这里复制的 </strong></li>
-<li><strong> /etc/login.defs：全局用户设定信息[2] </strong></li>
-</ul>
-<h3 id="1-GROUP-100：新建帳號的初始群組使用-GID-為-100-者"><a href="#1-GROUP-100：新建帳號的初始群組使用-GID-為-100-者" class="headerlink" title="[1] GROUP=100：新建帳號的初始群組使用 GID 為 100 者"></a>[1] GROUP=100：新建帳號的初始群組使用 GID 為 100 者</h3><p>系統上面 GID 為 100 者即是 users 這個群組，此設定項目指的就是讓新設使用者帳號的初始群組為 users 這一個的意思。 但是我們知道 CentOS 上面並不是這樣的，在 CentOS 上面預設的群組為與帳號名相同的群組。 舉例來說， vbird1 的初始群組為 vbird1 。怎麼會這樣啊？這是因為針對群組的角度有兩種不同的機制所致， 這兩種機制分別是：</p>
-<ul>
-<li>私有群組機制：<br>系統會建立一個與帳號一樣的群組給使用者作為初始群組。 這種群組的設定機制會比較有保密性，這是因為使用者都有自己的群組，而且家目錄權限將會設定為 700 (僅有自己可進入自己的家目錄) 之故。使用這種機制將不會參考 GROUP=100 這個設定值。代表性的 distributions 有 RHEL, Fedora, CentOS 等；</li>
-<li>公共群組機制：<br>就是以 GROUP=100 這個設定值作為新建帳號的初始群組，因此每個帳號都屬於 users 這個群組， 且預設家目錄通常的權限會是『 drwxr-xr-x … username users … 』，由於每個帳號都屬於 users 群組，因此大家都可以互相分享家目錄內的資料之故。代表 distributions 如 SuSE等。</li>
-</ul>
-<h3 id="2-关于login-defs文件"><a href="#2-关于login-defs文件" class="headerlink" title="[2] 关于login.defs文件"></a>[2] 关于login.defs文件</h3><p>在系统创建新用户时，除了参考useradd文件中的参数默认值以外，还会参考login.defs文件中的一些全局的用户设定参数信息,该文件的内容如下：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">MAIL_DIR/var/spool/mail  &lt;==使用者預設郵件信箱放置目錄</span><br><span class="line">PASS_MAX_DAYS   <span class="number">99999</span>&lt;==/etc/shadow 內的第 <span class="number">5</span> 欄，多久需變更密碼日數</span><br><span class="line">PASS_MIN_DAYS   <span class="number">0</span>&lt;==/etc/shadow 內的第 <span class="number">4</span> 欄，多久不可重新設定密碼日數</span><br><span class="line">PASS_MIN_LEN5&lt;==密碼最短的字元長度，已被 pam 模組取代，失去效用！</span><br><span class="line">PASS_WARN_AGE   <span class="number">7</span>&lt;==/etc/shadow 內的第 <span class="number">6</span> 欄，過期前會警告的日數</span><br><span class="line">UID_MIN  <span class="number">1000</span>&lt;==使用者最小的 UID，意即小於 <span class="number">1000</span> 的 UID 為系統保留</span><br><span class="line">UID_MAX <span class="number">60000</span>&lt;==使用者能夠用的最大 UID</span><br><span class="line">SYS_UID_MIN   <span class="number">201</span>&lt;==保留給使用者自行設定的系統帳號最小值 UID</span><br><span class="line">SYS_UID_MAX   <span class="number">999</span>&lt;==保留給使用者自行設定的系統帳號最大值 UID</span><br><span class="line">GID_MIN  <span class="number">1000</span>&lt;==使用者自訂群組的最小 GID，小於 <span class="number">1000</span> 為系統保留</span><br><span class="line">GID_MAX <span class="number">60000</span>&lt;==使用者自訂群組的最大 GID</span><br><span class="line">SYS_GID_MIN   <span class="number">201</span>&lt;==保留給使用者自行設定的系統帳號最小值 GID</span><br><span class="line">SYS_GID_MAX   <span class="number">999</span>&lt;==保留給使用者自行設定的系統帳號最大值 GID</span><br><span class="line">CREATE_HOME yes  &lt;==在不加 -M 及 -m 時，是否主動建立使用者家目錄？</span><br><span class="line">UMASK   <span class="number">077</span>  &lt;==使用者家目錄建立的 umask ，因此權限會是 <span class="number">700</span></span><br><span class="line">USERGROUPS_ENAB yes  &lt;==使用 userdel 刪除時，是否會刪除初始群組</span><br><span class="line">ENCRYPT_METHOD SHA512&lt;==密碼加密的機制使用的是 sha512 這一個機制！</span><br></pre></td></tr></table></figure></p>
-<p>可见，文件中规定了uid的取值范围，密码的有效期和最小长度等参数，还有是否在执行useradd时自动建立家目录、使用userdel删除用户时是否删除等选项的默认值。</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/09/用户与用户组/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1590,11 +1670,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">

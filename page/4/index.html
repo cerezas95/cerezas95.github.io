@@ -177,6 +177,196 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-用户管理命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/09/用户管理命令/">用户管理命令及用户的分类</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/09/用户管理命令/" class="archive-article-date">
+  	<time datetime="2019-05-09T10:28:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="用户管理命令"><a href="#用户管理命令" class="headerlink" title="用户管理命令"></a>用户管理命令</h1><h2 id="id"><a href="#id" class="headerlink" title="id"></a>id</h2><p>　作用：查看指定用户的用户id,基本组id,附加组id</p>
+<h2 id="su"><a href="#su" class="headerlink" title="su"></a>su</h2><p>　作用：切换用户<br>　　su 用户名<br>　　su - 用户名<br>　　su和su - 的区别：前者不切换工作目录</p>
+<h2 id="passwd"><a href="#passwd" class="headerlink" title="passwd"></a>passwd</h2><p>　作用：解锁／锁定用户，设置／清除密码。如果不指定用户名，则为对当前用户操作。（注意只能指定用户名）<br>　-u：解锁，解锁会使密码清空，强制解锁需-uf<br>　-l：锁定用户，锁定后无法以该用户身份登录系统（root除外）<br>　-e：让用户密码过期<br>　-d：删除用户密码<br>　–stdin：设置密码，用法: echo “密码“ | passwd –stdin “用户名”</p>
+<h2 id="useradd"><a href="#useradd" class="headerlink" title="useradd"></a>useradd</h2><p>　作用：创建用户<br>　　-g:指定基本组<br>　　-G:指定附加组<br>　　-u:指定用户id<br>　　-r:创建系统用户<br>　　-s:指定shell类型（可登录/bin/bash，不可登录/sbin/nologin）<br>　　-o:允许uid相同</p>
+<h2 id="usermod"><a href="#usermod" class="headerlink" title="usermod"></a>usermod</h2><p>　作用：修改用户信息<br>　　-u:更改用户id<br>　　-s:更改shell<br>　　-g:更改基本组<br>　　-G:更改附加组,可以同时增加多个（用逗号隔开）<br>　　-l:更改用户名<br>　　-d:更改家目录<br>　　-m:将原来家目录中的内容搬到新的家目录中（有-d才会用到）<br>　　-e:加上密码有效期(日期格式为MM/DD/YY,不填表示永久有效)<br>　　-p:更改密码</p>
+<h2 id="userdel"><a href="#userdel" class="headerlink" title="userdel"></a>userdel</h2><p>　作用：删除用户，加个-r选项会把该用户的家目录也删除</p>
+<h2 id="groupadd"><a href="#groupadd" class="headerlink" title="groupadd"></a>groupadd</h2><p>　作用：创建用户组<br>　　-g:指定gid<br>　　-o:允许gid相同</p>
+<h2 id="groupmod"><a href="#groupmod" class="headerlink" title="groupmod"></a>groupmod</h2><p>　作用：修改用户组</p>
+<h2 id="groupdel"><a href="#groupdel" class="headerlink" title="groupdel"></a>groupdel</h2><p>　作用：删除用户组</p>
+<h1 id="用户分类"><a href="#用户分类" class="headerlink" title="用户分类"></a>用户分类</h1><ul>
+<li>管理员UID为0：系统的管理员用户。<br>系统用户UID为1～999： Linux系统为了避免因某个服务程序出现漏洞而被黑客提权至整台服务器，默认服务程序会有独立的系统用户负责运行，进而有效控制被破坏范围。<br>普通用户UID从1000开始：1000-60000（自定义uid最大4294967294）是由管理员创建的用于日常工作的用户。</li>
+<li>系统用户的特点</li>
+</ul>
+<ol>
+<li>因为不需要登录，所以shell类型通常为/sbin/nologin</li>
+<li>系统用户没有家目录</li>
+<li>系统用户id通常是小于1000</li>
+</ol>
+<h1 id="习题"><a href="#习题" class="headerlink" title="习题"></a>习题</h1><p>批量创建100个用户，user【1..100】，并设置8位随机密码。</p>
+<center>点击展开全文查看答案</center><br><center>↓</center><br><center>↓</center><br><center>↓</center>
+        
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/09/用户管理命令/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-用户与用户组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/09/用户与用户组/">用户与用户组</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/09/用户与用户组/" class="archive-article-date">
+  	<time datetime="2019-05-09T08:18:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="用户与用户组"><a href="#用户与用户组" class="headerlink" title="用户与用户组"></a>用户与用户组</h1><h2 id="用户管理相关文件"><a href="#用户管理相关文件" class="headerlink" title="用户管理相关文件"></a>用户管理相关文件</h2><ul>
+<li><strong> /etc/passwd：记录用户基本信息 </strong><br>&#160; &#160; &#160; &#160;格式：<br>&#160; &#160; &#160; &#160;账号:密码（只显示一个x）:用户id:用户组id:描述:家目录位置:shell类型<br>&#160; &#160; &#160; &#160;shell类型分为：<br>&#160; &#160; &#160; &#160;可以登录系统的/bin/bash<br>&#160; &#160; &#160; &#160;无法登录系统的/sbin/nologin</li>
+<li><strong> /etc/shadow：记录用户密码信息、过期时间等 </strong><br>&#160; &#160; &#160; &#160;用户名:加密成乱码的密码:从1970.1.1到上次修改密码的时间:密码最短使用时间（0表示不限制）:密码最长有效期（99999表示不限制）:密码到期前几天开始提醒:密码到期后的宽限时间:密码过期时间:空的保留字段</li>
+<li><strong> /etc/group：记录用户组信息 </strong><br>&#160; &#160; &#160; &#160;组名:密码（只有x）:组id: 【用户1, 用户2..】<br>&#160; &#160; &#160; &#160;主组和附加组<br>&#160; &#160; &#160; &#160;在Linux系统中创建每个用户时，将自动创建一个与其同名的基本用户组，而且这个基本用户组只有该用户一个人。如果该用户以后被归纳入其他用户组，则这个其他用户组称之为扩展用户组。一个用户只有一个基本用户组，但是可以有多个扩展用户组。</li>
+<li><strong> /etc/gshadow：记录用户组密码 </strong><br>&#160; &#160; &#160; &#160;组名：密码：管理员：组员信息<br>&#160; &#160; &#160; &#160;现在又sudo等方便的指令，群组管理员已经很少使用了。</li>
+<li><strong> /etc/default/useradd：使用useradd创建用户时的默认参数在此文件中配置 </strong><br>文件内容详解：<br>&#160; &#160;GROUP=100&#160; &#160; &#160; &#160;表示可创建普通组[1]<br>&#160; &#160;HOME=/home&#160; &#160; &#160; &#160;用户的家目录建在哪里<br>&#160; &#160;INACTIVE=-1&#160; &#160; &#160; &#160;是否启用帐号过期停权，-1表示不启用，自然数表示宽限的天数<br>&#160; &#160;EXPIRE=&#160; &#160; &#160; &#160;&#160; &#160; &#160; &#160;帐号终止日期，空表示不启用<br>&#160; &#160;SHELL=/bin/bash&#160; &#160; &#160; &#160;SHELL类型，用户可否登录<br>&#160; &#160;SKEL=/etc/skel&#160; &#160; &#160; &#160;从哪里复制家目录文件<br>&#160; &#160;CREATE_MAIL_SPOOL=yes&#160; &#160; &#160; &#160;是否创建用户邮件缓冲，yes表示创建</li>
+<li><strong> /etc/skel/：用户家目录模板，创建目录时在用户家目录中的三个隐藏文件就是从这里复制的 </strong></li>
+<li><strong> /etc/login.defs：全局用户设定信息[2] </strong></li>
+</ul>
+<h3 id="1-GROUP-100：新建帳號的初始群組使用-GID-為-100-者"><a href="#1-GROUP-100：新建帳號的初始群組使用-GID-為-100-者" class="headerlink" title="[1] GROUP=100：新建帳號的初始群組使用 GID 為 100 者"></a>[1] GROUP=100：新建帳號的初始群組使用 GID 為 100 者</h3><p>系統上面 GID 為 100 者即是 users 這個群組，此設定項目指的就是讓新設使用者帳號的初始群組為 users 這一個的意思。 但是我們知道 CentOS 上面並不是這樣的，在 CentOS 上面預設的群組為與帳號名相同的群組。 舉例來說， vbird1 的初始群組為 vbird1 。怎麼會這樣啊？這是因為針對群組的角度有兩種不同的機制所致， 這兩種機制分別是：</p>
+<ul>
+<li>私有群組機制：<br>系統會建立一個與帳號一樣的群組給使用者作為初始群組。 這種群組的設定機制會比較有保密性，這是因為使用者都有自己的群組，而且家目錄權限將會設定為 700 (僅有自己可進入自己的家目錄) 之故。使用這種機制將不會參考 GROUP=100 這個設定值。代表性的 distributions 有 RHEL, Fedora, CentOS 等；</li>
+<li>公共群組機制：<br>就是以 GROUP=100 這個設定值作為新建帳號的初始群組，因此每個帳號都屬於 users 這個群組， 且預設家目錄通常的權限會是『 drwxr-xr-x … username users … 』，由於每個帳號都屬於 users 群組，因此大家都可以互相分享家目錄內的資料之故。代表 distributions 如 SuSE等。</li>
+</ul>
+<h3 id="2-关于login-defs文件"><a href="#2-关于login-defs文件" class="headerlink" title="[2] 关于login.defs文件"></a>[2] 关于login.defs文件</h3><p>在系统创建新用户时，除了参考useradd文件中的参数默认值以外，还会参考login.defs文件中的一些全局的用户设定参数信息,该文件的内容如下：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">MAIL_DIR/var/spool/mail  &lt;==使用者預設郵件信箱放置目錄</span><br><span class="line">PASS_MAX_DAYS   <span class="number">99999</span>&lt;==/etc/shadow 內的第 <span class="number">5</span> 欄，多久需變更密碼日數</span><br><span class="line">PASS_MIN_DAYS   <span class="number">0</span>&lt;==/etc/shadow 內的第 <span class="number">4</span> 欄，多久不可重新設定密碼日數</span><br><span class="line">PASS_MIN_LEN5&lt;==密碼最短的字元長度，已被 pam 模組取代，失去效用！</span><br><span class="line">PASS_WARN_AGE   <span class="number">7</span>&lt;==/etc/shadow 內的第 <span class="number">6</span> 欄，過期前會警告的日數</span><br><span class="line">UID_MIN  <span class="number">1000</span>&lt;==使用者最小的 UID，意即小於 <span class="number">1000</span> 的 UID 為系統保留</span><br><span class="line">UID_MAX <span class="number">60000</span>&lt;==使用者能夠用的最大 UID</span><br><span class="line">SYS_UID_MIN   <span class="number">201</span>&lt;==保留給使用者自行設定的系統帳號最小值 UID</span><br><span class="line">SYS_UID_MAX   <span class="number">999</span>&lt;==保留給使用者自行設定的系統帳號最大值 UID</span><br><span class="line">GID_MIN  <span class="number">1000</span>&lt;==使用者自訂群組的最小 GID，小於 <span class="number">1000</span> 為系統保留</span><br><span class="line">GID_MAX <span class="number">60000</span>&lt;==使用者自訂群組的最大 GID</span><br><span class="line">SYS_GID_MIN   <span class="number">201</span>&lt;==保留給使用者自行設定的系統帳號最小值 GID</span><br><span class="line">SYS_GID_MAX   <span class="number">999</span>&lt;==保留給使用者自行設定的系統帳號最大值 GID</span><br><span class="line">CREATE_HOME yes  &lt;==在不加 -M 及 -m 時，是否主動建立使用者家目錄？</span><br><span class="line">UMASK   <span class="number">077</span>  &lt;==使用者家目錄建立的 umask ，因此權限會是 <span class="number">700</span></span><br><span class="line">USERGROUPS_ENAB yes  &lt;==使用 userdel 刪除時，是否會刪除初始群組</span><br><span class="line">ENCRYPT_METHOD SHA512&lt;==密碼加密的機制使用的是 sha512 這一個機制！</span><br></pre></td></tr></table></figure></p>
+<p>可见，文件中规定了uid的取值范围，密码的有效期和最小长度等参数，还有是否在执行useradd时自动建立家目录、使用userdel删除用户时是否删除等选项的默认值。</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/09/用户与用户组/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-vim简单操作指南" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -898,11 +1088,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">

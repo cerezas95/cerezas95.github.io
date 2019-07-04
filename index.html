@@ -242,6 +242,209 @@ daovoice('update');
 
 
   
+    <article id="post-ansible2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/04/ansible2/">ansible--模块和roles</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/04/ansible2/" class="archive-article-date">
+  	<time datetime="2019-07-04T08:03:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="【ansible】常用模块"><a href="#【ansible】常用模块" class="headerlink" title="【ansible】常用模块"></a>【ansible】常用模块</h3><p>playbook中的模块很多，可以直接在官网上查询，也可以使用ansible doc命令查询。<br>如：查询copy模块 <code>ansible doc -s copy</code></p>
+<p>下面以示例的方式介绍下几个常用的模块<br><strong>1.复制copy模块</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: Copy the keyfile <span class="keyword">for</span> authentication</span><br><span class="line">  copy: <span class="attribute">src</span>=roles/mongod/files/secret dest=&#123;&#123; mongodb_datadir_prefix &#125;&#125;<span class="built_in">/secret </span><span class="attribute">owner</span>=mongod <span class="attribute">group</span>=mongod <span class="attribute">mode</span>=0400</span><br></pre></td></tr></table></figure>
+<p>参数<br>src: 源路径<br>dest: 目标地址<br>owner:属于哪个用户<br>group：属于哪个组<br>mode: 拥有哪些权限</p>
+<p><strong>2.创建文件file模块</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: Create data directory <span class="keyword">for</span> mongoc configuration server</span><br><span class="line">  file: path=&#123;&#123; mongodb_datadir_prefix &#125;&#125;/configdb <span class="attribute">state</span>=directory <span class="attribute">owner</span>=mongod <span class="attribute">group</span>=mongod</span><br></pre></td></tr></table></figure></p>
+<p>参数<br>path: 指定文件路径，如果需要指定源和目标路径，则使用src和dest<br>state: 指定操作或生成文件的类型，包括：file（创建文件），directory（创建目录），link（软连接），hard（硬链接），touch（创建空文件），absent（删除文件）</p>
+<p><strong>3.shell和command模块</strong><br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- <span class="built_in">name</span>: print <span class="built_in">time</span></span><br><span class="line">  command: <span class="built_in">date</span></span><br></pre></td></tr></table></figure></p>
+<p>shell只能执行基础的命令，不支持通配符，正则，也不能使用$HOME等变量。</p>
+<p><strong>4.暂停pause模块</strong><br>可以在某一个步骤中暂停，等待一段时间。<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- <span class="keyword">name</span>: <span class="keyword">pause</span></span><br><span class="line">  <span class="keyword">pause</span>: seconds=<span class="number">20</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>5.服务service模块</strong><br>可以使用service命令去管理linux系统中的服务。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: Make sure nginx start with boot</span><br><span class="line">  service: <span class="attribute">name</span>=nginx <span class="attribute">state</span>=started <span class="attribute">enabled</span>=<span class="literal">yes</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>6.用户管理user模块</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: crate user</span><br><span class="line">  user: <span class="attribute">name</span>=test <span class="attribute">state</span>=present</span><br></pre></td></tr></table></figure></p>
+<p><strong>name参数：</strong>必填项，用于指定要操作的用户名称。</p>
+<p><strong>state参数：</strong>此参数用于指定是要添加还是删除用户，present 或 absent 。</p>
+<p><strong>remove参数：</strong>当 state 的值设置为 absent 时，不会删除用户的家目录等信息，这是因为 remove 参数的默认值为no，如果设置为yes，在删除用户的同时，会删除用户的家目录。当 state=absent 并且 remove=yes 时，相当于执行 “userdel –remove” 命令。</p>
+<p><strong>group参数：</strong>此参数用于指定用户所在的基本组。</p>
+<p><strong>groups参数：</strong>此参数用于指定用户所在的附加组。用户原来的附加组会被覆盖。</p>
+<p><strong>append参数：</strong>在添加附加组是使用追加模式，保留原来已添加的附加组，用法：‘groups=xxx append=yes’</p>
+<p><strong>shell参数：</strong>此参数用于指定用户的默认 shell。</p>
+<p><strong>uid参数：</strong>此参数用于指定用户的 uid 号。</p>
+<p><strong>expires参数：</strong>此参数用于指定用户的过期时间，相当于设置 /etc/shadow 文件中的的第8列</p>
+<p><strong>password参数：</strong>此参数用于指定用户的密码。但是这个密码不能是明文的密码，而是一个对明文密码”加密后”的字符串，可以在python的命令提示符下输入如下命令，生成明文密码对应的加密字符串。<br><code>import crypt; crypt.crypt(&#39;666666&#39;)</code></p>
+<p><strong>7.yum模块</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: crate user</span><br><span class="line">  yum: <span class="attribute">name</span>=httpd <span class="attribute">state</span>=present</span><br></pre></td></tr></table></figure></p>
+<p><strong>name参数：</strong>必须参数，用于指定需要管理的软件包，比如 nginx。</p>
+<p><strong>state参数：</strong>用于指定软件包的状态，包括：present、installed、latest、absent、removed。</p>
+<p>disable_gpg_check参数：yes表示禁用对 rpm 包的公钥 gpg 验证。在对应的 yum 源没有开启 gpg 验证的情况下，需要将此参数的值设置为 yes，否则会报错而无法进行安装。</p>
+<h3 id="【ansible】roles基础"><a href="#【ansible】roles基础" class="headerlink" title="【ansible】roles基础"></a>【ansible】roles基础</h3><p>roles概念类似于脚本中的函数，作用是方便多次调用。比如你写过一个部署apache的剧本，现在需要再写一个部署LAMP的，如果没有roles的话我们只能去把以前写的apache脚本复制过来，但这样LAMP的剧本会长的突破天际很难读懂，但如果我们把部署apache的剧本改写一下做成一个roles，调用起来就会十分的方便。</p>
+<p>角色要创建在roles目录下，每个角色下面都要有files，handlers，tasks，templates，var五个目录，目录下的剧本名字必须交main.yaml<br>所以，把剧本改写成roles（角色）需要将目录建成这样：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">playbooks/</span><br><span class="line">├── roles</span><br><span class="line">│   ├── dbservers   角色<span class="number">1</span></span><br><span class="line">│   │   ├── files</span><br><span class="line">│   │   │   └── httpd.conf</span><br><span class="line">│   │   ├── handlers</span><br><span class="line">│   │   │   └── main.yaml</span><br><span class="line">│   │   ├── tasks</span><br><span class="line">│   │   │   └── main.yaml</span><br><span class="line">│   │   ├── templates</span><br><span class="line">│   │   │   └── httpd.conf</span><br><span class="line">│   │   └── vars</span><br><span class="line">│   │       └── main.yaml</span><br><span class="line">│   └── webservers   角色<span class="number">2</span></span><br><span class="line">│       ├── files</span><br><span class="line">│       ├── handlers</span><br><span class="line">│       ├── tasks</span><br><span class="line">│       ├── templates</span><br><span class="line">│       └── vars</span><br><span class="line">└── site<span class="selector-class">.yaml</span>    调用角色的剧本</span><br></pre></td></tr></table></figure></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/04/ansible2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-lvs" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/04/lvs/">LVS</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/04/lvs/" class="archive-article-date">
+  	<time datetime="2019-07-04T06:31:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>LVS是 Linux Virtual Server 的简称，也就是Linux虚拟服务器。它是由中国人（章文嵩博士）发明的一款负载均衡软件，速度较快，效能可以达到硬件负载均衡</p>
+<p>LVS工作在第四层（传输层），理论上支持最高400w并发。<br>nginx工作在第七层（网络层），多用于小型的网站，支持2w并发。<br>除了LVS外，haproxy也是负载均衡的软件，它在第四层和第七层均可工作，但效率比LVS低。<br>注意：工作在第四层的LVS效率虽然高，但是对某些高层报文无法进行处理，如：不支持正则，不支持动静分离等。</p>
+<p>LVS的三种工作模式：<br>NAT模式 -m<br>配置简单，可以跨网段，缺点是调度器压力大。<br>DR路由模式 -g<br>配置较复杂，不能跨网段，但是调度器的压力小。<br>TUN隧道模式 -i<br>和路由模式类似，这种方式需要所有的服务器支持”IP Tunneling”(IP Encapsulation)协议，因此较少使用。</p>
+<h3 id="使用ipvsadm进行LVS配置"><a href="#使用ipvsadm进行LVS配置" class="headerlink" title="使用ipvsadm进行LVS配置"></a>使用ipvsadm进行LVS配置</h3><h4 id="NAT模式"><a href="#NAT模式" class="headerlink" title="NAT模式"></a><strong>NAT模式</strong></h4><p><img src="http://d.birdteam.net/data/f_62508390.jpg" alt><br><strong>调度器：</strong><br>第一步：开启路由转发功能<br>　临时：<br>　<code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code><br>　永久：<br>　<code>vim /etc/sysctl.conf ==&gt; net.ipv4.ip_forward=1</code><br>　<code>sysctl -p</code><br>第二步：设置LVS<br>　添加虚拟服务器：<br>　<code>ipvsadm -A -t 41.41.41.42:80 -s rr</code><br>　添加真实服务器：<br>　<code>ipvsadm -a -t 41.41.41.42:80 -r 192.168.19.2 -m</code><br>　<code>ipvsadm -a -t 41.41.41.42:80 -r 192.168.19.3 -m</code><br><strong>真实服务器：</strong><br>　无需配置
+　</p>
+<h4 id="路由模式"><a href="#路由模式" class="headerlink" title="路由模式"></a><strong>路由模式</strong></h4><p><img src="http://d.birdteam.net/data/f_91237555.jpg" alt></p>
+<p><strong>调度器：</strong><br>第一步：开启路由转发功能<br>　临时：<br>　<code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code><br>　永久：<br>　<code>vim /etc/sysctl.conf ==&gt; net.ipv4.ip_forward=1</code><br>　<code>sysctl -p</code><br>第二步：在网卡上添加vip<br>　<code>ifconfig ens33:0 41.41.41.100 broadcast 41.41.41.100 netmask 255.255.255.255 up</code><br>第三步：配置路由（访问vip的都走ens33:0）<br>　<code>route add -host 41.41.41.100 dev ens33:0</code><br>第四步：设置LVS<br>　添加虚拟服务器：<br>　<code>ipvsadm -A -t 41.41.41.100:80 -s rr</code><br>　添加真实服务器：<br>　<code>ipvsadm -a -t 41.41.41.100:80 -r 41.41.41.2 -m</code><br>　<code>ipvsadm -a -t 41.41.41.100:80 -r 41.41.41.3 -m</code><br>　<br><strong>真实服务器：</strong><br>第一步：配置vip<br>　<code>ifconfig lo:0 41.41.41.100 broadcast 41.41.41.100 netmask 255.255.255.255 up</code><br>第二步：配置路由<br>　<code>route -host 41.41.41.100 dev lo:0</code><br>第三步：修改内核参数<br>　<code>echo 1 &gt; /proc/sys/net/ipv4/conf/lo/arp_ignore</code><br>　<code>echo 1 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore</code><br>　<code>echo 2 &gt; /proc/sys/net/ipv4/conf/lo/arp_announce</code><br>　<code>echo 2 &gt; /proc/sys/net/ipv4/conf/all/arp_announce</code></p>
+<h4 id="LVS的八种调度算法"><a href="#LVS的八种调度算法" class="headerlink" title="LVS的八种调度算法"></a><strong>LVS的八种调度算法</strong></h4><ol>
+<li>轮叫调度 rr<br>这种算法是最简单的，就是按依次循环的方式将请求调度到不同的服务器上，该算法最大的特点就是简单。轮询算法假设所有的服务器处理请求的能力都是一样的，调度器会将所有的请求平均分配给每个真实服务器，不管后端 RS 配置和处理能力，非常均衡地分发下去。</li>
+<li>加权轮叫 wrr<br>这种算法比 rr 的算法多了一个权重的概念，可以给 RS 设置权重，权重越高，那么分发的请求数越多，权重的取值范围 0 – 100。主要是对rr算法的一种优化和补充， LVS 会考虑每台服务器的性能，并给每台服务器添加要给权值，如果服务器A的权值为1，服务器B的权值为2，则调度到服务器B的请求会是服务器A的2倍。权值越高的服务器，处理的请求越多。</li>
+<li>最少链接 lc<br>这个算法会根据后端 RS 的连接数来决定把请求分发给谁，比如 RS1 连接数比 RS2 连接数少，那么请求就优先发给 RS1 </li>
+<li>加权最少链接 wlc<br>这个算法比 lc 多了一个权重的概念。</li>
+<li>基于局部性的最少连接调度算法 lblc<br>这个算法是请求数据包的目标 IP 地址的一种调度算法，该算法先根据请求的目标 IP 地址寻找最近的该目标 IP 地址所有使用的服务器，如果这台服务器依然可用，并且有能力处理该请求，调度器会尽量选择相同的服务器，否则会继续选择其它可行的服务器</li>
+<li>复杂的基于局部性最少的连接算法 lblcr<br>记录的不是要给目标 IP 与一台服务器之间的连接记录，它会维护一个目标 IP 到一组服务器之间的映射关系，防止单点服务器负载过高。</li>
+<li><p>目标地址散列调度算法 dh<br>该算法是根据目标 IP 地址通过散列函数将目标 IP 与服务器建立映射关系，出现服务器不可用或负载过高的情况下，发往该目标 IP 的请求会固定发给该服务器。</p>
+</li>
+<li><p>源地址散列调度算法 sh<br>与目标地址散列调度算法类似，但它是根据源地址散列算法进行静态分配固定的服务器资源。</p>
+</li>
+</ol>
+<h4 id="ipvsadm命令"><a href="#ipvsadm命令" class="headerlink" title="ipvsadm命令"></a>ipvsadm命令</h4><p>-Ln –stats 查看lvs配置情况</p>
+<p>-A 添加虚拟服务器<br>　指定tcp协议：<br>　　-t 【ip地址】<br>　指定udp协议：<br>　　-u 【ip地址】<br>　指定算法：<br>　　-s 【rr，wrr，lc等】</p>
+<p>-a 添加真实服务器<br>　指定tcp协议：<br>　　-t 【ip地址】<br>　指定udp协议：<br>　　-u 【ip地址】<br>　指定真实服务器地址：<br>　　-r 【ip地址】<br>　指定模式：<br>　　-g 路由模式<br>　　-m  nat模式<br>　　-i 隧道模式</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/04/lvs/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-负载均衡基础知识补充" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -662,7 +865,7 @@ daovoice('update');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/21/进程线程协程/">python数据类型</a>
+      <a class="article-title" href="/2019/06/21/进程线程协程/">进程线程协程</a>
     </h1>
   
 
@@ -675,7 +878,7 @@ daovoice('update');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="多进程、多进程与协程"><a href="#多进程、多进程与协程" class="headerlink" title="多进程、多进程与协程"></a>多进程、多进程与协程</h2><h3 id="多任务的实现方式："><a href="#多任务的实现方式：" class="headerlink" title="多任务的实现方式："></a>多任务的实现方式：</h3><ul>
+        <h2 id="进程、线程与协程"><a href="#进程、线程与协程" class="headerlink" title="进程、线程与协程"></a>进程、线程与协程</h2><h3 id="多任务的实现方式："><a href="#多任务的实现方式：" class="headerlink" title="多任务的实现方式："></a>多任务的实现方式：</h3><ul>
 <li>多进程模式；</li>
 <li>多线程模式；</li>
 <li>多进程+多线程（太复杂一般不用）</li>
@@ -967,338 +1170,6 @@ daovoice('update');
 
 
   
-    <article id="post-shell流程控制-if-while-for-case" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/31/shell流程控制-if-while-for-case/">shell流程控制——if，while，for，case</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/31/shell流程控制-if-while-for-case/" class="archive-article-date">
-  	<time datetime="2019-05-31T05:11:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="1-if语句"><a href="#1-if语句" class="headerlink" title="1.if语句"></a>1.if语句</h3><p>格式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> 条件1</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	符合条件1时执行的命令</span><br><span class="line"><span class="keyword">elif</span> 条件2</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	符合条件2时执行的命令</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	所有条件都不符合时执行的命令</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
-<p>if和then也可以写在一行 那就用分号将条件和then隔开<br><code>if [ $num -ge 1000 -a $num -lt 2000 ] ; then</code></p>
-<h3 id="2-for循环"><a href="#2-for循环" class="headerlink" title="2.for循环"></a>2.for循环</h3><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for 变量 in 范围</span><br><span class="line">do</span><br><span class="line">	命令</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">范围可以写成：</span><br><span class="line">&#123;<span class="number">1.</span><span class="number">.100</span>&#125;表示变量为从<span class="number">1</span><span class="number">-100</span>的数字</span><br><span class="line">`seq <span class="number">100</span>` 用seq生成数列，也是从<span class="number">1</span><span class="number">-100</span>的数字</span><br><span class="line">`ls /root`变量为root下的所有文件的文件名</span><br></pre></td></tr></table></figure>
-<p>for的变量读取方式：<br>例如你使用{1..10}来定义变量范围:<br>for i in {1..10}<br>那么i的取值范围是：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &#123;<span class="number">1.</span><span class="number">.10</span>&#125;</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">10</span></span><br></pre></td></tr></table></figure></p>
-<p>也就是说第一次循环中i=1，第二次循环时i=2，…，直到第十次终止循环。</p>
-<p>当你输入的变量是多行时：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">如：你输入的变量为：</span><br><span class="line"><span class="number">11</span> <span class="number">22</span> <span class="number">33</span></span><br><span class="line"><span class="number">44</span> <span class="number">55</span> <span class="number">66</span></span><br><span class="line"><span class="number">77</span> <span class="number">88</span> <span class="number">99</span></span><br></pre></td></tr></table></figure></p>
-<p></p><h4 style="color:red">那么你的i第一次循环时是11，第二次是22，以此类推</h4><br>但它绝对不会是第一次“11 22 33” 第二次“44 55 66”，因为它是按空格切分变量的！<p></p>
-<h3 id="3-while循环"><a href="#3-while循环" class="headerlink" title="3.while循环"></a>3.while循环</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> 条件表达式; <span class="keyword">do</span></span><br><span class="line">    命令</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-<p>while循环经常用于死循环，即条件部分写个true</p>
-<p>死循环会一直循环直到你使用break跳出去，你也可以通过给他设置延迟时间让它定时执行（类似于crond的计划任务）。</p>
-<p>这里介绍一下相关的命令：</p>
-<ul>
-<li><strong>break 终止循环命令</strong><br>终止循环的意思是：终止当前的循环，继续往下执行代码。如我的代码结构如下：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..10&#125;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    oooo（代码）</span><br><span class="line">    oooo（代码）</span><br><span class="line">    <span class="keyword">if</span> [某些条件] ;<span class="keyword">then</span></span><br><span class="line">        <span class="built_in">break</span>    </span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    oooo（代码）</span><br><span class="line">    oooo（代码）</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">xxxx（代码）</span><br><span class="line">xxxx（代码）</span><br><span class="line">xxxx（代码）</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>当你满足某些条件后，执行break，就会从for循环中跳出，不再执行oooo代码，而继续执行xxxx代码。</p>
-<ul>
-<li><p><strong>continue 跳出当前循环</strong><br>跳出当前循环的意思就是：当前循环内没有执行的命令不再执行，从下一次循环的开始处继续执行。</p>
-</li>
-<li><p><strong>sleep 延时命令</strong><br>默认以秒为单位<br>sleep 1 睡眠1秒<br>sleep 1m 睡眠1分<br>sleep 1h 睡眠1小时</p>
-</li>
-</ul>
-<h3 id="4-case开关语句"><a href="#4-case开关语句" class="headerlink" title="4.case开关语句"></a>4.case开关语句</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> $变量名 <span class="keyword">in</span></span><br><span class="line">模式1)</span><br><span class="line">    要执行的命令</span><br><span class="line">    ;;</span><br><span class="line">模式2)</span><br><span class="line">    要执行的命令</span><br><span class="line">    ;;</span><br><span class="line">*）</span><br><span class="line">    默认执行的命令</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
-<p>格式要求每个模式必须以右括号结束，命令结尾以双分号结束，最后一个模式不需要添加双分号。<br>模式的匹配方法：读取变量的值，如果某个右括号前面的内容与变量的值相等，则执行这个括号下面的命令，如果没有相等的，则执行*）下的命令，例如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">start)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"开始."</span></span><br><span class="line">　　;;</span><br><span class="line">stop)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"停止."</span></span><br><span class="line">　　;;</span><br><span class="line">restart)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"重启."</span></span><br><span class="line">　　;;</span><br><span class="line">*)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"不知道你在说什么."</span></span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
-<p>执行的效果为：</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bash </span>test.<span class="keyword">sh </span>start</span><br><span class="line">开始.</span><br><span class="line"><span class="keyword">bash </span>test.<span class="keyword">sh </span>lalafei</span><br><span class="line">不知道你在说什么.</span><br></pre></td></tr></table></figure>
-<p>注意：<br>for循环的变量不带\$，case这里要加\$；for循环会改变变量的值，case并不会改变只是读取它的值来进行判断要进入那个模式。<br>支持正则*、?、[ ]、[.-.]、|</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/31/shell流程控制-if-while-for-case/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-shell脚本与运算" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/30/shell脚本与运算/">shell脚本与运算</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/30/shell脚本与运算/" class="archive-article-date">
-  	<time datetime="2019-05-30T12:34:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.shell变量简介<br>（1）定义变量<br> <code>name=nana</code><br>如果变量的值含有空格的话，需要用引号括起来，单引号，双引号，反引号都可以，详见<a href="https://cerezas95.github.io/2019/05/08/linux%E5%91%BD%E4%BB%A4%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86/" target="_blank" rel="noopener">命令进阶 </a>。</p>
-<p>（2）使用变量<br>对于已经定义过的变量，我们可以使用2种方法使用：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">方法一：$<span class="built_in">name</span></span><br><span class="line">方法二：$&#123;<span class="built_in">name</span>&#125;</span><br></pre></td></tr></table></figure>
-<p>推荐给所有变量加上花括号{ }，这是个良好的编程习惯。</p>
-<p>（3）修改变量的值<br>对已经定义的变量进行重新赋值即可。<br>例：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">name</span>=nana</span><br><span class="line"><span class="attribute">name</span>=costa</span><br><span class="line">echo <span class="variable">$name</span> </span><br><span class="line">costa</span><br></pre></td></tr></table></figure></p>
-<p>（4）将命令的结果赋值给变量<br>方法一：使用反引号<br>方法二：使用$()</p>
-<p>如：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat costa</span><br><span class="line">asdfqwer</span><br><span class="line">name=<span class="variable">$(cat costa)</span></span><br><span class="line">echo $name</span><br><span class="line">asdfqwer</span><br></pre></td></tr></table></figure></p>
-<p>（5）删除变量<br>unset 变量名<br>只读的变量无法删除，想删除只读的变量，请关掉当前shell。</p>
-<p>2.系统变量<br>在命令行提示符直接执行 env、set 查看系统或环境变量。env 显示用户环境变量，set 显示 Shell 预先定义好的变量以及用户变量。<br>常见系统变量：</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">$SHELL</span>  默认 Shell</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$HOME</span>   当前用户家目录</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$IFS</span>    内部字段分隔符</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$LANG</span>   默认语言</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$PATH</span>   默认可执行程序路径</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$PWD</span>    当前目录</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$UID</span>    当前用户 ID</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$USER</span>   当前用户</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$HISTSIZE</span>   历史命令大小</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$RANDOM</span> 随机生成一个 0 至 32767 的整数</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$HOSTNAME</span>   主机名</span></span><br></pre></td></tr></table></figure>
-<p>通过export声明变量<br>格式： export name=nana<br>这样声明的变量是临时的环境变量，可以在所有shell中生效，但是重启以后就没了。</p>
-<p>3.特殊变量列表</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">变量</th>
-<th style="text-align:left">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">\$0</td>
-<td style="text-align:left">当前脚本的文件名</td>
-</tr>
-<tr>
-<td style="text-align:left">\$n</td>
-<td style="text-align:left">传递给脚本或函数的参数。n是一个数字，表示第几个参数。例如，第一个参数是\$1，第二个参数是\$2。</td>
-</tr>
-<tr>
-<td style="text-align:left">\$#</td>
-<td style="text-align:left">传递给脚本或函数的参数个数。</td>
-</tr>
-<tr>
-<td style="text-align:left">\$*</td>
-<td style="text-align:left">传递给脚本或函数的所有参数。</td>
-</tr>
-<tr>
-<td style="text-align:left">\$?</td>
-<td style="text-align:left">上个命令的退出状态，或函数的返回值。</td>
-</tr>
-<tr>
-<td style="text-align:left">\$$</td>
-<td style="text-align:left">当前Shell进程ID。对于 Shell脚本，就是这些脚本所在的进程ID。</td>
-</tr>
-</tbody>
-</table>
-<p><strong>\$n</strong><br>第10个要写成\${10}，因为如果写\$10，会认为你是\$1和0。</p>
-<p><strong>\$?</strong><br>可以获取上一个命令的退出状态。所谓退出状态，就是上一个命令执行后的返回结果。<br>一般情况下，大部分命令执行成功会返回 0，失败返回非零数字。</p>
-<p>4.shell表达式与运算符</p>
-<p>（1）条件表达式格式：<br>|表达式|实例|<br>|——|————|<br>|[ expression ]|[ 1 -eq 1 ]|<br>|[[ expression ]]|[[ 1 -eq 1 ]]|<br>|test  expression|test 1 -eq 1 ,等同于[]|</p>
-<p>条件表达式括号里的内容是个整体，他会进行运算然后返回运算的结果是正确还是错误。表达式中可以写整数的比较式（如1+1=2），字符串的比较式（如“abc”=“bdc”），文件的判断式（文件是否存在）等。<br><strong>大写的注意：表达式每个元素之间都有空格！！</strong><br><strong>【空格1空格-eq空格1空格】</strong></p>
-<p>（2）整数比较符<br>|符号|意义|<br>|—-|—-|<br>|-eq|等于|<br>|-ne|不等于|<br>|-lt|小于|<br>|-gt|大于|<br>|-le|小于等于|<br>|-ge|大于等于|</p>
-<p>（3）字符串比较符<br>|符号|意义|<br>|—-|—-|<br>|==|前后字符串完全相同|<br>|!=|前后字符串不同|<br>|-n|字符串不为空则为真|<br>|-z|字符串为空则为真|</p>
-<p><strong>注意：请养成好习惯，<h3>字符串比较时都加上双引号</h3>，以避免莫名其妙的错误</strong></p>
-<p>（4）文件判断符<br>|符号|意义|<br>|—-|—-|<br>|-e|存在则为真（exist）|<br>|-d|是目录则为真（directory）|<br>|-f|是普通文件则为真（file）|<br>|-r|有读权限则为真（read）|<br>|-w|有写权限则为真（write）|<br>|-x|有执行权限则为真（excute）|</p>
-<p>（5）逻辑判断符</p>
-<table>
-<thead>
-<tr>
-<th>符号</th>
-<th>意义</th>
-<th>在括号间的意义</th>
-<th>在双括号中的意义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>&amp;&amp;</td>
-<td>逻辑和</td>
-<td>执行的上一条命令的退出状态为0（正确执行）时执行本条命令</td>
-<td>仅<strong>前后个条件都为真</strong>时总体状态为真</td>
-</tr>
-<tr>
-<td>\</td>
-<td>\</td>
-<td></td>
-<td>逻辑或</td>
-<td>执行的上一条命令的退出状态非0（执行错误）时执行本条命令</td>
-<td>两个条件<strong>任意一条为真</strong>则总体状态为真</td>
-</tr>
-</tbody>
-</table>
-<p>括号间举例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ 1 -eq 1 ] &amp;&amp; <span class="built_in">echo</span> <span class="string">'true'</span>||<span class="built_in">echo</span> <span class="string">'false'</span> &amp;&amp; <span class="built_in">echo</span> <span class="string">'doge'</span></span><br><span class="line">第一条是真，因此第二条输出<span class="literal">true</span></span><br><span class="line">第二条是真，因此第三条不执行</span><br><span class="line">第三条没被执行因此不进行判断</span><br><span class="line">第四条会判断在他前面执行的那条（也就是第二条）是真</span><br><span class="line">因此第四条输出doge</span><br></pre></td></tr></table></figure></p>
-<p>括号中举例：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[[ 1 -eq 1 &amp;&amp; 2 -eq 2]]</span></span><br><span class="line">两边都是真，所以整体为真</span><br><span class="line"><span class="string">[[ 1 -eq 1 &amp;&amp; 2 -eq 3]]</span></span><br><span class="line">只有左边为真，所以整体为假</span><br></pre></td></tr></table></figure></p>
-<p><strong>只能用于括号之间，或者[[]]形式的表达式之中！[]里写逻辑判断符会报错！</strong><br>（6）布尔运算符</p>
-<table>
-<thead>
-<tr>
-<th>符号</th>
-<th>意义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>！</td>
-<td>取反运算，把得到的结果反过来。</td>
-</tr>
-<tr>
-<td>-a</td>
-<td>和运算，和双括号中&amp;&amp;的意义相同。</td>
-</tr>
-<tr>
-<td>-o</td>
-<td>或运算，和双括号中\</td>
-<td>\</td>
-<td>的意义相同。</td>
-</tr>
-</tbody>
-</table>
-<p>举例：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="number">1</span> -eq <span class="number">1</span> -a <span class="number">2</span> -eq <span class="number">2</span>]</span><br><span class="line">和运算，两边都是真，所以整体为真</span><br><span class="line">[ <span class="number">1</span> -eq <span class="number">1</span> -o <span class="number">2</span> -eq <span class="number">3</span>]</span><br><span class="line">或运算，只有左边为真，但整体为真</span><br></pre></td></tr></table></figure></p>
-<p>5.整数运算与运算工具<br>在shell脚本中可以进行以下常见的运算：</p>
-<table>
-<thead>
-<tr>
-<th>符号</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>+</td>
-<td>加法</td>
-</tr>
-<tr>
-<td>–</td>
-<td>减法</td>
-</tr>
-<tr>
-<td>*</td>
-<td>乘法</td>
-</tr>
-<tr>
-<td>**</td>
-<td>乘幂</td>
-</tr>
-<tr>
-<td>/</td>
-<td>除法</td>
-</tr>
-<tr>
-<td>%</td>
-<td>取余</td>
-</tr>
-</tbody>
-</table>
-<p>运算时使用以下两种格式：<br>\$[]<br>\$(())</p>
-<p>例如：让num加3<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">num</span>=5</span><br><span class="line"><span class="attribute">num</span>=$((num+3))</span><br><span class="line">echo <span class="variable">$num</span></span><br><span class="line">8</span><br></pre></td></tr></table></figure></p>
-<p>除此之外，还可以使用命令进行整数运算，有很多命令，这里介绍let命令。<br>例如：让num加3<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">num</span>=<span class="number">5</span></span><br><span class="line"><span class="built_in">let</span> <span class="built_in">num</span>+=<span class="number">3</span></span><br><span class="line">echo $<span class="built_in">num</span></span><br><span class="line"><span class="number">8</span></span><br></pre></td></tr></table></figure></p>
-<p>6.shell括号用途总结</p>
-<p><img src="http://d.birdteam.net/data/f_64632913.jpg" alt></p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/30/shell脚本与运算/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1402,11 +1273,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">

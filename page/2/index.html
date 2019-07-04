@@ -177,6 +177,338 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-shell流程控制-if-while-for-case" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/31/shell流程控制-if-while-for-case/">shell流程控制——if，while，for，case</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/31/shell流程控制-if-while-for-case/" class="archive-article-date">
+  	<time datetime="2019-05-31T05:11:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-if语句"><a href="#1-if语句" class="headerlink" title="1.if语句"></a>1.if语句</h3><p>格式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> 条件1</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	符合条件1时执行的命令</span><br><span class="line"><span class="keyword">elif</span> 条件2</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	符合条件2时执行的命令</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	所有条件都不符合时执行的命令</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<p>if和then也可以写在一行 那就用分号将条件和then隔开<br><code>if [ $num -ge 1000 -a $num -lt 2000 ] ; then</code></p>
+<h3 id="2-for循环"><a href="#2-for循环" class="headerlink" title="2.for循环"></a>2.for循环</h3><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for 变量 in 范围</span><br><span class="line">do</span><br><span class="line">	命令</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">范围可以写成：</span><br><span class="line">&#123;<span class="number">1.</span><span class="number">.100</span>&#125;表示变量为从<span class="number">1</span><span class="number">-100</span>的数字</span><br><span class="line">`seq <span class="number">100</span>` 用seq生成数列，也是从<span class="number">1</span><span class="number">-100</span>的数字</span><br><span class="line">`ls /root`变量为root下的所有文件的文件名</span><br></pre></td></tr></table></figure>
+<p>for的变量读取方式：<br>例如你使用{1..10}来定义变量范围:<br>for i in {1..10}<br>那么i的取值范围是：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &#123;<span class="number">1.</span><span class="number">.10</span>&#125;</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">10</span></span><br></pre></td></tr></table></figure></p>
+<p>也就是说第一次循环中i=1，第二次循环时i=2，…，直到第十次终止循环。</p>
+<p>当你输入的变量是多行时：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">如：你输入的变量为：</span><br><span class="line"><span class="number">11</span> <span class="number">22</span> <span class="number">33</span></span><br><span class="line"><span class="number">44</span> <span class="number">55</span> <span class="number">66</span></span><br><span class="line"><span class="number">77</span> <span class="number">88</span> <span class="number">99</span></span><br></pre></td></tr></table></figure></p>
+<p></p><h4 style="color:red">那么你的i第一次循环时是11，第二次是22，以此类推</h4><br>但它绝对不会是第一次“11 22 33” 第二次“44 55 66”，因为它是按空格切分变量的！<p></p>
+<h3 id="3-while循环"><a href="#3-while循环" class="headerlink" title="3.while循环"></a>3.while循环</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> 条件表达式; <span class="keyword">do</span></span><br><span class="line">    命令</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>while循环经常用于死循环，即条件部分写个true</p>
+<p>死循环会一直循环直到你使用break跳出去，你也可以通过给他设置延迟时间让它定时执行（类似于crond的计划任务）。</p>
+<p>这里介绍一下相关的命令：</p>
+<ul>
+<li><strong>break 终止循环命令</strong><br>终止循环的意思是：终止当前的循环，继续往下执行代码。如我的代码结构如下：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..10&#125;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    oooo（代码）</span><br><span class="line">    oooo（代码）</span><br><span class="line">    <span class="keyword">if</span> [某些条件] ;<span class="keyword">then</span></span><br><span class="line">        <span class="built_in">break</span>    </span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    oooo（代码）</span><br><span class="line">    oooo（代码）</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">xxxx（代码）</span><br><span class="line">xxxx（代码）</span><br><span class="line">xxxx（代码）</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>当你满足某些条件后，执行break，就会从for循环中跳出，不再执行oooo代码，而继续执行xxxx代码。</p>
+<ul>
+<li><p><strong>continue 跳出当前循环</strong><br>跳出当前循环的意思就是：当前循环内没有执行的命令不再执行，从下一次循环的开始处继续执行。</p>
+</li>
+<li><p><strong>sleep 延时命令</strong><br>默认以秒为单位<br>sleep 1 睡眠1秒<br>sleep 1m 睡眠1分<br>sleep 1h 睡眠1小时</p>
+</li>
+</ul>
+<h3 id="4-case开关语句"><a href="#4-case开关语句" class="headerlink" title="4.case开关语句"></a>4.case开关语句</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> $变量名 <span class="keyword">in</span></span><br><span class="line">模式1)</span><br><span class="line">    要执行的命令</span><br><span class="line">    ;;</span><br><span class="line">模式2)</span><br><span class="line">    要执行的命令</span><br><span class="line">    ;;</span><br><span class="line">*）</span><br><span class="line">    默认执行的命令</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>格式要求每个模式必须以右括号结束，命令结尾以双分号结束，最后一个模式不需要添加双分号。<br>模式的匹配方法：读取变量的值，如果某个右括号前面的内容与变量的值相等，则执行这个括号下面的命令，如果没有相等的，则执行*）下的命令，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">start)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"开始."</span></span><br><span class="line">　　;;</span><br><span class="line">stop)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"停止."</span></span><br><span class="line">　　;;</span><br><span class="line">restart)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"重启."</span></span><br><span class="line">　　;;</span><br><span class="line">*)</span><br><span class="line">　　<span class="built_in">echo</span> <span class="string">"不知道你在说什么."</span></span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>执行的效果为：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bash </span>test.<span class="keyword">sh </span>start</span><br><span class="line">开始.</span><br><span class="line"><span class="keyword">bash </span>test.<span class="keyword">sh </span>lalafei</span><br><span class="line">不知道你在说什么.</span><br></pre></td></tr></table></figure>
+<p>注意：<br>for循环的变量不带\$，case这里要加\$；for循环会改变变量的值，case并不会改变只是读取它的值来进行判断要进入那个模式。<br>支持正则*、?、[ ]、[.-.]、|</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/31/shell流程控制-if-while-for-case/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-shell脚本与运算" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/30/shell脚本与运算/">shell脚本与运算</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/30/shell脚本与运算/" class="archive-article-date">
+  	<time datetime="2019-05-30T12:34:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.shell变量简介<br>（1）定义变量<br> <code>name=nana</code><br>如果变量的值含有空格的话，需要用引号括起来，单引号，双引号，反引号都可以，详见<a href="https://cerezas95.github.io/2019/05/08/linux%E5%91%BD%E4%BB%A4%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86/" target="_blank" rel="noopener">命令进阶 </a>。</p>
+<p>（2）使用变量<br>对于已经定义过的变量，我们可以使用2种方法使用：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">方法一：$<span class="built_in">name</span></span><br><span class="line">方法二：$&#123;<span class="built_in">name</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>推荐给所有变量加上花括号{ }，这是个良好的编程习惯。</p>
+<p>（3）修改变量的值<br>对已经定义的变量进行重新赋值即可。<br>例：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">name</span>=nana</span><br><span class="line"><span class="attribute">name</span>=costa</span><br><span class="line">echo <span class="variable">$name</span> </span><br><span class="line">costa</span><br></pre></td></tr></table></figure></p>
+<p>（4）将命令的结果赋值给变量<br>方法一：使用反引号<br>方法二：使用$()</p>
+<p>如：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat costa</span><br><span class="line">asdfqwer</span><br><span class="line">name=<span class="variable">$(cat costa)</span></span><br><span class="line">echo $name</span><br><span class="line">asdfqwer</span><br></pre></td></tr></table></figure></p>
+<p>（5）删除变量<br>unset 变量名<br>只读的变量无法删除，想删除只读的变量，请关掉当前shell。</p>
+<p>2.系统变量<br>在命令行提示符直接执行 env、set 查看系统或环境变量。env 显示用户环境变量，set 显示 Shell 预先定义好的变量以及用户变量。<br>常见系统变量：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">$SHELL</span>  默认 Shell</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$HOME</span>   当前用户家目录</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$IFS</span>    内部字段分隔符</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$LANG</span>   默认语言</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$PATH</span>   默认可执行程序路径</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$PWD</span>    当前目录</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$UID</span>    当前用户 ID</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$USER</span>   当前用户</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$HISTSIZE</span>   历史命令大小</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$RANDOM</span> 随机生成一个 0 至 32767 的整数</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">$HOSTNAME</span>   主机名</span></span><br></pre></td></tr></table></figure>
+<p>通过export声明变量<br>格式： export name=nana<br>这样声明的变量是临时的环境变量，可以在所有shell中生效，但是重启以后就没了。</p>
+<p>3.特殊变量列表</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">变量</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">\$0</td>
+<td style="text-align:left">当前脚本的文件名</td>
+</tr>
+<tr>
+<td style="text-align:left">\$n</td>
+<td style="text-align:left">传递给脚本或函数的参数。n是一个数字，表示第几个参数。例如，第一个参数是\$1，第二个参数是\$2。</td>
+</tr>
+<tr>
+<td style="text-align:left">\$#</td>
+<td style="text-align:left">传递给脚本或函数的参数个数。</td>
+</tr>
+<tr>
+<td style="text-align:left">\$*</td>
+<td style="text-align:left">传递给脚本或函数的所有参数。</td>
+</tr>
+<tr>
+<td style="text-align:left">\$?</td>
+<td style="text-align:left">上个命令的退出状态，或函数的返回值。</td>
+</tr>
+<tr>
+<td style="text-align:left">\$$</td>
+<td style="text-align:left">当前Shell进程ID。对于 Shell脚本，就是这些脚本所在的进程ID。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>\$n</strong><br>第10个要写成\${10}，因为如果写\$10，会认为你是\$1和0。</p>
+<p><strong>\$?</strong><br>可以获取上一个命令的退出状态。所谓退出状态，就是上一个命令执行后的返回结果。<br>一般情况下，大部分命令执行成功会返回 0，失败返回非零数字。</p>
+<p>4.shell表达式与运算符</p>
+<p>（1）条件表达式格式：<br>|表达式|实例|<br>|——|————|<br>|[ expression ]|[ 1 -eq 1 ]|<br>|[[ expression ]]|[[ 1 -eq 1 ]]|<br>|test  expression|test 1 -eq 1 ,等同于[]|</p>
+<p>条件表达式括号里的内容是个整体，他会进行运算然后返回运算的结果是正确还是错误。表达式中可以写整数的比较式（如1+1=2），字符串的比较式（如“abc”=“bdc”），文件的判断式（文件是否存在）等。<br><strong>大写的注意：表达式每个元素之间都有空格！！</strong><br><strong>【空格1空格-eq空格1空格】</strong></p>
+<p>（2）整数比较符<br>|符号|意义|<br>|—-|—-|<br>|-eq|等于|<br>|-ne|不等于|<br>|-lt|小于|<br>|-gt|大于|<br>|-le|小于等于|<br>|-ge|大于等于|</p>
+<p>（3）字符串比较符<br>|符号|意义|<br>|—-|—-|<br>|==|前后字符串完全相同|<br>|!=|前后字符串不同|<br>|-n|字符串不为空则为真|<br>|-z|字符串为空则为真|</p>
+<p><strong>注意：请养成好习惯，<h3>字符串比较时都加上双引号</h3>，以避免莫名其妙的错误</strong></p>
+<p>（4）文件判断符<br>|符号|意义|<br>|—-|—-|<br>|-e|存在则为真（exist）|<br>|-d|是目录则为真（directory）|<br>|-f|是普通文件则为真（file）|<br>|-r|有读权限则为真（read）|<br>|-w|有写权限则为真（write）|<br>|-x|有执行权限则为真（excute）|</p>
+<p>（5）逻辑判断符</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>意义</th>
+<th>在括号间的意义</th>
+<th>在双括号中的意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;&amp;</td>
+<td>逻辑和</td>
+<td>执行的上一条命令的退出状态为0（正确执行）时执行本条命令</td>
+<td>仅<strong>前后个条件都为真</strong>时总体状态为真</td>
+</tr>
+<tr>
+<td>\</td>
+<td>\</td>
+<td></td>
+<td>逻辑或</td>
+<td>执行的上一条命令的退出状态非0（执行错误）时执行本条命令</td>
+<td>两个条件<strong>任意一条为真</strong>则总体状态为真</td>
+</tr>
+</tbody>
+</table>
+<p>括号间举例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ 1 -eq 1 ] &amp;&amp; <span class="built_in">echo</span> <span class="string">'true'</span>||<span class="built_in">echo</span> <span class="string">'false'</span> &amp;&amp; <span class="built_in">echo</span> <span class="string">'doge'</span></span><br><span class="line">第一条是真，因此第二条输出<span class="literal">true</span></span><br><span class="line">第二条是真，因此第三条不执行</span><br><span class="line">第三条没被执行因此不进行判断</span><br><span class="line">第四条会判断在他前面执行的那条（也就是第二条）是真</span><br><span class="line">因此第四条输出doge</span><br></pre></td></tr></table></figure></p>
+<p>括号中举例：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[[ 1 -eq 1 &amp;&amp; 2 -eq 2]]</span></span><br><span class="line">两边都是真，所以整体为真</span><br><span class="line"><span class="string">[[ 1 -eq 1 &amp;&amp; 2 -eq 3]]</span></span><br><span class="line">只有左边为真，所以整体为假</span><br></pre></td></tr></table></figure></p>
+<p><strong>只能用于括号之间，或者[[]]形式的表达式之中！[]里写逻辑判断符会报错！</strong><br>（6）布尔运算符</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>！</td>
+<td>取反运算，把得到的结果反过来。</td>
+</tr>
+<tr>
+<td>-a</td>
+<td>和运算，和双括号中&amp;&amp;的意义相同。</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>或运算，和双括号中\</td>
+<td>\</td>
+<td>的意义相同。</td>
+</tr>
+</tbody>
+</table>
+<p>举例：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="number">1</span> -eq <span class="number">1</span> -a <span class="number">2</span> -eq <span class="number">2</span>]</span><br><span class="line">和运算，两边都是真，所以整体为真</span><br><span class="line">[ <span class="number">1</span> -eq <span class="number">1</span> -o <span class="number">2</span> -eq <span class="number">3</span>]</span><br><span class="line">或运算，只有左边为真，但整体为真</span><br></pre></td></tr></table></figure></p>
+<p>5.整数运算与运算工具<br>在shell脚本中可以进行以下常见的运算：</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>加法</td>
+</tr>
+<tr>
+<td>–</td>
+<td>减法</td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘法</td>
+</tr>
+<tr>
+<td>**</td>
+<td>乘幂</td>
+</tr>
+<tr>
+<td>/</td>
+<td>除法</td>
+</tr>
+<tr>
+<td>%</td>
+<td>取余</td>
+</tr>
+</tbody>
+</table>
+<p>运算时使用以下两种格式：<br>\$[]<br>\$(())</p>
+<p>例如：让num加3<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">num</span>=5</span><br><span class="line"><span class="attribute">num</span>=$((num+3))</span><br><span class="line">echo <span class="variable">$num</span></span><br><span class="line">8</span><br></pre></td></tr></table></figure></p>
+<p>除此之外，还可以使用命令进行整数运算，有很多命令，这里介绍let命令。<br>例如：让num加3<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">num</span>=<span class="number">5</span></span><br><span class="line"><span class="built_in">let</span> <span class="built_in">num</span>+=<span class="number">3</span></span><br><span class="line">echo $<span class="built_in">num</span></span><br><span class="line"><span class="number">8</span></span><br></pre></td></tr></table></figure></p>
+<p>6.shell括号用途总结</p>
+<p><img src="http://d.birdteam.net/data/f_64632913.jpg" alt></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/30/shell脚本与运算/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-nginx配置文件详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1415,276 +1747,6 @@ define(‘DB_PASSWORD’, ‘123’);
 
 
   
-    <article id="post-samba-ftp-sshd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/20/samba-ftp-sshd/">samba、ftp和sshd服务</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/20/samba-ftp-sshd/" class="archive-article-date">
-  	<time datetime="2019-05-20T12:28:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="samba服务"><a href="#samba服务" class="headerlink" title="samba服务"></a>samba服务</h1><p>Samba是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务器及客户端程序构成。</p>
-<h3 id="安装samba"><a href="#安装samba" class="headerlink" title="安装samba"></a>安装samba</h3><p>方法一：编译安装<br><a href="https://www.colabug.com/4873787.html" target="_blank" rel="noopener">教程链接</a></p>
-<p>方法二：yum安装<br>就一句话：<code>yum install samba -y</code></p>
-<h3 id="启动samba"><a href="#启动samba" class="headerlink" title="启动samba"></a>启动samba</h3><blockquote>
-<p><strong>systemctl 的用法</strong><br>status : 查看服务状态<br>start： 启动服务<br>stop： 停止服务<br>restart：重启服务（也可以启动服务）<br>reload：平滑重启<br>enable：开机自启动<br>disable：取消开机自启</p>
-</blockquote>
-<h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a><strong>修改配置文件</strong></h4><p>文件位置：/etc/samba/smb.conf</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># See smb.conf.example for a more detailed config file or</span></span><br><span class="line"><span class="comment"># read the smb.conf manpage.</span></span><br><span class="line"><span class="comment"># Run 'testparm' to verify the config is correct after</span></span><br><span class="line"><span class="comment"># you modified it.</span></span><br><span class="line"></span><br><span class="line">[global]</span><br><span class="line">        workgroup = SAMBA  </span><br><span class="line">        #设定 Samba<span class="built_in"> Server </span>所要加入的工作组</span><br><span class="line">        security =<span class="built_in"> user </span>   </span><br><span class="line">        #设置用户访问SambaServer的验证方式，一共有4种：</span><br><span class="line">        #user：共享目录只能被授权的用户访问</span><br><span class="line">        #share：centos7已经不能用了</span><br><span class="line">        #domain：域安全级别（没用过</span><br><span class="line">        #server：代理验证（没用过</span><br><span class="line"></span><br><span class="line">        passdb backend = tdbsam</span><br><span class="line">用户后台，目前有三种：</span><br><span class="line">    #smbpasswd：使用smb自己的工具smbpasswd给系统用户设置Samba专用的密码。smbpasswd文件默认在/etc/samba目录下</span><br><span class="line">    #tdbsam：使用一个数据库文件来建立用户数据库</span><br><span class="line">    #ldapsam：基于LDAP的账户管理方式来验证用户</span><br><span class="line">    </span><br><span class="line">[homes]</span><br><span class="line">        comment = Home Directories</span><br><span class="line">        valid<span class="built_in"> users </span>= %S, %D%w%S</span><br><span class="line">        browseable = <span class="literal">No</span></span><br><span class="line">        read only = <span class="literal">No</span></span><br><span class="line">        inherit acls = <span class="literal">Yes</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">#####下面的内容都是打印机的配置#####</span></span><br><span class="line">        printing = cups </span><br><span class="line">        printcap name = cups</span><br><span class="line">        load printers = <span class="literal">yes</span></span><br><span class="line">        cups options = raw</span><br><span class="line">        </span><br><span class="line">[printers]</span><br><span class="line">        comment = All Printers</span><br><span class="line">        path = /var/tmp</span><br><span class="line">        printable = <span class="literal">Yes</span></span><br><span class="line">        create mask = 0600</span><br><span class="line">        browseable = <span class="literal">No</span></span><br><span class="line">        </span><br><span class="line">[print$]</span><br><span class="line">        comment = Printer Drivers</span><br><span class="line">        path = /var/lib/samba/drivers</span><br><span class="line">        write list = @printadmin root</span><br><span class="line">        force<span class="built_in"> group </span>= @printadmin</span><br><span class="line">        create mask = 0664</span><br><span class="line">        directory mask = 0775</span><br></pre></td></tr></table></figure>
-<h4 id="共享参数"><a href="#共享参数" class="headerlink" title="共享参数"></a><strong>共享参数</strong></h4><blockquote>
-<p>[共享名称]<br>comment = 任意字符串<br>说明：对该共享的描述<br><br>path = 共享路径<br>说明：指定共享目录的路径<br><br>browseable = yes/no<br>说明：该共享是否可以浏览<br><br>writable = yes/no<br>说明：该共享是否可写<br><br>available = yes/no<br>说明：该共享资源是否可用<br><br>admin user = 该共享管理者<br>说明：指定该共享的管理用户<br><br>valid users = 允许访问该共享的用户(个别指定)<br>说明：多个用户之间用逗号隔开，用户组用@组名<br><br>write list = 允许写入该共享的用户<br>说明：多个用户之间用逗号隔开，用户组用@组名<br><br>public = yes/no<br>说明：public用来指定该共享目录是否允许guest账户访问<br><br>guest ok = yes/no<br>说明：同public<br><br>read only = yes/no<br>说明：是否只读<br><br><strong>注意：等号两边都有空格！！</strong></p>
-</blockquote>
-<h4 id="pdbedit命令"><a href="#pdbedit命令" class="headerlink" title="pdbedit命令"></a><strong>pdbedit命令</strong></h4><p>用于管理samba用户。我猜pdb是password data base 的缩写。<br>（太难记了！一堆桑巴里跳出个皮大巴 …）</p>
-<p>常用参数（懒得翻译）：<br>-L, –list                         list all users<br>-a, –create                       create user<br>-r, –modify                       modify user<br>-x, –delete                       delete user<br>-u, –user=USER                    use username</p>
-<p><strong>举例</strong>：为用户kenn添加一个共享路径<br>步骤一：添加kenn用户</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[root@ecs-5121 ~]</span><span class="comment"># useradd kenn</span></span><br><span class="line"><span class="section">[root@ecs-5121 ~]</span><span class="comment"># id kenn</span></span><br><span class="line"><span class="attr">uid</span>=<span class="number">1004</span>(ken) gid=<span class="number">1004</span>(kenn) groups=<span class="number">1004</span>(kenn)</span><br></pre></td></tr></table></figure>
-<p>步骤二：创建samba用户<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ecs<span class="number">-5121</span> ~]<span class="comment"># pdbedit -a -u kenn</span></span><br><span class="line"><span class="keyword">new</span> password:</span><br><span class="line">retype <span class="keyword">new</span> password:</span><br></pre></td></tr></table></figure></p>
-<p>步骤三：修改配置文件<br>vim /etc/samba/smb.conf<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[kenn]</span></span><br><span class="line">        <span class="string">path</span> <span class="string">=</span> <span class="string">/home/fenxiang</span></span><br><span class="line">        <span class="string">read</span> <span class="string">only</span> <span class="string">=</span> <span class="literal">no</span></span><br><span class="line">        <span class="string">public</span> <span class="string">=</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure></p>
-<p>步骤四：重启samba服务<br>systemctl restart smb</p>
-<p>步骤五：关闭防火墙<br>setenforce 0 #关闭SELinux<br>systemctl stop firewalld #关闭firewall</p>
-<p>步骤六：为共享路径配置权限<br>chmod 777 /home/fenxiang</p>
-<p>步骤七：在Windows系统中访问<br>在运行中输入<code>\\你的ip地址</code>，输入账号密码，访问成功！</p>
-<blockquote>
-<p><strong>如果配置了kenn路径，但创建用户不小心建成了kennnn，会有几个共享文件夹呢？</strong><br><strong>解答：</strong>会看到2个共享文件夹 一个是 kenn 一个是kennn。原因：配置文件中自带本地用户登录时，共享其家目录的设置。因为kennn不符合kenn的配置，所以自动读取了home配置，就会看到两个文件夹。</p>
-</blockquote>
-<h1 id="ftp服务"><a href="#ftp服务" class="headerlink" title="ftp服务"></a>ftp服务</h1><h3 id="安装ftp"><a href="#安装ftp" class="headerlink" title="安装ftp"></a>安装ftp</h3><p>还是一句话：<code>yum install vsftpd</code></p>
-<h3 id="ftp工作原理"><a href="#ftp工作原理" class="headerlink" title="ftp工作原理"></a>ftp工作原理</h3><p>ftp：文件传输协议（英文：File Transfer Protocol）是用于在网络上进行文件传输的一套标准协议，使用客户/服务器模式。它属于网络传输协议的应用层。ftp使用控制通道（21端口）和数据通道（20端口），工作模式分为主动和被动两种。</p>
-<h4 id="主动模式："><a href="#主动模式：" class="headerlink" title="主动模式："></a><strong>主动模式：</strong></h4><p>1.客户端开放某高位端口A，像服务器21端口传输：用户名密码端口B等（指令是port指令）<br>2.服务端收到请求，返回ack=1 建立连接<br><strong>3.服务端用自己的20端口去连接端口B进行数据传送</strong><br>4.客户端返回ack=1 开始数据传送<br><img src="http://152.136.127.116/wp-content/uploads/2019/05/6-3.png" alt></p>
-<h4 id="被动模式："><a href="#被动模式：" class="headerlink" title="被动模式："></a><strong>被动模式：</strong></h4><p>1.客户端开放某高位端口A，像服务器21端口传输：用户名密码端口B等（指令是pasv指令）<br>2.服务端收到请求，返回ack=1 建立连接<br><strong>3.客户端使用自己的端口B去连接服务器端的一个高位端口</strong><br>4.服务器返回ack=1开始数据传送<br><img src="http://152.136.127.116/wp-content/uploads/2019/05/7-3.png" alt><br>注：高位端口1024以上</p>
-<h3 id="配置ftp"><a href="#配置ftp" class="headerlink" title="配置ftp"></a>配置ftp</h3><h4 id="匿名登录模式"><a href="#匿名登录模式" class="headerlink" title="匿名登录模式"></a><strong>匿名登录模式</strong></h4><p>步骤一：编辑配置文件<br>vim /etc/vsftpd/vsftpd.conf<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">匿名模式必须的几条配置：</span><br><span class="line">anonymous_enable=YES <span class="comment">#开启匿名模式</span></span><br><span class="line">anon_upload_enable=YES <span class="comment">#上传权限</span></span><br><span class="line">anon_mkdir_write_enable=YES <span class="comment">#创建目录权限</span></span><br><span class="line">anon_other_write_enable=YES <span class="comment">#其他人写权限</span></span><br></pre></td></tr></table></figure></p>
-<p>步骤二：重启vsftpd服务<br>systemctl restart vsftpd</p>
-<p>步骤三：关闭防火墙<br>setenforce 0 #关闭SELinux<br>systemctl stop firewalld #关闭firewall</p>
-<p>步骤四：为共享路径配置权限<br>匿名模式下默认的共享路径为：<strong>/var/ftp/pub</strong><br>添加写权限：chmod o+w /var/ftp/pub</p>
-<p>步骤五：在Windows系统中访问<br>在“此电脑”中，输入<code>file://你的ip地址</code>，访问成功！</p>
-<blockquote>
-<p><strong>出现：“打开 FTP 服务器上的文件夹时发生错误。请检查是否有权限访问该文件夹”该怎么办？</strong><br><br>详细信息:<br>200 Switching to ASCII mode.<br>227 Entering Passive Mode (0,0,0,0,227,175).<br><br><strong>解决方法：</strong>在windows下打开 “网络和共享中心”，找到“Internet选项” –&gt;【高级】，取消“使用被动FTP(用于防火墙和DSL调制解调器的兼容)”选项，点击确定。</p>
-</blockquote>
-<h4 id="本地用户登录模式"><a href="#本地用户登录模式" class="headerlink" title="本地用户登录模式"></a><strong>本地用户登录模式</strong></h4><p>更改配置文件：<br>anonymous_enable=NO<br>把匿名模式关掉，其余的操作都一样……</p>
-<p>#sshd服务</p>
-<p>就是让我们可以顺利连接xshell的那个服务，使用22端口，系统默认开启因此不需要手动启动。</p>
-<p><strong>配置文件：</strong><br>/etc/ssh/sshd_config</p>
-<blockquote>
-<p>UseDNS 选项打开状态下，当客户端试图登录SSH服务器时，服务器端先根据客户端的IP地址进行DNS PTR反向查询出客户端的主机名，然后根据查询出的客户端主机名进行DNS正向A记录查询，验证与其原始IP地址是否一致，这是防止客户端欺骗的一种措施，但一般我们的是动态IP不会有PTR记录。<br><strong>总之，将文件中的UseDNS改成 no可以大大加快xshell的连接速度！</strong></p>
-</blockquote>
-<p>远程连接命令：<br>ssh 用户名@ip地址</p>
-<p>退出登录：<br>exit</p>
-<h4 id="免密登录远程主机："><a href="#免密登录远程主机：" class="headerlink" title="免密登录远程主机："></a><strong>免密登录远程主机：</strong></h4><p>第一步 生成秘钥对<br>ssh-genkey<br>生成的秘钥会自动保存在 ~/.ssh/id_rsa.pub中</p>
-<p>第二步：查看秘钥</p>
-<ul>
-<li>id_rsa: 私钥（执行ssh-keygen生成）</li>
-<li>id_rsa.pub: 公钥（执行ssh-keygen生成）</li>
-<li>known_hosts: 主机信息</li>
-</ul>
-<p>第三步：传输公钥<br>ssh-copy-id 用户名@ip地址<br>（用户名@可省略，会自动使用你当前登录的用户）<br>这一步会要求你输入密码，一定要输入<strong>目标主机</strong>的密码！不是你自己的！</p>
-<p>第四步：取消配对<br>删除authorized_keys文件即可</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/20/samba-ftp-sshd/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-rpm和yum" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/17/rpm和yum/">rpm和yum</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/17/rpm和yum/" class="archive-article-date">
-  	<time datetime="2019-05-17T11:14:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="软件安装方式总结"><a href="#软件安装方式总结" class="headerlink" title="软件安装方式总结"></a><strong>软件安装方式总结</strong></h3><ul>
-<li><p><strong>方式1：编译安装  ——最复杂，使用最多</strong><br>（将源码程序按照需求进行先编译，后安装）</p>
-<ul>
-<li>缺点：安装过程复杂，而且很慢</li>
-<li>优点：安装过程可控，真正的按需求进行安装</li>
-</ul>
-</li>
-<li><p><strong>方式2：rpm安装——相对，但不怎么使用</strong><br>（用rpm来安装rpm后缀的安装包）</p>
-<ul>
-<li>优点：安装和卸载过程非常方便</li>
-<li>缺点：安装过程不可控，需要手动安装依赖包</li>
-</ul>
-</li>
-<li><p><strong>方式3：yum安装——最简单，使用最多普遍</strong><br>（自动分析rpm包的依赖关系，然后按照需要的顺序依次安装)</p>
-<ul>
-<li>优点：安装最为方便</li>
-<li>缺点：yum安装的版本会比较落后</li>
-</ul>
-</li>
-</ul>
-<h3 id="Linux和Windows的文件互传"><a href="#Linux和Windows的文件互传" class="headerlink" title="Linux和Windows的文件互传"></a><strong>Linux和Windows的文件互传</strong></h3><p>lrzsz是一款在linux里可代替ftp上传和下载的程序<br>安装命令：<code>yum -y install lrzsz</code><br>需要在xshell等软件上远程连接Linux系统时才能使用！</p>
-<p>向Linux上传文件：rz<br>向Windows上传文件：sz</p>
-<p>查看系统是否安装lrzsz <code>rpm -q lrzsz</code></p>
-<h3 id="方式一：编译安装"><a href="#方式一：编译安装" class="headerlink" title="方式一：编译安装"></a><strong>方式一：编译安装</strong></h3><p>例如：用编译安装的方式安装redis<br>第一步：下载redis解压并编译redis：</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span> wget http:<span class="comment">//download.redis.io/releases/redis-5.0.5.tar.gz</span></span><br><span class="line"><span class="symbol">$</span> tar xzf redis<span class="number">-5.0</span><span class="number">.5</span>.tar.gz</span><br><span class="line"><span class="symbol">$</span> cd redis<span class="number">-5.0</span><span class="number">.5</span></span><br><span class="line"><span class="symbol">$</span> make</span><br><span class="line">……</span><br><span class="line">……</span><br><span class="line">你可能会发现，编译失败了，提示如下：</span><br><span class="line">make:    ***  [<span class="keyword">all</span>] Error <span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p>这可能是因为你没有安装c++的编译器，我偷懒使用 yum install gcc-c++.x86_64 进行了安装。<br>安装完再次make，终于编译成功了！<br>成功后，编译好的二进制文件会位于你刚才解压的那个redis-5.0.5下的src目录中。</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">运行Redis：</span><br><span class="line"><span class="symbol">$</span> src / redis-server</span><br><span class="line">然后进入Redis交互模式：</span><br><span class="line"><span class="symbol">$</span> src / redis-cli</span><br><span class="line">随便敲点字证明自己安装成功了：</span><br><span class="line"><span class="symbol">$</span> src/redis-cli</span><br><span class="line">redis&gt; <span class="keyword">set</span> foo <span class="comment">bar</span></span><br><span class="line">OK</span><br><span class="line">redis&gt; get <span class="comment">foo</span></span><br><span class="line"><span class="string">"bar"</span></span><br></pre></td></tr></table></figure>
-<p>编译安装的过程非常的复杂，但是可以根据自己的需要将软件安装在自己想安装的位置，在配置方面更加多样，可以按照自己的需求去安装。</p>
-<h3 id="方式二：rpm安装"><a href="#方式二：rpm安装" class="headerlink" title="方式二：rpm安装"></a><strong>方式二：rpm安装</strong></h3><ul>
-<li>rpm（Redhat Package Manager）<br>通过读取数据库，判断软件是否已经安装，如果已经安装，可以读取出来所有文件的所在位置等，并可以实现删除这些文件。</li>
-</ul>
-<p>安装软件时常用<code>rpm -ivh</code><br>常用选项：<br>-i&lt;软件包&gt;：安装指定的软件包；<br>-h：用#表示安装进度（# 2%)<br>-v：显示指令执行过程；<br>-vv：详细显示指令执行过程，便于排错。<br>-e&lt;软件名&gt;：删除指定的软件；<br>-q：进入询问模式和其他命令一起使用，q+软件名=查看软件是否安装<br>-f&lt;文件&gt;+：查询文件是哪个程序生成的，需要和q一起用<br>-a：统计当前系统安装了哪些软件，需要和q一起用（可以加wc -l统计数量）<br>-l：显示软件的文件列表，需要和q一起用<br>-R：显示软件的关联性信息，需要和q一起用<br>-U：升级或安装软件<br>-F：仅仅是升级操作<br>–scripts:查看软件相关的脚本</p>
-<p>例如：使用rpm安装redis<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">第一步：使用各种手段搞到安装文件</span><br><span class="line">如：用lrzsz传输</span><br><span class="line"></span><br><span class="line">第二步：rpm -ivh redis-<span class="number">3.2</span>.<span class="number">12</span>-<span class="number">2</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span><span class="selector-class">.rpm</span></span><br><span class="line">进行安装，安装可能会提示需要安装依赖：</span><br><span class="line">\warning: redis-<span class="number">3.2</span>.<span class="number">12</span>-<span class="number">2</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span><span class="selector-class">.rpm</span>: Header V3 RSA/SHA256 Signature, key ID <span class="number">352</span>c64e5: NOKEY</span><br><span class="line">error: Failed dependencies:</span><br><span class="line">libjemalloc<span class="selector-class">.so</span>.<span class="number">1</span>()(<span class="number">64</span>bit) is needed by redis-<span class="number">3.2</span>.<span class="number">12</span>-<span class="number">2</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span></span><br><span class="line"></span><br><span class="line">第三步：安装所需要的依赖包</span><br><span class="line">rpm -ivh lib64jemalloc1-<span class="number">3.6</span>.<span class="number">0</span>-<span class="number">2</span><span class="selector-class">.mga5</span><span class="selector-class">.x86_64</span><span class="selector-class">.rpm</span></span><br><span class="line"></span><br><span class="line">第四步：再次安装redis，提示安装成功</span><br><span class="line">rpm -ivh redis-<span class="number">3.2</span>.<span class="number">12</span>-<span class="number">2</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span><span class="selector-class">.rpm</span></span><br><span class="line"></span><br><span class="line">第五步：启动redis服务</span><br><span class="line">systemctl restart redis</span><br><span class="line"></span><br><span class="line">第六步：redis-cli 进去随便敲点字证明自己安装成功</span><br><span class="line"></span><br><span class="line">如果想卸载：rpm -e redis 即可！</span><br></pre></td></tr></table></figure></p>
-<p>可见，rpm相比编译安装简单了很多，它会告诉你你需要安装什么依赖，并且为你配置好环境变量。但是仍然需要手动安装依赖，如果依赖很多的话还是不方便，这是就需要yum登场了！</p>
-<h4 id="使用rpm命令进行查询"><a href="#使用rpm命令进行查询" class="headerlink" title="使用rpm命令进行查询"></a><strong>使用rpm命令进行查询</strong></h4><p>使用 <code>rpm -q 软件名</code> 查询软件是否安装：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -<span class="selector-tag">q</span> redis</span><br><span class="line">package redis is not installed    #未安装</span><br><span class="line">$ rpm -<span class="selector-tag">q</span> redis</span><br><span class="line">redis-<span class="number">3.2</span>.<span class="number">12</span>-<span class="number">2</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span>       #已安装</span><br></pre></td></tr></table></figure></p>
-<p>使用 <code>rpm -qf 文件名</code> 查询文件是由哪个程序生成的<br><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ which <span class="keyword">ls</span></span><br><span class="line"><span class="keyword">alias</span> <span class="keyword">ls</span>=’<span class="keyword">ls</span> –<span class="keyword">color</span>=auto’</span><br><span class="line">/usr/bin/<span class="keyword">ls</span></span><br><span class="line">$ rpm -qf /usr/bin/<span class="keyword">ls</span></span><br><span class="line">coreutils<span class="number">-8.22</span><span class="number">-21.</span>el7.x86_64</span><br></pre></td></tr></table></figure></p>
-<h3 id="方式三：yum安装"><a href="#方式三：yum安装" class="headerlink" title="方式三：yum安装"></a><strong>方式三：yum安装</strong></h3><h4 id="yum的特点"><a href="#yum的特点" class="headerlink" title="yum的特点"></a><strong>yum的特点</strong></h4><p>本地源： 下载速度快，不需要联网<br>网络源： 下载速度依赖网络速度</p>
-<p>yum的主配置文件 /etc/yum.conf<br>yum的子配置文件存放在 /etc/yum.repos.d/ 目录中<br>一般我们不对主配置文件进行修改，配置yum源需要自己建立子配置文件</p>
-<h4 id="yum配置文件的构成"><a href="#yum配置文件的构成" class="headerlink" title="yum配置文件的构成"></a><strong>yum配置文件的构成</strong></h4><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【localRpm】      &lt;&lt;&lt; 指定yum仓库的id，可以随便写，但是中间不能有空格</span><br><span class="line">name=xxx        &lt;&lt;&lt; 指定yum仓库的名称，可以随便写</span><br><span class="line">enabled=0|1     &lt;&lt;&lt; 指定是否使用该yum仓库，0表示不使用；1表示使用</span><br><span class="line">gpgcheck=0|1    &lt;&lt;&lt; 指定是否对rpm包做完整性和来源合法性验证，0表示不做验证；1表示必须做验证</span><br><span class="line">gpgkey=         &lt;&lt;&lt; 指定公钥文件（如果gpgcheck=1，那么该项不能省略）</span><br><span class="line">baseurl=        &lt;&lt;&lt; 指定yum仓库的url</span><br></pre></td></tr></table></figure>
-<h4 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a><strong>配置步骤</strong></h4><ul>
-<li><strong>第一步：配置本地yum源</strong><br>baseurl=file://<br>例如：我想将/mnt目录作为yum源，则我的配置文件为：</li>
-</ul>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【nana】</span><br><span class="line">name=bendi</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">baseurl=file:///mnt</span><br><span class="line">gpgkey=file:///mnt/RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure>
-<p>本地源一般都是使用光盘中的软件包，光盘需要进行挂载，这里我将光盘挂载到了/mnt目录下<br>命令为：mount /dev/cdrom  /mnt<br>挂载后可以使用df -h 命令查看是否成功，或者直接cd /mnt 查看是不是读取到光盘中的文件了
-　</p>
-<ul>
-<li><strong>第一步：配置网络yum源</strong><br>baseurl=http://<br>例如：配置阿里镜像站为yum源<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">【keke】</span><br><span class="line">name=wangluo</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">baseurl=https://mirrors.aliyun.com/epel/7/x86_64/</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>　</p>
-<ul>
-<li><strong>第二步：清除缓存</strong></li>
-</ul>
-<p>　yum clean all<br><img src="http://d.birdteam.net/data/f_92901871.jpg" alt></p>
-<ul>
-<li><strong>第三步：查看包列表</strong></li>
-</ul>
-<p>　yum repolist<br><img src="http://d.birdteam.net/data/f_53881548.jpg" alt></p>
-<ul>
-<li><strong>第四步：下载redis验证是否成功</strong></li>
-</ul>
-<p>　yum install redis -y</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/17/rpm和yum/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1788,11 +1850,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
