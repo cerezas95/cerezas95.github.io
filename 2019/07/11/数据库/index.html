@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href>
-  <title>那那喵的拉拉肥厨房</title>
+  <title>MariaDB基础知识 | 那那喵的拉拉肥厨房</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="喵喵瞄，快出来！">
-<meta name="keywords" content="Linux，程序媛，ff14">
-<meta property="og:type" content="website">
-<meta property="og:title" content="那那喵的拉拉肥厨房">
-<meta property="og:url" content="/index.html">
+  <meta name="description" content="MAriaDB和SQL语句1.MariaDB的安装yum上的mariadb版本为5.x，如果想使用最新版，需要配置yum源： 123456[mariadb]name = MariaDBbaseurl = http://mirrors.ustc.edu.cn/mariadb/yum/10.3/centos7-amd64/gpgkey=http://mirrors.ustc.edu.cn/mariad">
+<meta name="keywords" content="全部,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MariaDB基础知识">
+<meta property="og:url" content="/2019/07/11/数据库/index.html">
 <meta property="og:site_name" content="那那喵的拉拉肥厨房">
-<meta property="og:description" content="喵喵瞄，快出来！">
+<meta property="og:description" content="MAriaDB和SQL语句1.MariaDB的安装yum上的mariadb版本为5.x，如果想使用最新版，需要配置yum源： 123456[mariadb]name = MariaDBbaseurl = http://mirrors.ustc.edu.cn/mariadb/yum/10.3/centos7-amd64/gpgkey=http://mirrors.ustc.edu.cn/mariad">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-11T01:22:19.916Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="那那喵的拉拉肥厨房">
-<meta name="twitter:description" content="喵喵瞄，快出来！">
+<meta name="twitter:title" content="MariaDB基础知识">
+<meta name="twitter:description" content="MAriaDB和SQL语句1.MariaDB的安装yum上的mariadb版本为5.x，如果想使用最新版，需要配置yum源： 123456[mariadb]name = MariaDBbaseurl = http://mirrors.ustc.edu.cn/mariadb/yum/10.3/centos7-amd64/gpgkey=http://mirrors.ustc.edu.cn/mariad">
   
   
     <link rel="icon" href="/favicon.png">
@@ -175,81 +176,14 @@ daovoice('update');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-置顶" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-数据库" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2041/04/01/置顶/">【置顶】联系我&amp;赞助</a>
-    </h1>
-  
-
-        
-        <a href="/2041/04/01/置顶/" class="archive-article-date">
-  	<time datetime="2041-03-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2041-04-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>点击右下角的消息按钮和博主在线聊天！</strong></p>
-<p><strong>点击“展开全文”进入评论区留言吧！</strong></p>
-<p><strong>评论系统出现了一些小状况，暂时无法使用</strong></p>
-        
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2041/04/01/置顶/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/11/数据库/">MariaDB基础知识</a>
+    <h1 class="article-title" itemprop="name">
+      MariaDB基础知识
     </h1>
   
 
@@ -464,16 +398,84 @@ yum install MariaDB-backup
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/11/数据库/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/07/11/数据库/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2041/04/01/置顶/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【置顶】联系我&amp;赞助
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/07/04/ansible2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ansible--模块和roles</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -493,852 +495,57 @@ yum install MariaDB-backup
 
 
 
-
-  
-    <article id="post-ansible2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/04/ansible2/">ansible--模块和roles</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/04/ansible2/" class="archive-article-date">
-  	<time datetime="2019-07-04T08:03:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="【ansible】常用模块"><a href="#【ansible】常用模块" class="headerlink" title="【ansible】常用模块"></a>【ansible】常用模块</h3><p>playbook中的模块很多，可以直接在官网上查询，也可以使用ansible doc命令查询。<br>如：查询copy模块 <code>ansible doc -s copy</code></p>
-<p>下面以示例的方式介绍下几个常用的模块<br><strong>1.复制copy模块</strong></p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: Copy the keyfile <span class="keyword">for</span> authentication</span><br><span class="line">  copy: <span class="attribute">src</span>=roles/mongod/files/secret dest=&#123;&#123; mongodb_datadir_prefix &#125;&#125;<span class="built_in">/secret </span><span class="attribute">owner</span>=mongod <span class="attribute">group</span>=mongod <span class="attribute">mode</span>=0400</span><br></pre></td></tr></table></figure>
-<p>参数<br>src: 源路径<br>dest: 目标地址<br>owner:属于哪个用户<br>group：属于哪个组<br>mode: 拥有哪些权限</p>
-<p><strong>2.创建文件file模块</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: Create data directory <span class="keyword">for</span> mongoc configuration server</span><br><span class="line">  file: path=&#123;&#123; mongodb_datadir_prefix &#125;&#125;/configdb <span class="attribute">state</span>=directory <span class="attribute">owner</span>=mongod <span class="attribute">group</span>=mongod</span><br></pre></td></tr></table></figure></p>
-<p>参数<br>path: 指定文件路径，如果需要指定源和目标路径，则使用src和dest<br>state: 指定操作或生成文件的类型，包括：file（创建文件），directory（创建目录），link（软连接），hard（硬链接），touch（创建空文件），absent（删除文件）</p>
-<p><strong>3.shell和command模块</strong><br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- <span class="built_in">name</span>: print <span class="built_in">time</span></span><br><span class="line">  command: <span class="built_in">date</span></span><br></pre></td></tr></table></figure></p>
-<p>shell只能执行基础的命令，不支持通配符，正则，也不能使用$HOME等变量。</p>
-<p><strong>4.暂停pause模块</strong><br>可以在某一个步骤中暂停，等待一段时间。<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- <span class="keyword">name</span>: <span class="keyword">pause</span></span><br><span class="line">  <span class="keyword">pause</span>: seconds=<span class="number">20</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>5.服务service模块</strong><br>可以使用service命令去管理linux系统中的服务。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: Make sure nginx start with boot</span><br><span class="line">  service: <span class="attribute">name</span>=nginx <span class="attribute">state</span>=started <span class="attribute">enabled</span>=<span class="literal">yes</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>6.用户管理user模块</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: crate user</span><br><span class="line">  user: <span class="attribute">name</span>=test <span class="attribute">state</span>=present</span><br></pre></td></tr></table></figure></p>
-<p><strong>name参数：</strong>必填项，用于指定要操作的用户名称。</p>
-<p><strong>state参数：</strong>此参数用于指定是要添加还是删除用户，present 或 absent 。</p>
-<p><strong>remove参数：</strong>当 state 的值设置为 absent 时，不会删除用户的家目录等信息，这是因为 remove 参数的默认值为no，如果设置为yes，在删除用户的同时，会删除用户的家目录。当 state=absent 并且 remove=yes 时，相当于执行 “userdel –remove” 命令。</p>
-<p><strong>group参数：</strong>此参数用于指定用户所在的基本组。</p>
-<p><strong>groups参数：</strong>此参数用于指定用户所在的附加组。用户原来的附加组会被覆盖。</p>
-<p><strong>append参数：</strong>在添加附加组是使用追加模式，保留原来已添加的附加组，用法：‘groups=xxx append=yes’</p>
-<p><strong>shell参数：</strong>此参数用于指定用户的默认 shell。</p>
-<p><strong>uid参数：</strong>此参数用于指定用户的 uid 号。</p>
-<p><strong>expires参数：</strong>此参数用于指定用户的过期时间，相当于设置 /etc/shadow 文件中的的第8列</p>
-<p><strong>password参数：</strong>此参数用于指定用户的密码。但是这个密码不能是明文的密码，而是一个对明文密码”加密后”的字符串，可以在python的命令提示符下输入如下命令，生成明文密码对应的加密字符串。<br><code>import crypt; crypt.crypt(&#39;666666&#39;)</code></p>
-<p><strong>7.yum模块</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: crate user</span><br><span class="line">  yum: <span class="attribute">name</span>=httpd <span class="attribute">state</span>=present</span><br></pre></td></tr></table></figure></p>
-<p><strong>name参数：</strong>必须参数，用于指定需要管理的软件包，比如 nginx。</p>
-<p><strong>state参数：</strong>用于指定软件包的状态，包括：present、installed、latest、absent、removed。</p>
-<p>disable_gpg_check参数：yes表示禁用对 rpm 包的公钥 gpg 验证。在对应的 yum 源没有开启 gpg 验证的情况下，需要将此参数的值设置为 yes，否则会报错而无法进行安装。</p>
-<h3 id="【ansible】roles基础"><a href="#【ansible】roles基础" class="headerlink" title="【ansible】roles基础"></a>【ansible】roles基础</h3><p>roles概念类似于脚本中的函数，作用是方便多次调用。比如你写过一个部署apache的剧本，现在需要再写一个部署LAMP的，如果没有roles的话我们只能去把以前写的apache脚本复制过来，但这样LAMP的剧本会长的突破天际很难读懂，但如果我们把部署apache的剧本改写一下做成一个roles，调用起来就会十分的方便。</p>
-<p>角色要创建在roles目录下，每个角色下面都要有files，handlers，tasks，templates，var五个目录，目录下的剧本名字必须交main.yaml<br>所以，把剧本改写成roles（角色）需要将目录建成这样：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">playbooks/</span><br><span class="line">├── roles</span><br><span class="line">│   ├── dbservers   角色<span class="number">1</span></span><br><span class="line">│   │   ├── files</span><br><span class="line">│   │   │   └── httpd.conf</span><br><span class="line">│   │   ├── handlers</span><br><span class="line">│   │   │   └── main.yaml</span><br><span class="line">│   │   ├── tasks</span><br><span class="line">│   │   │   └── main.yaml</span><br><span class="line">│   │   ├── templates</span><br><span class="line">│   │   │   └── httpd.conf</span><br><span class="line">│   │   └── vars</span><br><span class="line">│   │       └── main.yaml</span><br><span class="line">│   └── webservers   角色<span class="number">2</span></span><br><span class="line">│       ├── files</span><br><span class="line">│       ├── handlers</span><br><span class="line">│       ├── tasks</span><br><span class="line">│       ├── templates</span><br><span class="line">│       └── vars</span><br><span class="line">└── site<span class="selector-class">.yaml</span>    调用角色的剧本</span><br></pre></td></tr></table></figure></p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/04/ansible2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-lvs" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/04/lvs/">LVS</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/04/lvs/" class="archive-article-date">
-  	<time datetime="2019-07-04T06:31:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>LVS是 Linux Virtual Server 的简称，也就是Linux虚拟服务器。它是由中国人（章文嵩博士）发明的一款负载均衡软件，速度较快，效能可以达到硬件负载均衡</p>
-<p>LVS工作在第四层（传输层），理论上支持最高400w并发。<br>nginx工作在第七层（网络层），多用于小型的网站，支持2w并发。<br>除了LVS外，haproxy也是负载均衡的软件，它在第四层和第七层均可工作，但效率比LVS低。<br>注意：工作在第四层的LVS效率虽然高，但是对某些高层报文无法进行处理，如：不支持正则，不支持动静分离等。</p>
-<p>LVS的三种工作模式：<br>NAT模式 -m<br>配置简单，可以跨网段，缺点是调度器压力大。<br>DR路由模式 -g<br>配置较复杂，不能跨网段，但是调度器的压力小。<br>TUN隧道模式 -i<br>和路由模式类似，这种方式需要所有的服务器支持”IP Tunneling”(IP Encapsulation)协议，因此较少使用。</p>
-<h3 id="使用ipvsadm进行LVS配置"><a href="#使用ipvsadm进行LVS配置" class="headerlink" title="使用ipvsadm进行LVS配置"></a>使用ipvsadm进行LVS配置</h3><h4 id="NAT模式"><a href="#NAT模式" class="headerlink" title="NAT模式"></a><strong>NAT模式</strong></h4><p><img src="http://d.birdteam.net/data/f_62508390.jpg" alt><br><strong>调度器：</strong><br>第一步：开启路由转发功能<br>　临时：<br>　<code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code><br>　永久：<br>　<code>vim /etc/sysctl.conf ==&gt; net.ipv4.ip_forward=1</code><br>　<code>sysctl -p</code><br>第二步：设置LVS<br>　添加虚拟服务器：<br>　<code>ipvsadm -A -t 41.41.41.42:80 -s rr</code><br>　添加真实服务器：<br>　<code>ipvsadm -a -t 41.41.41.42:80 -r 192.168.19.2 -m</code><br>　<code>ipvsadm -a -t 41.41.41.42:80 -r 192.168.19.3 -m</code><br><strong>真实服务器：</strong><br>　无需配置
-　</p>
-<h4 id="路由模式"><a href="#路由模式" class="headerlink" title="路由模式"></a><strong>路由模式</strong></h4><p><img src="http://d.birdteam.net/data/f_91237555.jpg" alt></p>
-<p><strong>调度器：</strong><br>第一步：开启路由转发功能<br>　临时：<br>　<code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code><br>　永久：<br>　<code>vim /etc/sysctl.conf ==&gt; net.ipv4.ip_forward=1</code><br>　<code>sysctl -p</code><br>第二步：在网卡上添加vip<br>　<code>ifconfig ens33:0 41.41.41.100 broadcast 41.41.41.100 netmask 255.255.255.255 up</code><br>第三步：配置路由（访问vip的都走ens33:0）<br>　<code>route add -host 41.41.41.100 dev ens33:0</code><br>第四步：设置LVS<br>　添加虚拟服务器：<br>　<code>ipvsadm -A -t 41.41.41.100:80 -s rr</code><br>　添加真实服务器：<br>　<code>ipvsadm -a -t 41.41.41.100:80 -r 41.41.41.2 -m</code><br>　<code>ipvsadm -a -t 41.41.41.100:80 -r 41.41.41.3 -m</code><br>　<br><strong>真实服务器：</strong><br>第一步：配置vip<br>　<code>ifconfig lo:0 41.41.41.100 broadcast 41.41.41.100 netmask 255.255.255.255 up</code><br>第二步：配置路由<br>　<code>route -host 41.41.41.100 dev lo:0</code><br>第三步：修改内核参数<br>　<code>echo 1 &gt; /proc/sys/net/ipv4/conf/lo/arp_ignore</code><br>　<code>echo 1 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore</code><br>　<code>echo 2 &gt; /proc/sys/net/ipv4/conf/lo/arp_announce</code><br>　<code>echo 2 &gt; /proc/sys/net/ipv4/conf/all/arp_announce</code></p>
-<h4 id="LVS的八种调度算法"><a href="#LVS的八种调度算法" class="headerlink" title="LVS的八种调度算法"></a><strong>LVS的八种调度算法</strong></h4><ol>
-<li>轮叫调度 rr<br>这种算法是最简单的，就是按依次循环的方式将请求调度到不同的服务器上，该算法最大的特点就是简单。轮询算法假设所有的服务器处理请求的能力都是一样的，调度器会将所有的请求平均分配给每个真实服务器，不管后端 RS 配置和处理能力，非常均衡地分发下去。</li>
-<li>加权轮叫 wrr<br>这种算法比 rr 的算法多了一个权重的概念，可以给 RS 设置权重，权重越高，那么分发的请求数越多，权重的取值范围 0 – 100。主要是对rr算法的一种优化和补充， LVS 会考虑每台服务器的性能，并给每台服务器添加要给权值，如果服务器A的权值为1，服务器B的权值为2，则调度到服务器B的请求会是服务器A的2倍。权值越高的服务器，处理的请求越多。</li>
-<li>最少链接 lc<br>这个算法会根据后端 RS 的连接数来决定把请求分发给谁，比如 RS1 连接数比 RS2 连接数少，那么请求就优先发给 RS1 </li>
-<li>加权最少链接 wlc<br>这个算法比 lc 多了一个权重的概念。</li>
-<li>基于局部性的最少连接调度算法 lblc<br>这个算法是请求数据包的目标 IP 地址的一种调度算法，该算法先根据请求的目标 IP 地址寻找最近的该目标 IP 地址所有使用的服务器，如果这台服务器依然可用，并且有能力处理该请求，调度器会尽量选择相同的服务器，否则会继续选择其它可行的服务器</li>
-<li>复杂的基于局部性最少的连接算法 lblcr<br>记录的不是要给目标 IP 与一台服务器之间的连接记录，它会维护一个目标 IP 到一组服务器之间的映射关系，防止单点服务器负载过高。</li>
-<li><p>目标地址散列调度算法 dh<br>该算法是根据目标 IP 地址通过散列函数将目标 IP 与服务器建立映射关系，出现服务器不可用或负载过高的情况下，发往该目标 IP 的请求会固定发给该服务器。</p>
-</li>
-<li><p>源地址散列调度算法 sh<br>与目标地址散列调度算法类似，但它是根据源地址散列算法进行静态分配固定的服务器资源。</p>
-</li>
-</ol>
-<h4 id="ipvsadm命令"><a href="#ipvsadm命令" class="headerlink" title="ipvsadm命令"></a>ipvsadm命令</h4><p>-Ln –stats 查看lvs配置情况</p>
-<p>-A 添加虚拟服务器<br>　指定tcp协议：<br>　　-t 【ip地址】<br>　指定udp协议：<br>　　-u 【ip地址】<br>　指定算法：<br>　　-s 【rr，wrr，lc等】</p>
-<p>-a 添加真实服务器<br>　指定tcp协议：<br>　　-t 【ip地址】<br>　指定udp协议：<br>　　-u 【ip地址】<br>　指定真实服务器地址：<br>　　-r 【ip地址】<br>　指定模式：<br>　　-g 路由模式<br>　　-m  nat模式<br>　　-i 隧道模式</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/04/lvs/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-负载均衡基础知识补充" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/02/负载均衡基础知识补充/">负载均衡与高可用基础知识补充</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/02/负载均衡基础知识补充/" class="archive-article-date">
-  	<time datetime="2019-07-02T12:02:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="网卡的工作模式"><a href="#网卡的工作模式" class="headerlink" title="网卡的工作模式"></a>网卡的工作模式</h3><p>网卡具有如下的几种工作模式：</p>
-<p>1) 广播模式（Broad Cast Model）:<br>它的物理地址（MAC）地址是 0Xffffff 的帧为广播帧，工作在广播模式的网卡接收广播帧。</p>
-<p>2）多播传送（MultiCast Model）：<br>多播传送地址作为目的物理地址的帧可以被组内的其它主机同时接收，而组外主机却接收不到。但是，如果将网卡设置为多播传送模式，它可以接收所有的多播传送帧，而不论它是不是组内成员。</p>
-<p>3）直接模式（Direct Model）:<br>工作在直接模式下的网卡只接收目地址是自己 Mac地址的帧。</p>
-<p>4）混杂模式（Promiscuous Model）:<br>工作在混杂模式下的网卡接收所有的流过网卡的帧，信包捕获程序就是在这种模式下运行的。网卡的缺省工作模式包含广播模式和直接模式，即它只接收广播帧和发给自己的帧。如果采用混杂模式，一个站点的网卡将接受同一网络内所有站点所发送的数据包这样就可以到达对于网络信息监视捕获的目的。</p>
-<h3 id="防火墙配置SNAT与DNAT"><a href="#防火墙配置SNAT与DNAT" class="headerlink" title="防火墙配置SNAT与DNAT"></a>防火墙配置SNAT与DNAT</h3><p>模拟实验：<br>0.原材料<br>三台Linux主机：<br>PC:192.168.10.1<br>防火墙：192.168.10.2和172.16.12.34<br>web：172.16.12.56</p>
-<p>1.打开防火墙的路由转发功能：<br>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</p>
-<p>2.配置源地址转换：<br>iptables -t nat -F<br>iptables -t nat -X<br>iptables -t nat -A POSTROUTING -s 192.168.10.1 -d 172.16.12.56 -p tcp –dport 80 -j SNAT –to-source 172.16.12.34</p>
-<p>注意：<br>SNAT必须在postrouting上设置<br>DNAT必须在prerouting上设置</p>
-<h3 id="ifconfig命令"><a href="#ifconfig命令" class="headerlink" title="ifconfig命令"></a>ifconfig命令</h3><p>　ifconfig命令被用于配置和显示Linux内核中网络接口的网络参数。它只是临时生效，关掉网卡或重启机器都会失效。<br>　<br><strong>查看网卡信息</strong><br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">不加网卡名就是全列出来</span><br><span class="line"><span class="comment"># ifconfig ens33</span></span><br><span class="line">ens33: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.19.143  netmask 255.255.255.0  broadcast 192.168.19.255</span><br><span class="line">        inet6 fe80::250:56ff:fe3b:ac57  prefixlen<span class="number"> 64 </span> scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:50:56:3b:ac:57  txqueuelen<span class="number"> 1000 </span> (Ethernet)</span><br><span class="line">        RX packets<span class="number"> 5020 </span> bytes<span class="number"> 572541 </span>(559.1 KiB)</span><br><span class="line">        RX errors<span class="number"> 0 </span> dropped<span class="number"> 0 </span> overruns<span class="number"> 0 </span> frame 0</span><br><span class="line">        TX packets<span class="number"> 5650 </span> bytes<span class="number"> 6481805 </span>(6.1 MiB)</span><br><span class="line">        TX errors<span class="number"> 0 </span> dropped<span class="number"> 0 </span>overruns<span class="number"> 0 </span> carrier<span class="number"> 0 </span> collisions 0</span><br></pre></td></tr></table></figure></p>
-<p><strong>开启，关闭网卡</strong><br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig ens33:<span class="number">0</span> <span class="meta">up</span></span><br><span class="line">ifconfig eth0 <span class="meta">down</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>为网卡设置ip地址</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">为<span class="selector-tag">ens33</span>添加多个<span class="selector-tag">ip</span>地址</span><br><span class="line"><span class="selector-tag">ifconfig</span> <span class="selector-tag">ens33</span><span class="selector-pseudo">:0</span> 192<span class="selector-class">.168</span><span class="selector-class">.254</span><span class="selector-class">.250</span> <span class="selector-tag">broadcast</span> 192<span class="selector-class">.168</span><span class="selector-class">.254</span><span class="selector-class">.250</span> <span class="selector-tag">netmask</span> 255<span class="selector-class">.255</span><span class="selector-class">.255</span><span class="selector-class">.255</span> <span class="selector-tag">up</span></span><br><span class="line">删除<span class="selector-tag">ip</span>地址（嗯 直接关掉就好）</span><br><span class="line"><span class="selector-tag">ifconfig</span> <span class="selector-tag">ens33</span><span class="selector-pseudo">:0</span> <span class="selector-tag">down</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>设置混杂模式</strong><br>ifconfig eth1 promisc   #设置<br>ifconfig eth1 -promisc  #取消</p>
-<p><strong>修改网卡的mac地址</strong><br>ifconfig eth0 hw ether 00:AA:BB:CC:dd:EE</p>
-<p><strong>设置网卡的最大传输单元（MTU）</strong><br>ifconfig eth0 mtu 1500</p>
-<h3 id="route命令"><a href="#route命令" class="headerlink" title="route命令"></a>route命令</h3><p>　route命令用来显示并设置Linux内核中的网络路由表，route命令设置的路由主要是静态路由。话说这个东西重启一下network服务就会失效…可以在/etc/rc.local中添加route命令来保证该路由设置永久有效。</p>
-<p><strong>显示路由表</strong><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line"><span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">192.168</span><span class="number">.19</span><span class="number">.2</span>    <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         UG    <span class="number">101</span>    <span class="number">0</span>        <span class="number">0</span> ens33</span><br><span class="line"><span class="number">192.168</span><span class="number">.19</span><span class="number">.0</span>    <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">101</span>    <span class="number">0</span>        <span class="number">0</span> ens33</span><br><span class="line"><span class="number">192.168</span><span class="number">.19</span><span class="number">.10</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> UH    <span class="number">0</span>      <span class="number">0</span>        <span class="number">0</span> ens33</span><br><span class="line"><span class="number">192.168</span><span class="number">.122</span><span class="number">.0</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">0</span>      <span class="number">0</span>        <span class="number">0</span> virbr0</span><br><span class="line"><span class="number">192.168</span><span class="number">.142</span><span class="number">.0</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">100</span>    <span class="number">0</span>        <span class="number">0</span> ens37</span><br></pre></td></tr></table></figure></p>
-<p>其中Flags为路由标志，标记当前网络节点的状态，Flags标志说明：<br>U Up表示此路由当前为启动状态。<br>H Host，表示此网关为一主机。<br>G Gateway，表示此网关为一路由器。<br>! 表示此路由当前为关闭状态。</p>
-<p><strong>添加路由</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#到一个主机</span></span><br><span class="line">route <span class="builtin-name">add</span> -host 192.168.19.19 dev ens37</span><br><span class="line"><span class="comment">#到一个网段</span></span><br><span class="line">route <span class="builtin-name">add</span> -net 192.168.19.0 netmask 255.255.255.0 dev ens33</span><br></pre></td></tr></table></figure></p>
-<p><strong>删除路由</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">去掉目标网关，把add换成del<span class="built_in">..</span>.</span><br><span class="line">route <span class="builtin-name">add</span> -host 192.168.19.19</span><br></pre></td></tr></table></figure></p>
-<p><strong>设置默认路由</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route <span class="builtin-name">add</span><span class="built_in"> default </span>gw 192.168.120.240</span><br></pre></td></tr></table></figure></p>
-<h3 id="几个常用的内核参数介绍："><a href="#几个常用的内核参数介绍：" class="headerlink" title="几个常用的内核参数介绍："></a>几个常用的内核参数介绍：</h3><p><strong>1.ip_forward：是否开启路由转发</strong><br>　开启后Linux系统可以作为路由器使用<br>　0：关闭<br>　1：开启</p>
-<p>　临时打开路由转发功能：<br>　echo 1 &gt; /proc/sys/net/ipv4/ip_forward<br>　这个东西重启一下network服务就会失效…</p>
-<p>　永久打开：<br>　vim /etc/sysctl.conf<br>　net.ipv4.ip_forward=1</p>
-<p><strong>2.arp_ignore：定义接收到ARP请求时的响应级别</strong><br>　0：响应任意网卡上接收到的对本机IP地址的arp请求（包括环回网卡上的地址），而不管该目的IP是否在接收网卡上。<br>　1：只响应目的IP地址为接收网卡上的本地地址的arp请求。<br>　8：不回应所有的arp请求<br>　<br><strong>3.arp_announce：控制系统在对外发送arp请求时，如何选择arp请求数据包的源IP地址</strong><br>　0：默认，允许使用任意网卡上的IP地址作为arp请求的源IP，通常就是使用数据包的源IP<br>　1：尽量避免使用不属于该发送网卡子网的本地地址作为发送arp请求的源IP地址<br>　2：仅向与本地接口上地址匹配的网络进行通告<br>　<br><strong>arp_ignore和arp_announce参数的配置方法</strong><br>　arp_ignore和arp_announce参数分别有all,default,lo,eth1,eth2…等对应不同网卡的具体参数。当all和具体网卡的参数值不一致时，取较大值生效。一般只需修改all和某个具体网卡的参数即可（取决于你需要修改哪个网卡）。下面以修改lo网卡为例：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.修改/etc/sysctl.<span class="keyword">conf</span>文件，然后sysctl -<span class="keyword">p</span>刷新到内存。</span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">all</span>.arp_ignore=<span class="number">1</span></span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">lo</span>.arp_ignore=<span class="number">1</span></span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">all</span>.arp_announce=<span class="number">2</span></span><br><span class="line"> net.ipv4.<span class="keyword">conf</span>.<span class="keyword">lo</span>.arp_announce=<span class="number">2</span></span><br><span class="line"><span class="number">2</span>.修改/proc文件系统：</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"1"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_ignore</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"1"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_ignore</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"2"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_announce</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"2"</span>&gt;/proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_announce</span><br></pre></td></tr></table></figure></p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/02/负载均衡基础知识补充/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-keepalived" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/02/keepalived/">keepalived</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/02/keepalived/" class="archive-article-date">
-  	<time datetime="2019-07-02T12:00:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="keepalived简介"><a href="#keepalived简介" class="headerlink" title="keepalived简介"></a>keepalived简介</h3><p>keepalived是一款高可用集群软件，利用vrrp协议实现vip地址的漂移。</p>
-<p>　　Keepalived的作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，Keepalived将检测到，并将有故障的服务器从系统中剔除，同时使用其他服务器代替该服务器的工作，当服务器工作正常后Keepalived自动将服务器加入到服务器群中。</p>
-<p>　　启动了keepalived的主服务器会每隔一段时间向备用服务器发送一个“我还活着”的信息，备用服务器会一直监听，如果收到信息则继续待机，如果收不到了就会代替主服务器开始工作。工作的方法是将自己的虚拟ip改为主服务器的虚拟ip，这个动作也叫ip的‘漂移’。</p>
-<p>keepalived可以和多种负载均衡软件配合使用：<br>　- keepalived+lvs<br>　- keepalived+nginx<br>　- keepalived+haproxy</p>
-<p>keepalived也有同类软件，如hacmp，它是IBM的高可用集群软件，一般用于非x86架构中，是收费软件。</p>
-<h3 id="keepalived的配置："><a href="#keepalived的配置：" class="headerlink" title="keepalived的配置："></a>keepalived的配置：</h3><p>配置文件位置：<br>vim /etc/keepalived/keepalived.conf</p>
-<p>配置文件主要分为三类分别是：<br>（1）全局配置<br>（2）VRRP配置<br>（3）LVS配置</p>
-<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#全局配置 里面可以不写东西但不能删掉</span></span><br><span class="line">global_defs &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#VRRP配置</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    <span class="keyword">state</span> MASTER            <span class="comment">#类型MASTER或BACKUP</span></span><br><span class="line">    interface ens33         <span class="comment">#指定网卡</span></span><br><span class="line">    virtual_router_id <span class="number">141</span>   <span class="comment">#虚拟路由id（主备需一致）</span></span><br><span class="line">    priority <span class="number">100</span>            <span class="comment">#优先级，100最高</span></span><br><span class="line">    advert_int <span class="number">1</span>            <span class="comment">#检测间隔秒数</span></span><br><span class="line">    authentication &#123;        <span class="comment">#认证信息，需要主备服务器保持一致</span></span><br><span class="line">        auth_type PASS      <span class="comment">#认证模式</span></span><br><span class="line">        auth_pass <span class="number">1111</span>      <span class="comment">#认证密码</span></span><br><span class="line">    &#125;   </span><br><span class="line">    virtual_ipaddress &#123;     <span class="comment">#虚拟ip配置</span></span><br><span class="line">        <span class="number">192.168</span>.<span class="number">19.55</span>       <span class="comment">#可填写多个</span></span><br><span class="line">    &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line">vrrp_instance VI_2 &#123;</span><br><span class="line">    <span class="keyword">state</span> BACKUP</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id <span class="number">142</span></span><br><span class="line">    priority <span class="number">99</span></span><br><span class="line">    advert_int <span class="number">1</span></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass <span class="number">2222</span></span><br><span class="line">    &#125;   </span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        <span class="number">192.168</span>.<span class="number">19.66</span> </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"><span class="comment">#LVS配置在后面</span></span><br><span class="line">……</span><br></pre></td></tr></table></figure>
-<p>　但是，上面提到的ip地址漂移是在主服务器的keepalived进行挂掉了的情况下才会发生，那么如果主服务器的httpd挂了但是keepalived没挂的话，就不能进行ip地址漂移了。这时我们可以设置keepalived在运行时监听某服务的运行情况并自动进行一些处理。</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">global_defs &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行脚本检查httpd服务的状态 一定要写在调用chk_httpd的内容的前面！！</span></span><br><span class="line">vrrp_script chk_httpd &#123;</span><br><span class="line">       <span class="built_in"> script </span><span class="string">"/root/httpdcheck.sh"</span>  #指定脚本位置</span><br><span class="line">        interval 2                    #指定间隔时间</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">   <span class="built_in"> interface </span>ens33 </span><br><span class="line">    virtual_router_id 11</span><br><span class="line">    priority 100</span><br><span class="line">    nopreempt                         #非抢占模式  </span><br><span class="line">    advert_int 1                    </span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.142.55/24</span><br><span class="line">    &#125; </span><br><span class="line">    track_script &#123;                   #调用chk_httpd</span><br><span class="line">        chk_httpd </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>脚本httpdcheck.sh 的内容：<br>检查httpd状态，若不正常则自动重启服务，若重启失败则关闭keepalived服务从而进行ip漂移。除此之外还能将检查中出现的错误记录追加到logs.txt文件中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">systemctl status httpd</span><br><span class="line"><span class="keyword">if</span> [ $? -ne 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"httpd restarting..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line">        systemctl restart httpd</span><br><span class="line">        <span class="keyword">if</span> [ $? -ne 0 ] ; <span class="keyword">then</span></span><br><span class="line">                systemctl stop keepalived</span><br><span class="line">                <span class="built_in">echo</span> <span class="string">"fail to restart httpd..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"httpd is running..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
-<p>keepalived集成了LVS的功能，如果你想和LVS一起使用的话，只要在keepalived.cfg中增加LVS相关的配置即可。<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#VRRP配置DS1</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER                    <span class="comment">#角色类型MASTER|BACKUP</span></span><br><span class="line">    interface ens33                    <span class="comment">#网卡名称</span></span><br><span class="line">    virtual_router_id<span class="number"> 51 </span>           <span class="comment">#虚拟路由id（需要与BACKUP一致）</span></span><br><span class="line">    priority<span class="number"> 100 </span>                   <span class="comment">#优先级</span></span><br><span class="line">    advert_int<span class="number"> 1 </span>                   <span class="comment">#1秒检查一次</span></span><br><span class="line">    <span class="comment">#nopreempt                        #非抢占模式</span></span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS                <span class="comment">#认证类型  主备之间必须一样</span></span><br><span class="line">        auth_pass<span class="number"> 1111 </span>               <span class="comment">#认证密码  主备之间必须一样</span></span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.254.250                <span class="comment">#虚拟ip（vip）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#LVS配置</span></span><br><span class="line"><span class="comment">#对虚拟ip 192.168.254.250进行设置</span></span><br><span class="line">virtual_server 192.168.254.250<span class="number"> 80 </span>&#123;    </span><br><span class="line">    delay_loop<span class="number"> 3 </span>                   <span class="comment">#健康检查时间间隔</span></span><br><span class="line">    lb_algo rr                        <span class="comment">#负载均衡调度算法  </span></span><br><span class="line">    lb_kind DR                        <span class="comment">#负载均衡转发规则 </span></span><br><span class="line">    protocol TCP                    <span class="comment">#协议</span></span><br><span class="line">    <span class="comment">#添加一个真实服务器</span></span><br><span class="line">    real_server 192.168.254.18<span class="number"> 80 </span>&#123;    <span class="comment">#要监控的real_server的ip和端口号</span></span><br><span class="line">            weight<span class="number"> 1 </span>                <span class="comment">#权重</span></span><br><span class="line">        TCP_CHECK &#123;                    <span class="comment">#基于tcp协议的检查</span></span><br><span class="line">            connect_timeout<span class="number"> 3 </span>         <span class="comment">#连接时间超时</span></span><br><span class="line">            retry<span class="number"> 3 </span>                   <span class="comment">#重连次数</span></span><br><span class="line">            delay_before_retry<span class="number"> 3 </span>   <span class="comment">#重连间隔时间</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#再添加一个真实服务器</span></span><br><span class="line">    real_server 192.168.254.19<span class="number"> 80 </span>&#123;</span><br><span class="line">            weight 1</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 3</span><br><span class="line">            retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">        &#125;   </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/02/keepalived/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ansible" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/28/ansible/">ansible基础</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/28/ansible/" class="archive-article-date">
-  	<time datetime="2019-06-28T12:03:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="ansible简介"><a href="#ansible简介" class="headerlink" title="ansible简介"></a>ansible简介</h2><p>ansible是一个自动化批量部署工具</p>
-<h4 id="ansible的特点："><a href="#ansible的特点：" class="headerlink" title="ansible的特点："></a>ansible的特点：</h4><ul>
-<li>Stupied Simple ，上手简单，学习曲线平滑</li>
-<li>SSH by default ，安全，无需安装客户端</li>
-<li>配置简单、功能强大、扩展性强</li>
-<li>幂等性：一种操作重复多次结果相同，比如：拷贝过的文件再次拷贝时，ansible会检查该文件的内容是否有修改，如果没有任何改动就不会重复拷贝了。</li>
-</ul>
-<p>注意：幂等性仅在使用ansible中集成的模块时有效，如：使用copy模块会判断幂等性，但是使用command执行copy命令则不会判断。</p>
-<h3 id="ansible的核心组件："><a href="#ansible的核心组件：" class="headerlink" title="ansible的核心组件："></a>ansible的核心组件：</h3><ul>
-<li><strong>Ansible：</strong> Ansible的核心程序</li>
-<li><strong>Host Lnventory：</strong> 记录了每一个由Ansible管理的主机信息，信息包括ssh端口，root帐号密码，ip地址等等。可以通过file来加载，可以通过CMDB加载</li>
-<li><strong>Playbooks：</strong> YAML格式文件，多个任务定义在一个文件中，使用时可以统一调用，“剧本”用来定义那些主机需要调用那些模块来完成的功能.</li>
-<li><strong>Core Modules：</strong> Ansible执行任何管理任务都不是由Ansible自己完成，而是由核心模块完成；Ansible管理主机之前，先调用core Modules中的模块，然后指明管理Host Lnventory中的主机，就可以完成管理主机。</li>
-<li><strong>Custom Modules：</strong> 自定义模块，完成Ansible核心模块无法完成的功能，此模块支持任何语言编写。</li>
-<li><strong>Connection Plugins：</strong> 连接插件，Ansible和Host通信使用</li>
-</ul>
-<h3 id="ansible的工作原理："><a href="#ansible的工作原理：" class="headerlink" title="ansible的工作原理："></a>ansible的工作原理：</h3><p>ansible的底层使用python编写，并用到了这些模块:</p>
-<ul>
-<li>paramiko</li>
-<li>jinja2 </li>
-<li>yaml</li>
-</ul>
-<p>在 Ansible 中，我们通过编辑host文件添加需要控制的主机的信息，并借由 SSH 和 Python 进行沟通。也就是说ansible服务器只需要和客户端<strong>建立SSH连接</strong>，客户端只要<strong>安装Python环境</strong>即可正常运作了！</p>
-<p><strong>ansible服务器配置</strong><br>如果使用的是Centos系统，一般都会内置Python2.7的环境，因此只需安装ansible即可：<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ yum install epel-release  #安装第三方套件来源</span><br><span class="line">$ yum install ansible       #安装ansible</span><br><span class="line"></span><br><span class="line">### ansible也可以通过pip进行安装：###</span><br><span class="line"># 升级 pip。</span><br><span class="line">$ sudo pip install -U pip</span><br><span class="line"># 安装 Ansible。</span><br><span class="line">$ sudo pip install ansible</span><br></pre></td></tr></table></figure></p>
-<h3 id="ansible-server管理客户端的两种配置方式"><a href="#ansible-server管理客户端的两种配置方式" class="headerlink" title="ansible server管理客户端的两种配置方式"></a>ansible server管理客户端的两种配置方式</h3><p><strong>方法1：通过公钥配对</strong><br>1 服务器端: ssh-keygen 生成公钥<br>2 使用 <code>ssh-copy-id root@192.168.1.10</code> 或<br><code>scp id_rsa.pub root@192.168.1.10:/root/.ssh/authorized_keys</code><br>将公钥拷贝到客户端上<br>3 将客户端的ip记录到/etc/ansible/hosts中</p>
-<p><strong>方法2：通过参数配对</strong><br>修改/etc/ansible/hosts文件，在客户端的ip地址后面添加如下参数：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.10 <span class="attribute">ansible_ssh_user</span>=root <span class="attribute">ansible_ssh_port</span>=22 <span class="attribute">ansible_ssh_pass</span>=1234</span><br></pre></td></tr></table></figure></p>
-<p>测试ansible server跟client端的连通性<br><code>ansible testhosts -m ping</code></p>
-<h3 id="ansible使用入门"><a href="#ansible使用入门" class="headerlink" title="ansible使用入门"></a>ansible使用入门</h3><p>我们可以用 Ad-Hoc Commands 和 Playbook 两种方式来操作Ansible。<br>Ad-Hoc Commands 命令模式：<br>一次只能执行一个任务。<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ansible-doc -l <span class="comment">#查看支持的模块</span></span><br><span class="line">ansible-doc -s MODEL_NAME <span class="comment">#查看模块用法</span></span><br><span class="line"></span><br><span class="line">ansible 要操作的主机 [选项]</span><br><span class="line">    -f forks:启动并发线程数（默认是<span class="number">5</span>）</span><br><span class="line">    -m model_name:指定使用的模块</span><br><span class="line">    -a args:指定该模块后跟的参数</span><br><span class="line">    -u <span class="keyword">user</span>:指定操作的用户</span><br><span class="line"></span><br><span class="line">例子：</span><br><span class="line">ansible <span class="literal">all</span> -m ping <span class="comment">#查看client端是否正常ping通</span></span><br><span class="line">ansible webserver -m setup <span class="comment">#查看客户端信息</span></span><br><span class="line">ansible webserver -m copy -a 'src=/root/git_test/code.txt dest=/root/test' <span class="comment">#copy文件到cient端</span></span><br><span class="line">ansible webserver -m <span class="keyword">user</span> -a <span class="string">"name=test state=present"</span> <span class="comment">#创建test用户</span></span><br><span class="line">ansible webserver -m <span class="keyword">user</span> -a <span class="string">"name=test state=absent"</span> <span class="comment">#删除test用户</span></span><br><span class="line">ansible webserver -m yum -a ‘name=epel-relese <span class="keyword">state</span>=latest‘ <span class="comment">#yum安装</span></span><br><span class="line">ansible webserver -m service -a ‘name=httpd <span class="keyword">state</span>=stopped enabled=no‘ <span class="comment">#停止httpd服务</span></span><br><span class="line">（启动，停止，重启都是被动语态）</span><br><span class="line">ansible webserver -m script -a ‘/tmp/test.sh‘ <span class="comment">#运行脚本</span></span><br><span class="line">ansible webserver -m command 'date' <span class="comment">#查看时间</span></span><br><span class="line">ansible webserver -m shell -a ‘bash /root/test.sh’ <span class="comment">#执行脚本</span></span><br><span class="line">ansible webservers -m git -a <span class="string">"repo=https://foo.example.org/repo.git dest=/srv/myapp version=HEAD"</span>  <span class="comment">#从git上部署</span></span><br></pre></td></tr></table></figure></p>
-<p>command和shell模块的区别：<br>command只支持一些基本的shell命令，如果需要使用正则，重定向，管道符等扩展shell命令请使用shell模块。</p>
-<p>playbook 剧本模式：<br>将命令写入文件中，一次可以执行多个任务，文件后缀为yml或yaml。<br>执行剧本：ansible-playbook 剧本文件名<br>检查语法：–syntax-check<br>查看主机：–list-hosts</p>
-<p>基础格式：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- name:</span> <span class="string">say</span> <span class="string">'hello world'</span></span><br><span class="line"><span class="attr">  hosts:</span> <span class="string">all</span>                        <span class="comment">#指定组名</span></span><br><span class="line"><span class="attr">  remote_user:</span> <span class="string">root</span>                 <span class="comment">#指定操作用户</span></span><br><span class="line"><span class="attr">  vars:</span></span><br><span class="line"><span class="attr">  - str:</span> <span class="string">'hello world'</span>              <span class="comment">#定义变量</span></span><br><span class="line"><span class="attr">  tasks:</span>                            <span class="comment">#指定任务</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">echo</span> <span class="string">string</span>             <span class="comment">#任务1打印字符串</span></span><br><span class="line"><span class="attr">      command:</span> <span class="string">echo</span> <span class="string">'<span class="template-variable">&#123;&#123; str &#125;&#125;</span>'</span></span><br><span class="line"><span class="attr">      register:</span> <span class="string">result</span>              <span class="comment">#将结果记录为变量</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">print</span> <span class="string">stdout</span>            <span class="comment">#任务2打印结果</span></span><br><span class="line"><span class="attr">      debug:</span></span><br><span class="line"><span class="attr">        msg:</span> <span class="string">"<span class="template-variable">&#123;&#123; result.stdout &#125;&#125;</span>"</span>  <span class="comment">#打印结果标准输出</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h3><p><strong>主机与用户</strong><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- hosts:</span> <span class="string">webservers</span></span><br><span class="line"><span class="attr">  remote_user:</span> <span class="string">root</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  become:</span> <span class="literal">yes</span>          <span class="comment">#另一个用户身份运行</span></span><br><span class="line"><span class="attr">  become_method:</span> <span class="string">sudo</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>任务列表</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在tasks中编写你剧本的动作：</span><br><span class="line">tasks:</span><br><span class="line">  - name: <span class="builtin-name">run</span> this command <span class="keyword">and</span> ignore the result</span><br><span class="line">    shell: date</span><br><span class="line">    ignore_errors: <span class="literal">True</span></span><br><span class="line">    </span><br><span class="line">ignore_errors：<span class="literal">True</span>或<span class="literal">yes</span></span><br><span class="line">开启异常处理：命令执行出现问题时不停止脚本而是忽略错误继续进行。</span><br></pre></td></tr></table></figure></p>
-<p><strong>变量</strong><br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">定义变量的三种方法：</span><br><span class="line"><span class="number">1.</span>在yml文件中定义：</span><br><span class="line">  vars:</span><br><span class="line">  - <span class="keyword">str</span>: <span class="string">'hello world'</span>   </span><br><span class="line"><span class="number">2.</span>在host文件中定义：</span><br><span class="line">  <span class="number">192.168</span><span class="number">.10</span><span class="number">.10</span> <span class="keyword">str</span>=<span class="string">'hello world'</span></span><br><span class="line"><span class="number">3.</span>在执行剧本时定义：</span><br><span class="line">  ansible-playbook play.yml --extra-vars <span class="string">"str='hello world'"</span></span><br><span class="line">引用变量</span><br><span class="line">&#123;&#123; 变量名 &#125;&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>register注册变量</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tasks</span>:                            #指定任务</span><br><span class="line"></span><br><span class="line">  - name: echo string             #任务1打印字符串</span><br><span class="line">    <span class="attribute">command</span>: echo '&#123;&#123; str &#125;&#125;'</span><br><span class="line">    <span class="attribute">register</span>: result              #将结果记录为变量</span><br><span class="line"></span><br><span class="line">  - name: print stdout            #任务2打印结果</span><br><span class="line">    <span class="attribute">debug:</span></span><br><span class="line">      msg: "&#123;&#123; result.stdout &#125;&#125;"  #打印结果标准输出</span><br></pre></td></tr></table></figure></p>
-<p><strong>when条件判断</strong><br>名字叫when实际上是if的条件判断模块。<br>可以配合<code>ansible -m setup 192.168.10.10</code><br>中的参数进行条件判断，从而筛选出需要操作的主机。<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tasks:                            <span class="comment">#指定任务</span></span><br><span class="line">      - name: add <span class="keyword">user</span></span><br><span class="line">        when: ansible_default_ipv4.address == '<span class="number">192.168</span>.<span class="number">19.11</span>'</span><br><span class="line">        <span class="keyword">user</span>: name=&#123;&#123; item.name &#125;&#125; groups=&#123;&#123; item.<span class="keyword">group</span> &#125;&#125; <span class="keyword">state</span>=present</span><br><span class="line">        with_items:</span><br><span class="line">        - &#123; name: 'test3', <span class="keyword">group</span>: test &#125;</span><br><span class="line">        - &#123; name: 'test2', <span class="keyword">group</span>: test &#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>item循环语句</strong><br>使用playbook自带的变量item进行循环，以创建多个用户为例：：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- hosts: <span class="number">192.168</span>.<span class="number">19.10</span></span><br><span class="line">  remote_user:<span class="built_in"> root</span></span><br><span class="line">  tasks:</span><br><span class="line">  -<span class="built_in"> name</span>: add several user</span><br><span class="line">    user:<span class="built_in"> name</span>=&#123;&#123;<span class="type">item</span><span class="built_in">.name</span>&#125;&#125; state=present groups=&#123;&#123;<span class="type">item</span>.groups&#125;&#125;</span><br><span class="line">    with_items:</span><br><span class="line">    - &#123;<span class="built_in"> name</span>: <span class="string">'testuser1'</span>, groups: <span class="string">'wheel'</span>&#125;</span><br><span class="line">    - &#123;<span class="built_in"> name</span>: <span class="string">'testuser2'</span>, groups: <span class="string">'root'</span>&#125;</span><br></pre></td></tr></table></figure></p>
-<p>注意name：后面有空格，不写会报错<em>(:з」∠)</em></p>
-<p><strong>handlers触发器</strong><br>notify监听，任务执行成功时，执行对应的handler中的任务。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- name:<span class="built_in"> config </span>HTTPD</span><br><span class="line">  hosts: all                        #指定组名</span><br><span class="line">  remote_user: root                 #指定操作用户</span><br><span class="line">  tasks:                            #指定任务</span><br><span class="line">        - name: copy file</span><br><span class="line">          copy: <span class="attribute">src</span>=<span class="string">'/etc/ansible/httpd.conf'</span> <span class="attribute">dest</span>=<span class="string">'/etc/httpd/conf/httpd.conf'</span></span><br><span class="line">          notify: restart HTTPD     #这里名字</span><br><span class="line">  handlers:</span><br><span class="line">        - name: restart HTTPD       #要一样</span><br><span class="line">          service: <span class="attribute">name</span>=httpd <span class="attribute">state</span>=restarted</span><br></pre></td></tr></table></figure></p>
-<p><strong>template模板替换</strong><br>用于修改配置文件中的参数，比如我有3台服务器，配置文件中需要填写每台服务器自己的ip地址。如果用copy传递的话无法实现。<br>template设置步骤：<br>1.把剧本中的copy模块改为template模块<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task<span class="variable">s:</span>                           </span><br><span class="line">      - name: <span class="keyword">copy</span> <span class="keyword">file</span></span><br><span class="line">        template: src=<span class="string">'xxx'</span> dest=<span class="string">'xxx'</span></span><br></pre></td></tr></table></figure></p>
-<p>2.把配置文件中需要修改的地方改为变量的格式如：<code>Listen </code></p>
-<p>3.在host文件中为变量分别赋值<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">192.168</span><span class="number">.19</span><span class="number">.10</span> port=<span class="number">8080</span></span><br></pre></td></tr></table></figure></p>
-<p>附录：<br>ansible官方文档：<a href="https://docs.ansible.com/" target="_blank" rel="noopener">https://docs.ansible.com/</a><br>ad-hoc 看这页：<a href="https://docs.ansible.com/ansible/latest/user_guide/intro_adhoc.html" target="_blank" rel="noopener">https://docs.ansible.com/ansible/latest/user_guide/intro_adhoc.html</a><br>用谷歌浏览器自带的翻译看简直爽…</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/28/ansible/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-防火墙与iptables命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/28/防火墙与iptables命令/">防火墙与iptables命令</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/28/防火墙与iptables命令/" class="archive-article-date">
-  	<time datetime="2019-06-28T06:10:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="防火墙firewalld与iptables命令"><a href="#防火墙firewalld与iptables命令" class="headerlink" title="防火墙firewalld与iptables命令"></a>防火墙firewalld与iptables命令</h2><p><img src="http://d.birdteam.net/data/f_79149390.jpg" alt></p>
-<h3 id="iptables命令"><a href="#iptables命令" class="headerlink" title="iptables命令"></a>iptables命令</h3><p><strong>选项输入顺序：</strong></p>
-<blockquote>
-<p>iptables -t 表名 &lt;-A/I/D/R&gt; 规则链名 [规则号] &lt;-i/o 网卡名&gt; -p 协议名 &lt;-s 源IP/源子网&gt; –sport 源端口 &lt;-d 目标IP/目标子网&gt; –dport 目标端口 -j 动作</p>
-</blockquote>
-<p><strong>1. -t&lt;表&gt;：指定要操纵的表, 默认为filter；</strong><br>raw：高级功能，如：网址过滤。<br>mangle：数据包修改（QOS），用于实现服务质量。<br>net：地址转换，用于网关路由器。<br>filter：包过滤，用于防火墙规则。</p>
-<p><strong>2. 要进行的操作:</strong><br>-D：从规则链中删除条目；<br>-R：替换规则链中的条目；<br>-A：向链中追加条目(优先级低)；<br>-I：向链中插入条目(优先级高)；<br>-P：设定链的默认规则；</p>
-<p><strong>3. 要操作的链：</strong><br>INPUT：处理输入数据包。<br>OUTPUT：处理输出数据包。<br>PORWARD：处理转发数据包。<br>PREROUTING：用于目标地址转换（DNAT）。<br>POSTOUTING：用于源地址转换（SNAT）。</p>
-<p><strong>4. 要进行的操作:</strong><br>链管理:<br>-N：创建用户自定义链；<br>-F：清除规则链中已有的条目；<br>-X：清除用户自定义的链；<br>查看信息：<br>-L：显示规则链中已有的条目；<br>-n：以数字形式显示；<br>--line-num：显示行号；<br>-v：显示详细信息；<br>-h：显示帮助信息；<br>匹配动作:<br>-p：指定要匹配的数据包协议类型；<br>-s：指定源IP/子网；<br>--sport：指定源端口；<br>-d：指定目标IP/子网；<br>--dport：指定目标端口；<br>-i：指定数据包进入本机的网卡号；<br>-o：指定数据包离开本机的网卡号；<br>-j：指定操作，包括：</p>
-<ul>
-<li>ACCEPT：接收数据包。</li>
-<li>REJECT：拒绝数据包。</li>
-<li>DROP：丢弃数据包。</li>
-<li>SNAT：源地址转换。</li>
-<li>--to-source ：（SNAT专用）指定源地址</li>
-<li>DNAT：目标地址转换。</li>
-<li>--to-destination：（DNAT专用）指定目标地址</li>
-<li>REDIRECT：重定向、映射、透明代理。</li>
-<li>MASQUERADE：IP伪装（NAT），用于ADSL。</li>
-<li>LOG：日志记录。</li>
-<li>……</li>
-</ul>
-<blockquote>
-<p>举例：<br>查看已添加的iptables规则<br>iptables -L -n -v<br><br>把filter中forward链的默认策略打成drop<br>iptables -P FORWARD DROP<br><br>开放指定的端口<br>iptables -I INPUT -p tcp -d 192.168.64.4 -j ACCEPT<br>-I:插入INPUT链 -p:类型为tcp -d:目标ip -j:接受<br><br>屏蔽IP<br>iptables -I INPUT -s 123.45.6.7 -j DROP       #屏蔽单个IP<br>iptables -I INPUT -s 123.0.0.0/8 -j DROP      #屏蔽某个网段<br><br>拒绝所有主机(0.0.0.0)的ping数据包<br>iptables -t filter -A INPUT -s 0.0.0.0 -d 192.168.254.24 -p icmp -j REJECT<br><br>删除已添加的iptables规则<br>（1）将所有iptables以序号标记显示：<br>iptables -L -n –line-numbers<br>（2）删除对应序号的规则,如删除第8号：<br>iptables -D INPUT 8<br><br>设置在POSTROUTING链上设置SNAT<br>iptables -t nat -A POSTROUTING -s 192.168.19.10 -d 172.16.20.2 -p tcp --dport 80 -j SNAT --to-source 172.16.20.1 </p>
-</blockquote>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/28/防火墙与iptables命令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-进程线程协程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/21/进程线程协程/">进程线程协程</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/21/进程线程协程/" class="archive-article-date">
-  	<time datetime="2019-06-21T10:46:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="进程、线程与协程"><a href="#进程、线程与协程" class="headerlink" title="进程、线程与协程"></a>进程、线程与协程</h2><h3 id="多任务的实现方式："><a href="#多任务的实现方式：" class="headerlink" title="多任务的实现方式："></a>多任务的实现方式：</h3><ul>
-<li>多进程模式；</li>
-<li>多线程模式；</li>
-<li>多进程+多线程（太复杂一般不用）</li>
-</ul>
-<h3 id="1-多进程（multiprocessing）"><a href="#1-多进程（multiprocessing）" class="headerlink" title="1.多进程（multiprocessing）"></a>1.多进程（multiprocessing）</h3><blockquote>
-<p><strong>操作系统中的进程创建</strong><br>Linux操作系统提供了一个fork()系统调用。<br>普通的函数调用，调用一次，返回一次，但是fork()调用一次，返回两次，因为操作系统自动把当前进程（父进程）复制了一份（子进程），然后分别在父进程和子进程内各进行了一次返回。子进程返回0，而父进程返回子进程的ID。</p>
-</blockquote>
-<p>Python的os模块封装了常见的系统调用，其中就包括fork。（仅限Linux/Mac/Unix使用）由于Windows没有fork调用，如果你打算编写多进程的服务程序，可以使用multiprocessing模块，实现代码如下 :</p>
-<figure class="highlight moonscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> <span class="built_in">os</span></span><br><span class="line"></span><br><span class="line"># 子进程要执行的代码</span><br><span class="line">def run_proc(name):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Run child process %s (%s), my parent is (%s).'</span> % (name, <span class="built_in">os</span>.getpid(),<span class="built_in">os</span>.getppid()))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Parent process %s.'</span> % <span class="built_in">os</span>.getpid())</span><br><span class="line">    p = Process(target=run_proc, args=(<span class="string">'test'</span>,))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Child process will start.'</span>)</span><br><span class="line">    p.start()</span><br><span class="line">    p.join()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Child process end.'</span>)</span><br></pre></td></tr></table></figure>
-<h4 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释:"></a><strong>代码解释:</strong></h4><p><strong>创建实例:</strong><br><code>p = Process(target=run_proc, args=(&#39;test&#39;,))</code><br><strong>Process类常用方法：</strong><br>· start()：启动进程实例（创建子进程）；<br>· terminate()：不管任务是否完成，立即终止；<br>· close()：关闭进程,无法在任务完成前进行(不然会报错)；<br>· join([timeout])：是否等待进程实例执行结束，或等待多少秒；<br>· is_alive()：判断进程实例是否还在执行；<br><strong>Process类常用属性：</strong><br>· pid：当前进程实例的PID值；<br>· ppid：当前进程实例父进程的PID值；</p>
-<h4 id="进程池Pool"><a href="#进程池Pool" class="headerlink" title="进程池Pool"></a><strong>进程池Pool</strong></h4><p>如果要启动大量的子进程，可以用进程池的方式批量创建子进程：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Pool</span><br><span class="line">import <span class="built_in">os</span>, <span class="built_in">time</span>, <span class="built_in">random</span></span><br><span class="line"></span><br><span class="line">def long_time_task(name):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Run task %s (%s)...'</span> % (name, <span class="built_in">os</span>.getpid()))</span><br><span class="line">    start = <span class="built_in">time</span>.<span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">time</span>.sleep(<span class="built_in">random</span>.<span class="built_in">random</span>() * <span class="number">3</span>)</span><br><span class="line">    <span class="keyword">end</span> = <span class="built_in">time</span>.<span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Task %s runs %0.2f seconds.'</span> % (name, (<span class="keyword">end</span> - start)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Parent process %s.'</span> % <span class="built_in">os</span>.getpid())</span><br><span class="line">    p = Pool(<span class="number">4</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        p.apply_async(long_time_task, args=(i,))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Waiting for all subprocesses done...'</span>)</span><br><span class="line">    p.<span class="built_in">close</span>()</span><br><span class="line">    p.join()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'All subprocesses done.'</span>)</span><br></pre></td></tr></table></figure></p>
-<h4 id="代码解释-1"><a href="#代码解释-1" class="headerlink" title="代码解释:"></a><strong>代码解释:</strong></h4><p>1.以前我们变成可以不写主函数,但是如果想编写多进程的程序,必须要将执行的代码写在主函数中.因为在windows中是通过重载自身模块来创建子进程的,如果不写会导致程序无限循环创建进程的过程…</p>
-<p>2.对Pool对象调用join()方法会等待所有子进程执行完毕，<strong>调用join()之前必须先调用close()</strong>，调用close()之后就不能继续添加新的Process了。</p>
-<p>3.请注意输出的结果，task 0，1，2，3是立刻执行的，而task 4要等待前面某个task完成后才执行，这是因为我定义了<code>p = Pool(4)</code> ，因此，最多同时执行4个进程。<br>如果不填数字,则Pool的默认大小是CPU的核数。</p>
-<h4 id="进程间的通信"><a href="#进程间的通信" class="headerlink" title="进程间的通信:"></a><strong>进程间的通信:</strong></h4><p>进程有自己的地址空间，能读取但是不能改写进程外的全局变量.</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import multiprocessing</span><br><span class="line">import os</span><br><span class="line"><span class="built_in">num</span> = <span class="number">0</span></span><br><span class="line">def test1():</span><br><span class="line">    <span class="built_in">global</span> <span class="built_in">num</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        <span class="built_in">num</span> += <span class="number">1</span></span><br><span class="line">    print(<span class="string">'进程1 pid:&#123;&#125; num值为:&#123;&#125;'</span>.<span class="built_in">format</span>(os.getpid(),<span class="built_in">num</span>))</span><br><span class="line">def test2():</span><br><span class="line">    <span class="built_in">global</span> <span class="built_in">num</span></span><br><span class="line">    print(<span class="string">'进程2 pid:&#123;&#125; num值为:&#123;&#125;'</span>.<span class="built_in">format</span>(os.getpid(),<span class="built_in">num</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    p1 = multiprocessing.Process(target=test1)</span><br><span class="line">    p2 = multiprocessing.Process(target=test2)</span><br><span class="line">    p1.<span class="built_in">start</span>()</span><br><span class="line">    p2.<span class="built_in">start</span>()</span><br><span class="line">    print(<span class="string">'主进程 pid:&#123;&#125; num值为:&#123;&#125;'</span>.<span class="built_in">format</span>(os.getpid(),<span class="built_in">num</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出结果:</span></span><br><span class="line"><span class="comment">#主进程 pid:15480 num值为:0</span></span><br><span class="line"><span class="comment"># 进程1 pid:15256 num值为:10</span></span><br><span class="line"><span class="comment"># 进程2 pid:13844 num值为:0</span></span><br></pre></td></tr></table></figure>
-<p>(补充内容) 进程之间肯定是需要通信的，我们该怎么办呢? 其实，操作系统提供了很多机制来实现进程间的通信。<br>在Python中，multiprocessing模块包装了底层的机制，提供了Queue、Pipes等多种方式来交换数据。这里以Queue为例，在主进程中创建两个子进程，一个往Queue里写数据，一个从Queue里读数据：</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">from</span> multiprocessing import Process, Queue</span><br><span class="line">import os, <span class="built_in">time</span>, <span class="built_in">random</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写数据进程执行的代码:</span></span><br><span class="line">def <span class="built_in">write</span>(q,neirong):</span><br><span class="line">    print(<span class="string">'Process to write: %s'</span> % os.getpid())</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">value</span> <span class="keyword">in</span> neirong:</span><br><span class="line">        print(<span class="string">'Put %s to queue...'</span> % <span class="built_in">value</span>)</span><br><span class="line">        q.<span class="built_in">put</span>(<span class="built_in">value</span>)</span><br><span class="line">        <span class="built_in">time</span>.sleep(<span class="built_in">random</span>.<span class="built_in">random</span>())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读数据进程执行的代码:</span></span><br><span class="line">def <span class="built_in">read</span>(q):</span><br><span class="line">    print(<span class="string">'Process to read: %s'</span> % os.getpid())</span><br><span class="line">    <span class="keyword">while</span> True:</span><br><span class="line">        <span class="built_in">value</span> = q.<span class="built_in">get</span>(True)</span><br><span class="line">        print(<span class="string">'Get %s from queue.'</span> % <span class="built_in">value</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 父进程创建Queue，并传给各个子进程：</span></span><br><span class="line">    q = Queue()</span><br><span class="line">    pw = Process(target=<span class="built_in">write</span>, args=(q,[<span class="string">'HELLO'</span>,<span class="string">'WORLD'</span>]))</span><br><span class="line">    pr = Process(target=<span class="built_in">read</span>, args=(q,))</span><br><span class="line">    <span class="comment"># 启动子进程pw，写入:</span></span><br><span class="line">    pw.<span class="built_in">start</span>()</span><br><span class="line">    <span class="comment"># 启动子进程pr，读取:</span></span><br><span class="line">    pr.<span class="built_in">start</span>()</span><br><span class="line">    <span class="comment"># 等待pw结束:</span></span><br><span class="line">    pw.join()</span><br><span class="line">    <span class="comment"># pr进程里是死循环，无法等待其结束，只能强行终止:</span></span><br><span class="line">    pr.terminate()</span><br></pre></td></tr></table></figure>
-<p>总结:</p>
-<ul>
-<li>一个进程下至少有一个线程</li>
-<li>进程是资源分配的最小单位,线程是CPU调度的最小单位</li>
-<li>进程可以利用多个cpu,因此cpu密集的时候适合用多进程</li>
-<li>进程之间是相互独立的，要想通信需要借助Queue、Pipes等实现</li>
-</ul>
-<h3 id="2-多线程（multiprocessing）"><a href="#2-多线程（multiprocessing）" class="headerlink" title="2.多线程（multiprocessing）"></a>2.多线程（multiprocessing）</h3><p>多任务可以由多进程完成，也可以由一个进程内的多线程完成。<br>我们前面提到了进程是由若干线程组成的，一个进程至少有一个线程。<br>由于线程是操作系统直接支持的执行单元，因此，高级语言通常都内置多线程的支持，Python也不例外，并且，Python的线程是真正的Posix Thread，而不是模拟出来的线程。<br>Python的标准库提供了两个模块：_thread和threading，_thread是低级模块，threading是高级模块，对_thread进行了封装。绝大多数情况下，我们只需要使用threading这个高级模块。<br>启动一个线程就是把一个函数传入并创建Thread实例，然后调用start()开始执行：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time,threading</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        print(<span class="string">'task1'</span>, i)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        print(<span class="string">'task2'</span>, i)</span><br><span class="line">t1 = threading.Thread(target=test1,args=(<span class="number">10</span>,))</span><br><span class="line">t2 = threading.Thread(target=test2,args=(<span class="number">10</span>,))</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br></pre></td></tr></table></figure>
-<p><strong>注意: 线程的启动是无序的</strong><br>我们在代码中写的是:<br>t1.start()<br>t2.start()<br>但是先运行的不一定是t1线程</p>
-<h4 id="线程间的通信"><a href="#线程间的通信" class="headerlink" title="线程间的通信"></a><strong>线程间的通信</strong></h4><p>多线程和多进程最大的不同在于，多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响，而多线程中，所有变量都由所有线程共享 :</p>
-<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#多线程共享全局变量</span></span><br><span class="line"><span class="meta"># num = 0</span></span><br><span class="line"><span class="meta"># def test1():</span></span><br><span class="line"><span class="meta">#     global num</span></span><br><span class="line"><span class="meta">#     for i in range(10):</span></span><br><span class="line"><span class="meta">#         num += 1</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta"># def test2():</span></span><br><span class="line"><span class="meta">#     global num</span></span><br><span class="line"><span class="meta">#     print(num)</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta"># t1 = threading.Thread(target=test1)</span></span><br><span class="line"><span class="meta"># t2 = threading.Thread(target=test2)</span></span><br><span class="line"><span class="meta"># t1.start()</span></span><br><span class="line"><span class="meta"># t2.start()</span></span><br></pre></td></tr></table></figure>
-<p>但是，由于变量是共享的，任何一个变量都可以被任何一个线程修改，因此，线程之间共享数据最大的危险在于多个线程同时改一个变量，把内容给改乱了。<br>来看看多个线程同时操作一个变量怎么把内容给改乱了：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line">global_num = <span class="number">0</span></span><br><span class="line">lock = threading.Lock()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> global_num</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000000</span>):</span><br><span class="line">        global_num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> global_num</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000000</span>):</span><br><span class="line">        global_num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">t1 = threading.Thread(target=test1)</span><br><span class="line">t2 = threading.Thread(target=test2)</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br><span class="line">t1.join()</span><br><span class="line">t2.join()</span><br><span class="line">print(global_num)</span><br></pre></td></tr></table></figure>
-<p>在执行这段代码时,我们可以看出,本来应该加到2000000的global_num,不论我们实验几次都到不了应该达到的数值.原因是因为GIL全局解释器锁的存在.</p>
-<blockquote>
-<p><strong>全局解释器锁（Global Interpreter Lock）</strong><br>GIL是计算机程序设计语言解释器用于同步线程的工具，使得在同一进程内任何时刻仅有一个线程在执行。<br>Python的线程是操作系统线程。在Linux上为pthread，在Windows上为Win thread，完全由操作系统调度线程的执行。一个python解释器进程内有一条主线程，以及多条用户程序的执行线程。即使在多核CPU平台上，由于GIL的存在，所以禁止多线程的并行执行。</p>
-</blockquote>
-<p>GIL的存在导致了，在线程t1访问共享变量时，还没来得及将结果赋值给变量，系统就要求线程t1归还GIL锁。结果线程t2在访问该变量时拿到的是没有更新的变量。<br>为了解决这种问题，我们将线程中需要共享数据的代码再套一层锁——threading.Lock()。<br>这个锁的作用是，被它包起来的代码按照串行方式执行，也就是在线程t1完成global_num的运算和赋值前，其他线程不能同时执行，只能等待，直到锁被释放。<br>实现的代码如下:</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import threading</span><br><span class="line">global_num = <span class="number">0</span></span><br><span class="line"><span class="meta"># 定义一把进程锁</span></span><br><span class="line"><span class="keyword">lock</span> = threading.Lock()</span><br><span class="line"><span class="function">def <span class="title">test1</span>(<span class="params"></span>):</span></span><br><span class="line"><span class="function">    <span class="keyword">global</span> global_num</span></span><br><span class="line"><span class="function">    # 申请锁</span></span><br><span class="line"><span class="function">    <span class="keyword">lock</span>.<span class="title">acquire</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="title">range</span>(<span class="params"><span class="number">1000000</span></span>):</span></span><br><span class="line"><span class="function">        global_num +</span>= <span class="number">1</span></span><br><span class="line">    <span class="meta"># 释放锁</span></span><br><span class="line">    <span class="keyword">lock</span>.release()</span><br><span class="line"></span><br><span class="line"><span class="function">def <span class="title">test2</span>(<span class="params"></span>):</span></span><br><span class="line"><span class="function">    <span class="keyword">global</span> global_num</span></span><br><span class="line"><span class="function">    <span class="keyword">lock</span>.<span class="title">acquire</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="title">range</span>(<span class="params"><span class="number">1000000</span></span>):</span></span><br><span class="line"><span class="function">        global_num +</span>= <span class="number">1</span></span><br><span class="line">    <span class="keyword">lock</span>.release()</span><br><span class="line"></span><br><span class="line">t1 = threading.Thread(target=test1)</span><br><span class="line">t2 = threading.Thread(target=test2)</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br><span class="line">t1.<span class="keyword">join</span>()</span><br><span class="line">t2.<span class="keyword">join</span>()</span><br><span class="line">print(global_num)</span><br></pre></td></tr></table></figure>
-<p><strong>线程互斥锁和GIL的区别 </strong><br>1.线程互斥锁是Python代码层面的锁，解决Python程序中多线程共享资源的问题(如在线程数据共享时，多个线程都要访问某一数据资源，出现竞争状态，造成数据混乱的问题)</p>
-<p>2.GIL是Python解释层面的锁，解决解释器中多个线程的竞争资源问题（如多个子线程在系统资源竞争时，都在等待对象某个部分资源解除占用状态，导致程序无法执行下去的问题）</p>
-<h3 id="3-协程"><a href="#3-协程" class="headerlink" title="3.协程"></a>3.协程</h3><p>简介:</p>
-<ul>
-<li>协程：又称微线程，英文名Coroutine。</li>
-<li>协程是在一个线程里面的,先有进程，再有线程，才能有协程</li>
-<li>异步IO：遇到io请求就切换</li>
-<li>进程是资源分配的单位</li>
-<li>线程是操作系统调度的单位</li>
-<li>进程切换需要的资源最大，效率低</li>
-<li>线程切换需要的资源一般，效率一般</li>
-<li>协程切换任务资源很小，效率高</li>
-<li>多进程、多线程根据cpu核数不一样可能是并行的，但是协程是在一个线程中，通过类似中断的子程序交替执行的，本质上其实是串行的</li>
-</ul>
-<h4 id="gevent模块"><a href="#gevent模块" class="headerlink" title="gevent模块"></a><strong>gevent模块</strong></h4><p>Python通过yield提供了对协程的基本支持，但是不完全。而第三方的gevent为Python提供了比较完善的协程支持。<br>gevent是第三方库，通过greenlet实现协程，其基本思想是：<br>当一个greenlet遇到IO操作时，比如访问网络，就自动切换到其他的greenlet，等到IO操作完成，再在适当的时候切换回来继续执行。由于IO操作非常耗时，经常使程序处于等待状态，有了gevent为我们自动切换协程，就保证总有greenlet在运行，而不是等待IO。<br>由于切换是在IO操作时自动完成，所以gevent需要修改Python自带的一些标准库，这一过程在启动时通过monkey patch完成<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</span><br><span class="line">monkey.patch_all()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="comment"># gevent.sleep(1)</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        print(<span class="string">'task1'</span>,i)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="comment"># gevent.sleep(1)</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        print(<span class="string">'task2'</span>,i)</span><br><span class="line"></span><br><span class="line">g1 = gevent.spawn(test1,<span class="number">10</span>)</span><br><span class="line">g2 = gevent.spawn(test2,<span class="number">10</span>)</span><br><span class="line">g1.join()</span><br><span class="line">g2.join()</span><br></pre></td></tr></table></figure></p>
-<h4 id="asyncio模块"><a href="#asyncio模块" class="headerlink" title="asyncio模块"></a><strong>asyncio模块</strong></h4><p>asyncio是Python 3.4版本引入的标准库，直接内置了对异步IO的支持。<br>asyncio的编程模型就是一个消息循环。我们从asyncio模块中直接获取一个EventLoop的引用，然后把需要执行的协程扔到EventLoop中执行，就实现了异步IO。<br>@asyncio.coroutine把一个generator标记为coroutine类型，然后，我们就把这个coroutine扔到EventLoop中执行。<br>hello()会首先打印出Hello world!，然后，yield from语法可以让我们方便地调用另一个generator。由于asyncio.sleep()也是一个coroutine，所以线程不会等待asyncio.sleep()，而是直接中断并执行下一个消息循环。当asyncio.sleep()返回时，线程就可以从yield from拿到返回值（此处是None），然后接着执行下一行语句。<br>把asyncio.sleep(1)看成是一个耗时1秒的IO操作，在此期间，主线程并未等待，而是去执行EventLoop中其他可以执行的coroutine了，因此可以实现并发执行。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="meta">@asyncio.coroutine</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'Hello world! (%s)'</span> % threading.currentThread())</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> asyncio.sleep(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">'Hello again! (%s)'</span> % threading.currentThread())</span><br><span class="line"></span><br><span class="line"><span class="meta">@asyncio.coroutine</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hi</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'Hi world! (%s)'</span> % threading.currentThread())</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> asyncio.sleep(<span class="number">1.5</span>)</span><br><span class="line">    print(<span class="string">'Hi again! (%s)'</span> % threading.currentThread())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">tasks = [hi(), hello()]</span><br><span class="line">loop.run_until_complete(asyncio.wait(tasks))</span><br><span class="line">loop.close()</span><br><span class="line"></span><br><span class="line">执行结果:</span><br><span class="line">Hello world! (&lt;_MainThread(MainThread, started <span class="number">14168</span>)&gt;)</span><br><span class="line">Hi world! (&lt;_MainThread(MainThread, started <span class="number">14168</span>)&gt;)</span><br><span class="line">...等了大概<span class="number">1</span>s...</span><br><span class="line">Hello again! (&lt;_MainThread(MainThread, started <span class="number">14168</span>)&gt;)</span><br><span class="line">Hi again! (&lt;_MainThread(MainThread, started <span class="number">14168</span>)&gt;)</span><br><span class="line">可见同一个线程内的两个函数被交替执行了!节省了很多运行时间!</span><br></pre></td></tr></table></figure>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/21/进程线程协程/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-python数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/19/python数据类型/">python数据类型</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/19/python数据类型/" class="archive-article-date">
-  	<time datetime="2019-06-19T08:31:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ul>
-<li><p>a=10<br>b=20<br>name=input(‘请输入名字:’)  #输入才会结束<br>print(type(name)) #打印出name的数据类型<br>注释：和’’’都代表注释</p>
-</li>
-<li><p>数据类型<br>整型        a1 = 250<br>浮点型      a2 = 11.1<br>字符串      a3 = ‘科斯塔’<br>列表        a4 = [1,2,3,’a1’,(123)]<br>元组        a5 = (1,2,3,4,[1,2,3,(1,2,3)])<br>字典        a6 = {‘name’:’科斯塔’,’age’:88}<br>布尔        True和False<br>集合        a7 = {1,2,3,3,3,3,3}</p>
-</li>
-</ul>
-<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#字符串定义：'' <span class="meta-string">""</span> '''三引号可换行长串'''</span></span><br><span class="line"><span class="meta">#单引号和双引号和三引号配合使用，里面用到单引号外面就用双引号</span></span><br><span class="line">res = <span class="string">"She's very beautiful"</span></span><br><span class="line"><span class="keyword">print</span>(res)</span><br><span class="line"></span><br><span class="line"><span class="meta">#字符串更新（覆盖）：重新定义即可</span></span><br><span class="line"><span class="meta">#字符串运算：a+b 拼接</span></span><br><span class="line">a * <span class="number">10</span> 重复输出<span class="number">10</span>次</span><br><span class="line">a[<span class="number">1</span>]    输出第二个元素</span><br><span class="line">a[<span class="number">0</span>:<span class="number">5</span>]   输出第<span class="number">1</span><span class="number">-5</span>个字</span><br><span class="line"><span class="string">'o'</span> in a   字符串包含o则输出ture</span><br><span class="line"></span><br><span class="line"><span class="meta"># print( r'\n' ) 不进行转义直接输出\n</span></span><br><span class="line"><span class="meta"># 字符串格式化</span></span><br><span class="line"><span class="meta"># 方法一：print(<span class="meta-string">"我叫 %s ，今年 %d 岁。"</span> % '科斯塔',<span class="number">20</span>)</span></span><br><span class="line"><span class="meta"># 因为%有特殊含义，输出%需要写成%%</span></span><br><span class="line"><span class="meta"># 方法二：str.format()</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta"># 列表引用</span></span><br><span class="line">my_list = [<span class="string">'菜鸟教程'</span>, <span class="string">'www.runoob.com'</span>]</span><br><span class="line"><span class="keyword">print</span>(<span class="string">"网站名：&#123;a[0]&#125;, 地址 &#123;a[1]&#125;"</span>.format(a=my_list))</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta"># 字典引用</span></span><br><span class="line">dic=&#123;<span class="string">'apple'</span>:<span class="number">3</span>,<span class="string">'banana'</span>:<span class="number">5</span>&#125;</span><br><span class="line"><span class="keyword">print</span>(<span class="string">'苹果有几个？有&#123;apple&#125;个\n香蕉有几个？有&#123;banana&#125;个'</span>.format(**dic))</span><br><span class="line"><span class="keyword">print</span>(<span class="string">'苹果有几个？有%s个'</span> % (dic[<span class="string">'apple'</span>]))</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta"># 类引用</span></span><br><span class="line">class fruits (object):</span><br><span class="line">     def __init__(self,x,y):</span><br><span class="line">         self.apple=x</span><br><span class="line">         self.banana=y</span><br><span class="line">         self.melon=<span class="number">10</span></span><br><span class="line">it=fruits(<span class="number">3</span>,<span class="number">5</span>)</span><br><span class="line"><span class="keyword">print</span>(<span class="string">'苹果有几个？有&#123;0.apple&#125;个\n香蕉有几个？有&#123;0.banana&#125;个'</span>.format(it))</span><br><span class="line"></span><br><span class="line"><span class="meta"># 字符串内建函数：</span></span><br><span class="line"><span class="meta"># <span class="number">1</span>.字符串分割</span></span><br><span class="line"><span class="meta"># split从左往右 rsplit从右往左</span></span><br><span class="line"><span class="meta"># str.split(分隔符，分割次数) 默认为空格，制表符，回车等进行分割</span></span><br><span class="line"><span class="keyword">print</span>(<span class="string">'hello    world\nomega die die die'</span>.split())</span><br><span class="line"><span class="meta"># 多个分隔符分割，只能调用re.split</span></span><br><span class="line">import re</span><br><span class="line"><span class="keyword">print</span>(re.split(<span class="string">'!|,'</span>,<span class="string">'hello!world@omega,die,die,die'</span>))</span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="number">2</span>.把可迭代对象转换为字符串并以指定分隔符隔开</span></span><br><span class="line"><span class="meta"># 可迭代对象：字符串，列表，元组，集合，字典</span></span><br><span class="line"><span class="meta"># 总结：join括号里面不要带数字和小数</span></span><br><span class="line"><span class="meta"># '分隔符'.join(迭代对象)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#join()与str()的区别</span></span><br><span class="line"><span class="keyword">print</span>(<span class="string">''</span>.join([<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>]))  <span class="meta">#join会只转元素</span></span><br><span class="line"><span class="meta"># 输出：<span class="number">123</span></span></span><br><span class="line"><span class="keyword">print</span>(<span class="keyword">str</span>([<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>])) <span class="meta">#会连着标点一起转</span></span><br><span class="line"><span class="meta"># 输出：['<span class="number">1</span>', '<span class="number">2</span>', '<span class="number">3</span>']</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># join的真实用法：用于将序列中的元素以指定的字符连接生成一个新的字符串。</span></span><br><span class="line"><span class="meta"># 效果如下：</span></span><br><span class="line"><span class="meta"># s1 = <span class="meta-string">"-"</span></span></span><br><span class="line"><span class="meta"># seq = (<span class="meta-string">"r"</span>, <span class="meta-string">"u"</span>, <span class="meta-string">"n"</span>, <span class="meta-string">"o"</span>, <span class="meta-string">"o"</span>, <span class="meta-string">"b"</span>) # 字符串序列</span></span><br><span class="line"><span class="meta"># print (s1.join( seq ))</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="number">3</span>.replace字符串替换 依旧是从左到右</span></span><br><span class="line"><span class="meta"># 格式：'要替换的字符串'.replace('旧的','新的',替换次数)</span></span><br><span class="line"><span class="meta"># print('costa is a gay'.replace('gay','angel',<span class="number">1</span>).replace('angel','',<span class="number">1</span>))</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="number">4</span>.strip('+')去掉字符串左右两边的+，它去不掉中间的+</span></span><br><span class="line"><span class="meta"># lstrip去掉左边的指定的字符，默认为空格。</span></span><br><span class="line"><span class="meta"># rstrip去掉右边的指定的字符，默认为空格。</span></span><br><span class="line"></span><br><span class="line">a=<span class="string">'12345 hello   world 54321'</span></span><br><span class="line">b=<span class="string">'      hello   world      '</span></span><br><span class="line"><span class="keyword">print</span>(a.strip(<span class="string">'12345'</span>))</span><br><span class="line"><span class="keyword">print</span>(b.lstrip())</span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="number">5</span>.编码与解码</span></span><br><span class="line"><span class="meta"># byte=str.encode('编码格式')将字符串str按照指定的格式进行编码，生成一个bytes对象</span></span><br><span class="line"><span class="meta"># res = byte.decode('编码格式')将bytes对象解码，转换为字符串</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">str</span>=<span class="string">'拉拉肥好吃'</span></span><br><span class="line">res=str.encode(<span class="string">'gbk'</span>)</span><br><span class="line"><span class="keyword">print</span>(res)</span><br><span class="line">res=res.decode(<span class="string">'gbk'</span>)</span><br><span class="line"><span class="keyword">print</span>(res)</span><br><span class="line"></span><br><span class="line">a=<span class="string">'     hello,World!    '</span></span><br><span class="line"><span class="meta"># 首字母大写</span></span><br><span class="line"><span class="keyword">print</span>(a.capitalize())</span><br><span class="line"><span class="meta"># 标题化，每个单词首字母大写</span></span><br><span class="line"><span class="keyword">print</span>(a.title())</span><br><span class="line"><span class="meta"># 全部转化为大写</span></span><br><span class="line"><span class="keyword">print</span>(a.upper())</span><br><span class="line"><span class="meta"># 全部转换为小写</span></span><br><span class="line"><span class="keyword">print</span>(a.lower())</span><br><span class="line"><span class="meta"># 大写，小写 互换</span></span><br><span class="line"><span class="keyword">print</span>(a.swapcase())</span><br><span class="line"><span class="meta"># islower判断是否都是小写</span></span><br><span class="line"><span class="meta"># isupper判断是否都是大写</span></span><br><span class="line"><span class="meta"># istitle判断是否都是标题化</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#center 在字符串左右两边填充字符，使字符串居中</span></span><br><span class="line"><span class="keyword">print</span>(a.center(<span class="number">50</span>,<span class="string">'+'</span>))</span><br><span class="line"><span class="meta">#strip  删掉字符串两边的字符，默认为空格。</span></span><br><span class="line"><span class="keyword">print</span>(a.strip(<span class="string">' '</span>))</span><br><span class="line"><span class="meta">#只去左边或者右边的字符</span></span><br><span class="line"><span class="meta">#lstrip        rstrip</span></span><br><span class="line"><span class="meta">#数某个字符出现的次数</span></span><br><span class="line"><span class="keyword">print</span>(a.count(<span class="string">'l'</span>))</span><br><span class="line"><span class="meta">#encode编码</span></span><br><span class="line">b=a.encode(<span class="string">'UTF-8'</span>)</span><br><span class="line"><span class="keyword">print</span>(b)</span><br><span class="line"><span class="meta">#decode解码</span></span><br><span class="line"><span class="keyword">print</span>(b.decode(<span class="string">'UTF-8'</span>))</span><br><span class="line"><span class="meta">#字符串是否以什么结尾</span></span><br><span class="line"><span class="keyword">print</span>(a.endswith(<span class="string">'!'</span>))</span><br><span class="line"><span class="meta">#查找是否包含某个字符串.并返回索引值，如果没找到就返回<span class="number">-1</span></span></span><br><span class="line"><span class="keyword">print</span>(a.find(<span class="string">'!'</span>,<span class="number">0</span>,<span class="number">7</span>))</span><br><span class="line"><span class="keyword">print</span>(a.find(<span class="string">'!'</span>,<span class="number">10</span>,<span class="number">-1</span>))</span><br><span class="line"><span class="meta">#index跟find()方法一样，只不过如果str不在字符串中会报一个异常.</span></span><br><span class="line"><span class="meta">#返回字符串长度</span></span><br><span class="line"><span class="keyword">print</span>(len(a))</span><br><span class="line"><span class="meta">#replace替换</span></span><br><span class="line"><span class="keyword">print</span>(a.replace(<span class="string">'l'</span>,<span class="string">'L'</span>,<span class="number">10</span>))</span><br><span class="line"><span class="meta">#join 将迭代对象 转换为字符串，并用指定字符隔开</span></span><br><span class="line"><span class="meta">#注意集合，列表里不要有数字才能转换</span></span><br><span class="line">c=&#123;<span class="string">'g'</span>,<span class="string">'j'</span>,<span class="string">'k'</span>,<span class="string">'lz'</span>,<span class="string">'r'</span>,<span class="string">'i'</span>,<span class="string">'k'</span>&#125;</span><br><span class="line"><span class="keyword">print</span>(<span class="string">'++'</span>.join(c))</span><br></pre></td></tr></table></figure>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">列表可以存储多个值</span><br><span class="line">students = [<span class="string">'f'</span>,<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'d'</span>,<span class="string">'2'</span>,<span class="string">'1'</span>]</span><br><span class="line"></span><br><span class="line">需要了解的:</span><br><span class="line"> </span><br><span class="line">* <span class="built_in">count</span>统计指定元素个数</span><br><span class="line"><span class="keyword">res</span>= students.<span class="built_in">count</span>(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">print</span>(<span class="keyword">res</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line">* <span class="built_in">index</span>取指定元素的下标(索引)，如果没有取到报错</span><br><span class="line"><span class="keyword">print</span>(students.<span class="built_in">index</span>(<span class="string">'f'</span>))</span><br><span class="line"><span class="number">0</span></span><br><span class="line">* <span class="built_in">reverse</span>倒序</span><br><span class="line"> students.<span class="built_in">reverse</span>()</span><br><span class="line"> <span class="keyword">print</span>(students)</span><br><span class="line">[<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'d'</span>, <span class="string">'d'</span>, <span class="string">'c'</span>, <span class="string">'b'</span>, <span class="string">'a'</span>, <span class="string">'f'</span>]</span><br><span class="line"></span><br><span class="line">* <span class="keyword">pop</span>根据下表或者索引剪切元素,默认取最后一个元素</span><br><span class="line"> <span class="keyword">print</span>(students.<span class="keyword">pop</span>(<span class="number">1</span>))</span><br><span class="line"> <span class="keyword">a</span></span><br><span class="line"> <span class="keyword">print</span>(students)</span><br><span class="line"> [<span class="string">'f'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'d'</span>,<span class="string">'2'</span>,<span class="string">'1'</span>]</span><br><span class="line"> <span class="keyword">print</span>(students.<span class="keyword">pop</span>())</span><br><span class="line"> <span class="number">1</span></span><br><span class="line"> <span class="keyword">print</span>(students.<span class="keyword">pop</span>())</span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="keyword">print</span>(students.<span class="keyword">pop</span>())</span><br><span class="line"> d</span><br><span class="line"> <span class="keyword">print</span>(students)</span><br><span class="line"> [<span class="string">'f'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>]</span><br><span class="line">* clear清空列表所有元素</span><br><span class="line"> students.clear()</span><br><span class="line"> <span class="keyword">print</span>(students)</span><br><span class="line"> []     #空列表</span><br><span class="line">* <span class="keyword">copy</span>复制一个列表</span><br><span class="line"> <span class="keyword">res</span> = students.<span class="keyword">copy</span>()</span><br><span class="line"> <span class="keyword">print</span>(<span class="keyword">res</span>)</span><br><span class="line"> [<span class="string">'f'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'d'</span>,<span class="string">'2'</span>,<span class="string">'1'</span>]</span><br><span class="line">* <span class="keyword">sort</span>排序</span><br><span class="line"> students.<span class="keyword">sort</span>()</span><br><span class="line"> <span class="keyword">print</span>(students)</span><br><span class="line"> [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'d'</span>, <span class="string">'f'</span>]</span><br><span class="line">* <span class="keyword">insert</span> 通过下表方式插入元素</span><br><span class="line"> students.<span class="keyword">insert</span>(<span class="number">3</span>,<span class="string">'costa'</span>)</span><br><span class="line"> <span class="keyword">print</span>(students)</span><br><span class="line"> [<span class="string">'f'</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'costa'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'d'</span>, <span class="string">'2'</span>, <span class="string">'1'</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 必须要掌握的</span><br><span class="line"></span><br><span class="line">students = [<span class="string">'f'</span>,<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'d'</span>,<span class="string">'2'</span>,<span class="string">'1'</span>]</span><br><span class="line"></span><br><span class="line">* <span class="keyword">append</span>会把指定元素追加到末尾</span><br><span class="line"> students.<span class="keyword">append</span>(<span class="string">'sb250'</span>)</span><br><span class="line"> students.<span class="keyword">append</span>(<span class="string">'sb250'</span>)</span><br><span class="line"> students.<span class="keyword">append</span>(<span class="string">'sb250'</span>)</span><br><span class="line"> students.<span class="keyword">append</span>(<span class="string">'sb250'</span>)</span><br><span class="line"> <span class="keyword">print</span>(students)</span><br><span class="line"> [<span class="string">'f'</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'d'</span>, <span class="string">'2'</span>, <span class="string">'1'</span>, <span class="string">'costa'</span>, <span class="string">'costa'</span>, <span class="string">'costa'</span>, <span class="string">'costa'</span>]</span><br><span class="line">* <span class="built_in">remove</span> 删除指定元素</span><br><span class="line"> students.<span class="built_in">remove</span>(<span class="string">'f'</span>)</span><br><span class="line"> <span class="keyword">print</span>(students)</span><br><span class="line"> [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'d'</span>, <span class="string">'2'</span>, <span class="string">'1'</span>, <span class="string">'costa'</span>, <span class="string">'costa'</span>, <span class="string">'costa'</span>, <span class="string">'costa'</span>]</span><br><span class="line">* <span class="built_in">extend</span>，把可迭代对象传入进去</span><br><span class="line"> students.<span class="built_in">extend</span>([<span class="string">'asd'</span>,<span class="string">'qwe'</span>])</span><br><span class="line"> <span class="keyword">print</span>(students)</span><br><span class="line"> [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'d'</span>, <span class="string">'2'</span>, <span class="string">'1'</span>,<span class="string">'asd'</span>,<span class="string">'qwe'</span>]</span><br><span class="line">* 列表可以相加</span><br><span class="line"> l1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"> l2 = [<span class="number">1</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"> <span class="keyword">print</span>(l1 + l2)</span><br><span class="line"> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"></span><br><span class="line">* 列表可以乘数字</span><br><span class="line"> l1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"> l2 = [<span class="number">1</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"> <span class="keyword">print</span>(l1 * <span class="number">3</span>)</span><br><span class="line"> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
-<h2 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h2><p>t1 = (1,2,3)<br>列表可读可修改，元组一般是用来读的<br>在相同元素的情况下，列表会占用的资源更多一些</p>
-<h2 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h2><p>num = 10</p>
-<h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>num_f = 10.2</p>
-<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">  去重</span><br><span class="line">s1=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">3</span>&#125;</span><br><span class="line">print(s1)</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line">* remove删除元素</span><br><span class="line">s1 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;</span><br><span class="line">s1.remove(<span class="number">3</span>)</span><br><span class="line">print(s1)</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;</span><br><span class="line">* 复制集合</span><br><span class="line">s1.copy()</span><br><span class="line">* pop剪切</span><br><span class="line">print(s1)</span><br><span class="line">res = s1.pop()</span><br><span class="line">res = s1.pop()</span><br><span class="line">res = s1.pop()</span><br><span class="line">res = s1.pop()</span><br><span class="line">print(res)</span><br><span class="line"><span class="number">4</span></span><br><span class="line">* add   添加元素</span><br><span class="line">s1.add('<span class="number">250</span>')</span><br><span class="line">print(s1)</span><br><span class="line">* update  换一个可迭代对象</span><br><span class="line">s1.update([<span class="number">1</span>,<span class="number">2</span>,<span class="number">7</span>]) </span><br><span class="line">print(s1)</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>&#125;</span><br><span class="line">* 判断一个集合是否是另一个集合的子集</span><br><span class="line">s1 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;</span><br><span class="line">s2 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">res = s2.issubset(s1)</span><br><span class="line">print(res)</span><br><span class="line">False</span><br><span class="line">* 判断一个集合是否是另一个集合的父集</span><br><span class="line">s1 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;</span><br><span class="line">s2 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">res = s1.issuperset(s2)</span><br><span class="line">print(res)</span><br><span class="line">Ture</span><br><span class="line">* union取并集</span><br><span class="line">print(s1.union(s2))</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;</span><br><span class="line">* 求差集</span><br><span class="line">print(s2.difference(s1))</span><br><span class="line">&#123;<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;</span><br><span class="line">* 交集</span><br><span class="line">print(s1.intersection(s2))</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">#key:value</span><br><span class="line">#字典中key不要重复</span><br><span class="line">info = &#123;</span><br><span class="line">    <span class="string">'name'</span>:<span class="string">'疯子'</span>,</span><br><span class="line">    <span class="string">'high'</span>:<span class="number">190</span>,</span><br><span class="line">    <span class="string">'weight'</span>:<span class="number">160</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">* 需要了解的</span><br><span class="line"> * <span class="keyword">copy</span>复制一份字典</span><br><span class="line"> * clear清空字典</span><br><span class="line"> * <span class="keyword">pop</span>剪切,找不到这个key就报错</span><br><span class="line"><span class="keyword">print</span>(info.<span class="keyword">pop</span>(<span class="string">'a'</span>))</span><br><span class="line"><span class="keyword">print</span>(info)</span><br><span class="line">报错</span><br><span class="line"> * popitem以键值对的形式剪切</span><br><span class="line"><span class="keyword">print</span>(info.popitem())</span><br><span class="line"><span class="keyword">print</span>(info.popitem())</span><br><span class="line">    (<span class="string">'weight'</span>:<span class="number">160</span>)</span><br><span class="line">    (<span class="string">'high'</span>:<span class="number">190</span>)</span><br><span class="line">* fromkeys快速建立一个空字典</span><br><span class="line"><span class="keyword">res</span> = &#123;&#125;.fromkeys([<span class="string">'name'</span>,<span class="string">'age'</span>],None)</span><br><span class="line"><span class="keyword">print</span>(<span class="keyword">res</span>)</span><br><span class="line">* 必须掌握</span><br><span class="line">info1 = &#123;</span><br><span class="line">    <span class="string">'name'</span>:<span class="string">'疯子'</span>,</span><br><span class="line">    <span class="string">'high'</span>:<span class="number">190</span>,</span><br><span class="line">    <span class="string">'weight'</span>:<span class="number">160</span>,</span><br><span class="line">&#125;</span><br><span class="line">info2 = &#123;</span><br><span class="line">    <span class="string">'telephone'</span>:<span class="number">110</span>,</span><br><span class="line">    <span class="string">'name'</span>:<span class="string">'科斯塔'</span></span><br><span class="line">&#125;</span><br><span class="line">* <span class="keyword">update</span>把两个字典合并成一个字典</span><br><span class="line">info1.<span class="keyword">update</span>(info2)</span><br><span class="line"><span class="keyword">print</span>(info1)</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'科斯塔'</span>, <span class="string">'high'</span>: <span class="number">190</span>, <span class="string">'weight'</span>: <span class="number">160</span>, <span class="string">'telephone'</span>: <span class="number">110</span>&#125;</span><br><span class="line">* <span class="built_in">items</span>将所有键值对全部打印出来</span><br><span class="line"><span class="keyword">res</span> = info1.<span class="built_in">items</span>()</span><br><span class="line"><span class="keyword">print</span>(<span class="keyword">res</span>)</span><br><span class="line">dict_items([(<span class="string">'name'</span>, <span class="string">'疯子'</span>), (<span class="string">'high'</span>, <span class="number">190</span>), (<span class="string">'weight'</span>, <span class="number">160</span>)])</span><br><span class="line">* <span class="built_in">keys</span>打印字典中所有的key</span><br><span class="line"><span class="keyword">print</span>(info1.<span class="built_in">keys</span>())</span><br><span class="line">* <span class="built_in">values</span>打印字典中所有的value</span><br><span class="line"><span class="keyword">print</span>(info1.<span class="built_in">values</span>())</span><br><span class="line"><span class="built_in">get</span>通过key取value，如果取不到返回None,不能重新赋值</span><br><span class="line"><span class="keyword">print</span>(info1.<span class="built_in">get</span>(<span class="string">'aa'</span>))</span><br><span class="line">[]通过key取value，如果取不到报错，可以重新赋值的</span><br><span class="line">info1[<span class="string">'name'</span>] = <span class="string">'科斯塔'</span></span><br><span class="line"><span class="keyword">print</span>(info1)</span><br></pre></td></tr></table></figure>
-<p>总结:<br>    列表，字符串，字典，整型，布尔用的是最多的<br>    元组，集合，浮点型用的相对较少</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/19/python数据类型/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
+
+
+  <section id="comments" class="comments">
+    <style>
+      .comments{margin:30px;padding:10px;background:#fff}
+      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+    </style>
+    <div id="vcomment" class="comment"></div>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+   new Valine({
+            av: AV,
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            app_id: "Tm4DjQsib6maAvLYDEnnDRlT-gzGzoHsz",
+            app_key: "kBqbGAkprfQ6bxvHuNxunguy",
+            placeholder: "喵喵喵～快过来～",
+            avatar: "mp",
+            avatar_cdn: "https://sdn.geekzu.org/avatar/",
+            pageSize: 10
+    });
+    if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+</script>
+
+  </section>
+
+
+
+
+
+
   
 
 
@@ -1361,8 +568,8 @@ yum install MariaDB-backup
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
