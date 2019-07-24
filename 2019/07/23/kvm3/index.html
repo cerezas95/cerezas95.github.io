@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href>
-  <title>Archives: 2019/6 | 那那喵的拉拉肥厨房</title>
+  <title>KVM-第3节 虚拟网络管理 | 那那喵的拉拉肥厨房</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="喵喵瞄，快出来！">
-<meta name="keywords" content="Linux，程序媛，ff14">
-<meta property="og:type" content="website">
-<meta property="og:title" content="那那喵的拉拉肥厨房">
-<meta property="og:url" content="/archives/2019/06/index.html">
+  <meta name="description" content="brctl网桥管理工具装了KVM应该就自带了，如果没有的话可以下载：yum install bridge-utils  添加网桥(br0)brctl addbr br0 查看网桥，不指定则显示全部brctl show br0 删除网桥(br0)brctl delbr br0 将eth0端口加入网桥br0brctl addif br0 eth0 从网桥br0中删除eth0端口brctl delif">
+<meta name="keywords" content="全部,虚拟化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KVM-第3节 虚拟网络管理">
+<meta property="og:url" content="/2019/07/23/kvm3/index.html">
 <meta property="og:site_name" content="那那喵的拉拉肥厨房">
-<meta property="og:description" content="喵喵瞄，快出来！">
+<meta property="og:description" content="brctl网桥管理工具装了KVM应该就自带了，如果没有的话可以下载：yum install bridge-utils  添加网桥(br0)brctl addbr br0 查看网桥，不指定则显示全部brctl show br0 删除网桥(br0)brctl delbr br0 将eth0端口加入网桥br0brctl addif br0 eth0 从网桥br0中删除eth0端口brctl delif">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://d.birdteam.net/data/f_79134178.jpg">
+<meta property="og:updated_time" content="2019-07-24T04:05:15.746Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="那那喵的拉拉肥厨房">
-<meta name="twitter:description" content="喵喵瞄，快出来！">
+<meta name="twitter:title" content="KVM-第3节 虚拟网络管理">
+<meta name="twitter:description" content="brctl网桥管理工具装了KVM应该就自带了，如果没有的话可以下载：yum install bridge-utils  添加网桥(br0)brctl addbr br0 查看网桥，不指定则显示全部brctl show br0 删除网桥(br0)brctl delbr br0 将eth0端口加入网桥br0brctl addif br0 eth0 从网桥br0中删除eth0端口brctl delif">
+<meta name="twitter:image" content="http://d.birdteam.net/data/f_79134178.jpg">
   
   
     <link rel="icon" href="/favicon.png">
@@ -175,36 +178,77 @@ daovoice('update');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-kvm3" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      KVM-第3节 虚拟网络管理
+    </h1>
+  
+
+        
+        <a href="/2019/07/23/kvm3/" class="archive-article-date">
+  	<time datetime="2019-07-23T11:25:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="brctl网桥管理工具"><a href="#brctl网桥管理工具" class="headerlink" title="brctl网桥管理工具"></a><strong>brctl网桥管理工具</strong></h4><p>装了KVM应该就自带了，如果没有的话可以下载：<br>yum install bridge-utils</p>
+<ol>
+<li>添加网桥(br0)<br><code>brctl addbr br0</code></li>
+<li>查看网桥，不指定则显示全部<br><code>brctl show br0</code></li>
+<li>删除网桥(br0)<br><code>brctl delbr br0</code></li>
+<li>将eth0端口加入网桥br0<br><code>brctl addif br0 eth0</code></li>
+<li>从网桥br0中删除eth0端口<br><code>brctl delif br0 eth0</code></li>
+</ol>
+<h4 id="网卡绑定"><a href="#网卡绑定" class="headerlink" title="网卡绑定"></a><strong>网卡绑定</strong></h4><p>（1）网卡bond（绑定），也称作网卡捆绑。就是将两个或者更多的物理网卡绑定成一个虚拟网卡。网卡是通过把多张网卡绑定为一个逻辑网卡，实现本地网卡的冗余，带宽扩容和负载均衡，在应用部署中是一种常用的技术。<br>多网卡绑定实际上需要提供一个额外的软件的bond驱动程序实现。通过驱动程序可以将多块网卡屏蔽。对TCP/IP协议层只存在一个Bond网卡，在Bond程序中实现网络流量的负载均衡，即将一个网络请求重定位到不同的网卡上，来提高总体网络的可用性。</p>
+<p>（2）网卡绑定的目的：<br>   1.提高网卡的吞吐量。<br>   2.增强网络的高可用，同时也能实现负载均衡。</p>
+<p>（3）网卡配置bond（绑定）bond模式：<br>1、Mode=0(balance-rr) 表示负载分担round-robin，平衡轮询策略，具有负载平衡和容错功能<br>bond的网卡MAC为当前活动的网卡的MAC地址，需要交换机设置聚合模式，将多个网卡绑定为一条链路。</p>
+<p>2、Mode=1(active-backup) 表示主备模式，具有容错功能，只有一块网卡是active,另外一块是备的standby，这时如果交换机配的是捆绑，将不能正常工作，因为交换机往两块网卡发包，有一半包是丢弃的。</p>
+<p>3、Mode=2(balance-xor) 表示XOR Hash负载分担（异或平衡策略），具有负载平衡和容错功能<br>每个slave接口传输每个数据包和交换机的聚合强制不协商方式配合。（需要xmit_hash_policy）。</p>
+<p>4、Mode=3(broadcast)  表示所有包从所有interface发出，广播策略，具有容错能力，这个不均衡，只有冗余机制…和交换机的聚合强制不协商方式配合。  </p>
+<p>5、Mode=4(802.3ad) 表示支持802.3ad协议（IEEE802.3ad 动态链接聚合） 和交换机的聚合LACP方式配合（需要xmit_hash_policy）。</p>
+<p>6、Mode=5(balance-tlb) 适配器传输负载均衡，并行发送，无法并行接收，解决了数据发送的瓶颈。 是根据每个slave的负载情况选择slave进行发送，接收时使用当前轮到的slave。  </p>
+<p>7、Mode=6(balance-alb) 在5的tlb基础上增加了rlb。适配器负载均衡模式并行发送，并行接收数据包。</p>
+<p>5和6不需要交换机端的设置，网卡能自动聚合。4需要支持802.3ad。0，2和3理论上需要静态聚合方式，但实测中0可以通过mac地址欺骗的方式在交换机不设置的情况下不太均衡地进行接收。</p>
+<p>常用的有三种：</p>
+<p>mode=0：平衡负载模式，有自动备援，但需要”Switch”支援及设定。</p>
+<p>mode=1：自动备援模式，其中一条线若断线，其他线路将会自动备援。</p>
+<p>mode=6：平衡负载模式，有自动备援，不必”Switch”支援及设定。</p>
+<h4 id="基于网卡模拟vlan"><a href="#基于网卡模拟vlan" class="headerlink" title="基于网卡模拟vlan"></a><strong>基于网卡模拟vlan</strong></h4><p><strong>0.查看核心是否提供VLAN 功能</strong><br>dmesg | grep -i 802<br>如果没有<br>modprobe 8021q</p>
+<p><strong>1.安装vconfig</strong><br>rpm -ivh vconfig-1.9-16.el7.x86_64.rpm<br>rpm -qa vconfig</p>
+<p><strong>2.添加一块网卡ens34</strong><br>仅主机模式，BOOTPROTO=static</p>
+<p><strong>3.基于网卡ens34建立vlan10，vlan20接口–ens34.10，ens34.20</strong><br>vconfig add ens34 10<br>vconfig add ens34 20</p>
+<p><strong>4.分别建立网桥brvlan-10，brvlan-20</strong><br>brctl addbr brvlan-10<br>brctl addbr brvlan-20</p>
+<p><strong>5.编辑网桥brvlan-10配置文件：</strong><br>$vim ifcfg-brvlan-10<br>TYPE=bridge<br>BOOTPROTO=static<br>NAME=brvlan-10<br>DEVICE=brvlan-10<br>ONBOOT=yes</p>
+<p><strong>编辑网桥brvlan-20配置文件：</strong><br>$vim ifcfg-brvlan-20<br>TYPE=bridge<br>BOOTPROTO=static<br>NAME=brvlan-20<br>DEVICE=brvlan-20<br>ONBOOT=yes</p>
+<p><strong>6.将网桥brvlan-10接到网口ens34.10，brvlan-20接到网口ens34.20</strong><br>brctl addif brvlan-10 ens34.10<br>brctl addif brvlan-20 ens34.20</p>
+<p><strong>7.重新启动网络服务</strong><br>systemctl restart network</p>
+<p><strong>bridge，vlan，bond综合实验</strong><br>原理图如下：<br><img src="http://d.birdteam.net/data/f_79134178.jpg" alt></p>
+<p>Linux宿主机：<br>需要5块网卡：ens33,37,38,39,40<br>网桥：br0，br1<br>虚拟网口：br1.10，br1.20<br>vlan网桥：brvlan-10，brvlan-20</p>
+<p><strong>实验步骤：</strong><br><strong>br1配置</strong></p>
+<p>1）加载bond模块：<br>modprobe bonding<br>加载vlan模块：<br>modprobe 8021q<br>检查是否开启<br>dmesg | egrep -i ‘(8021q|bonding)’</p>
+<p>2）ens37-40 物理网卡配置<br>[root@localhost]# cat ifcfg-ens37<br>TYPE=Ethernet<br>BOOTPROTO=none<br>DEVICE=ens37<br>ONBOOT=yes<br>MASTER=bond0<br>SLAVE=yes</p>
+<p>3）网卡绑定 bond0配置<br>[root@localhost]# cat ifcfg-bond0<br>DEVICE=bond0<br>TYPE=Bond<br>NAME=bond0<br>BONDING_MASTER=yes<br>BOOTPROTO=static<br>USERCTL=no<br>ONBOOT=yes<br>BONDING_OPTS=”mode=6 miimon=100”<br>BRIDGE=br1</p>
+<p>4）创建br1<br>[root@localhost]# cat ifcfg-br1<br>TYPE=Bridge<br>DEVICE=br1<br>ONBOOT=yes<br>BOOTPROTO=static<br>NAME=br1<br>创建<code>brctl addbr br1</code><br>连接网卡<code>brctl addif br1 bond0</code></p>
+<p>5）创建br1.10 和br1.20虚拟网口<br>[root@localhost]# cat ifcfg-br1.10<br>VLAN=yes<br>TYPE=vlan<br>PHYSDEV=br1<br>VLAN_ID=10<br>NAME=br1.10<br>ONBOOT=yes<br>ZONE=trusted<br>DEVICE=br1.10<br>BRIDGE=brvlan-10</p>
+<p>6）创建brvlan-10和brvlan-20网桥<br>[root@localhost]# cat ifcfg-brvlan-10<br>TYPE=bridge<br>BOOTPROTO=static<br>NAME=brvlan-10<br>DEVICE=brvlan-10<br>ONBOOT=yes</p>
+<p>7）网桥与端口连线<br>brctl addif brvlan-10 br1.10<br>brctl addif brvlan-20 br1.20</p>
+<p><strong>br0网桥配置：</strong><br>配置文件1，ifcfg-ens33<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">TYPE</span>=Ethernet</span><br><span class="line"><span class="attr">NAME</span>=ens33</span><br><span class="line"><span class="attr">DEVICE</span>=ens33</span><br><span class="line"><span class="attr">ONBOOT</span>=<span class="literal">yes</span></span><br><span class="line"><span class="attr">BRIDGE</span>=br0</span><br></pre></td></tr></table></figure></p>
+<p>配置文件2，ifcfg-br0<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">TYPE</span>=Bridge</span><br><span class="line"><span class="attr">NAME</span>=br0</span><br><span class="line"><span class="attr">DEVICE</span>=br0</span><br><span class="line"><span class="attr">ONBOOT</span>=<span class="literal">yes</span></span><br><span class="line"><span class="attr">BOOTPROTO</span>=none</span><br><span class="line"><span class="attr">IPADDR</span>=<span class="number">192.168</span>.<span class="number">254.20</span></span><br><span class="line"><span class="attr">PREFIX</span>=<span class="number">24</span></span><br><span class="line"><span class="comment">#NETMASK=255.255.255.0</span></span><br><span class="line"><span class="attr">GATEWAY</span>=<span class="number">192.168</span>.<span class="number">254.1</span></span><br><span class="line"><span class="attr">DNS</span>=<span class="number">192.168</span>.<span class="number">254.251</span></span><br></pre></td></tr></table></figure></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/28/ansible/" class="archive-article-date">
-  	<time datetime="2019-06-28T12:03:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/28/ansible/">ansible基础</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -214,193 +258,164 @@ daovoice('update');
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">虚拟化</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http:/2019/07/23/kvm3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/28/防火墙与iptables命令/" class="archive-article-date">
-  	<time datetime="2019-06-28T06:10:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2041/04/01/置顶/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【置顶】联系我&amp;赞助
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/07/23/kvm2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">KVM-第2节 虚拟机管理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/28/防火墙与iptables命令/">防火墙与iptables命令</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/21/进程线程协程/" class="archive-article-date">
-  	<time datetime="2019-06-21T10:46:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/21/进程线程协程/">进程线程协程</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/19/python数据类型/" class="archive-article-date">
-  	<time datetime="2019-06-19T08:31:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/19/python数据类型/">python数据类型</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/19/pip和虚拟环境/" class="archive-article-date">
-  	<time datetime="2019-06-19T08:19:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/19/pip和虚拟环境/">pip和虚拟环境</a>
-    </h1>
-  
+  <section id="comments" class="comments">
+    <style>
+      .comments{margin:30px;padding:10px;background:#fff}
+      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+    </style>
+    <div id="vcomment" class="comment"></div>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+   new Valine({
+            av: AV,
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            app_id: "Tm4DjQsib6maAvLYDEnnDRlT-gzGzoHsz",
+            app_key: "kBqbGAkprfQ6bxvHuNxunguy",
+            placeholder: "喵喵喵～快过来～",
+            avatar: "mp",
+            avatar_cdn: "https://sdn.geekzu.org/avatar/",
+            pageSize: 10
+    });
+    if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+</script>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  </section>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
+
+
+  
 
 
           </div>
@@ -423,8 +438,8 @@ daovoice('update');
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

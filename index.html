@@ -242,6 +242,126 @@ daovoice('update');
 
 
   
+    <article id="post-kvm3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/23/kvm3/">KVM-第3节 虚拟网络管理</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/23/kvm3/" class="archive-article-date">
+  	<time datetime="2019-07-23T11:25:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="brctl网桥管理工具"><a href="#brctl网桥管理工具" class="headerlink" title="brctl网桥管理工具"></a><strong>brctl网桥管理工具</strong></h4><p>装了KVM应该就自带了，如果没有的话可以下载：<br>yum install bridge-utils</p>
+<ol>
+<li>添加网桥(br0)<br><code>brctl addbr br0</code></li>
+<li>查看网桥，不指定则显示全部<br><code>brctl show br0</code></li>
+<li>删除网桥(br0)<br><code>brctl delbr br0</code></li>
+<li>将eth0端口加入网桥br0<br><code>brctl addif br0 eth0</code></li>
+<li>从网桥br0中删除eth0端口<br><code>brctl delif br0 eth0</code></li>
+</ol>
+<h4 id="网卡绑定"><a href="#网卡绑定" class="headerlink" title="网卡绑定"></a><strong>网卡绑定</strong></h4><p>（1）网卡bond（绑定），也称作网卡捆绑。就是将两个或者更多的物理网卡绑定成一个虚拟网卡。网卡是通过把多张网卡绑定为一个逻辑网卡，实现本地网卡的冗余，带宽扩容和负载均衡，在应用部署中是一种常用的技术。<br>多网卡绑定实际上需要提供一个额外的软件的bond驱动程序实现。通过驱动程序可以将多块网卡屏蔽。对TCP/IP协议层只存在一个Bond网卡，在Bond程序中实现网络流量的负载均衡，即将一个网络请求重定位到不同的网卡上，来提高总体网络的可用性。</p>
+<p>（2）网卡绑定的目的：<br>   1.提高网卡的吞吐量。<br>   2.增强网络的高可用，同时也能实现负载均衡。</p>
+<p>（3）网卡配置bond（绑定）bond模式：<br>1、Mode=0(balance-rr) 表示负载分担round-robin，平衡轮询策略，具有负载平衡和容错功能<br>bond的网卡MAC为当前活动的网卡的MAC地址，需要交换机设置聚合模式，将多个网卡绑定为一条链路。</p>
+<p>2、Mode=1(active-backup) 表示主备模式，具有容错功能，只有一块网卡是active,另外一块是备的standby，这时如果交换机配的是捆绑，将不能正常工作，因为交换机往两块网卡发包，有一半包是丢弃的。</p>
+<p>3、Mode=2(balance-xor) 表示XOR Hash负载分担（异或平衡策略），具有负载平衡和容错功能<br>每个slave接口传输每个数据包和交换机的聚合强制不协商方式配合。（需要xmit_hash_policy）。</p>
+<p>4、Mode=3(broadcast)  表示所有包从所有interface发出，广播策略，具有容错能力，这个不均衡，只有冗余机制…和交换机的聚合强制不协商方式配合。  </p>
+<p>5、Mode=4(802.3ad) 表示支持802.3ad协议（IEEE802.3ad 动态链接聚合） 和交换机的聚合LACP方式配合（需要xmit_hash_policy）。</p>
+<p>6、Mode=5(balance-tlb) 适配器传输负载均衡，并行发送，无法并行接收，解决了数据发送的瓶颈。 是根据每个slave的负载情况选择slave进行发送，接收时使用当前轮到的slave。  </p>
+<p>7、Mode=6(balance-alb) 在5的tlb基础上增加了rlb。适配器负载均衡模式并行发送，并行接收数据包。</p>
+<p>5和6不需要交换机端的设置，网卡能自动聚合。4需要支持802.3ad。0，2和3理论上需要静态聚合方式，但实测中0可以通过mac地址欺骗的方式在交换机不设置的情况下不太均衡地进行接收。</p>
+<p>常用的有三种：</p>
+<p>mode=0：平衡负载模式，有自动备援，但需要”Switch”支援及设定。</p>
+<p>mode=1：自动备援模式，其中一条线若断线，其他线路将会自动备援。</p>
+<p>mode=6：平衡负载模式，有自动备援，不必”Switch”支援及设定。</p>
+<h4 id="基于网卡模拟vlan"><a href="#基于网卡模拟vlan" class="headerlink" title="基于网卡模拟vlan"></a><strong>基于网卡模拟vlan</strong></h4><p><strong>0.查看核心是否提供VLAN 功能</strong><br>dmesg | grep -i 802<br>如果没有<br>modprobe 8021q</p>
+<p><strong>1.安装vconfig</strong><br>rpm -ivh vconfig-1.9-16.el7.x86_64.rpm<br>rpm -qa vconfig</p>
+<p><strong>2.添加一块网卡ens34</strong><br>仅主机模式，BOOTPROTO=static</p>
+<p><strong>3.基于网卡ens34建立vlan10，vlan20接口–ens34.10，ens34.20</strong><br>vconfig add ens34 10<br>vconfig add ens34 20</p>
+<p><strong>4.分别建立网桥brvlan-10，brvlan-20</strong><br>brctl addbr brvlan-10<br>brctl addbr brvlan-20</p>
+<p><strong>5.编辑网桥brvlan-10配置文件：</strong><br>$vim ifcfg-brvlan-10<br>TYPE=bridge<br>BOOTPROTO=static<br>NAME=brvlan-10<br>DEVICE=brvlan-10<br>ONBOOT=yes</p>
+<p><strong>编辑网桥brvlan-20配置文件：</strong><br>$vim ifcfg-brvlan-20<br>TYPE=bridge<br>BOOTPROTO=static<br>NAME=brvlan-20<br>DEVICE=brvlan-20<br>ONBOOT=yes</p>
+<p><strong>6.将网桥brvlan-10接到网口ens34.10，brvlan-20接到网口ens34.20</strong><br>brctl addif brvlan-10 ens34.10<br>brctl addif brvlan-20 ens34.20</p>
+<p><strong>7.重新启动网络服务</strong><br>systemctl restart network</p>
+<p><strong>bridge，vlan，bond综合实验</strong><br>原理图如下：<br><img src="http://d.birdteam.net/data/f_79134178.jpg" alt></p>
+<p>Linux宿主机：<br>需要5块网卡：ens33,37,38,39,40<br>网桥：br0，br1<br>虚拟网口：br1.10，br1.20<br>vlan网桥：brvlan-10，brvlan-20</p>
+<p><strong>实验步骤：</strong><br><strong>br1配置</strong></p>
+<p>1）加载bond模块：<br>modprobe bonding<br>加载vlan模块：<br>modprobe 8021q<br>检查是否开启<br>dmesg | egrep -i ‘(8021q|bonding)’</p>
+<p>2）ens37-40 物理网卡配置<br>[root@localhost]# cat ifcfg-ens37<br>TYPE=Ethernet<br>BOOTPROTO=none<br>DEVICE=ens37<br>ONBOOT=yes<br>MASTER=bond0<br>SLAVE=yes</p>
+<p>3）网卡绑定 bond0配置<br>[root@localhost]# cat ifcfg-bond0<br>DEVICE=bond0<br>TYPE=Bond<br>NAME=bond0<br>BONDING_MASTER=yes<br>BOOTPROTO=static<br>USERCTL=no<br>ONBOOT=yes<br>BONDING_OPTS=”mode=6 miimon=100”<br>BRIDGE=br1</p>
+<p>4）创建br1<br>[root@localhost]# cat ifcfg-br1<br>TYPE=Bridge<br>DEVICE=br1<br>ONBOOT=yes<br>BOOTPROTO=static<br>NAME=br1<br>创建<code>brctl addbr br1</code><br>连接网卡<code>brctl addif br1 bond0</code></p>
+<p>5）创建br1.10 和br1.20虚拟网口<br>[root@localhost]# cat ifcfg-br1.10<br>VLAN=yes<br>TYPE=vlan<br>PHYSDEV=br1<br>VLAN_ID=10<br>NAME=br1.10<br>ONBOOT=yes<br>ZONE=trusted<br>DEVICE=br1.10<br>BRIDGE=brvlan-10</p>
+<p>6）创建brvlan-10和brvlan-20网桥<br>[root@localhost]# cat ifcfg-brvlan-10<br>TYPE=bridge<br>BOOTPROTO=static<br>NAME=brvlan-10<br>DEVICE=brvlan-10<br>ONBOOT=yes</p>
+<p>7）网桥与端口连线<br>brctl addif brvlan-10 br1.10<br>brctl addif brvlan-20 br1.20</p>
+<p><strong>br0网桥配置：</strong><br>配置文件1，ifcfg-ens33<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">TYPE</span>=Ethernet</span><br><span class="line"><span class="attr">NAME</span>=ens33</span><br><span class="line"><span class="attr">DEVICE</span>=ens33</span><br><span class="line"><span class="attr">ONBOOT</span>=<span class="literal">yes</span></span><br><span class="line"><span class="attr">BRIDGE</span>=br0</span><br></pre></td></tr></table></figure></p>
+<p>配置文件2，ifcfg-br0<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">TYPE</span>=Bridge</span><br><span class="line"><span class="attr">NAME</span>=br0</span><br><span class="line"><span class="attr">DEVICE</span>=br0</span><br><span class="line"><span class="attr">ONBOOT</span>=<span class="literal">yes</span></span><br><span class="line"><span class="attr">BOOTPROTO</span>=none</span><br><span class="line"><span class="attr">IPADDR</span>=<span class="number">192.168</span>.<span class="number">254.20</span></span><br><span class="line"><span class="attr">PREFIX</span>=<span class="number">24</span></span><br><span class="line"><span class="comment">#NETMASK=255.255.255.0</span></span><br><span class="line"><span class="attr">GATEWAY</span>=<span class="number">192.168</span>.<span class="number">254.1</span></span><br><span class="line"><span class="attr">DNS</span>=<span class="number">192.168</span>.<span class="number">254.251</span></span><br></pre></td></tr></table></figure></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">虚拟化</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/23/kvm3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-kvm2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1233,108 +1353,6 @@ yum install MariaDB-backup
 
 
   
-    <article id="post-防火墙与iptables命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/28/防火墙与iptables命令/">防火墙与iptables命令</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/28/防火墙与iptables命令/" class="archive-article-date">
-  	<time datetime="2019-06-28T06:10:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="防火墙firewalld与iptables命令"><a href="#防火墙firewalld与iptables命令" class="headerlink" title="防火墙firewalld与iptables命令"></a>防火墙firewalld与iptables命令</h2><p><img src="http://d.birdteam.net/data/f_79149390.jpg" alt></p>
-<h3 id="iptables命令"><a href="#iptables命令" class="headerlink" title="iptables命令"></a>iptables命令</h3><p><strong>选项输入顺序：</strong></p>
-<blockquote>
-<p>iptables -t 表名 &lt;-A/I/D/R&gt; 规则链名 [规则号] &lt;-i/o 网卡名&gt; -p 协议名 &lt;-s 源IP/源子网&gt; –sport 源端口 &lt;-d 目标IP/目标子网&gt; –dport 目标端口 -j 动作</p>
-</blockquote>
-<p><strong>1. -t&lt;表&gt;：指定要操纵的表, 默认为filter；</strong><br>raw：高级功能，如：网址过滤。<br>mangle：数据包修改（QOS），用于实现服务质量。<br>net：地址转换，用于网关路由器。<br>filter：包过滤，用于防火墙规则。</p>
-<p><strong>2. 要进行的操作:</strong><br>-D：从规则链中删除条目；<br>-R：替换规则链中的条目；<br>-A：向链中追加条目(优先级低)；<br>-I：向链中插入条目(优先级高)；<br>-P：设定链的默认规则；</p>
-<p><strong>3. 要操作的链：</strong><br>INPUT：处理输入数据包。<br>OUTPUT：处理输出数据包。<br>PORWARD：处理转发数据包。<br>PREROUTING：用于目标地址转换（DNAT）。<br>POSTOUTING：用于源地址转换（SNAT）。</p>
-<p><strong>4. 要进行的操作:</strong><br>链管理:<br>-N：创建用户自定义链；<br>-F：清除规则链中已有的条目；<br>-X：清除用户自定义的链；<br>查看信息：<br>-L：显示规则链中已有的条目；<br>-n：以数字形式显示；<br>--line-num：显示行号；<br>-v：显示详细信息；<br>-h：显示帮助信息；<br>匹配动作:<br>-p：指定要匹配的数据包协议类型；<br>-s：指定源IP/子网；<br>--sport：指定源端口；<br>-d：指定目标IP/子网；<br>--dport：指定目标端口；<br>-i：指定数据包进入本机的网卡号；<br>-o：指定数据包离开本机的网卡号；<br>-j：指定操作，包括：</p>
-<ul>
-<li>ACCEPT：接收数据包。</li>
-<li>REJECT：拒绝数据包。</li>
-<li>DROP：丢弃数据包。</li>
-<li>SNAT：源地址转换。</li>
-<li>--to-source ：（SNAT专用）指定源地址</li>
-<li>DNAT：目标地址转换。</li>
-<li>--to-destination：（DNAT专用）指定目标地址</li>
-<li>REDIRECT：重定向、映射、透明代理。</li>
-<li>MASQUERADE：IP伪装（NAT），用于ADSL。</li>
-<li>LOG：日志记录。</li>
-<li>……</li>
-</ul>
-<blockquote>
-<p>举例：<br>查看已添加的iptables规则<br>iptables -L -n -v<br><br>把filter中forward链的默认策略打成drop<br>iptables -P FORWARD DROP<br><br>开放指定的端口<br>iptables -I INPUT -p tcp -d 192.168.64.4 -j ACCEPT<br>-I:插入INPUT链 -p:类型为tcp -d:目标ip -j:接受<br><br>屏蔽IP<br>iptables -I INPUT -s 123.45.6.7 -j DROP       #屏蔽单个IP<br>iptables -I INPUT -s 123.0.0.0/8 -j DROP      #屏蔽某个网段<br><br>拒绝所有主机(0.0.0.0)的ping数据包<br>iptables -t filter -A INPUT -s 0.0.0.0 -d 192.168.254.24 -p icmp -j REJECT<br><br>删除已添加的iptables规则<br>（1）将所有iptables以序号标记显示：<br>iptables -L -n –line-numbers<br>（2）删除对应序号的规则,如删除第8号：<br>iptables -D INPUT 8<br><br>设置在POSTROUTING链上设置SNAT<br>iptables -t nat -A POSTROUTING -s 192.168.19.10 -d 172.16.20.2 -p tcp --dport 80 -j SNAT --to-source 172.16.20.1 </p>
-</blockquote>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/28/防火墙与iptables命令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1442,15 +1460,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">虚拟化</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">

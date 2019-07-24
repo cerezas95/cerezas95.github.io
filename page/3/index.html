@@ -177,6 +177,210 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-cobbler安装与配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/25/cobbler安装与配置/">cobbler安装与配置</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/25/cobbler安装与配置/" class="archive-article-date">
+  	<time datetime="2019-05-25T06:59:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="WordPress数据库保存的信息"><a href="#WordPress数据库保存的信息" class="headerlink" title="WordPress数据库保存的信息"></a>WordPress数据库保存的信息</h4><p>1.用户评论<br>2.保存了网页连接信息<br>3.保存了网页文章<br>4.保存了网页文章的分类信息<br>5.用户注册信息<br>6.其他的一些组件信息</p>
+<h4 id="没被保存在WP数据库的信息"><a href="#没被保存在WP数据库的信息" class="headerlink" title="没被保存在WP数据库的信息"></a>没被保存在WP数据库的信息</h4><p>图片<br>视频</p>
+<h3 id="cobbler介绍"><a href="#cobbler介绍" class="headerlink" title="cobbler介绍"></a>cobbler介绍</h3><p><strong>1.背景介绍</strong><br>作为运维，在公司经常遇到一些机械性重复工作要做，例如：为新机器装系统，一台两台机器装系统，可以用光盘、U盘等介质安装，1小时也完成了，但是如果有成百台的服务器还要用光盘、U盘去安装，就显得有些力不从心了。PXE技术就能很好的解决这个问题，本文将会对PXE的工作原理有所介绍，而cobbler则是基于PXE技术的工作原理的二次封装，通过命令的方式简化了PXE配置过程。</p>
+<p><strong>2.PXE工作原理</strong><br>PXE工作步骤如下图：<br><img src="http://d.birdteam.net/data/f_92682211.jpg" alt></p>
+<p>Client向PXE Server上的DHCP发送IP地址请求消息，DHCP检测Client是否合法（主要是检测Client的网卡MAC地址），如果合法则返回Client的IP地址，同时将启动文件pxelinux.0的位置信息一并传送给Client<br>Client向PXE Server上的TFTP发送获取pxelinux.0请求消息，TFTP接收到消息之后再向Client发送pxelinux.0大小信息，试探Client是否满意，当TFTP收到Client发回的同意大小信息之后，正式向Client发送pxelinux.0<br>Client执行接收到的pxelinux.0文件<br>Client向TFTP Server发送针对本机的配置信息文件（在TFTP服务的pxelinux.cfg目录下，这是系统菜单文件，格式和isolinux.cfg格式一样，功能也是类似），TFTP将配置文件发回Client，继而Client根据配置文件执行后续操作。<br>Client向TFTP发送Linux内核请求信息，TFTP接收到消息之后将内核文件发送给Client<br>Client向TFTP发送根文件请求信息，TFTP接收到消息之后返回Linux根文件系统<br>Client启动Linux内核<br>Client下载安装源文件，读取自动化安装脚本</p>
+<p><strong>3.Cobbler介绍</strong><br>Cobbler是一个Linux服务器快速网络安装的服务，由python开发，小巧轻便（15k行python代码），可以通过PXE的方式来快速安装、重装物理服务器和虚拟机，同时还可以管理DHCP，DNS，TFTP、RSYNC以及yum仓库、构造系统ISO镜像。<br>Cobbler可以使用命令行方式管理，也提供了基于Web的界面管理工具(cobbler-web)，还提供了API接口，可以方便二次开发使用。</p>
+<p><strong>4.Cobbler工作原理</strong></p>
+<p><img src="http://d.birdteam.net/data/f_41116663.jpg" alt></p>
+<p>client裸机配置了从网络启动后，开机后会广播包请求DHCP服务器 （cobbler server）发送其分配好的一个IP<br>DHCP服务器（cobbler server）收到请求后发送responese，包括其ip地址<br>client裸机拿到ip后再向cobbler server发送请求OS引导文件的请求<br>cobbler server告诉裸机OS引导文件的名字和TFTP server的ip和 port<br>client裸机通过上面告知的TFTP server地址通信，下载引导文件<br>client裸机执行执行该引导文件，确定加载信息，选择要安装的os， 期间会再向cobbler server请求kickstart文件和os image<br>cobbler server发送请求的kickstart和os iamge<br>client裸机加载kickstart文件<br>client裸机接收os image，安装该os image</p>
+<p><strong>5.Cobbler集成的服务</strong></p>
+<ul>
+<li>PXE服务支持</li>
+<li>DHCP服务管理</li>
+<li>DNS服务管理(可选bind,dnsmasq)</li>
+<li>电源管理</li>
+<li>Kickstart服务支持</li>
+<li>YUM仓库管理</li>
+<li>TFTP(PXE启动时需要)</li>
+<li>Apache(提供kickstart的安装源，并提供定制化的kickstart配置)</li>
+</ul>
+<p><strong>6.配置目录</strong></p>
+<ul>
+<li><p>配置文件目录：<br>/etc/cobbler<br>/etc/cobbler/settings : cobbler 主配置文件<br>/etc/cobbler/iso/: iso模板配置文件<br>/etc/cobbler/pxe: pxe模板文件<br>/etc/cobbler/power: 电源配置文件<br>/etc/cobbler/user.conf: web服务授权配置文件<br>/etc/cobbler/users.digest: web访问的用户名密码配置文件<br>/etc/cobbler/dhcp.template : dhcp服务器的的配置末班<br>/etc/cobbler/dnsmasq.template : dns服务器的配置模板<br>/etc/cobbler/tftpd.template : tftp服务的配置模板<br>/etc/cobbler/modules.conf : 模块的配置文件</p>
+</li>
+<li><p>数据目录：<br>/var/lib/cobbler/config/: 用于存放distros，system，profiles 等信 息配置文件<br>/var/lib/cobbler/triggers/: 用于存放用户定义的cobbler命令<br>/var/lib/cobbler/kickstart/: 默认存放kickstart文件<br>/var/lib/cobbler/loaders/: 存放各种引导程序  镜像目录<br>/var/www/cobbler/ks_mirror/: 导入的发行版系统的所有数据<br>/var/www/cobbler/images/ : 导入发行版的kernel和initrd镜像用于 远程网络启动<br>/var/www/cobbler/repo_mirror/: yum 仓库存储目录</p>
+</li>
+<li><p>日志目录：<br>/var/log/cobbler/installing: 客户端安装日志<br>/var/log/cobbler/cobbler.log : cobbler日志</p>
+</li>
+</ul>
+<p><strong>7.命令介绍</strong></p>
+<p>cobbler commands介绍<br>cobbler check 核对当前设置是否有问题<br>cobbler list 列出所有的cobbler元素<br>cobbler report 列出元素的详细信息<br>cobbler sync 同步配置到数据目录,更改配置最好都要执行下<br>cobbler reposync 同步yum仓库<br>cobbler distro 查看导入的发行版系统信息<br>cobbler system 查看添加的系统信息<br>cobbler profile 查看配置信息</p>
+<h3 id="部署cobbler服务器"><a href="#部署cobbler服务器" class="headerlink" title="部署cobbler服务器"></a>部署cobbler服务器</h3><h4 id="1-准备环境"><a href="#1-准备环境" class="headerlink" title="1.准备环境"></a><strong>1.准备环境</strong></h4><p>使用NAT或仅主机模式</p>
+<h4 id="2-下载相关软件包"><a href="#2-下载相关软件包" class="headerlink" title="2.下载相关软件包"></a><strong>2.下载相关软件包</strong></h4><p>这里使用yum的方式<br>需要下载的包:</p>
+<ul>
+<li><p><strong>httpd</strong><br>Apache是世界使用排名第一的Web服务器软件。它可以运行在几乎所有广泛使用的计算机平台上，由于其跨平台和安全性被广泛使用，是最流行的Web服务器端软件之一。它快速、可靠并且可通过简单的API扩充，将Perl/Python等解释器编译到服务器中。</p>
+</li>
+<li><p><strong>dhcp</strong><br>DHCP（Dynamic Host Configuration Protocol，动态主机配置协议）是一个局域网的网络协议，使用UDP协议工作， 主要有两个用途：给内部网络或网络服务供应商自动分配IP地址，给用户或者内部网络管理员作为对所有计算机作中央管理的手段。DHCP有3个端口，其中UDP67和UDP68为正常的DHCP服务端口，分别作为DHCP Server和DHCP Client的服务端口；546号端口用于DHCPv6 Client，而不用于DHCPv4，是为DHCP failover服务，这是需要特别开启的服务，DHCP failover是用来做“双机热备”的。</p>
+</li>
+<li><p><strong>tftp-server</strong><br>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是TCP/IP协议族中的一个用来在客户机与服务器之间进行简单文件传输的协议，提供不复杂、开销不大的文件传输服务。使用UDP数据报, 端口号为69。<br>默认情况下，Linux内部是安装了tftp服务器包的。但是默认是不启动的。</p>
+</li>
+<li><p><strong>xinetd</strong><br>extended internet daemon<br>xinetd是新一代的网络守护进程服务程序，又叫超级Internet服务器,常用来管理多种轻量级Internet服务。<br>xinetd提供类似于inetd+tcp_wrapper的功能，但是更加强大和安全。<br>在本实验中xinetd用于为tftp提供配置文件</p>
+</li>
+<li><p><strong>syslinux</strong><br>本实验中syslinux用于提供pxelinux.0这个文件 ，pxelinux.0引导文件引导vmlinux和initrd两个启动文件。</p>
+<blockquote>
+<p>PXE:预启动执行环境（Preboot eXecution Environment，PXE，也被称为预执行环境)提供了一种使用网络接口（Network Interface）启动计算机的机制。这种机制让计算机的启动可以不依赖本地数据存储设备（如硬盘）或本地已安装的操作系统。</p>
+</blockquote>
+</li>
+<li><p><strong>cobbler</strong><br>Cobbler 可以用来快速建立 Linux 网络安装环境。它封装了DHCP、TFTP、XINTED等服务，结合了PXE、kickstart等安装方法，以实现自动化安装操作系统，并且可以同时提供多种版本，以实现在线安装不同版本的系统。</p>
+</li>
+<li><p><strong>pykickstart</strong><br>pykickstart是一个python库，用于读写kickstart文件。 </p>
+<blockquote>
+<p>如果下载失败,找不到镜像,则需要配置yum源<br>将下面的代码粘贴至/etc/yum.repo.d/下的随便一个xxx.repo中:<br>[epel]<br>name=epel<br>enabled=1<br>gpgcheck=0<br>baseurl=<a href="https://mirrors.aliyun.com/epel/7/x86_64/" target="_blank" rel="noopener">https://mirrors.aliyun.com/epel/7/x86_64/</a><br>[centos]<br>name=centos base<br>enabled=1<br>gpgcheck=0<br>baseurl=<a href="http://mirrors.163.com/centos/7/os/x86_64/" target="_blank" rel="noopener">http://mirrors.163.com/centos/7/os/x86_64/</a></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="3-启动服务"><a href="#3-启动服务" class="headerlink" title="3.启动服务"></a><strong>3.启动服务</strong></h4><p>1.启动tftp服务<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@kenn ~]<span class="comment"># vim /etc/xinetd.d/tftp</span></span><br><span class="line">修改为disable = <span class="literal">no</span></span><br><span class="line">[root@kenn ~]<span class="comment"># systemctl restart xinetd</span></span><br></pre></td></tr></table></figure></p>
+<p>2.配置dhcp服务<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">subnet <span class="number">192.168</span><span class="number">.19</span><span class="number">.0</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> &#123;</span><br><span class="line">range <span class="number">192.168</span><span class="number">.19</span><span class="number">.30</span> <span class="number">192.168</span><span class="number">.19</span><span class="number">.40</span>;</span><br><span class="line"><span class="section">default</span>-lease-time <span class="number">600</span>;</span><br><span class="line">max-lease-time <span class="number">7200</span>;</span><br><span class="line">filename “pxelinux<span class="number">.0</span>”;</span><br><span class="line">&#125;</span><br><span class="line">[root@kenn ~]# systemctl restart dhcpd</span><br></pre></td></tr></table></figure></p>
+<p>3.启动httpd<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@kenn</span> ~]<span class="meta"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure></p>
+<p>4.启动cobbler<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@kenn</span> ~]<span class="meta"># systemctl restart cobblerd</span></span><br></pre></td></tr></table></figure></p>
+<p>5.cobbler检测<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@kenn</span> ~]<span class="meta"># cobbler check</span></span><br></pre></td></tr></table></figure></p>
+<p>检测后根据提示修改相关配置文件:</p>
+<p>1 : The ‘server’ field in /etc/cobbler/settings must be set to something other than localhost, or kickstarting features will not work. This should be a resolvable hostname or IP for the boot server as reachable by all machines that will use it.</p>
+<blockquote>
+<p>解决方法:在/etc/cobbler/settings中<br>修改server: 把127.0.0.1改为你主机的ip</p>
+</blockquote>
+<p>2 : For PXE to be functional, the ‘next_server’ field in /etc/cobbler/settings must be set to something other than 127.0.0.1, and should match the IP of the boot server on the PXE network.<br>把next_server指定的本地IP改为提供cobbler服务的IP地址</p>
+<blockquote>
+<p>解决方法:在/etc/cobbler/settings中<br>next server: 把127.0.0.1改为你主机的ip</p>
+</blockquote>
+<p>3 : enable and start rsyncd.service with systemctl</p>
+<blockquote>
+<p>解决方法:用systemctl enable然后restart rsyncd..<br>[root@ken ~]# systemctl restart rsyncd<br>[root@ken ~]# systemctl enable rsyncd</p>
+</blockquote>
+<p>4 : The default password used by the sample templates for newly installed machines (default_password_crypted in /etc/cobbler/settings) is still set to ‘cobbler’ and should be changed, try: “openssl passwd -1 -salt ‘random-phrase-here’ ‘your-password-here’” to generate new one</p>
+<blockquote>
+<p>解决方法:修改一个新密码。尝试: “openssl passwd -1 -salt ‘随机瞎填点数’ ‘你的新密码’”<br>[root@ken ~]# openssl passwd -1 -salt ‘123’ ‘123’<br>$1$123$nE5gIYTYiF1PIXVOFjQaW/<br>生成完后vim /etc/cobbler/settings 将default_password_crypted项改为这串乱码</p>
+</blockquote>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span> :Some network boot-loaders are missing <span class="built_in">from</span> /var/lib/cobbler/loaders, you may run <span class="string">'cobbler get-loaders'</span> <span class="built_in">to</span> download them, <span class="keyword">or</span>, <span class="keyword">if</span> you only want <span class="built_in">to</span> handle x86/x86_64 netbooting, you may ensure that you have installed <span class="keyword">a</span> *recent* <span class="built_in">version</span> <span class="keyword">of</span> <span class="keyword">the</span> syslinux package installed <span class="keyword">and</span> can ignore this message entirely.  Files <span class="keyword">in</span> this <span class="built_in">directory</span>, should you want <span class="built_in">to</span> support all architectures, should <span class="built_in">include</span> pxelinux<span class="number">.0</span>, menu.c32, elilo.efi, <span class="keyword">and</span> yaboot. The <span class="string">'cobbler get-loaders'</span> <span class="keyword">command</span> <span class="title">is</span> <span class="title">the</span> <span class="title">easiest</span> <span class="title">way</span> <span class="title">to</span> <span class="title">resolve</span> <span class="title">these</span> <span class="title">requirements</span>.</span><br><span class="line">这个问题其实放着也行,你也可以运行<span class="string">'cobbler get-loaders'</span>下载他们解决这个问题,那就运行一下呗</span><br><span class="line">运行完成会提示*** TASK COMPLETE ***</span><br><span class="line"><span class="number">6</span> :debmirror package is <span class="keyword">not</span> installed, <span class="keyword">it</span> will be required <span class="built_in">to</span> manage debian deployments <span class="keyword">and</span> repositories</span><br><span class="line">跟debian 相关，可以忽略</span><br><span class="line"><span class="number">7</span> : fencing tools were <span class="keyword">not</span> found, <span class="keyword">and</span> are required <span class="built_in">to</span> use <span class="keyword">the</span> (optional) power management features. install cman <span class="keyword">or</span> fence-agents <span class="built_in">to</span> use them</span><br><span class="line">fence设备相关，可以忽略</span><br></pre></td></tr></table></figure>
+<p>6.重启cobbler并再次检测<br>[root@ken ~]# systemctl restart cobblerd<br>[root@ken ~]# cobbler check</p>
+<p>11.sync同步配置<br>[root@ken ~]# cobbler sync<br>成功会提示<strong><em> TASK COMPLETE </em></strong></p>
+<h4 id="4-导入镜像和制作kickstart配置文件"><a href="#4-导入镜像和制作kickstart配置文件" class="headerlink" title="4.导入镜像和制作kickstart配置文件"></a><strong>4.导入镜像和制作kickstart配置文件</strong></h4><p>1.挂载镜像<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# mount /dev/cdrom /mnt</span><br><span class="line">可以df -h检查是否成功,提示这个就是成功了↓</span><br><span class="line">/dev/sr0                 <span class="number">4.3</span>G  <span class="number">4.3</span>G     <span class="number">0</span>  <span class="number">100</span>% /mnt</span><br></pre></td></tr></table></figure></p>
+<p>2.导入镜像到cobbler<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# cobbler import --path=/mnt --name=<span class="string">"centos7"</span></span><br><span class="line">成功会提示*** TASK COMPLETE ***</span><br><span class="line"><span class="meta"># --path 镜像路径</span></span><br><span class="line"><span class="meta"># --name 为安装源定义一个名字</span></span><br><span class="line"><span class="meta"># --arch 指定安装源是32位、64位、ia64, 目前支持的选项有: x86│x86_64│ia64</span></span><br><span class="line"><span class="meta"># 安装源的唯一标示就是根据name参数来定义，本例导入成功后，安装源的唯一标示就是：CentOS-7-x86_64，如果重复，系统会提示导入失败</span></span><br></pre></td></tr></table></figure></p>
+<p>3.查看生成的distro<br>[root@ken ~]# cobbler distro list<br>centos7-x86_64</p>
+<p>4.查看生成的profile<br>[root@ken ~]# cobbler profile list<br>centos7-x86_64</p>
+<blockquote>
+<p>补充:删除导入的镜像<br><code>cobbler profile remove --name=xxx</code><br><code>cobbler distro remove --name=xxx</code><br>删除distro前要先删除使用它的profile</p>
+</blockquote>
+<p>5.准备kickstart文件<br>这里使用本机的配置文件进行复制<br>[root@ken ~]# cp anaconda-ks.cfg /var/lib/cobbler/kickstarts/ks.cfg</p>
+<p>6.编辑kickstart文件<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim  /var/<span class="class"><span class="keyword">lib</span>/<span class="title">cobbler</span>/<span class="title">kickstarts</span>/<span class="title">ks</span>.<span class="title">cfg</span></span></span><br><span class="line">找到<span class="comment"># Use CDROM installation media</span></span><br><span class="line">将下面的cdrom更改为：</span><br><span class="line">url --url=<span class="symbol">http:</span>/<span class="regexp">/你cobbler服务器的ip/cobbler</span><span class="regexp">/ks_mirror/centos</span>7/</span><br></pre></td></tr></table></figure></p>
+<p>7.制作自己的profile<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# cobbler<span class="built_in"> profile </span><span class="builtin-name">add</span> <span class="attribute">--distro</span>=centos7-x86_64 <span class="attribute">--kickstart</span>=/var/lib/cobbler/kickstarts/ks.cfg <span class="attribute">--name</span>=cent7_ken</span><br><span class="line">--distro指定镜像</span><br><span class="line">--kickstart指定配置文件</span><br><span class="line">--name指定profile的名字</span><br></pre></td></tr></table></figure></p>
+<p>8.删除默认的profile<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]# cobbler<span class="built_in"> profile </span><span class="builtin-name">remove</span> <span class="attribute">--name</span>=centos7-x86_64</span><br><span class="line">[root@ken ~]# cobbler<span class="built_in"> profile </span>list</span><br><span class="line">cent7_ken</span><br></pre></td></tr></table></figure></p>
+<p>9.开启客户端进行验证<br>注意：<br>1.客户端网络模式需要与服务器一致<br>2.客户端要没安装过系统(最好是新创建的虚拟机)<br>3.客户端内存最少3个G<br>4.关于<code>--name=</code>后面要不要加引号: 可以加,但是请务必检查不要敲成中文的引号!</p>
+<h3 id="find详解"><a href="#find详解" class="headerlink" title="find详解"></a>find详解</h3><ol>
+<li><p>name： 指定文件名<br>例子1. 找到以ken结尾的文件<br>[root@ken ~]# find / -name “<em>ken”<br>/sys/firmware/dmi/entries/15-0/system_event_log/change_token<br>/etc/yum.repos.d/ken<br>/var/spool/mail/ken<br>/home/ken<br>例子2：找到包含ken的文件<br>[root@ken ~]# find / -name “</em>ken*” | head -3<br>/sys/bus/hid/drivers/kensington<br>/sys/devices/pci0000:00/0000:00:00.0/broken_parity_status<br>/sys/devices/pci0000:00/0000:00:01.0/broken_parity_status</p>
+</li>
+<li><p>perm：指定文件权限<br>例子1：找到所有644权限的文件<br>[root@ken ~]# find / -perm 644 | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>[root@ken ~]# ls -l /boot/grub2/device.map<br>-rw-r–r–. 1 root root 64 Feb 26 22:25 /boot/grub2/device.map<br>例子2：模糊匹配644权限<br>[root@ken ~]# find / -perm -644 | head -3<br>/boot/efi<br>/boot/efi/EFI<br>/boot/efi/EFI/centos<br>[root@ken ~]# ls -l /boot/efi<br>total 0<br>drwxr-xr-x. 3 root root 20 Feb 26 22:21 EFI</p>
+</li>
+<li><p>user：指定属主<br>例子1：找到属主是ken的文件<br>[root@ken ~]# find /etc -user ken<br>[root@ken ~]# find / -user ken<br>find: ‘/proc/1672/task/1672/fd/6’: No such file or directory<br>find: ‘/proc/1672/task/1672/fdinfo/6’: No such file or directory<br>find: ‘/proc/1672/fd/5’: No such file or directory<br>find: ‘/proc/1672/fdinfo/5’: No such file or directory<br>/var/spool/mail/ken<br>[root@ken ~]# ls -l /var/spool/mail/ken<br>-rw-rw—- 1 ken mail 0 Mar 11 18:16 /var/spool/mail/ken</p>
+</li>
+<li><p>group：指定属组<br>例子1：<br>[root@ken ~]# ls -l /var/spool/mail/ken<br>-rw-rw—- 1 ken mail 0 Mar 11 18:16 /var/spool/mail/ken<br>[root@ken ~]# find / -group ken<br>find: ‘/proc/1709/task/1709/fd/6’: No such file or directory<br>find: ‘/proc/1709/task/1709/fdinfo/6’: No such file or directory<br>find: ‘/proc/1709/fd/5’: No such file or directory<br>find: ‘/proc/1709/fdinfo/5’: No such file or directory<br>/home/ken<br>/home/ken/.bash_logout<br>/home/ken/.bash_profile<br>/home/ken/.bashrc<br>/home/ken/.bash_history<br>[root@ken ~]# ls -l /home/ken -d<br>drwx—— 2 ken ken 83 Mar 11 18:16 /home/ken</p>
+</li>
+<li><p>nouser：指定无属主<br>例子1：<br>[root@ken ~]# useradd kenken<br>[root@ken ~]# touch test<br>[root@ken ~]# chown kenken: test<br>[root@ken ~]# userdel kenken<br>[root@ken ~]# find / -nouser<br>find: ‘/proc/1811/task/1811/fd/6’: No such file or directory<br>find: ‘/proc/1811/task/1811/fdinfo/6’: No such file or directory<br>find: ‘/proc/1811/fd/5’: No such file or directory<br>find: ‘/proc/1811/fdinfo/5’: No such file or directory<br>/root/test<br>/var/spool/mail/kenken<br>/home/kenken<br>/home/kenken/.bash_logout<br>/home/kenken/.bash_profile</p>
+</li>
+<li><p>nogroup：指定无属主<br>[root@ken ~]# find / -nogroup<br>find: ‘/proc/1848/task/1848/fd/6’: No such file or directory<br>find: ‘/proc/1848/task/1848/fdinfo/6’: No such file or directory<br>find: ‘/proc/1848/fd/5’: No such file or directory<br>find: ‘/proc/1848/fdinfo/5’: No such file or directory<br>/root/test<br>/home/kenken<br>/home/kenken/.bash_logout<br>/home/kenken/.bash_profile<br>/home/kenken/.bashrc</p>
+</li>
+<li><p>type：指定文件类型<br>例子1：找到所有的链接文件<br>[root@ken ~]# find / -type l | head -3<br>/dev/cdrom<br>/dev/snd/by-path/pci-0000:02:02.0<br>/dev/initctl<br>[root@ken ~]# ls -l /dev/cdrom<br>lrwxrwxrwx 1 root root 3 May 24 19:19 /dev/cdrom -&gt; sr0<br>[root@ken ~]#<br>例子2： 找到所有普通文件<br>[root@ken ~]# find / -type f | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>[root@ken ~]# ls -l /boot/grub2/device.map<br>-rw-r–r–. 1 root root 64 Feb 26 22:25 /boot/grub2/device.map<br>[root@ken ~]#</p>
+</li>
+<li><p>size：指定文件大小<br>例子1：找到大于100M的文件<br>[root@ken ~]# find / -size +100M<br>/proc/kcore<br>find: ‘/proc/2018/task/2018/fd/6’: No such file or directory<br>find: ‘/proc/2018/task/2018/fdinfo/6’: No such file or directory<br>find: ‘/proc/2018/fd/5’: No such file or directory<br>find: ‘/proc/2018/fdinfo/5’: No such file or directory<br>/sys/devices/pci0000:00/0000:00:0f.0/resource1_wc<br>/sys/devices/pci0000:00/0000:00:0f.0/resource1<br>/root/gitlab-ce-8.9.5-ce.0.el7.x86_64.rpm<br>^C<br>[root@ken ~]# ls -lh /root/gitlab-ce-8.9.5-ce.0.el7.x86_64.rpm<br>-rw-r–r– 1 root root 265M Nov 13 2018 /root/gitlab-ce-8.9.5-ce.0.el7.x86_64.rpm</p>
+</li>
+<li><p>mtime: 指文件修改时间，权限，属主，属组<br>例子1:找到文件修改时间一天以上的<br>[root@ken ~]# find / -mtime +1 | head -3<br>/boot<br>/boot/efi<br>/boot/efi/EFI<br>[root@ken ~]# stat /boot<br>File: ‘/boot’<br>Size: 4096 Blocks: 8 IO Block: 4096 directory<br>Device: 801h/2049d Inode: 64 Links: 5<br>Access: (0555/dr-xr-xr-x) Uid: ( 0/ root) Gid: ( 0/ root)<br>Access: 2019-05-24 19:31:37.453000000 +0800<br>Modify: 2019-02-26 22:25:57.574000000 +0800<br>Change: 2019-03-14 18:49:48.066000000 +0800<br>Birth: –</p>
+</li>
+<li><p>atime：指定文件访问时间<br>[root@ken ~]# find / -atime +1 | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>^C<br>[root@ken ~]# stat /boot/grub2/device.map<br>File: ‘/boot/grub2/device.map’<br>Size: 64 Blocks: 8 IO Block: 4096 regular file<br>Device: 801h/2049d Inode: 1572929 Links: 1<br>Access: (0644/-rw-r–r–) Uid: ( 0/ root) Gid: ( 0/ root)<br>Access: 2019-02-26 22:25:05.730000000 +0800<br>Modify: 2019-02-26 22:25:05.582000000 +0800<br>Change: 2019-02-26 22:25:05.582000000 +0800<br>Birth: –</p>
+</li>
+<li><p>ctime:指定文件内容<br>例子1：指定文件内容修改一天以上<br>[root@ken ~]# find / -ctime +1 | head -3<br>/boot<br>/boot/efi<br>/boot/efi/EFI<br>^C^<br>[root@ken ~]# stat /boot<br>File: ‘/boot’<br>Size: 4096 Blocks: 8 IO Block: 4096 directory<br>Device: 801h/2049d Inode: 64 Links: 5<br>Access: (0555/dr-xr-xr-x) Uid: ( 0/ root) Gid: ( 0/ root)<br>Access: 2019-05-24 19:31:37.453000000 +0800<br>Modify: 2019-02-26 22:25:57.574000000 +0800<br>Change: 2019-03-14 18:49:48.066000000 +0800<br>Birth: –</p>
+</li>
+<li><p>exec: 执行命令<br>例子1：删除无属主的文件<br>[root@ken ~]# find / -nouser<br>find: ‘/proc/2395/task/2395/fd/6’: No such file or directory<br>find: ‘/proc/2395/task/2395/fdinfo/6’: No such file or directory<br>find: ‘/proc/2395/fd/5’: No such file or directory<br>find: ‘/proc/2395/fdinfo/5’: No such file or directory<br>/root/test<br>/var/spool/mail/kenken<br>/home/kenken<br>/home/kenken/.bash_logout<br>/home/kenken/.bash_profile<br>/home/kenken/.bashrc<br>[root@ken ~]# find / -nouser -exec rm -rf {} ;<br>find: missing argument to `-exec’<br>[root@ken ~]# find / -nouser -exec rm -rf {} \;<br>find: ‘/proc/2451/task/2451/fd/6’: No such file or directory<br>find: ‘/proc/2451/task/2451/fdinfo/6’: No such file or directory<br>find: ‘/proc/2451/fd/5’: No such file or directory<br>find: ‘/proc/2451/fdinfo/5’: No such file or directory<br>find: ‘/home/kenken’: No such file or directory<br>[root@ken ~]# find / -nouser<br>find: ‘/proc/2463/task/2463/fd/6’: No such file or directory<br>find: ‘/proc/2463/task/2463/fdinfo/6’: No such file or directory<br>find: ‘/proc/2463/fd/5’: No such file or directory<br>find: ‘/proc/2463/fdinfo/5’: No such file or directory</p>
+</li>
+</ol>
+<p>例子2：xargs<br>[root@ken ~]# touch {1..100}.txt<br>[root@ken ~]# powd<br>-bash: powd: command not found<br>[root@ken ~]# pwd<br>/root<br>[root@ken ~]# ls<br>100.txt 19.txt 28.txt 37.txt 46.txt 55.txt 64.txt 73.txt 82.txt 91.txt anaconda-ks.cfg<br>10.txt 1.txt 29.txt 38.txt 47.txt 56.txt 65.txt 74.txt 83.txt 92.txt a.out<br>11.txt 20.txt 2.txt 39.txt 48.txt 57.txt 66.txt 75.txt 84.txt 93.txt gitlab-ce-8.9.5-ce.0.el7.x86_64.rpm<br>12.txt 21.txt 30.txt 3.txt 49.txt 58.txt 67.txt 76.txt 85.txt 94.txt ken1<br>13.txt 22.txt 31.txt 40.txt 4.txt 59.txt 68.txt 77.txt 86.txt 95.txt<br>14.txt 23.txt 32.txt 41.txt 50.txt 5.txt 69.txt 78.txt 87.txt 96.txt<br>15.txt 24.txt 33.txt 42.txt 51.txt 60.txt 6.txt 79.txt 88.txt 97.txt<br>16.txt 25.txt 34.txt 43.txt 52.txt 61.txt 70.txt 7.txt 89.txt 98.txt<br>17.txt 26.txt 35.txt 44.txt 53.txt 62.txt 71.txt 80.txt 8.txt 99.txt<br>18.txt 27.txt 36.txt 45.txt 54.txt 63.txt 72.txt 81.txt 90.txt 9.txt<br>[root@ken ~]# find /root -name “*txt” | xargs rm -rf<br>[root@ken ~]# ls<br>anaconda-ks.cfg a.out gitlab-ce-8.9.5-ce.0.el7.x86_64.rpm ken1</p>
+<ol start="13">
+<li>find可以使用-a和-o或！<br>例子1：找到所有普通文件并且权限是777<br>[root@ken ~]# find / -type f -a -perm 644 | head -3<br>/boot/grub2/device.map<br>/boot/grub2/i386-pc/gcry_rmd160.mod<br>/boot/grub2/i386-pc/acpi.mod<br>[root@ken ~]# ls -l /boot/grub2/device.map<br>-rw-r–r–. 1 root root 64 Feb 26 22:25 /boot/grub2/device.map</li>
+</ol>
+<h3 id="补充：cobbler配置文件pxedefault详解"><a href="#补充：cobbler配置文件pxedefault详解" class="headerlink" title="补充：cobbler配置文件pxedefault详解"></a>补充：cobbler配置文件pxedefault详解</h3><p>该文件的作用是配置客户机上cobbler的蓝色菜单（就是选择系统的那个列表）<br>文件的位置是：/etc/cobbler/pxe/pxedefault.template</p>
+<p>文件内容如下：<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">DEFAULT menu</span><br><span class="line">PROMPT <span class="number">0</span></span><br><span class="line">MENU TITLE Cobbler | http:<span class="comment">//cobbler.github.io/</span></span><br><span class="line">↑↑配置小蓝列表页最上边的标题显示的文字</span><br><span class="line">TIMEOUT <span class="number">50</span></span><br><span class="line">↑↑配置超时时间单位是毫秒</span><br><span class="line">TOTALTIMEOUT <span class="number">50</span></span><br><span class="line">↑↑配置总超时时间</span><br><span class="line"><span class="meta">#ONTIMEOUT $pxe_timeout_profile</span></span><br><span class="line">ONTIMEOUT cent7_ken</span><br><span class="line">↑↑配置超时之后选择哪个选项</span><br><span class="line"></span><br><span class="line">↓↓下面是配置标签的格式</span><br><span class="line"><span class="meta">#LABEL local</span></span><br><span class="line"><span class="meta">#        MENU LABEL (local)</span></span><br><span class="line"><span class="meta">#        MENU DEFAULT</span></span><br><span class="line"><span class="meta">#        LOCALBOOT -1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#LABEL doge</span></span><br><span class="line"><span class="meta">#       MENU LABEL (doge)</span></span><br><span class="line"><span class="meta">#       kernel /images/centos7-x86_64/vmlinuz</span></span><br><span class="line"><span class="meta">#       append initrd=/images/centos7-x86_64/initrd.img ksdevice=bootif lang= kssendmac text  ks=http://192.168.19.141/cblr/svc/op/ks/profile/cent7_ken</span></span><br><span class="line"><span class="meta">#       ipappend 2</span></span><br><span class="line"></span><br><span class="line">$pxe_menu_items</span><br><span class="line"></span><br><span class="line">MENU end</span><br></pre></td></tr></table></figure></p>
+<p>我们会发现明明我们使用cobbler profile list 看不到（local）这一项，但是实际在小蓝列表中却有显示，就是因为在这里配置了local的标签。同理，我们也可以在这个配置文件中直接添加标签，格式如doge那段所示。不会写？没关系，你也可以用cobbler profile制作！制作完了可以进入小蓝列表按下tab，你会发现它显示了这么一串字符：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/images/centos7-x86_64/vmlinuz </span><br><span class="line"><span class="attribute">initrd</span>=/images/centos7-x86_64/initrd.img <span class="attribute">ksdevice</span>=bootif lang= kssendmac text  <span class="attribute">ks</span>=http://192.168.19.141/cblr/svc/op/ks/profile/cent7_ken </span><br><span class="line"><span class="attribute">BOOTIF</span>=01-00-0c-29-fa-b7-64</span><br></pre></td></tr></table></figure></p>
+<p>然后你会惊奇的发现！第一行的字符就是kernel后面的那一串！第二行则是append那行！<br>是的，其实不管是使用指令还是直接在文件中添加列表项，其实方法都是类似的！</p>
+<p>最后，再补充一下自动安装某个镜像的办法：改一下ONTIMEOUT即可，将ONTIMEOUT后面的那串改成你想要安装的那项就可以了！<br>注意是填写<strong>LABEL或profile</strong>的名字，而不是菜单里显示的名字！<br>比如你想默认启动local就改成 <code>ONTIMEOUT local</code> 不要写成 <code>ONTIMEOUT （local）</code></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/25/cobbler安装与配置/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-apache" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1461,166 +1665,6 @@ daovoice('update');
 
 
   
-    <article id="post-交换分区和命令补充" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/15/交换分区和命令补充/">swap机制及常用命令补充（tar,find,xargs）</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/15/交换分区和命令补充/" class="archive-article-date">
-  	<time datetime="2019-05-15T00:30:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>补充个常用命令：<br><strong>partprobe</strong><br>让内核重新识别磁盘分区的命令<br>在使用fdisk分区之后可以使用该命令</p>
-<p><strong>xfs_growfs</strong><br>LVM建立了xfs格式的逻辑卷，进行在线扩容后，df -h可能读取不出来，可以使用该命令进行刷新</p>
-<p><strong>tar 创建/解压压缩包命令</strong><br>（这个命令选项前面的小横杠可以不写）</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">选项</th>
-<th style="text-align:left">用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">-c</td>
-<td style="text-align:left">–create，创建压缩文件</td>
-</tr>
-<tr>
-<td style="text-align:left">-x</td>
-<td style="text-align:left">–extract，解压（还原）文件</td>
-</tr>
-<tr>
-<td style="text-align:left">-z</td>
-<td style="text-align:left">使gzip格式，文件名一般叫xxx.tar.gz</td>
-</tr>
-<tr>
-<td style="text-align:left">-j</td>
-<td style="text-align:left">使用bzip2格式，文件名一般叫xxx.tar.bz2</td>
-</tr>
-<tr>
-<td style="text-align:left">-v</td>
-<td style="text-align:left">显示操作过程</td>
-</tr>
-<tr>
-<td style="text-align:left">-f</td>
-<td style="text-align:left">指定压缩文件的名字和路径，后面有参数所以使用多个选项时该选项要放在最后，如：tar -xzvf xxx.tar.gz</td>
-</tr>
-</tbody>
-</table>
-<p>例子：将test.txt文件打包<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -cvf test<span class="selector-class">.tar</span> test<span class="selector-class">.txt</span>    #仅打包，不压缩</span><br><span class="line">tar -czvf test<span class="selector-class">.tar</span><span class="selector-class">.gz</span> test<span class="selector-class">.txt</span>   #打包，以 gzip 格式压缩 </span><br><span class="line">tar -cjvf test<span class="selector-class">.tar</span><span class="selector-class">.bz2</span> test<span class="selector-class">.txt</span>  #打包，以 bzip2 格式压缩</span><br></pre></td></tr></table></figure></p>
-<p>例子：解压文件test.tar.gz<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzf /home/doge/test<span class="selector-class">.tar</span><span class="selector-class">.gz</span> #解压，不显示过程</span><br></pre></td></tr></table></figure></p>
-<p><strong>find：用来查找文件</strong><br> -name: 根据名称查找<br> -perm: 权限<br> -user:<br> -group:<br> -nouser:<br> -nogroup:<br> -type: f/d/l/b/c/p<br> -size: + -<br> -mtime:修改时间<br> -atime: 访问时间<br> -ctime: 修改时间<br> -exec: -exec command {} \;<br>  find / -name “ken*” | xargs rm -rf </p>
-<p><strong>xargs命令</strong></p>
-<blockquote>
-<p>xargs命令是给其他命令传递参数的一个过滤器，也是组合多个命令的一个工具。它擅长将标准输入数据转换成命令行参数，xargs能够处理管道或者stdin并将其转换成特定命令的命令参数。xargs也可以将单行或多行文本输入转换为其他格式，例如多行变单行，单行变多行。xargs的默认命令是echo，空格是默认定界符。这意味着通过管道传递给xargs的输入将会包含换行和空白，不过通过xargs的处理，换行和空白将被空格取代。xargs是构建单行命令的重要组件之一。</p>
-</blockquote>
-<p>xargs用作替换工具，读取输入数据重新格式化后输出。<br>定义一个测试文件，内有多行文本数据：<br>cat test.txt<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span> <span class="selector-tag">b</span> c d e f g</span><br><span class="line">h <span class="selector-tag">i</span> j k l m n</span><br><span class="line">o <span class="selector-tag">p</span> q</span><br><span class="line">r s t</span><br><span class="line">u v w x y z</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>多行输入单行输出：</li>
-</ul>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> test.txt | xargs</span><br><span class="line"></span><br><span class="line">a b c d e f g h <span class="built_in">i</span> <span class="built_in">j</span> k l m n o p q r s t u v w x y z</span><br></pre></td></tr></table></figure>
-<ul>
-<li>-n选项多行输出：</li>
-</ul>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cat</span> <span class="keyword">test</span>.txt | xargs -n3</span><br><span class="line"></span><br><span class="line">a b c</span><br><span class="line"><span class="keyword">d</span> <span class="keyword">e</span> <span class="built_in">f</span></span><br><span class="line"><span class="keyword">g</span> <span class="keyword">h</span> <span class="built_in">i</span></span><br><span class="line">j k <span class="keyword">l</span></span><br><span class="line"><span class="keyword">m</span> <span class="keyword">n</span> o</span><br><span class="line">p q <span class="built_in">r</span></span><br><span class="line">s t <span class="keyword">u</span></span><br><span class="line">v w x</span><br><span class="line">y z</span><br></pre></td></tr></table></figure>
-<ul>
-<li>-d选项可以自定义一个定界符：</li>
-</ul>
-<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"nameXnameXnameXname"</span> | xargs -dX</span><br><span class="line"></span><br><span class="line"><span class="built_in">name</span> <span class="built_in">name</span> <span class="built_in">name</span> <span class="built_in">name</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>结合-n选项使用：</li>
-</ul>
-<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"nameXnameXnameXname"</span> | xargs -dX -n2</span><br><span class="line"></span><br><span class="line"><span class="built_in">name</span> <span class="built_in">name</span></span><br><span class="line"><span class="built_in">name</span> <span class="built_in">name</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>读取stdin，将格式化后的参数传递给命令</li>
-</ul>
-<p>假设一个命令为 sk.sh 和一个保存参数的文件arg.txt：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">#sk.sh命令内容，打印出所有参数。</span></span><br><span class="line"><span class="built_in">echo</span> $*</span><br><span class="line">arg.txt文件内容：</span><br><span class="line">cat arg.txt</span><br><span class="line"></span><br><span class="line">aaa</span><br><span class="line">bbb</span><br><span class="line">ccc</span><br></pre></td></tr></table></figure></p>
-<p>xargs的一个选项-I，使用-I指定一个替换字符串{}，这个字符串在xargs扩展时会被替换掉，当-I与xargs结合使用，每一个参数命令都会被执行一次：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat arg.txt | xargs -I &#123;&#125; ./sk.sh -p &#123;&#125; -l</span><br><span class="line"></span><br><span class="line">-p<span class="built_in"> aaa </span>-l</span><br><span class="line">-p bbb -l</span><br><span class="line">-p ccc -l</span><br></pre></td></tr></table></figure></p>
-<p>复制所有图片文件到 /data/images 目录下：<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ls</span> *<span class="string">.jpg</span> | xargs -n1 -I cp &#123;&#125; <span class="string">/data/images</span></span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><p>xargs结合find使用<br>用rm 删除太多的文件时候，可能得到一个错误信息：/bin/rm Argument list too long. 用xargs去避免这个问题：</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find . -type f -name <span class="string">"*.log"</span> -print0 | xargs <span class="number">-0</span> rm -f</span><br><span class="line">xargs <span class="number">-0</span>将\<span class="number">0</span>作为定界符。</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>统计一个源代码目录中所有php文件的行数：</p>
-<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">find</span> . -<span class="built_in">type</span> f -<span class="built_in">name</span> <span class="string">"*.php"</span> -print0 | xargs -<span class="number">0</span> wc -l</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查找所有的jpg 文件，并且压缩它们：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">find</span> . -type f -name <span class="string">"*.jpg"</span> -<span class="builtin-name">print</span> | xargs tar -czvf images.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>xargs其他应用<br>假如你有一个文件包含了很多你希望下载的URL，你能够使用xargs下载所有链接：</p>
-<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat <span class="built_in">url</span>-<span class="built_in">list</span>.txt | xargs wget -c</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><strong>SWAP 交换分区 </strong><br>swap: 本质就是磁盘中的一小块空间，读写速度慢，生产不建议使用。<br>有两种方式，可以创建一个磁盘分区作为交换分区，也可以创建一个本地文件作为交换分区。</p>
-<p>命令：<br> mkswap /dev/sdb 创建swap分区<br> swapon /dev/sdb 开启swap分区<br> swapoff /dev/sdb 关闭swap分区<br> swapoff -a 关闭全部swap分区</p>
-        
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/15/交换分区和命令补充/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1728,15 +1772,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">虚拟化</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
