@@ -177,6 +177,215 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-keepalived" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/02/keepalived/">keepalived</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/02/keepalived/" class="archive-article-date">
+  	<time datetime="2019-07-02T12:00:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="keepalived简介"><a href="#keepalived简介" class="headerlink" title="keepalived简介"></a>keepalived简介</h3><p>keepalived是一款高可用集群软件，利用vrrp协议实现vip地址的漂移。</p>
+<p>　　Keepalived的作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，Keepalived将检测到，并将有故障的服务器从系统中剔除，同时使用其他服务器代替该服务器的工作，当服务器工作正常后Keepalived自动将服务器加入到服务器群中。</p>
+<p>　　启动了keepalived的主服务器会每隔一段时间向备用服务器发送一个“我还活着”的信息，备用服务器会一直监听，如果收到信息则继续待机，如果收不到了就会代替主服务器开始工作。工作的方法是将自己的虚拟ip改为主服务器的虚拟ip，这个动作也叫ip的‘漂移’。</p>
+<p>keepalived可以和多种负载均衡软件配合使用：<br>　- keepalived+lvs<br>　- keepalived+nginx<br>　- keepalived+haproxy</p>
+<p>keepalived也有同类软件，如hacmp，它是IBM的高可用集群软件，一般用于非x86架构中，是收费软件。</p>
+<h3 id="keepalived的配置："><a href="#keepalived的配置：" class="headerlink" title="keepalived的配置："></a>keepalived的配置：</h3><p>配置文件位置：<br>vim /etc/keepalived/keepalived.conf</p>
+<p>配置文件主要分为三类分别是：<br>（1）全局配置<br>（2）VRRP配置<br>（3）LVS配置</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#全局配置 里面可以不写东西但不能删掉</span></span><br><span class="line">global_defs &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#VRRP配置</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    <span class="keyword">state</span> MASTER            <span class="comment">#类型MASTER或BACKUP</span></span><br><span class="line">    interface ens33         <span class="comment">#指定网卡</span></span><br><span class="line">    virtual_router_id <span class="number">141</span>   <span class="comment">#虚拟路由id（主备需一致）</span></span><br><span class="line">    priority <span class="number">100</span>            <span class="comment">#优先级，100最高</span></span><br><span class="line">    advert_int <span class="number">1</span>            <span class="comment">#检测间隔秒数</span></span><br><span class="line">    authentication &#123;        <span class="comment">#认证信息，需要主备服务器保持一致</span></span><br><span class="line">        auth_type PASS      <span class="comment">#认证模式</span></span><br><span class="line">        auth_pass <span class="number">1111</span>      <span class="comment">#认证密码</span></span><br><span class="line">    &#125;   </span><br><span class="line">    virtual_ipaddress &#123;     <span class="comment">#虚拟ip配置</span></span><br><span class="line">        <span class="number">192.168</span>.<span class="number">19.55</span>       <span class="comment">#可填写多个</span></span><br><span class="line">    &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line">vrrp_instance VI_2 &#123;</span><br><span class="line">    <span class="keyword">state</span> BACKUP</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id <span class="number">142</span></span><br><span class="line">    priority <span class="number">99</span></span><br><span class="line">    advert_int <span class="number">1</span></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass <span class="number">2222</span></span><br><span class="line">    &#125;   </span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        <span class="number">192.168</span>.<span class="number">19.66</span> </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"><span class="comment">#LVS配置在后面</span></span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+<p>　但是，上面提到的ip地址漂移是在主服务器的keepalived进行挂掉了的情况下才会发生，那么如果主服务器的httpd挂了但是keepalived没挂的话，就不能进行ip地址漂移了。这时我们可以设置keepalived在运行时监听某服务的运行情况并自动进行一些处理。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">global_defs &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行脚本检查httpd服务的状态 一定要写在调用chk_httpd的内容的前面！！</span></span><br><span class="line">vrrp_script chk_httpd &#123;</span><br><span class="line">       <span class="built_in"> script </span><span class="string">"/root/httpdcheck.sh"</span>  #指定脚本位置</span><br><span class="line">        interval 2                    #指定间隔时间</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">   <span class="built_in"> interface </span>ens33 </span><br><span class="line">    virtual_router_id 11</span><br><span class="line">    priority 100</span><br><span class="line">    nopreempt                         #非抢占模式  </span><br><span class="line">    advert_int 1                    </span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.142.55/24</span><br><span class="line">    &#125; </span><br><span class="line">    track_script &#123;                   #调用chk_httpd</span><br><span class="line">        chk_httpd </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>脚本httpdcheck.sh 的内容：<br>检查httpd状态，若不正常则自动重启服务，若重启失败则关闭keepalived服务从而进行ip漂移。除此之外还能将检查中出现的错误记录追加到logs.txt文件中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">systemctl status httpd</span><br><span class="line"><span class="keyword">if</span> [ $? -ne 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"httpd restarting..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line">        systemctl restart httpd</span><br><span class="line">        <span class="keyword">if</span> [ $? -ne 0 ] ; <span class="keyword">then</span></span><br><span class="line">                systemctl stop keepalived</span><br><span class="line">                <span class="built_in">echo</span> <span class="string">"fail to restart httpd..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"httpd is running..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<p>keepalived集成了LVS的功能，如果你想和LVS一起使用的话，只要在keepalived.cfg中增加LVS相关的配置即可。<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#VRRP配置DS1</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER                    <span class="comment">#角色类型MASTER|BACKUP</span></span><br><span class="line">    interface ens33                    <span class="comment">#网卡名称</span></span><br><span class="line">    virtual_router_id<span class="number"> 51 </span>           <span class="comment">#虚拟路由id（需要与BACKUP一致）</span></span><br><span class="line">    priority<span class="number"> 100 </span>                   <span class="comment">#优先级</span></span><br><span class="line">    advert_int<span class="number"> 1 </span>                   <span class="comment">#1秒检查一次</span></span><br><span class="line">    <span class="comment">#nopreempt                        #非抢占模式</span></span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS                <span class="comment">#认证类型  主备之间必须一样</span></span><br><span class="line">        auth_pass<span class="number"> 1111 </span>               <span class="comment">#认证密码  主备之间必须一样</span></span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.254.250                <span class="comment">#虚拟ip（vip）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#LVS配置</span></span><br><span class="line"><span class="comment">#对虚拟ip 192.168.254.250进行设置</span></span><br><span class="line">virtual_server 192.168.254.250<span class="number"> 80 </span>&#123;    </span><br><span class="line">    delay_loop<span class="number"> 3 </span>                   <span class="comment">#健康检查时间间隔</span></span><br><span class="line">    lb_algo rr                        <span class="comment">#负载均衡调度算法  </span></span><br><span class="line">    lb_kind DR                        <span class="comment">#负载均衡转发规则 </span></span><br><span class="line">    protocol TCP                    <span class="comment">#协议</span></span><br><span class="line">    <span class="comment">#添加一个真实服务器</span></span><br><span class="line">    real_server 192.168.254.18<span class="number"> 80 </span>&#123;    <span class="comment">#要监控的real_server的ip和端口号</span></span><br><span class="line">            weight<span class="number"> 1 </span>                <span class="comment">#权重</span></span><br><span class="line">        TCP_CHECK &#123;                    <span class="comment">#基于tcp协议的检查</span></span><br><span class="line">            connect_timeout<span class="number"> 3 </span>         <span class="comment">#连接时间超时</span></span><br><span class="line">            retry<span class="number"> 3 </span>                   <span class="comment">#重连次数</span></span><br><span class="line">            delay_before_retry<span class="number"> 3 </span>   <span class="comment">#重连间隔时间</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#再添加一个真实服务器</span></span><br><span class="line">    real_server 192.168.254.19<span class="number"> 80 </span>&#123;</span><br><span class="line">            weight 1</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 3</span><br><span class="line">            retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">        &#125;   </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/02/keepalived/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-ansible" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/28/ansible/">ansible基础</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/28/ansible/" class="archive-article-date">
+  	<time datetime="2019-06-28T12:03:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="ansible简介"><a href="#ansible简介" class="headerlink" title="ansible简介"></a>ansible简介</h2><p>ansible是一个自动化批量部署工具</p>
+<h4 id="ansible的特点："><a href="#ansible的特点：" class="headerlink" title="ansible的特点："></a>ansible的特点：</h4><ul>
+<li>Stupied Simple ，上手简单，学习曲线平滑</li>
+<li>SSH by default ，安全，无需安装客户端</li>
+<li>配置简单、功能强大、扩展性强</li>
+<li>幂等性：一种操作重复多次结果相同，比如：拷贝过的文件再次拷贝时，ansible会检查该文件的内容是否有修改，如果没有任何改动就不会重复拷贝了。</li>
+</ul>
+<p>注意：幂等性仅在使用ansible中集成的模块时有效，如：使用copy模块会判断幂等性，但是使用command执行copy命令则不会判断。</p>
+<h3 id="ansible的核心组件："><a href="#ansible的核心组件：" class="headerlink" title="ansible的核心组件："></a>ansible的核心组件：</h3><ul>
+<li><strong>Ansible：</strong> Ansible的核心程序</li>
+<li><strong>Host Lnventory：</strong> 记录了每一个由Ansible管理的主机信息，信息包括ssh端口，root帐号密码，ip地址等等。可以通过file来加载，可以通过CMDB加载</li>
+<li><strong>Playbooks：</strong> YAML格式文件，多个任务定义在一个文件中，使用时可以统一调用，“剧本”用来定义那些主机需要调用那些模块来完成的功能.</li>
+<li><strong>Core Modules：</strong> Ansible执行任何管理任务都不是由Ansible自己完成，而是由核心模块完成；Ansible管理主机之前，先调用core Modules中的模块，然后指明管理Host Lnventory中的主机，就可以完成管理主机。</li>
+<li><strong>Custom Modules：</strong> 自定义模块，完成Ansible核心模块无法完成的功能，此模块支持任何语言编写。</li>
+<li><strong>Connection Plugins：</strong> 连接插件，Ansible和Host通信使用</li>
+</ul>
+<h3 id="ansible的工作原理："><a href="#ansible的工作原理：" class="headerlink" title="ansible的工作原理："></a>ansible的工作原理：</h3><p>ansible的底层使用python编写，并用到了这些模块:</p>
+<ul>
+<li>paramiko</li>
+<li>jinja2 </li>
+<li>yaml</li>
+</ul>
+<p>在 Ansible 中，我们通过编辑host文件添加需要控制的主机的信息，并借由 SSH 和 Python 进行沟通。也就是说ansible服务器只需要和客户端<strong>建立SSH连接</strong>，客户端只要<strong>安装Python环境</strong>即可正常运作了！</p>
+<p><strong>ansible服务器配置</strong><br>如果使用的是Centos系统，一般都会内置Python2.7的环境，因此只需安装ansible即可：<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ yum install epel-release  #安装第三方套件来源</span><br><span class="line">$ yum install ansible       #安装ansible</span><br><span class="line"></span><br><span class="line">### ansible也可以通过pip进行安装：###</span><br><span class="line"># 升级 pip。</span><br><span class="line">$ sudo pip install -U pip</span><br><span class="line"># 安装 Ansible。</span><br><span class="line">$ sudo pip install ansible</span><br></pre></td></tr></table></figure></p>
+<h3 id="ansible-server管理客户端的两种配置方式"><a href="#ansible-server管理客户端的两种配置方式" class="headerlink" title="ansible server管理客户端的两种配置方式"></a>ansible server管理客户端的两种配置方式</h3><p><strong>方法1：通过公钥配对</strong><br>1 服务器端: ssh-keygen 生成公钥<br>2 使用 <code>ssh-copy-id root@192.168.1.10</code> 或<br><code>scp id_rsa.pub root@192.168.1.10:/root/.ssh/authorized_keys</code><br>将公钥拷贝到客户端上<br>3 将客户端的ip记录到/etc/ansible/hosts中</p>
+<p><strong>方法2：通过参数配对</strong><br>修改/etc/ansible/hosts文件，在客户端的ip地址后面添加如下参数：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.10 <span class="attribute">ansible_ssh_user</span>=root <span class="attribute">ansible_ssh_port</span>=22 <span class="attribute">ansible_ssh_pass</span>=1234</span><br></pre></td></tr></table></figure></p>
+<p>测试ansible server跟client端的连通性<br><code>ansible testhosts -m ping</code></p>
+<h3 id="ansible使用入门"><a href="#ansible使用入门" class="headerlink" title="ansible使用入门"></a>ansible使用入门</h3><p>我们可以用 Ad-Hoc Commands 和 Playbook 两种方式来操作Ansible。<br>Ad-Hoc Commands 命令模式：<br>一次只能执行一个任务。<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ansible-doc -l <span class="comment">#查看支持的模块</span></span><br><span class="line">ansible-doc -s MODEL_NAME <span class="comment">#查看模块用法</span></span><br><span class="line"></span><br><span class="line">ansible 要操作的主机 [选项]</span><br><span class="line">    -f forks:启动并发线程数（默认是<span class="number">5</span>）</span><br><span class="line">    -m model_name:指定使用的模块</span><br><span class="line">    -a args:指定该模块后跟的参数</span><br><span class="line">    -u <span class="keyword">user</span>:指定操作的用户</span><br><span class="line"></span><br><span class="line">例子：</span><br><span class="line">ansible <span class="literal">all</span> -m ping <span class="comment">#查看client端是否正常ping通</span></span><br><span class="line">ansible webserver -m setup <span class="comment">#查看客户端信息</span></span><br><span class="line">ansible webserver -m copy -a 'src=/root/git_test/code.txt dest=/root/test' <span class="comment">#copy文件到cient端</span></span><br><span class="line">ansible webserver -m <span class="keyword">user</span> -a <span class="string">"name=test state=present"</span> <span class="comment">#创建test用户</span></span><br><span class="line">ansible webserver -m <span class="keyword">user</span> -a <span class="string">"name=test state=absent"</span> <span class="comment">#删除test用户</span></span><br><span class="line">ansible webserver -m yum -a ‘name=epel-relese <span class="keyword">state</span>=latest‘ <span class="comment">#yum安装</span></span><br><span class="line">ansible webserver -m service -a ‘name=httpd <span class="keyword">state</span>=stopped enabled=no‘ <span class="comment">#停止httpd服务</span></span><br><span class="line">（启动，停止，重启都是被动语态）</span><br><span class="line">ansible webserver -m script -a ‘/tmp/test.sh‘ <span class="comment">#运行脚本</span></span><br><span class="line">ansible webserver -m command 'date' <span class="comment">#查看时间</span></span><br><span class="line">ansible webserver -m shell -a ‘bash /root/test.sh’ <span class="comment">#执行脚本</span></span><br><span class="line">ansible webservers -m git -a <span class="string">"repo=https://foo.example.org/repo.git dest=/srv/myapp version=HEAD"</span>  <span class="comment">#从git上部署</span></span><br></pre></td></tr></table></figure></p>
+<p>command和shell模块的区别：<br>command只支持一些基本的shell命令，如果需要使用正则，重定向，管道符等扩展shell命令请使用shell模块。</p>
+<p>playbook 剧本模式：<br>将命令写入文件中，一次可以执行多个任务，文件后缀为yml或yaml。<br>执行剧本：ansible-playbook 剧本文件名<br>检查语法：–syntax-check<br>查看主机：–list-hosts</p>
+<p>基础格式：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- name:</span> <span class="string">say</span> <span class="string">'hello world'</span></span><br><span class="line"><span class="attr">  hosts:</span> <span class="string">all</span>                        <span class="comment">#指定组名</span></span><br><span class="line"><span class="attr">  remote_user:</span> <span class="string">root</span>                 <span class="comment">#指定操作用户</span></span><br><span class="line"><span class="attr">  vars:</span></span><br><span class="line"><span class="attr">  - str:</span> <span class="string">'hello world'</span>              <span class="comment">#定义变量</span></span><br><span class="line"><span class="attr">  tasks:</span>                            <span class="comment">#指定任务</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">echo</span> <span class="string">string</span>             <span class="comment">#任务1打印字符串</span></span><br><span class="line"><span class="attr">      command:</span> <span class="string">echo</span> <span class="string">'<span class="template-variable">&#123;&#123; str &#125;&#125;</span>'</span></span><br><span class="line"><span class="attr">      register:</span> <span class="string">result</span>              <span class="comment">#将结果记录为变量</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">print</span> <span class="string">stdout</span>            <span class="comment">#任务2打印结果</span></span><br><span class="line"><span class="attr">      debug:</span></span><br><span class="line"><span class="attr">        msg:</span> <span class="string">"<span class="template-variable">&#123;&#123; result.stdout &#125;&#125;</span>"</span>  <span class="comment">#打印结果标准输出</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h3><p><strong>主机与用户</strong><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- hosts:</span> <span class="string">webservers</span></span><br><span class="line"><span class="attr">  remote_user:</span> <span class="string">root</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  become:</span> <span class="literal">yes</span>          <span class="comment">#另一个用户身份运行</span></span><br><span class="line"><span class="attr">  become_method:</span> <span class="string">sudo</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>任务列表</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在tasks中编写你剧本的动作：</span><br><span class="line">tasks:</span><br><span class="line">  - name: <span class="builtin-name">run</span> this command <span class="keyword">and</span> ignore the result</span><br><span class="line">    shell: date</span><br><span class="line">    ignore_errors: <span class="literal">True</span></span><br><span class="line">    </span><br><span class="line">ignore_errors：<span class="literal">True</span>或<span class="literal">yes</span></span><br><span class="line">开启异常处理：命令执行出现问题时不停止脚本而是忽略错误继续进行。</span><br></pre></td></tr></table></figure></p>
+<p><strong>变量</strong><br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">定义变量的三种方法：</span><br><span class="line"><span class="number">1.</span>在yml文件中定义：</span><br><span class="line">  vars:</span><br><span class="line">  - <span class="keyword">str</span>: <span class="string">'hello world'</span>   </span><br><span class="line"><span class="number">2.</span>在host文件中定义：</span><br><span class="line">  <span class="number">192.168</span><span class="number">.10</span><span class="number">.10</span> <span class="keyword">str</span>=<span class="string">'hello world'</span></span><br><span class="line"><span class="number">3.</span>在执行剧本时定义：</span><br><span class="line">  ansible-playbook play.yml --extra-vars <span class="string">"str='hello world'"</span></span><br><span class="line">引用变量</span><br><span class="line">&#123;&#123; 变量名 &#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>register注册变量</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tasks</span>:                            #指定任务</span><br><span class="line"></span><br><span class="line">  - name: echo string             #任务1打印字符串</span><br><span class="line">    <span class="attribute">command</span>: echo '&#123;&#123; str &#125;&#125;'</span><br><span class="line">    <span class="attribute">register</span>: result              #将结果记录为变量</span><br><span class="line"></span><br><span class="line">  - name: print stdout            #任务2打印结果</span><br><span class="line">    <span class="attribute">debug:</span></span><br><span class="line">      msg: "&#123;&#123; result.stdout &#125;&#125;"  #打印结果标准输出</span><br></pre></td></tr></table></figure></p>
+<p><strong>when条件判断</strong><br>名字叫when实际上是if的条件判断模块。<br>可以配合<code>ansible -m setup 192.168.10.10</code><br>中的参数进行条件判断，从而筛选出需要操作的主机。<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tasks:                            <span class="comment">#指定任务</span></span><br><span class="line">      - name: add <span class="keyword">user</span></span><br><span class="line">        when: ansible_default_ipv4.address == '<span class="number">192.168</span>.<span class="number">19.11</span>'</span><br><span class="line">        <span class="keyword">user</span>: name=&#123;&#123; item.name &#125;&#125; groups=&#123;&#123; item.<span class="keyword">group</span> &#125;&#125; <span class="keyword">state</span>=present</span><br><span class="line">        with_items:</span><br><span class="line">        - &#123; name: 'test3', <span class="keyword">group</span>: test &#125;</span><br><span class="line">        - &#123; name: 'test2', <span class="keyword">group</span>: test &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>item循环语句</strong><br>使用playbook自带的变量item进行循环，以创建多个用户为例：：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- hosts: <span class="number">192.168</span>.<span class="number">19.10</span></span><br><span class="line">  remote_user:<span class="built_in"> root</span></span><br><span class="line">  tasks:</span><br><span class="line">  -<span class="built_in"> name</span>: add several user</span><br><span class="line">    user:<span class="built_in"> name</span>=&#123;&#123;<span class="type">item</span><span class="built_in">.name</span>&#125;&#125; state=present groups=&#123;&#123;<span class="type">item</span>.groups&#125;&#125;</span><br><span class="line">    with_items:</span><br><span class="line">    - &#123;<span class="built_in"> name</span>: <span class="string">'testuser1'</span>, groups: <span class="string">'wheel'</span>&#125;</span><br><span class="line">    - &#123;<span class="built_in"> name</span>: <span class="string">'testuser2'</span>, groups: <span class="string">'root'</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意name：后面有空格，不写会报错<em>(:з」∠)</em></p>
+<p><strong>handlers触发器</strong><br>notify监听，任务执行成功时，执行对应的handler中的任务。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- name:<span class="built_in"> config </span>HTTPD</span><br><span class="line">  hosts: all                        #指定组名</span><br><span class="line">  remote_user: root                 #指定操作用户</span><br><span class="line">  tasks:                            #指定任务</span><br><span class="line">        - name: copy file</span><br><span class="line">          copy: <span class="attribute">src</span>=<span class="string">'/etc/ansible/httpd.conf'</span> <span class="attribute">dest</span>=<span class="string">'/etc/httpd/conf/httpd.conf'</span></span><br><span class="line">          notify: restart HTTPD     #这里名字</span><br><span class="line">  handlers:</span><br><span class="line">        - name: restart HTTPD       #要一样</span><br><span class="line">          service: <span class="attribute">name</span>=httpd <span class="attribute">state</span>=restarted</span><br></pre></td></tr></table></figure></p>
+<p><strong>template模板替换</strong><br>用于修改配置文件中的参数，比如我有3台服务器，配置文件中需要填写每台服务器自己的ip地址。如果用copy传递的话无法实现。<br>template设置步骤：<br>1.把剧本中的copy模块改为template模块<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task<span class="variable">s:</span>                           </span><br><span class="line">      - name: <span class="keyword">copy</span> <span class="keyword">file</span></span><br><span class="line">        template: src=<span class="string">'xxx'</span> dest=<span class="string">'xxx'</span></span><br></pre></td></tr></table></figure></p>
+<p>2.把配置文件中需要修改的地方改为变量的格式如：<code>Listen </code></p>
+<p>3.在host文件中为变量分别赋值<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">192.168</span><span class="number">.19</span><span class="number">.10</span> port=<span class="number">8080</span></span><br></pre></td></tr></table></figure></p>
+<p>附录：<br>ansible官方文档：<a href="https://docs.ansible.com/" target="_blank" rel="noopener">https://docs.ansible.com/</a><br>ad-hoc 看这页：<a href="https://docs.ansible.com/ansible/latest/user_guide/intro_adhoc.html" target="_blank" rel="noopener">https://docs.ansible.com/ansible/latest/user_guide/intro_adhoc.html</a><br>用谷歌浏览器自带的翻译看简直爽…</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/28/ansible/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-防火墙与iptables命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1142,320 +1351,9 @@ daovoice('update');
 
 
   
-    <article id="post-tomcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/28/tomcat/">tomcat</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/28/tomcat/" class="archive-article-date">
-  	<time datetime="2019-05-28T10:11:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Tomcat服务器是一个免费的开放源代码的Web应用服务器，属于轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，<strong>是开发和调试JSP程序的首选。</strong><br>Tomcat和Nginx、Apache(httpd)、lighttpd等Web服务器一样，具有处理HTML页面的功能，另外它还是一个Servlet和JSP容器，独立的Servlet容器是Tomcat的默认模式。不过，<br>Tomcat处理静态HTML的能力不如Nginx/Apache服务器。<br>目前Tomcat最新版本为9.0。Java容器还有resin、weblogic等。</p>
-<h3 id="tomcat的安装"><a href="#tomcat的安装" class="headerlink" title="tomcat的安装"></a>tomcat的安装</h3><p>tomcat是绿色安装,解压就能用.<br>第一步：下载</p>
-<blockquote>
-<p>你 自 己 去 官 网 搜 （逐渐暴躁）</p>
-</blockquote>
-<p>你可以下载到Windows上用rz，samba，ftp等各种方式上传到Linux虚拟机中。<br>也可以使用wget，curl等命令直接下载。<br><strong>各版本的区别:</strong><br>core 正式版本<br>full document 技术文档<br>deployer 开发版本<br>embedded 嵌入版本<br>source code 源码<br>平时我们一般使用第一个 正式版本 即可。</p>
-<p>第二步：解压<br>tar -xzf 或者 unzip 根据压缩包格式选择即可。</p>
-<p>第三步：设置执行权限<br>解压完成后，你可以查看一下tomcat目录下文件的权限，你会发现他们都没有执行权限，这样就无法运行。<br>因此要给他们执行权限，命令为：<br><code>chmod -R a+w tomcat/</code></p>
-<p>第四步：安装JDK<br>你现在启动tomacat会发现报错了，这可能是因为你没有安装Java环境导致的。<br>你可以选择去官网下载JDK的rpm包或者直接 <code>yum install java</code> 进行安装。</p>
-<p>关于环境变量的配置：<br>如果你的JDK是自己下载的，则需要配置一下环境变量。<br>你可以在家目录下的 <code>.bashrc</code> 中配置，这样环境变量将只对你当前登录的用户生效。<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=<span class="regexp">/usr/local</span><span class="regexp">/java/jdk</span>1.<span class="number">8.0</span></span><br><span class="line">export PATH=$JAVA_HOME/<span class="symbol">bin:</span>$PATH</span><br><span class="line">export CLASSPATH=.:$JAVA_HOME/<span class="class"><span class="keyword">lib</span>/<span class="title">dt</span>.<span class="title">jar</span>:$<span class="title">JAVA_HOME</span>/<span class="title">lib</span>/<span class="title">tools</span>.<span class="title">jar</span></span></span><br></pre></td></tr></table></figure></p>
-<p>第五步：tomcat，启动！<br>启动方式：进入bin目录下./startup.sh即可<br>验证:访问192.168.19.141:8080</p>
-<blockquote>
-<p>nat模式下Windows上无法访问页面的解决办法:<br>你的防火墙把请求拦住了,详情<a href="https://blog.csdn.net/hskw444273663/article/details/81301470" target="_blank" rel="noopener">请点击这里</a>设置完了别忘记重启浏览器</p>
-</blockquote>
-<p>第六步：tomcat，停止！<br>停止方式：进入bin目录下./shutdown.sh即可</p>
-<h3 id="tomcat的配置"><a href="#tomcat的配置" class="headerlink" title="tomcat的配置"></a>tomcat的配置</h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@ken ~]<span class="comment"># cd /usr/local/tomcat/</span></span><br><span class="line">[root@ken tomcat]<span class="comment"># tree -L 1</span></span><br><span class="line">.</span><br><span class="line">├── bin         <span class="comment">#存放功能脚本（.bat和.sh文件）</span></span><br><span class="line">├── conf        <span class="comment">#存放配置文件(XML及DTD文件)</span></span><br><span class="line">├── <span class="class"><span class="keyword">lib</span>         <span class="comment">#存放web应用能访问的JAR包</span></span></span><br><span class="line">├── LICENSE</span><br><span class="line">├── logs        <span class="comment">#Catalina(实时日志)和其它日志文件</span></span><br><span class="line">├── NOTICE</span><br><span class="line">├── RELEASE-NOTES</span><br><span class="line">├── RUNNING.txt</span><br><span class="line">├── temp        <span class="comment">#临时文件</span></span><br><span class="line">├── webapps     <span class="comment">#Web应用程序根目录</span></span><br><span class="line">└── work        <span class="comment">#用以产生有JSP编译出的Servlet的.java和.class文件</span></span><br><span class="line"><span class="number">7</span> directories, <span class="number">4</span> files</span><br><span class="line"></span><br><span class="line">[root@ken tomcat]<span class="comment"># cd webapps/</span></span><br><span class="line">[root@ken webapps]<span class="comment"># ll</span></span><br><span class="line">total <span class="number">20</span></span><br><span class="line">drwxr-xr-x   docs          <span class="comment">#tomcat帮助文档</span></span><br><span class="line">drwxr-xr-x   examples      <span class="comment">#web应用实例</span></span><br><span class="line">drwxr-xr-x   host-manager  <span class="comment">#管理界面</span></span><br><span class="line">drwxr-xr-x   manager       <span class="comment">#管理界面</span></span><br><span class="line">drwxr-xr-x   ROOT          <span class="comment">#默认网站根目录</span></span><br></pre></td></tr></table></figure>
-<p>其中有几个比较重要的:<br>根目录:tomcat/webapps/ROOT<br>主配置文件:tomcat/conf/server.xml<br>日志文件:tomcat/logs/catalina.out</p>
-<h3 id="主配置文件详解"><a href="#主配置文件详解" class="headerlink" title="主配置文件详解"></a>主配置文件详解</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version='1.0' encoding='utf-8'?&gt;</span></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">&lt;Server&gt;元素代表整个容器,是Tomcat实例的顶层元素.由org.apache.catalina.Server接口来定义.它包含一个&lt;Service&gt;元素.并且它不能做为任何元素的子元素.</span></span><br><span class="line"><span class="comment">    port指定Tomcat监听shutdown命令端口.终止服务器运行时,必须在Tomcat服务器所在的机器上发出shutdown命令.该属性是必须的.</span></span><br><span class="line"><span class="comment">    shutdown指定终止Tomcat服务器运行时,发给Tomcat服务器的shutdown监听端口的字符串.该属性必须设置</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Server</span> <span class="attr">port</span>=<span class="string">"8005"</span> <span class="attr">shutdown</span>=<span class="string">"SHUTDOWN"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.startup.VersionLoggerListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.AprLifecycleListener"</span> <span class="attr">SSLEngine</span>=<span class="string">"on"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.JreMemoryLeakPreventionListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.ThreadLocalLeakPreventionListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">GlobalNamingResources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Resource</span> <span class="attr">name</span>=<span class="string">"UserDatabase"</span> <span class="attr">auth</span>=<span class="string">"Container"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">type</span>=<span class="string">"org.apache.catalina.UserDatabase"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">description</span>=<span class="string">"User database that can be updated and saved"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">factory</span>=<span class="string">"org.apache.catalina.users.MemoryUserDatabaseFactory"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">pathname</span>=<span class="string">"conf/tomcat-users.xml"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">GlobalNamingResources</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--service服务组件--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Service</span> <span class="attr">name</span>=<span class="string">"Catalina"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    connector：接收用户请求，类似于httpd的listen配置监听端口.</span></span><br><span class="line"><span class="comment">        port指定服务器端要创建的端口号，并在这个端口监听来自客户端的请求。</span></span><br><span class="line"><span class="comment">        address：指定连接器监听的地址，默认为所有地址（即0.0.0.0）</span></span><br><span class="line"><span class="comment">        protocol连接器使用的协议，支持HTTP和AJP。AJP（Apache Jserv Protocol）专用于tomcat与apache建立通信的， 在httpd反向代理用户请求至tomcat时使用（可见Nginx反向代理时不可用AJP协议）。</span></span><br><span class="line"><span class="comment">        minProcessors服务器启动时创建的处理请求的线程数</span></span><br><span class="line"><span class="comment">        maxProcessors最大可以创建的处理请求的线程数</span></span><br><span class="line"><span class="comment">        enableLookups如果为true，则可以通过调用request.getRemoteHost()进行DNS查询来得到远程客户端的实际主机名，若为false则不进行DNS查询，而是返回其ip地址</span></span><br><span class="line"><span class="comment">        redirectPort指定服务器正在处理http请求时收到了一个SSL传输请求后重定向的端口号</span></span><br><span class="line"><span class="comment">        acceptCount指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理</span></span><br><span class="line"><span class="comment">        connectionTimeout指定超时的时间数(以毫秒为单位)</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8009"</span> <span class="attr">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--engine,核心容器组件,catalina引擎,负责通过connector接收用户请求,并处理请求,将请求转至对应的虚拟主机host</span></span><br><span class="line"><span class="comment">        defaultHost指定缺省的处理请求的主机名，它至少与其中的一个host元素的name属性值是一样的</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Engine</span> <span class="attr">name</span>=<span class="string">"Catalina"</span> <span class="attr">defaultHost</span>=<span class="string">"localhost"</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--Realm表示存放用户名，密码及role的数据库--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.LockOutRealm"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.UserDatabaseRealm"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">resourceName</span>=<span class="string">"UserDatabase"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">Realm</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">      host表示一个虚拟主机</span></span><br><span class="line"><span class="comment">        name指定主机名</span></span><br><span class="line"><span class="comment">        appBase应用程序基本目录，即存放应用程序的目录.一般为appBase="webapps" ，相对于CATALINA_HOME而言的，也可以写绝对路径。</span></span><br><span class="line"><span class="comment">        unpackWARs如果为true，则tomcat会自动将WAR文件解压，否则不解压，直接从WAR文件中运行应用程序</span></span><br><span class="line"><span class="comment">        autoDeploy：在tomcat启动时，是否自动部署。</span></span><br><span class="line"><span class="comment">        xmlValidation：是否启动xml的校验功能，一般xmlValidation="false"。</span></span><br><span class="line"><span class="comment">        xmlNamespaceAware：检测名称空间，一般xmlNamespaceAware="false"。</span></span><br><span class="line"><span class="comment">      --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        Context表示一个web应用程序，通常为WAR文件</span></span><br><span class="line"><span class="comment">            docBase应用程序的路径或者是WAR文件存放的路径,也可以使用相对路径，起始路径为此Context所属Host中appBase定义的路径。</span></span><br><span class="line"><span class="comment">            path表示此web应用程序的url的前缀，这样请求的url为http://localhost:8080/path/****</span></span><br><span class="line"><span class="comment">            reloadable这个属性非常重要，如果为true，则tomcat会自动检测应用程序的/WEB-INF/lib 和/WEB-INF/classes目录的变化，自动装载新的应用程序，可以在不重启tomcat的情况下改变应用程序</span></span><br><span class="line"><span class="comment">        --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">""</span> <span class="attr">docBase</span>=<span class="string">""</span> <span class="attr">debug</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attr">directory</span>=<span class="string">"logs"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">prefix</span>=<span class="string">"localhost_access_log"</span> <span class="attr">suffix</span>=<span class="string">".txt"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">pattern</span>=<span class="string">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">Host</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Engine</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">Service</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Server</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="tomcat的三个端口"><a href="#tomcat的三个端口" class="headerlink" title="tomcat的三个端口"></a>tomcat的三个端口</h3><p>Tomcat主配置文件Server.xml文件里面有三个端口<br><strong>第一个：接收SHUTDOWN指令</strong><br>    port指定Tomcat监听shutdown命令端口.终止服务器运行时,必须在Tomcat服务器所在的机器上发出shutdown命令.该属性是必须的.<br>    shutdown指定终止Tomcat服务器运行时,发给Tomcat服务器的shutdown监听端口的字符串.该属性必须设置<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Server <span class="attribute">port</span>=<span class="string">"8005"</span> <span class="attribute">shutdown</span>=<span class="string">"SHUTDOWN"</span>&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>第二个：接收HTTP协议</strong><br>   connector：接收用户请求，类似于httpd的listen配置监听端口.<br>        port指定服务器端要创建的端口号，并在这个端口监听来自客户端的请求。<br> redirectPort指定服务器正在处理http请求时收到了一个SSL传输请求后重定向的端口号<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector <span class="attribute">port</span>=<span class="string">"8080"</span> <span class="attribute">protocol</span>=<span class="string">"HTTP/1.1"</span></span><br><span class="line">             <span class="attribute">connectionTimeout</span>=<span class="string">"20000"</span></span><br><span class="line">             <span class="attribute">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>第三个：接收AJP协议</strong><br>  protocol连接器使用的协议，支持HTTP和AJP。AJP（Apache Jserv Protocol）专用于tomcat与apache建立通信的， 在httpd反向代理用户请求至tomcat时使用（可见Nginx反向代理时不可用AJP协议）<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector <span class="attribute">port</span>=<span class="string">"8009"</span> <span class="attribute">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attribute">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
-<h3 id="tomcat多实例部署"><a href="#tomcat多实例部署" class="headerlink" title="tomcat多实例部署"></a>tomcat多实例部署</h3><p>tomcat是绿色安装版的软件,因此若想运行多个tomcat只需要复制一份就可以了。<br>这里需要注意，为了避免端口冲突，需要将配置文件中的默认端口进行修改。<br>在主配置文件中搜索port，把8005，8009，8080改成其他的数字（略）</p>
-<h3 id="tomcat搭建集群"><a href="#tomcat搭建集群" class="headerlink" title="tomcat搭建集群"></a>tomcat搭建集群</h3><p>用一台nginx服务器+一台运行了2个tomcat的服务器……只是模拟实验啦不要太<br>因为使用location路由搭建集群时，无法在ip后面添加指定端口号。所以这里选用了nginx的upstream模块。<br>我们在nginx服务器上，修改/etc/nginx/nginx.conf<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    <span class="attribute">upstream</span> kenn &#123;          </span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.19.143:8081</span>;      <span class="comment">#定义转发地址</span></span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.19.143:8082</span> weight=<span class="number">2</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://kenn;   <span class="comment">#转发至代理</span></span><br><span class="line">        &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后重启nginx服务：<code>systemctl restart nginx</code></p>
-<p>在tomcat服务器上<br>修改配置文件中的端口号：<code>vim conf/server.xml</code><br>修改两个tomcat的首页以验证实验: <code>vim webapps/ROOT/index.html</code><br>启动两个tomcat：<code>./startup.sh</code></p>
-<h3 id="tomcat上线jpress博客系统"><a href="#tomcat上线jpress博客系统" class="headerlink" title="tomcat上线jpress博客系统"></a>tomcat上线jpress博客系统</h3><p>第一步：下载jpress<br><a href="https://gitee.com/fuhai/jpress/blob/alpha/wars/jpress-web-newest.war" target="_blank" rel="noopener">https://gitee.com/fuhai/jpress/blob/alpha/wars/jpress-web-newest.war</a></p>
-<p>第二步：上传软件包并解压<br>[root@ken ROOT]# ls<br>fuhai-jpress-alpha.zip<br>[root@ken ROOT]# unzip fuhai-jpress-alpha.zip</p>
-<p>第三步：复制<br>[root@ken ROOT]# cp jpress/wars/jpress-web-newest.war .<br>[root@ken ROOT]# ls<br>fuhai-jpress-alpha.zip jpress jpress-web-newest.war</p>
-<p>第四步：解压jpress-web-newest.war<br>[root@ken ROOT]# unzip jpress-web-newest.war</p>
-<p>第五步：浏览器访问<br>输入ip:8080/jpress</p>
-<p>第六步：下载数据库并启动<br>[root@ken ROOT]# yum install mariadb-server -y<br>[root@ken ROOT]# systemctl restart mariadb</p>
-<p>第七步：创建数据库和用户<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">【进入数据库】</span><br><span class="line"><span class="selector-attr">[root@ken ROOT]</span># <span class="selector-tag">mysql</span> <span class="selector-tag">-uroot</span></span><br><span class="line">【创建数据库<span class="selector-tag">kenn</span>】</span><br><span class="line"><span class="selector-tag">MariaDB</span> <span class="selector-attr">[(none)]</span>&gt; <span class="selector-tag">create</span> <span class="selector-tag">database</span> <span class="selector-tag">kenn</span>;</span><br><span class="line"><span class="selector-tag">Query</span> <span class="selector-tag">OK</span>, 1 <span class="selector-tag">row</span> <span class="selector-tag">affected</span> (0<span class="selector-class">.00</span> <span class="selector-tag">sec</span>)</span><br><span class="line">【为用户授予权限】</span><br><span class="line"><span class="selector-tag">MariaDB</span> <span class="selector-attr">[(none)]</span>&gt; <span class="selector-tag">grant</span> <span class="selector-tag">all</span> <span class="selector-tag">on</span> *.* <span class="selector-tag">to</span> <span class="selector-tag">username</span>@’<span class="keyword">localhost</span>’ identified by ‘password’;</span><br><span class="line"><span class="selector-tag">Query</span> <span class="selector-tag">OK</span>, 0 <span class="selector-tag">rows</span> <span class="selector-tag">affected</span> (0<span class="selector-class">.00</span> <span class="selector-tag">sec</span>)</span><br></pre></td></tr></table></figure></p>
-<p>第八步：浏览器输入数据库相关的库和用户<br>略</p>
-<p>第九步：重启tomcat<br>[root@ken bin]# ./shutdown.sh<br>[root@ken bin]# ./startup.sh<br>Tomcat started.</p>
-<p>第十步：再次访问浏览器<br>就可以访问了</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/28/tomcat/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-nginx" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/28/nginx/">nginx(po主罢工了由科斯塔代写)</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/28/nginx/" class="archive-article-date">
-  	<time datetime="2019-05-28T10:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="php-fpm"><a href="#php-fpm" class="headerlink" title="php-fpm"></a>php-fpm</h3><p>PHP-FPM(FastCGI Process Manager：FastCGI进程管理器)是一个PHPFastCGI管理器，旨在将FastCGI进程管理与PHP进行整合。如果你使用Nginx的话，若想支持php，就需要安装php-fpm。<br>安装方式yum install php-fpm<br>启动方式systemctl restart php-fpm</p>
-<h3 id="Maria-DB"><a href="#Maria-DB" class="headerlink" title="Maria-DB"></a>Maria-DB</h3><p>MariaDB数据库管理系统是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可 MariaDB的目的是完全兼容MySQL，包括API和命令行，使之能轻松成为MySQL的代替品。现在由于mysql被Oracle收购，很多公司都开始使用MariaDB。<br>安装方式yum install mariadb-server<br>启动方式systemctl restart mariadb<br>进入数据库的方式mysql -u root -p 你的密码（没有密码就不要加-p）</p>
-<blockquote>
-<p><strong>建站常用sql语句：</strong><br><strong>- 创建数据库：</strong><br><code>create database 数据库名；</code><br><strong>- 删除数据库：</strong><br><code>drop database 数据库名；</code><br><strong>- 创建用户：</strong><br><code>create user &#39;test&#39;@&#39;%&#39; identified by &#39;1234&#39;;</code><br>%：匹配所有主机，该地方还可以设置成‘localhost’，代表只能本地访问<br><strong>- 删除用户：</strong><br><code>drop user test@&#39;%&#39;;</code><br><strong>- 为用户设置权限：</strong><br><code>grant 权限 on &#39;数据库名&#39;.&#39;表名&#39; to &#39;用户名&#39;@&#39;localhost&#39; identified by &#39;密码&#39;;</code><br>权限：包括create,alter,drop,select,insert,update,delete等。<br>例如：授予kenn用户所有的权限对WordPress库内所有的表，且只能本地访问：<br><code>grant all on &#39;WordPress&#39;.* to &#39;kenn&#39;@&#39;localhost&#39; indentified by &#39;1234&#39;;</code><br><strong>- 修改用户密码：</strong><br>方法1，密码实时更新<br><code>SET password for 用户名 =password(&#39;新密码&#39;);</code><br>方法2，需要刷新<br><code>UPDATE  mysql.user set  password=password(&#39;新密码&#39;)  WHERE user=&#39;用户名&#39;</code><br>刷新： <code>flush privileges;</code><br><strong>- 查看数据库信息：</strong><br><code>show databases;</code><br><strong>- 查看已有用户：</strong><br><code>select user,host from mysql.user;</code><br><strong>- 查看用户权限：</strong><br><code>show grants for root@localhost;</code><br>你要是忘记了怎么授权看一下以外的好用..<br><strong>- 刷新权限设置：</strong><br><code>flush privileges;</code><br>注：sql语句不区分大小写。</p>
-</blockquote>
-<h3 id="iptable命令"><a href="#iptable命令" class="headerlink" title="iptable命令"></a>iptable命令</h3><p>常用参数:<br>-t&lt;表&gt;：指定要操纵的表；</p>
-<p>-A：向规则链中添加条目；<br>-D：从规则链中删除条目；<br>-I：向规则链中插入条目；<br>-R：替换规则链中的条目；</p>
-<p>-L：显示规则链中已有的条目；<br>-F：清除规则链中已有的条目（全部）；<br>-X：清除规则链中已有的条目（用户自定义的）；<br>-Z：清空规则链中的数据包计算器和字节计数器；</p>
-<p>-h：显示帮助信息；<br>-p：指定要匹配的数据包协议类型；<br>-j&lt;目标&gt;：指定要跳转的目标；<br>-s：指定源IP/子网；<br>-d：指定目标IP/子网；</p>
-<p>-i&lt;网络接口&gt;：指定数据包进入本机的网络接口；<br>-o&lt;网络接口&gt;：指定数据包要离开本机所使用的网络接口。</p>
-<p><strong>iptables命令选项输入顺序：</strong></p>
-<blockquote>
-<p>iptables -t 指定表名<br>指定插入还是删除&lt;-A/I/D/R&gt;<br>指定规则类型：INPUT,OUTPUT<br>指定出入的网卡&lt;-i/o 网卡名&gt;<br>-p 指定协议名:TCP,UDP<br>指定源 &lt;-s 源IP/源子网&gt; –sport 源端口<br>指定目标 &lt;-d 目标IP/目标子网&gt; –dport 目标端口<br>-j 指定动作：接受、丢弃等</p>
-</blockquote>
-<ul>
-<li><p>表名包括：<br>raw：高级功能，如：网址过滤。<br>mangle：数据包修改（QOS），用于实现服务质量。<br>net：地址转换，用于网关路由器。<br>filter：包过滤，用于防火墙规则。</p>
-</li>
-<li><p>规则类型包括：<br>INPUT：处理输入数据包。<br>OUTPUT：处理输出数据包。<br>PORWARD：处理转发数据包。<br>PREROUTING：用于目标地址转换（DNAT）。<br>POSTOUTING：用于源地址转换（SNAT）。</p>
-</li>
-<li><p>动作包括：<br>accept：接收数据包。<br>DROP：丢弃数据包。<br>REDIRECT：重定向、映射、透明代理。<br>SNAT：源地址转换。<br>DNAT：目标地址转换。<br>MASQUERADE：IP伪装（NAT），用于ADSL。<br>LOG：日志记录。</p>
-</li>
-</ul>
-<blockquote>
-<p>举例：<br>查看已添加的iptables规则<br>iptables -L -n -v<br><br>开放指定的端口<br>iptables -I INPUT -p tcp -d 192.168.64.4 -j ACCEPT<br>-I:插入 -p:类型为tcp -d:目标ip -j:接受<br><br>屏蔽IP<br>iptables -I INPUT -s 123.45.6.7 -j DROP       #屏蔽单个IP<br>iptables -I INPUT -s 123.0.0.0/8 -j DROP      #屏蔽某个网段<br><br>删除已添加的iptables规则<br>1.将所有iptables以序号标记显示：<br>iptables -L -n –line-numbers<br>2.删除对应序号的规则,如删除第8号：<br>iptables -D INPUT 8</p>
-</blockquote>
-<h3 id="Nginx介绍"><a href="#Nginx介绍" class="headerlink" title="Nginx介绍"></a>Nginx介绍</h3><ul>
-<li>Nginx同Apache一样都是一种WEB服务器。基于REST架构，以统一资源描述符(Uniform Resources Identifier)URI或者统一资源定位符(Uniform Resources Locator)URL作为沟通依据，通过HTTP协议提供各种网络服务。</li>
-<li>Apache之所以是重量级的，是因为它出现的时期比较久远，技术不如当下飞速发展的时代，但它能够被运用到今，就证明它十分的稳定，并且支持跨平台使用，还是开源的。在当下这个时代，人们已经不满足如此消耗大量资源，请求响应速度又很慢的服务器了。所以轻量级高并发Nginx就出现了！</li>
-<li>Nginx是一个高性能的HTTP和反向代理web服务器，其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，咱们使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。Nginx还是一个跨平台服务器，可以运行在Linux，Windows，FreeBSD，Solaris，AIX，Mac OS等操作系统上。</li>
-</ul>
-<blockquote>
-<p>  小介绍：淘宝自己研发的 “Tengine” web服务器 ，而且它还是开源的！有兴趣的小伙伴可以去百度一下！因为现在逐渐有一些企业开始使用它了喔。</p>
-</blockquote>
-<h3 id="Nginx和Apache的对比"><a href="#Nginx和Apache的对比" class="headerlink" title="Nginx和Apache的对比"></a>Nginx和Apache的对比</h3><h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">轻量级，采用 C 进行编写，同样的 web 服务，会占用更少的内存及资源</span><br><span class="line">抗并发，nginx 以 epoll and kqueue 作为开发模型，处理请求是异步非阻塞的，负载能力比 apache 高很多，而 apache 则是阻塞型的。在高并发下 nginx 能保持低资源低消耗高性能 ，而 apache 在 PHP 处理慢或者前端压力很大的情况下，很容易出现进程数飙升，从而拒绝服务的现象。</span><br><span class="line">nginx 处理静态文件好，静态处理性能比 apache 高三倍以上</span><br><span class="line">nginx 的设计高度模块化，编写模块相对简单</span><br><span class="line">nginx 配置简洁，正则配置让很多事情变得简单，而且改完配置能使用 -t 测试配置有没有问题，apache 配置复杂 ，重启的时候发现配置出错了，会很崩溃</span><br><span class="line">nginx 作为负载均衡服务器，支持 <span class="number">7</span> 层负载均衡</span><br><span class="line">nginx 本身就是一个反向代理服务器，而且可以作为非常优秀的邮件代理服务器</span><br><span class="line">启动特别容易, 并且几乎可以做到 <span class="number">7</span>*<span class="number">24</span> 不间断运行，即使运行数个月也不需要重新启动，还能够不间断服务的情况下进行软件版本的升级</span><br><span class="line">社区活跃，各种高性能模块出品迅速</span><br></pre></td></tr></table></figure>
-<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">apache</span> 的 rewrite 比 nginx 强大，在 rewrite 频繁的情况下，用 apache</span><br><span class="line"><span class="symbol">apache</span> 发展到现在，模块超多，基本想到的都可以找到</span><br><span class="line"><span class="symbol">apache</span> 更为成熟，少 <span class="keyword">bug </span>，nginx 的 <span class="keyword">bug </span>相对较多</span><br><span class="line"><span class="symbol">apache</span> 超稳定</span><br><span class="line"><span class="symbol">apache</span> 对 PHP 支持比较简单，nginx 需要配合其他后端用</span><br><span class="line"><span class="symbol">apache</span> 在处理动态请求有优势，nginx 在这方面是鸡肋，一般动态请求要 apache 去做，nginx 适合静态和反向。</span><br><span class="line"><span class="symbol">apache</span> 仍然是目前的主流，拥有丰富的特性，成熟的技术和开发社区</span><br></pre></td></tr></table></figure>
-<h3 id="Nginx的部署"><a href="#Nginx的部署" class="headerlink" title="Nginx的部署"></a>Nginx的部署</h3><h4 id="Nginx配置文件详解"><a href="#Nginx配置文件详解" class="headerlink" title="Nginx配置文件详解"></a>Nginx配置文件详解</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">user nginx;<span class="comment">#运行用户，默认即是nginx，可不设置</span></span><br><span class="line">worker_processes auto;<span class="comment">#nginx进程,一般设置为和cpu核数一样</span></span><br><span class="line">error_log /var/<span class="built_in">log</span>/nginx/<span class="keyword">error</span>.<span class="built_in">log</span>;<span class="comment">#错误日志存放目录</span></span><br><span class="line">pid /<span class="built_in">run</span>/nginx.pid;<span class="comment">#进程pid存放位置</span></span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections <span class="number">1024</span>; <span class="comment">#单个后台worker process进程的最大并发链接数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    log_format  main  '$remote_addr - $remote_user [$time_local] <span class="string">"$request"</span> '</span><br><span class="line">                      '$status $body_bytes_sent <span class="string">"$http_referer"</span> '</span><br><span class="line">                      '<span class="string">"$http_user_agent"</span> <span class="string">"$http_x_forwarded_for"</span>';  <span class="comment">#设置日志模式</span></span><br><span class="line"></span><br><span class="line">    access_log  /var/<span class="built_in">log</span>/nginx/access.<span class="built_in">log</span>  main;</span><br><span class="line"></span><br><span class="line">    sendfile            <span class="keyword">on</span>; <span class="comment">#开启高效传输模式 </span></span><br><span class="line">    tcp_nopush          <span class="keyword">on</span>; <span class="comment">#激活tcp_nopush参数可以允许把httpresponse header和文件的开始放在一个文件里发布，</span></span><br><span class="line">  积极的作用是减少网络报文段的数量</span><br><span class="line">    tcp_nodelay         <span class="keyword">on</span>; <span class="comment">#激活tcp_nodelay，内核会等待将更多的字节组成一个数据包，从而提高I/O性能</span></span><br><span class="line">    keepalive_timeout   <span class="number">65</span>; <span class="comment">#连接超时时间，单位是秒</span></span><br><span class="line"></span><br><span class="line">    gzip <span class="keyword">on</span>； <span class="comment">#开启gzip压缩功能</span></span><br><span class="line"></span><br><span class="line">    gzip_min_length  <span class="number">1</span>k; <span class="comment">#设置允许压缩的页面最小字节数，页面字节数从header头的Content-Length中获取。默认值是0，表示不管页面多大都进行压缩。建议设置成大于1K。如果小于1K可能会越压越大。</span></span><br><span class="line"></span><br><span class="line">    gzip_buffers    <span class="number">4</span> <span class="number">16</span>k; <span class="comment">#压缩缓冲区大小。表示申请4个单位为16K的内存作为压缩结果流缓存，默认值是申请与原始数据大小相同的内存空间来存储gzip压缩结果。</span></span><br><span class="line"></span><br><span class="line">    gzip_http_version <span class="number">1.0</span>; <span class="comment">#压缩版本（默认1.1，前端为squid2.5时使用1.0）用于设置识别HTTP协议版本，默认是1.1，目前大部分浏览器已经支持GZIP解压，使用默认即可。</span></span><br><span class="line"></span><br><span class="line">    gzip_comp_level <span class="number">9</span>; <span class="comment">#压缩比率。用来指定GZIP压缩比，1压缩比最小，处理速度最快；9压缩比最大，传输速度快，但处理最慢，也比较消耗cpu资源。</span></span><br><span class="line"></span><br><span class="line">    gzip_types       <span class="built_in">text</span>/plain <span class="built_in">application</span>/x-javascript <span class="built_in">text</span>/css <span class="built_in">application</span>/xml; <span class="comment">#用来指定压缩的类型，“text/html”类型总是会被压缩</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">  gzip_vary off; <span class="comment">#vary header支持。该选项可以让前端的缓存服务器缓存经过GZIP压缩的页面，例如用</span></span><br><span class="line">Squid缓存经过Nginx压缩的数据。</span><br><span class="line"></span><br><span class="line">    ssi <span class="keyword">on</span>;</span><br><span class="line">    ssi_silent_errors <span class="keyword">on</span>；<span class="comment">#开启ssi支持，默认是off</span></span><br><span class="line"></span><br><span class="line">    include             /etc/nginx/mime.types; <span class="comment">#文件扩展名与类型映射表</span></span><br><span class="line">    default_type        <span class="built_in">application</span>/octet-stream;<span class="comment">#默认文件类型</span></span><br><span class="line"></span><br><span class="line">    server &#123;            <span class="comment">#基于域名的虚拟机</span></span><br><span class="line">        listen       <span class="number">80</span> default_server;</span><br><span class="line">        listen       [::]:<span class="number">80</span> default_server;</span><br><span class="line">        server_name  _;</span><br><span class="line">        root         /usr/share/nginx/html; <span class="comment">#网站根目录，所有网站上的程序都在这</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Load configuration files for the default server block.</span></span><br><span class="line">        include /etc/nginx/default.d/*.conf;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">upstream backend_server &#123;     <span class="comment">#负载均衡服务器池，名字为banckend——se</span></span><br><span class="line">    server   <span class="number">10.254</span><span class="number">.244</span><span class="number">.20</span>:<span class="number">81</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30</span>s;</span><br><span class="line">    server   <span class="number">10.254</span><span class="number">.242</span><span class="number">.40</span>:<span class="number">81</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30</span>s;</span><br><span class="line">    server   <span class="number">10.254</span><span class="number">.245</span><span class="number">.19</span>:<span class="number">81</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30</span>s;</span><br><span class="line">    server   <span class="number">10.254</span><span class="number">.243</span><span class="number">.39</span>:<span class="number">81</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30</span>s;</span><br><span class="line"></span><br><span class="line"><span class="comment">#这里是在30s内尝试连接主机2次失败即认为主机不可用！</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">#  location / &#123;   下面的nginx支持动态服务器的时候会用到</span></span><br><span class="line">        &#125;</span><br><span class="line">        location ~ \.php$  &#123;     <span class="comment">#符合php扩展名的请求调度到fcgi server</span></span><br><span class="line">         fastcgi_pass  <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9000</span>;  <span class="comment">#抛给本机的9000端口</span></span><br><span class="line">              fastcgi_index index.php;    <span class="comment">#设定动态首页</span></span><br><span class="line">              include fastcgi.conf;</span><br><span class="line">&#125;</span><br><span class="line">        error_page <span class="number">404</span> /<span class="number">404.</span>html; <span class="comment">#404错误网页</span></span><br><span class="line">            location = /<span class="number">40</span>x.html &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        error_page <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span> /<span class="number">50</span>x.html;  <span class="comment">#500等错误网页</span></span><br><span class="line">            location = /<span class="number">50</span>x.html &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="模拟集群——利用Nginx实现动静分离"><a href="#模拟集群——利用Nginx实现动静分离" class="headerlink" title="模拟集群——利用Nginx实现动静分离"></a>模拟集群——利用Nginx实现动静分离</h3><h4 id="集群的概念"><a href="#集群的概念" class="headerlink" title="集群的概念"></a>集群的概念</h4><p>服务器集群就是指将很多服务器集中起来一起进行同一种服务，在客户端看来就像是只有一个服务器。<br>（其实就是一堆电脑）</p>
-<h4 id="反向代理的概念"><a href="#反向代理的概念" class="headerlink" title="反向代理的概念"></a>反向代理的概念</h4><p>正向代理和反向代理：<br><img src="http://d.birdteam.net/data/f_99972812.jpg" alt></p>
-<ul>
-<li><p>正向代理：<br>客户端向代理服务器发送请求，比如访问谷歌。服务器收到请求后修改源地址为本服务器的地址，再向谷歌发送请求。谷歌不会知道其实是客户端发送的请求，返回数据后，代理服务器再将数据返回给客户端。常见应用比如 梯子 。</p>
-</li>
-<li><p>反向代理：<br>客户端向服务器发送请求，但客户其实不知道，服务器的IP其实是代理服务器的IP。代理服务器修改目标地址，将请求转发到负责处理的内部服务器上，返回数据后，代理服务器再把数据返回给客户端。常见应用比如 实现负载均衡。</p>
-</li>
-</ul>
-<h4 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h4><p><strong>第一部分:配置反向代理服务器</strong><br>第一步:下载Nginx 自己yum,略<br>第二步:修改Nginx配置文件<br>文件位置/etc/nginx/nginx.conf</p>
-<ul>
-<li>设置location<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    <span class="attribute">locaation</span> <span class="regexp">~ html$</span> &#123;  <span class="comment">#这里是配置静态网站</span></span><br><span class="line">    <span class="attribute">proxy_pass</span> http://172.20.10.8;</span><br><span class="line">&#125;</span><br><span class="line">    <span class="attribute">locaation</span> <span class="regexp">~ php$</span> &#123;   <span class="comment">#这里是配置动态网站</span></span><br><span class="line">    <span class="attribute">proxy_pass</span> http://172.20.10.9;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>第三步：检查语法<br>            <code>nginx -t</code><br>第四步：重启服务<br>            <code>systemctl restart nginx</code><br><strong>第二部分:配置动态服务器</strong><br>（1）apache版<br>第一步：安装apache<br>略<br>第二步：安装php<br>略<br>第三步：给172.20.10.9准备好动态文件<br><code>echo  &lt;?php phpinfo(); ?&gt; &gt; /var/www/html/index.html</code></p>
-<p>（2）nginx版<br>第一步：安装nginx<br>略<br>第二步：安装php、php-fpm<br>略<br>第三步：修改nginx配置文件<br>让Nginx支持php<br>vim /etc/nginx/conf.d/default.conf<br>如果没有这个文件,可以直接在主配置文件中添加以下代码:<br><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">在所支持的主页面格式中添加php格式的主页，如下所示：</span><br><span class="line">    <span class="keyword">location</span> / &#123;</span><br><span class="line">        root   /usr/share/nginx/html;</span><br><span class="line">        <span class="keyword">index</span> <span class="keyword">index</span>.php <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">取消如下内容的注释，并设置字体加粗部分为nginx的默认路径，如下图所示：</span><br><span class="line">    <span class="keyword">location</span> ~ \.php$ &#123;</span><br><span class="line">        root           html;</span><br><span class="line">        fastcgi_pass   <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9000</span>;</span><br><span class="line">        fastcgi_index  <span class="keyword">index</span>.php;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME /usr/share/nginx/html$fastcgi_script_name;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>重启nginx服务和php-fpm服务</p>
-<p>第四步：给172.20.10.9准备好动态文件<br><code>echo &lt;?php phpinfo(); ?&gt; &gt; /usr/share/nginx/html/index.html.php</code></p>
-<p><strong>第三部分:配置静态服务器</strong><br>(1)apache版：<br>第一步：安装apache<br>略<br>第二步：给172.20.10.8准备好静态文件<br>echo  static test &gt; /var/www/html/index.html</p>
-<p>(2)nginx版：<br>第一步：安装nginx<br>略<br>第二步：给172.20.10.8准备好静态文件<br>echo  static test &gt; /usr/share/nginx/index.html</p>
-<h3 id="upstream模块"><a href="#upstream模块" class="headerlink" title="upstream模块"></a><strong>upstream模块</strong></h3><ul>
-<li><p>upstream就是实现nginx反向代理 负载均衡的指令啦<br>下面我们需要了解几个概念：</p>
-<ul>
-<li>调度器：分发用户的请求到一个后端节点</li>
-<li>上游服务器(真实服务器)：每个真正用来处理用户请求的节点都是一个上游服务器</li>
-<li>RIP：真实服务器的IP地址</li>
-<li>VIP：虚拟IP，用户所看到的是也是虚拟IP</li>
-</ul>
-</li>
-<li><p>如何使用upstream指令：(可以参考上面的配置详解中)</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream name ｛</span><br><span class="line">           <span class="built_in"> server </span> #上游服务器1  参数 参数;</span><br><span class="line">           <span class="built_in"> server </span> #上游服务器1  参数 参数;</span><br><span class="line">           <span class="built_in"> server </span> #上游服务器1  参数 参数;</span><br><span class="line">        ｝</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>参数 ：</p>
-</li>
-</ul>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">weight=<span class="comment">#：  设置服务器的权重（数字越大，权重越高）</span></span><br><span class="line"><span class="section">backup:     设置服务器处于备用状态（其他节点出现故障，备用节点才开始工作）</span></span><br><span class="line">down：  设置让一个节点处于离线状态（经常用在维护一个节点的情况下）</span><br><span class="line">max_fails=number：  设置连续几次转发失败就认为该节点出现故障，然后就不再向该节点转发用户请求了</span><br><span class="line">fail_timeout=time:     和上个参数组合使用，作用是设置等待上游服务器响应超时时间</span><br></pre></td></tr></table></figure>
-<p>实验步骤：</p>
-<p>第一步：配置nginx服务端</p>
-<ul>
-<li>安装nginx<br>略</li>
-<li>修改nginx配置文件<br>vim /etc/nginx/conf.d/default.conf</li>
-</ul>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span> ken &#123;   <span class="comment">#给配置好的动静态网页实现负载均衡</span></span><br><span class="line">        <span class="attribute">server</span> <span class="number">172.20.10.8</span> weight=<span class="number">1</span> max_fails=<span class="number">3</span> fail_timeout=<span class="number">5</span>;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">172.20.10.9</span> weight=<span class="number">2</span> max_fails=<span class="number">3</span> fail_timeout=<span class="number">5</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://ken/;  <span class="comment">#这里的k en就是上面upsteam设置的ken</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>语法检测<br><code>nginx -t</code></li>
-<li>重启nginx服务<br><code>systemctl restart nginx</code></li>
-</ul>
-<p>第二步：配置web服务端<br>跟上面反向代理配置一样。</p>
-<p>第三步：测试<br>由于在upstream给172.20.10.9配置的weight（权重）为2，就是说刷新2次动态网页（即PHP网页），会出现一次172.20.10.8的静态网页（即static test）。</p>
-<h3 id="LNMP架构搭建"><a href="#LNMP架构搭建" class="headerlink" title="LNMP架构搭建"></a>LNMP架构搭建</h3><p>LNMP代表的就是：Linux系统下Nginx+MySQL+PHP这种网站服务器架构。</p>
-<h3 id="实验步骤："><a href="#实验步骤：" class="headerlink" title="实验步骤："></a>实验步骤：</h3><ul>
-<li>第一步：安装各种服务程序<br>[root@ken ~]# yum install nginx php php-mysql php-fpm mariadb-server -y</li>
-</ul>
-<ul>
-<li>第二步：修改配置文件，让nginx支持php</li>
-</ul>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"><span class="attribute">listen</span> <span class="number">80</span> default_server;</span><br><span class="line"><span class="attribute">listen</span> [::]:<span class="number">80</span> default_server;</span><br><span class="line"><span class="attribute">server_name</span> _;       <span class="comment">#你的域名SEVRERNAME</span></span><br><span class="line"><span class="attribute">root</span> /var/www/html;  <span class="comment">#相当于 Documentroot</span></span><br><span class="line"><span class="attribute">index</span> index.php index.html; <span class="comment">#网页文件DirectoryIndex</span></span><br><span class="line"><span class="comment"># Load configuration files for the default server block.</span></span><br><span class="line"><span class="attribute">include</span> /etc/nginx/default.d/<span class="regexp">*.conf</span>;   <span class="comment">#取消注释就好了让nginx支持php</span></span><br><span class="line"><span class="attribute">location</span> / &#123;       </span><br><span class="line">&#125;</span><br><span class="line"><span class="attribute">location</span> <span class="regexp">~ php$</span> &#123;</span><br><span class="line"><span class="attribute">fastcgi_pass</span> <span class="number">127.0.0.1:9000</span>;</span><br><span class="line"><span class="attribute">include</span> fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>第三步：重启服务<br><code>systemctl restart nginx</code></p>
-</li>
-<li><p>第四步：启动php-fpm<br><code>systemctl restart php-fpm</code><br>检查php-fpm是否已经开启<br><code>ss-tnl</code>   <code>lsof -i :9000</code></p>
-</li>
-<li><p>第五步：重启数据库并创建用户和设置密码</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[root@ken yum.repos.d]</span># <span class="selector-tag">systemtl</span> <span class="selector-tag">restart</span> <span class="selector-tag">mariabd</span></span><br><span class="line"><span class="selector-tag">MariaDB</span> <span class="selector-attr">[(none)]</span>&gt; <span class="selector-tag">create</span> <span class="selector-tag">database</span> <span class="selector-tag">ken</span>;</span><br><span class="line"><span class="selector-tag">Query</span> <span class="selector-tag">OK</span>, 1 <span class="selector-tag">row</span> <span class="selector-tag">affected</span> (0<span class="selector-class">.00</span> <span class="selector-tag">sec</span>)</span><br><span class="line"><span class="selector-tag">MariaDB</span> <span class="selector-attr">[(none)]</span>&gt; <span class="selector-tag">grant</span> <span class="selector-tag">all</span> <span class="selector-tag">on</span> <span class="selector-tag">ken</span>.* <span class="selector-tag">to</span> <span class="selector-tag">ken</span>@’<span class="keyword">localhost</span>’ identified by ‘<span class="number">123</span>’;</span><br><span class="line"><span class="selector-tag">Query</span> <span class="selector-tag">OK</span>, 0 <span class="selector-tag">rows</span> <span class="selector-tag">affected</span> (0<span class="selector-class">.00</span> <span class="selector-tag">sec</span>)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>设置密码还有另外的方法：</li>
-</ul>
-<ul>
-<li>第一种方法：设置数据库root账号的密码:<br><code>SET password for &#39;root&#39;@&#39;localhost&#39;=password(&#39;newpassword&#39;);</code>  </li>
-<li>第二种方法:利用向导模式设置密码<br><code>mysql_secure_installation</code></li>
-<li>第三种方法:直接修改数据库<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; use mysql;  </span><br><span class="line">MariaDB [mysql]&gt; UPDATE<span class="built_in"> user </span><span class="builtin-name">SET</span> <span class="attribute">password</span>=password('newpassword') WHERE <span class="attribute">user</span>=<span class="string">'root'</span>;  </span><br><span class="line">MariaDB [mysql]&gt; flush privileges;  </span><br><span class="line">MariaDB [mysql]&gt; exit;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>第六步：上传wordpress安装包至nginx网站根目录下/usr/share/nginx/html 并解压<br><code>[root@ken html]# yum install unzip -y</code><br><code>[root@ken html]# unzip wordpress-3.3.1-zh_CN.zip</code></p>
-</li>
-<li><p>第七步：配置数据库文件</p>
-<pre><code>[root@ken html]# cp wp-config-sample.php wp-config.php
-[root@ken html]# vim wp-config.php
-define(‘DB_NAME’, ‘ken’);
-/** MySQL 数据库用户名 */
-define(‘DB_USER’, ‘ken’);
-/** MySQL 数据库密码 */
-define(‘DB_PASSWORD’, ‘123’);
-</code></pre></li>
-<li>第八步：浏览器访问</li>
-</ul>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/28/nginx/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -1560,15 +1458,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">虚拟化</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">

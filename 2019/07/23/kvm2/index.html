@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="那那喵的拉拉肥厨房">
 <meta property="og:description" content="virsh命令用于管理虚拟机的命令  常用选项：virsh help       打印帮助virsh list –all 显示所有虚拟机virsh start vm1  开启vm1虚拟机virsh destroy vm1 关机vm1虚拟机virsh autostart vm1 开机自启vm1virsh autostart –disable vm1 关闭开机自启动virsh edit vm1   编">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-23T11:11:19.000Z">
+<meta property="og:updated_time" content="2019-07-25T03:20:22.376Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KVM-第2节 虚拟机管理">
 <meta name="twitter:description" content="virsh命令用于管理虚拟机的命令  常用选项：virsh help       打印帮助virsh list –all 显示所有虚拟机virsh start vm1  开启vm1虚拟机virsh destroy vm1 关机vm1虚拟机virsh autostart vm1 开机自启vm1virsh autostart –disable vm1 关闭开机自启动virsh edit vm1   编">
@@ -225,7 +225,7 @@ daovoice('update');
 <p>在宿主机中：<br>执行 <code>virsh console vm1</code><br>按几下回车就进入虚拟机了<br>退出使用ctrl+]</p>
 <p><strong>虚拟机中的虚拟机中的虚拟机：</strong><br><strong>– KVM虚拟化透传</strong><br>KVM 虚拟机嵌套和 VMWare 原理不同， VMWare第一层是用的硬件虚拟化技术，第二层就是完全软件模拟出来的，所以 VMWare 只能做两层嵌套。 KVM 是将物理 CPU 的特性全部传给虚拟机，所有理论上可以嵌套 N 多层。</p>
 <blockquote>
-<p>1）在宿主机启用 kvm_intel 模块的嵌套虚拟化功能，并且使透传永久有效：<br>vim /etc/modprobe.d/kvm-nested.conf<br>2）重新加载 kvm 模块：<br>modprobe -r kvm_intel 　移除kvm模块<br>modprobe kvm_intel  　　加载kvm模块<br>3）验证：<br>cat /sys/module/kvm_intel/parameters/nested<br>“Y” 表示 cpu 虚拟化透传功能开启<br>4）修改虚拟机配置文件：<br>virsh edit vm1<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">将原来的CPU标签替换为：</span><br><span class="line">&lt;cpu <span class="attribute">mode</span>=<span class="string">'host-passthrough'</span>/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>1）在宿主机启用 kvm_intel 模块的嵌套虚拟化功能，并且使透传永久有效：<br>vim /etc/modprobe.d/kvm-nested.conf<br>options kvm_intel nested=1<br>2）重新加载 kvm 模块：<br>modprobe -r kvm_intel 　移除kvm模块<br>modprobe kvm_intel  　　加载kvm模块<br>3）验证：<br>cat /sys/module/kvm_intel/parameters/nested<br>“Y” 表示 cpu 虚拟化透传功能开启<br>4）修改虚拟机配置文件：<br>virsh edit vm1<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">将原来的CPU标签替换为：</span><br><span class="line">&lt;cpu <span class="attribute">mode</span>=<span class="string">'host-passthrough'</span>/&gt;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <p>修改完成后，可以在虚拟机中验证：<br><code>egrep &#39;(vmx|svm)&#39; /proc/cpuinfo</code><br><code>lsmod | grep kvm</code><br>正确显示：<br><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# lsmod | grep kvm</span><br><span class="line">kvm_intel             <span class="number">183621</span>  <span class="number">0</span> </span><br><span class="line">kvm                   <span class="number">586948</span>  <span class="number">1</span> kvm_intel</span><br><span class="line">irqbypass              <span class="number">13503</span>  <span class="number">1</span> kvm</span><br><span class="line">[root@localhost ~]# egrep vmx /<span class="keyword">proc</span>/cpuinfo </span><br><span class="line">flags		:<span class="title"> fpu</span> vme<span class="title"> de</span> pse<span class="title"> tsc</span> msr<span class="title"> pae</span> mce<span class="title"> cx8</span> apic<span class="title"> sep</span> mtrr<span class="title"> pge</span> mca<span class="title"> cmov</span> pat<span class="title"> pse36</span> clflush<span class="title"> mmx</span> fxsr<span class="title"> sse</span> sse2<span class="title"> ss</span> syscall<span class="title"> nx</span> rdtscp<span class="title"> lm</span> constant_tsc<span class="title"> arch_perfmon</span> rep_good<span class="title"> nopl</span> eagerfpu<span class="title"> pni</span> pclmulqdq<span class="title"> vmx</span> ssse3<span class="title"> fma</span> cx16<span class="title"> pcid</span> sse4_1<span class="title"> sse4_2</span> x2apic<span class="title"> movbe</span> popcnt<span class="title"> tsc_deadline_timer</span> aes<span class="title"> xsave</span> avx<span class="title"> f16c</span> rdrand<span class="title"> hypervisor</span> lahf_lm<span class="title"> abm</span> 3dnowprefetch<span class="title"> ssbd</span> ibrs<span class="title"> ibpb</span> stibp<span class="title"> tpr_shadow</span> vnmi<span class="title"> ept</span> vpid<span class="title"> fsgsbase</span> tsc_adjust<span class="title"> bmi1</span> avx2<span class="title"> smep</span> bmi2<span class="title"> invpcid</span> mpx<span class="title"> rdseed</span> adx<span class="title"> smap</span> clflushopt<span class="title"> xsaveopt</span> xsavec<span class="title"> spec_ctrl</span> intel_stibp</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure></p>
 <p>补充：<br>ls blk 查看硬盘块结构<br>df -T 查看文件系统<br>图形化IP配置工具：nmtui</p>
@@ -506,15 +506,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">虚拟化</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">

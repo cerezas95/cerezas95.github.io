@@ -177,6 +177,289 @@ daovoice('update');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-网络和进程管理原理篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/16/网络和进程管理原理篇/">网络和进程管理—原理篇</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/16/网络和进程管理原理篇/" class="archive-article-date">
+  	<time datetime="2019-05-16T07:16:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="OSI七层模型与TCP-IP四层模型"><a href="#OSI七层模型与TCP-IP四层模型" class="headerlink" title="OSI七层模型与TCP/IP四层模型"></a>OSI七层模型与TCP/IP四层模型</h3><p><img src="http://d.birdteam.net/data/f_97274494.jpg" alt></p>
+<ul>
+<li><p>第一层物理层：<br>传输的媒介，如网线、光纤等，作用是将0或1转换为电信号或光信号进行传输<br>集线器（hub）属于第一层</p>
+</li>
+<li><p>第二层数据链路层：<br>简称数链层，网桥，交换机属于第二层，它分为两个子层：<br>下层是MAC地址所在层，作用是相邻的两个设备之间互相通信，使用CSMA/CD访问控制方式<br>上层是LLC逻辑链路控制层 </p>
+</li>
+</ul>
+<blockquote>
+<p>MAC地址<br>任何一个网络设备都有唯一的身份识别码，称为物理地址（MAC地址）48bit（16进制12位）<br>查看MAC地址的方式：ipconfig /all #查看详细网络配置</p>
+</blockquote>
+<ul>
+<li><p>第三层网络层<br>ip地址所在层，作用是寻址，让数据包找到目的地 路由器属于第三层。<br>IP地址：v4是32位，v6是64位。</p>
+</li>
+<li><p>第四层传输层：<br>TCP、UDP协议都属于这层，作用是建立和断开连接<br>  TCP：握手建立连接再进行传输的协议 安全可靠速度慢<br>  UDP：无需连接 不管是否会丢包直接扔报文的协议 速度快不可靠</p>
+</li>
+<li><p>第五层会话层：<br>用于控制传输层什么时候该建立连接什么是时候该断开连接</p>
+</li>
+<li><p>第六层表示层：<br>将应用层的协议转换成电脑可以识别的语言</p>
+</li>
+<li><p>第七层应用层：<br>在网络中我们需要传输不同类型的数据，传不同类型的数据需要遵循不同的协议。比如说：寄信去邮局，买衣服用圆通，买电器用顺丰。如FTP、HTTP这些协议都在应用层。</p>
+</li>
+</ul>
+<p>数据在发送时从上到下的封装，数据在接收时从下到上的解包。</p>
+<pre><code>几款防火墙介绍
+</code></pre><ul>
+<li><p>iptables<br>iptables用于过滤数据包，属于网络层防火墙。<br>在设置iptables后需要重启iptables，会重新加载防火墙模块，而模块的装载将会破坏状态防火墙和确立的连接。会破坏已经对外提供数据链接的程序。可能需要重启程序。</p>
+</li>
+<li><p>firewalld<br>又叫动态防火墙，是CentOS 7.0默认使用的防火墙。相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart firewalld <span class="meta">#开启firewall</span></span><br><span class="line">systemctl status firewalld <span class="meta">#查看firewall状态</span></span><br><span class="line">systemctl <span class="keyword">stop</span> firewalld <span class="meta">#停止firewall</span></span><br><span class="line">systemctl <span class="keyword">disable</span> firewalld <span class="meta">#禁止firewall开机启动</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SELinux<br>全称Security Enhanced Linux，是美国国家安全局（NSA）对于强制访问控制的实现。它整合在Linux内核中，是控制文件权限设定的安全系统。它其实不是防火墙，而是控制权限的，如果你想关闭它，可以通过 <code>vim /etc/selinux/config</code> 修改它的配置文件。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This file controls the state of SELinux on the system.</span></span><br><span class="line"><span class="comment"># SELINUX= can take one of these three values:</span></span><br><span class="line"><span class="comment">#     enforcing - SELinux security policy is enforced.</span></span><br><span class="line"><span class="comment">#     permissive - SELinux prints warnings instead of enforcing.</span></span><br><span class="line"><span class="comment">#     disabled - No SELinux policy is loaded.</span></span><br><span class="line">SELINUX=enforcing  ====&gt;把这个改成disabled</span><br><span class="line"><span class="comment"># SELINUXTYPE= can take one of three values:</span></span><br><span class="line"><span class="comment">#     targeted - Targeted processes are protected,</span></span><br><span class="line"><span class="comment">#     minimum - Modification of targeted policy. Only selected processes are protected. </span></span><br><span class="line"><span class="comment">#     mls - Multi Level Security protection.</span></span><br><span class="line">SELINUXTYPE=targeted</span><br><span class="line"></span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br><span class="line">setenforce 0 <span class="comment">#使配置立即生效</span></span><br></pre></td></tr></table></figure>
+<p>  Telnet 命令（不安全，需要手动开启）<br>telnet命令用于登录远程主机，对远程主机进行管理。telnet因为采用明文传送报文，安全性不好，很多Linux服务器都不开放telnet服务，而改用更安全的ssh方式了。但仍然有很多别的系统可能采用了telnet方式来提供远程登录，因此弄清楚telnet客户端的使用方式仍是很有必要的。<br>使用方法：telnet ip port<br><a href="https://jingyan.baidu.com/article/fb48e8bee0d7446e622e143d.html" target="_blank" rel="noopener">Windows打开Telnet</a><br><a href="https://www.cnblogs.com/zuochuang/p/6511285.html" target="_blank" rel="noopener">Linux上的安装步骤</a></p>
+<p>  常用端口介绍</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>端口号</th>
+<th style="text-align:left">协议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20-21/tcp</td>
+<td style="text-align:left">文件传输协议（FTP ）</td>
+</tr>
+<tr>
+<td>22/tcp</td>
+<td style="text-align:left">安全登录、文件传送SCP和端口重定向 (SSH )</td>
+</tr>
+<tr>
+<td>23/tcp</td>
+<td style="text-align:left">不安全的文本传送(Telnet)</td>
+</tr>
+<tr>
+<td>25/tcp</td>
+<td style="text-align:left">Simple Mail Transfer Protocol (  SMTP )</td>
+</tr>
+<tr>
+<td>69/udp</td>
+<td style="text-align:left">Trivial File Transfer Protocol (TFTP)</td>
+</tr>
+<tr>
+<td>79/tcp</td>
+<td style="text-align:left">finger Finger</td>
+</tr>
+<tr>
+<td>80/tcp</td>
+<td style="text-align:left">超文本传送协议 (HTTP)</td>
+</tr>
+<tr>
+<td>88/tcp</td>
+<td style="text-align:left">Kerberos Authenticating agent</td>
+</tr>
+<tr>
+<td>110/tcp</td>
+<td style="text-align:left">POP3 Post Office Protocol (E-mail)</td>
+</tr>
+<tr>
+<td>113/tcp</td>
+<td style="text-align:left">ident old identification server system</td>
+</tr>
+<tr>
+<td>119/tcp</td>
+<td style="text-align:left">used for usenet newsgroups(NNTP)</td>
+</tr>
+<tr>
+<td>220/tcp</td>
+<td style="text-align:left">IMAP3</td>
+</tr>
+<tr>
+<td>443/tcp</td>
+<td style="text-align:left">used for securely transferring web pages(HTTPS)</td>
+</tr>
+</tbody>
+</table>
+<p>　</p>
+<pre><code>TCP工作原理
+</code></pre><p>TCP在传输之前会进行三次沟通，一般称为“三次握手”，传完数据断开的时候要进行四次沟通，一般称为“四次挥手”。<br>两个序号和三个标志位：<br>  （1）序号：seq序号，占32位，用来标识从TCP源端向目的端发送的字节流，发起方发送数据时对此进行标记。<br>  （2）确认序号：ack序号，占32位，只有ACK标志位为1时，确认序号字段才有效，ack=seq+1。<br>  （3）标志位：共6个，即URG、ACK、PSH、RST、SYN、FIN等，具体含义如下：<br>  （A）URG：紧急指针（urgent pointer）有效。<br>  （B）ACK：确认序号有效。<br>  （C）PSH：接收方应该尽快将这个报文交给应用层。<br>  （D）RST：重置连接。<br>  （E）SYN：发起一个新连接。<br>  （F）FIN：释放一个连接。</p>
+<p>  TCP的工作方式如下图所示：<br>  <img src="http://d.birdteam.net/data/f_79698832.jpg" alt></p>
+<h4 id="连接的建立与断开"><a href="#连接的建立与断开" class="headerlink" title="连接的建立与断开"></a><strong>连接的建立与断开</strong></h4><ul>
+<li><p>为什么要三次握手？<br>就像qq聊天时，A在地铁上给B发了个在吗，但是地铁上信号不好人又多，A发完消息就把手机收起来了。十分钟后，B接到A的消息，并回复了A。你认为A会及时回复吗？这时A根本都没有在看手机肯定不行啦！因此只是确认+回复就建立连接并不能很靠谱。<br>但如果B回复收到了的同时反问A一句：你还在吗？如果A收到了一定会回复，这样就能确保他俩都在线了。因此三次握手要比两次更加可靠！</p>
+</li>
+<li><p>建立连接三次握手<br>第一次握手：客户端发送syn包(seq=x)到服务器，并进入SYN_SEND状态，等待服务器确认;第二次握手：服务器收到syn包，必须确认客户的SYN(ack=x+1)，同时自己也发送一个SYN包(seq=y)，即SYN+ACK包，此时服务器进入SYN_RECV状态;第三次握手：客户端收到服务器的SYN+ACK包，向服务器发送确认包ACK(ack=y+1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。<br>握手过程中传送的包里不包含数据，三次握手完毕后，客户端与服务器才正式开始传送数据。理想状态下，TCP连接一旦建立，在通信双方中的任何一方主动关闭连接之前，TCP 连接都将被一直保持下去。</p>
+</li>
+<li><p>断开连接四次挥手<br>一次挥手：主动关闭方发送一个FIN，用来关闭主动方到被动关闭方的数据传送，也就是主动关闭方告诉被动关闭方：我已经不会再给你发数据了(当 然，在fin包之前发送出去的数据，如果没有收到对应的ack确认报文，主动关闭方依然会重发这些数据)，但此时主动关闭方还可以接受数据。<br>第二次挥手：被动关闭方收到FIN包后，发送一个ACK给对方，确认序号为收到序号+1(与SYN相同，一个FIN占用一个序号)。<br>第三次挥手：被动关闭方发送一个FIN，用来关闭被动关闭方到主动关闭方的数据传送，也就是告诉主动关闭方，我的数据也发送完了，不会再给你发数据了。<br>第四次挥手：主动关闭方收到FIN后，发送一个ACK给被动关闭方，确认序号为收到序号+1，至此，完成四次挥手。</p>
+</li>
+<li><p>我的脑洞<br>建立连接：<br>　　A 在吗 SYN<br>　　B 在，你呢 SYN+ACK<br>　　A 我也在，那我们开始工作吧 ACK<br>断开连接：<br>　　A 小B我想回家了 FIN<br>　　B 好的，你稍等我马上就做完工作了 ACK<br>　　B 好了我做完了我们回家吧 FIN<br>　　A 好的！ACK<br>注意：<br>1.B说的两句话中间会有一段间隔<br>2.B说完我们回家吧之后，A回复了B，但B可能没听见，这时B会重新跟A说一遍“我们回家吧”，因此A在说完“好的”之后，需要等待一段时间（2MSL），确定B听见了（也就是没有再说一遍回家吧），才会断开连接。</p>
+</li>
+</ul>
+<p>TCP与UDP的区别：</p>
+<p>1.基于连接与无连接；<br>2.对系统资源的要求（TCP较多，UDP少）；<br>3.UDP程序结构较简单；UDP信息包的标题很短，只有8个字节，相对于TCP的20个字节信息包的额外开销很小。所以传输速度可更快<br>4.TCP保证数据正确性，UDP可能丢包；TCP保证数据顺序，UDP不保证。</p>
+<p>port 和 socket 的区别：<br>端口port：0-65535之间的一个整数，如果说ip地址是房子port就是一扇门。<br>套接字socket：socket=ip+port，应用程序通常通过”socket”向网络发出请求或者应答网络请求。</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/16/网络和进程管理原理篇/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-磁盘阵列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/15/磁盘阵列/">磁盘阵列</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/15/磁盘阵列/" class="archive-article-date">
+  	<time datetime="2019-05-15T02:07:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="磁盘阵列：多块磁盘协同工作完成存储任务"><a href="#磁盘阵列：多块磁盘协同工作完成存储任务" class="headerlink" title="磁盘阵列：多块磁盘协同工作完成存储任务"></a>磁盘阵列：多块磁盘协同工作完成存储任务</h3><pre><code>常见磁盘阵列 
+</code></pre><p> RAID0：条带卷，2+，100%，读写速度快，不容错<br> RAID1：镜像卷，2+，50%，读写速度一般，容错<br> RAID5：奇偶校验，3+，(n-1)/n,读写速度快，容错，允许坏一块<br> RAID10: 由多个RAID1组建的RAID0，4+，50%，读写速度快，容错 </p>
+<pre><code>创建阵列方式
+</code></pre><p>硬件：磁盘阵列盒<br>软件： mdadm</p>
+<pre><code>mdadm命令
+</code></pre><p>-C: 创建<br>-v: 显示创建过程<br>-a: 添加磁盘、自动检测设备<br>-l: 阵列级别<br>-n: 磁盘数量<br>-x: 备份盘数量<br>-f: 模拟损坏<br>-D：查看阵列详细信息<br>-S：停止阵列<br>-r: 移除磁盘</p>
+<h4 id="搭建-RAID10-阵列"><a href="#搭建-RAID10-阵列" class="headerlink" title="搭建 RAID10 阵列"></a><strong>搭建 RAID10 阵列</strong></h4><p>先下载mdadm：yum install mdadm -y</p>
+<p>创建阵列： mdadm -Cv /dev/md10 -n 4 -l 10 /dev/sd{b,c,d,e} </p>
+<ul>
+<li>磁盘阵列损坏处理<br>1.模拟损坏<br>  mdadm /dev/md10 -f /dev/sdd<br>2.磁盘损坏后的操作<br>  umount<br>  poweroff<br>  移除坏磁盘<br>  新硬盘添加 mdadm /dev/md10 -a /dev/sdd </li>
+</ul>
+<h4 id="RAID5-搭建-热备盘"><a href="#RAID5-搭建-热备盘" class="headerlink" title="RAID5 搭建+热备盘"></a><strong>RAID5 搭建+热备盘</strong></h4><p>创建阵列：mdadm -Cv /dev/md5 -n3 -l5 -x1 /dev/sd{b,c,d,e} </p>
+<p>开机自动挂载：echo “/dev/md5 /ken xfs defaults 0 0” &gt;&gt; /etc/fstab</p>
+<h3 id="CentOS7-系统启动流程"><a href="#CentOS7-系统启动流程" class="headerlink" title="CentOS7 系统启动流程"></a>CentOS7 系统启动流程</h3><p> 第一步：uefi/Bios 初始化，post 开机自检<br> 第二步：加载 MBR 到内存（bootloader）<br> 第三步：grub 阶段<br> 第四步：加载内核加载 initramfs 模块<br> 第五步：<br> 1.内核初始化，centos7系统使用的是systemd替换了centos6当中的init<br> 2./etc/fstab–&gt;自动挂载<br> 3.完成了服务的开机自启<br> 4.执行/etc/rc.d/rc.local(/etc/rc.local)（该文件在系统启动最后阶段执行） </p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/15/磁盘阵列/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-交换分区和命令补充" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1264,340 +1547,9 @@ daovoice('update');
 
 
   
-    <article id="post-linux命令第一部分" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/08/linux命令第一部分/">linux基础命令整理</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/08/linux命令第一部分/" class="archive-article-date">
-  	<time datetime="2019-05-08T02:51:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="linux基础命令总结"><a href="#linux基础命令总结" class="headerlink" title="linux基础命令总结"></a>linux基础命令总结</h1><hr>
-<pre><code>- 命令的基本格式：
- 命令 【选项】 【参数】
-    ○ 选项的特征是有个-  选项可以在它的参数前面也可以在参数后面，如：
-    touch 文件名 -m 和 touch -m 文件名效果是一样的
-    ○ 一条命令可以同时使用多个选项，有时也可以不使用选项
-    ○ 选项分为短命令（如-r）选项和长命令选项（--all）短命令选项可以写在一起
-    ○ 以下笔记仅为基础用法，对选项的说明不完整，需要请自行百度
-
-- man命令
-查看帮助，如 man ls 查看ls的帮助（不一定每个命令都好使）
-也可以在命令后面加--help选项查看帮助
-
-- clear命令
-清屏，也可以按Ctrl+L
-
-- cd命令        change directory        进入指定的目录
-    ○ 进入根目录：cd /
-    ○ 进入家目录：cd回车或者cd ~（家目录：/home/用户名）
-    ○ 返回上一层：cd ..（.表示当前目录，..表示上一级目录）
-    ○ 返回刚才所处的目录 cd -
-
-- pwd命令     print work directory     显示当前绝对路径
-补充内容：
-    相对路径：不以根目录开头的路径  如：cd home
-    绝对路径：以根目录 / 开头的路径  如：cd /home
-
-- ls命令        list       显示目录下所有文件和目录的列表，也可用于查看文件信息
-    ○ 详细可查看网址：http://man.linuxde.net/ls
-    ○ -l：以长格式显示目录下的内容列表。输出的信息从左到右依次包括文件名，文件类型、权限模式、硬连接数、所有者、组、文件大小和文件的最后修改时间等
-    ○ |less ：ls内容太多需要翻页时使用
-    ○ ls后面的参数可以为多个：
-        § 例1：ls -l 文件1 文件2 显示文件1和文件2的文件信息
-        § 例2：ls 目录1 目录2 分别展示两个目录下的文件列表
-
-- cat命令         查看文件内容
-    ○ -n：有1开始对所有输出的行数编号；
-    ○ -b：和-n相似，只不过对于空白行不编号；
-    ○ -s：当遇到有连续两行以上的空白行，就代换为一行的空白行；
-    ○ -A：显示不可打印字符，行尾显示“$”；
-    ○ tac命令：反向输出文件内容
-
-- touch命令    创建新的空文件或修改文件的访问时间和修改时间
-    ○ -a  只更改访问时间
-    ○ -m 只更改修改时间
-    ○ -r   将B文件的时间改为和A相同 例：touch -r A B
-    ○ -t   指定时间而非将现在时刻写入 例：touch wenjian -t 201806032130
-    ○ --help 帮助（所有指令应该都能用这个选项）
-    ○ --version 版本
-    ○ touch file{1..100}
-
-- mkdir命令   make directories    创建目录
-    ○ -m  在建立目录时设置权限
-    ○ -p   可同时建立多层目录，如：mkdir  mulu1/mulu2
-
-- cp命令       copy      复制文件或目录，可创建副本并为它命名或复制到某目录下
-    ○ -r    递归操作，对文件夹进行操作（大写R似乎也行）
-    ○ -I    在覆盖是询问是否执行
-    ○ -f    强制执行不进行询问
-
-- mv命令      move     移动并重命名
-    ○ 如果目标文件是目录文件，源文件会被移到此目录下，且文件名不变
-    ○ 如果目标文件是普通文件或不存在的文件，则为重命名操作
-    ○ 如果移动多个文件，最后一个文件一定是已存在的目录文件
-    ○ -b：当文件存在时，覆盖前，为其创建一个备份；
-    ○ -f：不询问强制执行
-    ○ -i：覆盖前询问
-    ○ --strip-trailing-slashes：删除源文件中的斜杠“/”；
-    ○ -S&lt;后缀&gt;：为备份文件指定后缀，而不使用默认的后缀；
-    ○ --target-directory=&lt;目录&gt;：指定源文件要移动到目标目录；
-    ○ -u：当源文件比目标文件新或者目标文件不存在时，才执行移动操作。
-    ○ 例：将wjj2目录下的所有文件移动至wjj目录 
-    mv wjj2/* wjj （*表示目录中的所有文件）
-    ○ 将wjj2目录直接剪切到wjj目录下 mv wjj2/* wjj 
-
-- rm命令      remove
-    ○ -d：直接把欲删除的目录的硬连接数据删除成0，删除该目录；
-    ○ -f：强制删除文件或目录；
-    ○ -i：删除已有文件或目录之前先询问用户；
-    ○ -r或-R：递归处理，将指定目录下的所有文件与子目录一并处理；
-
-- echo命令    用于输出指定的字符串 
-    ○ 例：echo hello  终端会输出一个hello
-    ○ -e   加了-e后可以使用\a \e等给字符加特效如变色等
-
-- 重定向 &gt; 与 追加重定向 &gt;&gt;
-    ○ &gt; 将输出结果写入到文件中（覆盖保存，原来的内容就没了）
-    ○ &gt;&gt;  将输出结果写入到文件中（保留原内容并追加在文件最后面）
-    ○ 所有有输出结果的指令都能通过重定向写入文件，如：
-        § echo hello &gt; 123    将hello写入文件
-        § ls ~/123 &gt; 123       将123目录下的文件列表写入文件
-
-- 查看文件的几个命令
-    ○ cat 上面也说了
-    ○ more 一口气加载出整个文件，只能往下翻，底部会显示已读百分比
-    ○ less 不一次加载整个文件，可以上翻下翻，不显示百分比
-
-- head和tail
-    ○ head  -n  数字  文件名
-    输出文件的前n行 不加-n就是默认前10行
-    ○ tail  -n  数字  文件名
-    输出文件的最后n行（默认10行）
-    -f: 当文件增长时,输出后续添加的数据(持续刷新，按Ctrl+c退出)
-    -f 选项经常用于监控日志文件进行排错
-
-- alias
-    ○ 设置，查看别名
-    ○ 查看：alias
-    ○ 设置：alias  &quot;rm = rm -i&quot;
-    ○ 取消：unalias rm
-
-- uname
-显示输出系统信息
-只需要记住 uname -r 是查看内核版本号 这个命令在安装某些软件时会用到
-
-- 更改主机名的命令
-    ○ hostname 新名字 #立即生效，关机失效
-    ○ hostnamectl set-hostname
-
-- history 查看历史
-    ○ 可以输入 ! 字母 再次执行某条命令 
-    ○ 如：历史中有 
-        1    unalias
-        2    ls
-        3    uname
-    则输入 ! u 等于执行uname ， ! 2 等于执行ls
-
-- which 显示命令的路径
-- wc 统计命令
-    ○ -c统计字符数 echo
-
-- ping: 测试主机在线
-    -c: 包的数量
-    -i: 间隔时间
-    -w: 超时等待时间
-
-- kill: 终止进程
-    kill -15/-9 PID (唯一标识一个进程)
-
-- du: 查看文本大小（实际大小）
-    -s: 查看目录总大小
-    -h: 人类易读
-
-- df: 查看磁盘使用情况（查看挂载点）
-    -h: 人类易读
-
-- free: 查看内存使用情况
-    -h: 人类易读
-    -m:以M为单位显示
-    -s:  刷新显示
-
-- date: 查看和设置系统时间
-    -s: 设置时间
-    查看时可以指定格式：
-    %Y:年
-    %m:月
-    %d:日
-    %H:时
-    %M:分
-    %S:秒
-    %F:年-月-日
-    %T:时：分：秒
-    指定格式示例：date “+%F %T”
-    注意有个加号↑
-    显示的时间为：2019-05-08 14:49:01
-</code></pre>
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/08/linux命令第一部分/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-markdown使用指南" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/04/markdown使用指南/">markdown使用指南</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/04/markdown使用指南/" class="archive-article-date">
-  	<time datetime="2019-04-04T02:49:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Markdown-使用指南"><a href="#Markdown-使用指南" class="headerlink" title="Markdown 使用指南"></a>Markdown 使用指南</h1><hr>
-<p>以下文章摘自某在线Markdown编辑器，如涉及侵权会立即删除</p>
-<hr>
-<h2 id="什么是-Markdown"><a href="#什么是-Markdown" class="headerlink" title="什么是 Markdown"></a>什么是 Markdown</h2><p>Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，<strong>粗体</strong> 或者 <em>斜体</em> 某些文字，更棒的是，它还可以</p>
-<h3 id="1-制作一份待办事宜-Todo-列表"><a href="#1-制作一份待办事宜-Todo-列表" class="headerlink" title="1. 制作一份待办事宜 Todo 列表"></a>1. 制作一份待办事宜 <a href="https://www.baidu.com/" target="_blank" rel="noopener">Todo 列表</a></h3><ul>
-<li style="list-style: none"><input type="checkbox"> 支持以 PDF 格式导出文稿</li>
-<li style="list-style: none"><input type="checkbox"> 改进 Cmd 渲染算法，使用局部渲染技术提高渲染效率</li>
-<li style="list-style: none"><input type="checkbox" checked> 新增 Todo 列表功能</li>
-<li style="list-style: none"><input type="checkbox" checked> 修复 LaTex 公式渲染问题</li>
-<li style="list-style: none"><input type="checkbox" checked> 新增 LaTex 公式编号功能</li>
-</ul>
-<h3 id="2-数学公式，流程图——hexo不支持"><a href="#2-数学公式，流程图——hexo不支持" class="headerlink" title="2. 数学公式，流程图——hexo不支持"></a>2. 数学公式，流程图——hexo不支持</h3><h3 id="3-高亮一段代码-code"><a href="#3-高亮一段代码-code" class="headerlink" title="3. 高亮一段代码[^code]"></a>3. 高亮一段代码[^code]</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@requires_authorization</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># A comment</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'hello world'</span></span><br></pre></td></tr></table></figure>
-        
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/04/markdown使用指南/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 
@@ -1702,15 +1654,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">虚拟化</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">

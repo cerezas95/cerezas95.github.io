@@ -242,6 +242,220 @@ daovoice('update');
 
 
   
+    <article id="post-新文档7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/25/新文档7/">Linux忘记密码</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/25/新文档7/" class="archive-article-date">
+  	<time datetime="2019-07-25T03:26:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>第一步：启动系统，在内核选择界面，输入e</p>
+<p>第二步：在linux16开头的行的结尾输入rd.break</p>
+<p>第三步：输入ctrl+x进入系统</p>
+<p>第四步：重新挂载根<br>mount -o remount,rw /sysroot</p>
+<p>第五步：切换根<br>输入chroot /sysroot<br>行前面会变成sh-4.2#的形式</p>
+<p>第六步：<br>密码忘了就修改密码<br>passwd root<br>磁盘挂载报错了就修改配置文件<br>vim /etc/rc.local</p>
+<blockquote>
+<p>注意rc.local是rc.d/rc.local的链接文件，开机自动执行请将两个文件都授予755权限<br>或echo “/dev/md5 /ken xfs defaults 0 0” &gt;&gt; /etc/fstab</p>
+</blockquote>
+<p>第七步：退出并重启<br>exit<br>reboot</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/25/新文档7/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-kvm4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/24/kvm4/">KVM-第4节 虚拟机迁移</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/24/kvm4/" class="archive-article-date">
+  	<time datetime="2019-07-24T08:08:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>热迁移（又叫动态迁移、实时迁移），即虚拟机保存（ save ） / 恢复 (restore) ：将整个虚拟机的运行状态完整保存下来，同时可以快速的恢复到原有硬件平台甚至是不同硬件平台上。恢复以后，虚拟机仍旧平滑运行，用户不会察觉到任何差异。</p>
+<p>迁移的种类：<br>P2P ：物理机之间的迁移<br>V2P ：虚拟机迁到物理机<br>P2V ：物理机迁到虚拟机<br>V2V ：虚拟机迁到虚拟</p>
+<p>热迁移的应用</p>
+<ol>
+<li><p>虚拟机的热迁移技术最初是被用于双机容错或者负载均衡：当宿主机出现软硬件故障导致服务异常时，虚拟机可漂移到另外主机上，或者在集群中依据工作负载量的大小，选择更换宿主机与否来保证自身良好的服务提供性。</p>
+</li>
+<li><p>系统硬件维护：当前很多操作系统都能够稳定支持 7×24 运行，但是硬件却需要定期的进行维护。如果使用虚拟机的动态迁移技术，将虚拟机从需要维护的物理机器迁移到另外一主器，等维护完成后，在将其迁回到原来的物理机器。所有的系统服务和应用程序在迁移 &amp; 恢复后仍旧正常运行，用户不会察觉到由于硬件维护造成的中断。最终实现了我们服务不受硬件维护干扰的 7*24 小时的工作愿望。</p>
+</li>
+<li><p>数据库备份：对于一些大型、关键的数据库应用，备份是一项重要但复杂的工作。虚拟机的保存/ 恢复可以将数据库运行在虚拟机中，如需备份就保存虚拟机，这样数据库中的所有数据、状态都做了备份。如果数据库崩溃了，就可以通过恢复虚拟机来恢复整个数据库。</p>
+</li>
+<li><p>环境重现：进行性能测试或程序调试时，都需要重现当时复杂庞大并且与实时完全一致的网络环境 , 不仅仅是重启、配置软件，而且常常需要一定的运行时间。我们可以将各服务安装到独立的各个虚拟机，然后利用各个独立虚拟机部署我们所需的工作环境，可以大大缩短环境重现时间。</p>
+</li>
+<li><p>计算机共享： 在一些公共场合用户需要共享计算机，但是由于不同的系统配置和软件需要花费大量的时间来配置和恢复。这时使用虚拟机的保存 /恢复可以很好地解决这个问题。或者也可以，在物理机上运行多个逻辑虚拟机帮助我们分配给每一个需要者一个独立，安全，稳定的环境。当因为宿主机出现问题影响虚拟机使用时，我们可以让该虚拟机漂移到其他宿主机以此来保持正常工作。</p>
+</li>
+</ol>
+<p>衡量虚拟机迁移的效率</p>
+<ol>
+<li><p>整体迁移时间：从源主机中迁移操作开始到目的主机上客户机服务处于不可用状态的时间，此时源主机上客户机已经暂停服务，目的主机上的客户机还未恢复服务。</p>
+</li>
+<li><p>服务器停机时间：在迁移过程中，源主机和目的主机上的客户机都处于不可用状态的时间，此时源主机上客户机已暂停，目的目的主机上客户还未恢<br>复服务。</p>
+</li>
+<li><p>对服务的性能影响：不仅包括迁移后的客户机中应用程序的性能与迁移前相对比是否有所降低，还包括迁移后对目的主机上的其他服务的性能影响。</p>
+</li>
+</ol>
+<p>热迁移的优势：</p>
+<ol>
+<li><p>可伸缩性较强， IT 管理者可以在合理时间段让运行某些关键业务的服务器适当减少工作量，以便进行更新操作系统，给应用程序打补丁等。而到了服务高峰期，又可以弹性地进行大负载量的运算。虚拟机迁移过程完全透明，几乎不影响使用。</p>
+</li>
+<li><p>环保节能，当一台物理服务器负载过大时，系统管理员可以将其上面的虚拟机迁移到其他服务器，可有效减低数据中心服务器的总体能耗，再通过冷却系统将数据中心的温度保持在正常水平。</p>
+</li>
+</ol>
+<p>热迁移的限制：</p>
+<ol>
+<li>源宿主机和目的宿主机直接尽量用网络共享的存储系统来保存客户机磁盘镜像。例如 NFS ， ISCSI ， Glusterfs 等。</li>
+<li>为了提高动态迁移的成功率，尽量在同类型 cpu的主机上面进行动态迁移，尽管 kvm 动态迁移也支持从 Intel 平台迁移到 amd 平台。  但，从安全性，稳定度考虑不建议这样去操作！！！</li>
+<li>64 位的客户机只能运行在 64 宿主机之间的迁移，而 32 位客户机可以在 32 宿主机和 64 位宿主机之间迁移。</li>
+<li>在进行动态迁移时，被迁移客户机的名称是唯一的，在目的宿主机上不能有与源宿主机被迁移客户机同名的客户机存在。</li>
+<li>目的宿主机和源宿主机的软件尽可能的相同。也就是同为 Vmware ， KVM ， Xen 等。</li>
+</ol>
+<p>热迁移步骤：<br>0.关闭防火墙<br>systemctl stop firewalld<br>setenforce 0</p>
+<p>尽量保持两台宿主机的配置一致，如内存大小，CPU个数，网卡数量等。</p>
+<p>1.打开KVM，远程连接要实行迁移的Linux宿主机。<br>如果提示连接失败，可能是openssh没有安装<br>yum install openssh-askpass<br>然后重新启动KVM即可<br>方法二：在终端中执行<br>virt-manager –no-fork<br>通过这种方式进入KVM，连接时需要在终端中输入密码。</p>
+<p>2.开启nfs文件共享<br>服务端：<br>在/etc/exports中写好想要共享的目录，如：<br>/var/lib/libvirt/images/ *(rw)<br>开启nfs服务<br>systemctl restart rpcbind nfs</p>
+<p>客户端挂载：<br>mount -t nfs 192.168.19.128:/var/lib/libvirt/images/  /var/lib/libvirt/images/<br>df -h 查看挂载情况</p>
+<blockquote>
+<p>注意事项<br>1.如果你的磁盘不够大，可以新加一块挂载到共享目录<br>2.如果新插的硬盘读不出来，可以使用：<br><code>for i in /sys/class/scsi_host/host*/scan;do echo &quot;- - -&quot; &gt;$i;done</code><br>3.不要分享/root下的目录，权限不够的</p>
+</blockquote>
+<p>3.将虚拟机磁盘文件移动至共享目录下<br>并修改虚拟机配置文件<br>virsh edit vm1<br>修改source file 改为共享目录</p>
+<p>4.编辑/etc/hosts文件<br>添加两台主机的主机名解析<br>192.168.19.128 nana<br>192.168.19.131 costa<br>两台宿主机的主机名必须不一样，必须不能是localhost<br>修改主机名：<br>hostnamectl set-hostname costa</p>
+<p>5.打开KVM，对着虚拟机右键，迁移</p>
+
+      
+	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">虚拟化</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/24/kvm4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-kvm3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -411,7 +625,7 @@ daovoice('update');
 <p>在宿主机中：<br>执行 <code>virsh console vm1</code><br>按几下回车就进入虚拟机了<br>退出使用ctrl+]</p>
 <p><strong>虚拟机中的虚拟机中的虚拟机：</strong><br><strong>– KVM虚拟化透传</strong><br>KVM 虚拟机嵌套和 VMWare 原理不同， VMWare第一层是用的硬件虚拟化技术，第二层就是完全软件模拟出来的，所以 VMWare 只能做两层嵌套。 KVM 是将物理 CPU 的特性全部传给虚拟机，所有理论上可以嵌套 N 多层。</p>
 <blockquote>
-<p>1）在宿主机启用 kvm_intel 模块的嵌套虚拟化功能，并且使透传永久有效：<br>vim /etc/modprobe.d/kvm-nested.conf<br>2）重新加载 kvm 模块：<br>modprobe -r kvm_intel 　移除kvm模块<br>modprobe kvm_intel  　　加载kvm模块<br>3）验证：<br>cat /sys/module/kvm_intel/parameters/nested<br>“Y” 表示 cpu 虚拟化透传功能开启<br>4）修改虚拟机配置文件：<br>virsh edit vm1<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">将原来的CPU标签替换为：</span><br><span class="line">&lt;cpu <span class="attribute">mode</span>=<span class="string">'host-passthrough'</span>/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>1）在宿主机启用 kvm_intel 模块的嵌套虚拟化功能，并且使透传永久有效：<br>vim /etc/modprobe.d/kvm-nested.conf<br>options kvm_intel nested=1<br>2）重新加载 kvm 模块：<br>modprobe -r kvm_intel 　移除kvm模块<br>modprobe kvm_intel  　　加载kvm模块<br>3）验证：<br>cat /sys/module/kvm_intel/parameters/nested<br>“Y” 表示 cpu 虚拟化透传功能开启<br>4）修改虚拟机配置文件：<br>virsh edit vm1<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">将原来的CPU标签替换为：</span><br><span class="line">&lt;cpu <span class="attribute">mode</span>=<span class="string">'host-passthrough'</span>/&gt;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <p>修改完成后，可以在虚拟机中验证：<br><code>egrep &#39;(vmx|svm)&#39; /proc/cpuinfo</code><br><code>lsmod | grep kvm</code><br>正确显示：<br><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# lsmod | grep kvm</span><br><span class="line">kvm_intel             <span class="number">183621</span>  <span class="number">0</span> </span><br><span class="line">kvm                   <span class="number">586948</span>  <span class="number">1</span> kvm_intel</span><br><span class="line">irqbypass              <span class="number">13503</span>  <span class="number">1</span> kvm</span><br><span class="line">[root@localhost ~]# egrep vmx /<span class="keyword">proc</span>/cpuinfo </span><br><span class="line">flags		:<span class="title"> fpu</span> vme<span class="title"> de</span> pse<span class="title"> tsc</span> msr<span class="title"> pae</span> mce<span class="title"> cx8</span> apic<span class="title"> sep</span> mtrr<span class="title"> pge</span> mca<span class="title"> cmov</span> pat<span class="title"> pse36</span> clflush<span class="title"> mmx</span> fxsr<span class="title"> sse</span> sse2<span class="title"> ss</span> syscall<span class="title"> nx</span> rdtscp<span class="title"> lm</span> constant_tsc<span class="title"> arch_perfmon</span> rep_good<span class="title"> nopl</span> eagerfpu<span class="title"> pni</span> pclmulqdq<span class="title"> vmx</span> ssse3<span class="title"> fma</span> cx16<span class="title"> pcid</span> sse4_1<span class="title"> sse4_2</span> x2apic<span class="title"> movbe</span> popcnt<span class="title"> tsc_deadline_timer</span> aes<span class="title"> xsave</span> avx<span class="title"> f16c</span> rdrand<span class="title"> hypervisor</span> lahf_lm<span class="title"> abm</span> 3dnowprefetch<span class="title"> ssbd</span> ibrs<span class="title"> ibpb</span> stibp<span class="title"> tpr_shadow</span> vnmi<span class="title"> ept</span> vpid<span class="title"> fsgsbase</span> tsc_adjust<span class="title"> bmi1</span> avx2<span class="title"> smep</span> bmi2<span class="title"> invpcid</span> mpx<span class="title"> rdseed</span> adx<span class="title"> smap</span> clflushopt<span class="title"> xsaveopt</span> xsavec<span class="title"> spec_ctrl</span> intel_stibp</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure></p>
 <p>补充：<br>ls blk 查看硬盘块结构<br>df -T 查看文件系统<br>图形化IP配置工具：nmtui</p>
@@ -1144,218 +1358,9 @@ yum install MariaDB-backup
 
 
   
-    <article id="post-keepalived" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/02/keepalived/">keepalived</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/02/keepalived/" class="archive-article-date">
-  	<time datetime="2019-07-02T12:00:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="keepalived简介"><a href="#keepalived简介" class="headerlink" title="keepalived简介"></a>keepalived简介</h3><p>keepalived是一款高可用集群软件，利用vrrp协议实现vip地址的漂移。</p>
-<p>　　Keepalived的作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，Keepalived将检测到，并将有故障的服务器从系统中剔除，同时使用其他服务器代替该服务器的工作，当服务器工作正常后Keepalived自动将服务器加入到服务器群中。</p>
-<p>　　启动了keepalived的主服务器会每隔一段时间向备用服务器发送一个“我还活着”的信息，备用服务器会一直监听，如果收到信息则继续待机，如果收不到了就会代替主服务器开始工作。工作的方法是将自己的虚拟ip改为主服务器的虚拟ip，这个动作也叫ip的‘漂移’。</p>
-<p>keepalived可以和多种负载均衡软件配合使用：<br>　- keepalived+lvs<br>　- keepalived+nginx<br>　- keepalived+haproxy</p>
-<p>keepalived也有同类软件，如hacmp，它是IBM的高可用集群软件，一般用于非x86架构中，是收费软件。</p>
-<h3 id="keepalived的配置："><a href="#keepalived的配置：" class="headerlink" title="keepalived的配置："></a>keepalived的配置：</h3><p>配置文件位置：<br>vim /etc/keepalived/keepalived.conf</p>
-<p>配置文件主要分为三类分别是：<br>（1）全局配置<br>（2）VRRP配置<br>（3）LVS配置</p>
-<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#全局配置 里面可以不写东西但不能删掉</span></span><br><span class="line">global_defs &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#VRRP配置</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    <span class="keyword">state</span> MASTER            <span class="comment">#类型MASTER或BACKUP</span></span><br><span class="line">    interface ens33         <span class="comment">#指定网卡</span></span><br><span class="line">    virtual_router_id <span class="number">141</span>   <span class="comment">#虚拟路由id（主备需一致）</span></span><br><span class="line">    priority <span class="number">100</span>            <span class="comment">#优先级，100最高</span></span><br><span class="line">    advert_int <span class="number">1</span>            <span class="comment">#检测间隔秒数</span></span><br><span class="line">    authentication &#123;        <span class="comment">#认证信息，需要主备服务器保持一致</span></span><br><span class="line">        auth_type PASS      <span class="comment">#认证模式</span></span><br><span class="line">        auth_pass <span class="number">1111</span>      <span class="comment">#认证密码</span></span><br><span class="line">    &#125;   </span><br><span class="line">    virtual_ipaddress &#123;     <span class="comment">#虚拟ip配置</span></span><br><span class="line">        <span class="number">192.168</span>.<span class="number">19.55</span>       <span class="comment">#可填写多个</span></span><br><span class="line">    &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line">vrrp_instance VI_2 &#123;</span><br><span class="line">    <span class="keyword">state</span> BACKUP</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id <span class="number">142</span></span><br><span class="line">    priority <span class="number">99</span></span><br><span class="line">    advert_int <span class="number">1</span></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass <span class="number">2222</span></span><br><span class="line">    &#125;   </span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        <span class="number">192.168</span>.<span class="number">19.66</span> </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"><span class="comment">#LVS配置在后面</span></span><br><span class="line">……</span><br></pre></td></tr></table></figure>
-<p>　但是，上面提到的ip地址漂移是在主服务器的keepalived进行挂掉了的情况下才会发生，那么如果主服务器的httpd挂了但是keepalived没挂的话，就不能进行ip地址漂移了。这时我们可以设置keepalived在运行时监听某服务的运行情况并自动进行一些处理。</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">global_defs &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行脚本检查httpd服务的状态 一定要写在调用chk_httpd的内容的前面！！</span></span><br><span class="line">vrrp_script chk_httpd &#123;</span><br><span class="line">       <span class="built_in"> script </span><span class="string">"/root/httpdcheck.sh"</span>  #指定脚本位置</span><br><span class="line">        interval 2                    #指定间隔时间</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">   <span class="built_in"> interface </span>ens33 </span><br><span class="line">    virtual_router_id 11</span><br><span class="line">    priority 100</span><br><span class="line">    nopreempt                         #非抢占模式  </span><br><span class="line">    advert_int 1                    </span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.142.55/24</span><br><span class="line">    &#125; </span><br><span class="line">    track_script &#123;                   #调用chk_httpd</span><br><span class="line">        chk_httpd </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>脚本httpdcheck.sh 的内容：<br>检查httpd状态，若不正常则自动重启服务，若重启失败则关闭keepalived服务从而进行ip漂移。除此之外还能将检查中出现的错误记录追加到logs.txt文件中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">systemctl status httpd</span><br><span class="line"><span class="keyword">if</span> [ $? -ne 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"httpd restarting..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line">        systemctl restart httpd</span><br><span class="line">        <span class="keyword">if</span> [ $? -ne 0 ] ; <span class="keyword">then</span></span><br><span class="line">                systemctl stop keepalived</span><br><span class="line">                <span class="built_in">echo</span> <span class="string">"fail to restart httpd..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"httpd is running..."</span> &gt;&gt; /root/logs.txt</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
-<p>keepalived集成了LVS的功能，如果你想和LVS一起使用的话，只要在keepalived.cfg中增加LVS相关的配置即可。<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#VRRP配置DS1</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER                    <span class="comment">#角色类型MASTER|BACKUP</span></span><br><span class="line">    interface ens33                    <span class="comment">#网卡名称</span></span><br><span class="line">    virtual_router_id<span class="number"> 51 </span>           <span class="comment">#虚拟路由id（需要与BACKUP一致）</span></span><br><span class="line">    priority<span class="number"> 100 </span>                   <span class="comment">#优先级</span></span><br><span class="line">    advert_int<span class="number"> 1 </span>                   <span class="comment">#1秒检查一次</span></span><br><span class="line">    <span class="comment">#nopreempt                        #非抢占模式</span></span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS                <span class="comment">#认证类型  主备之间必须一样</span></span><br><span class="line">        auth_pass<span class="number"> 1111 </span>               <span class="comment">#认证密码  主备之间必须一样</span></span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.254.250                <span class="comment">#虚拟ip（vip）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#LVS配置</span></span><br><span class="line"><span class="comment">#对虚拟ip 192.168.254.250进行设置</span></span><br><span class="line">virtual_server 192.168.254.250<span class="number"> 80 </span>&#123;    </span><br><span class="line">    delay_loop<span class="number"> 3 </span>                   <span class="comment">#健康检查时间间隔</span></span><br><span class="line">    lb_algo rr                        <span class="comment">#负载均衡调度算法  </span></span><br><span class="line">    lb_kind DR                        <span class="comment">#负载均衡转发规则 </span></span><br><span class="line">    protocol TCP                    <span class="comment">#协议</span></span><br><span class="line">    <span class="comment">#添加一个真实服务器</span></span><br><span class="line">    real_server 192.168.254.18<span class="number"> 80 </span>&#123;    <span class="comment">#要监控的real_server的ip和端口号</span></span><br><span class="line">            weight<span class="number"> 1 </span>                <span class="comment">#权重</span></span><br><span class="line">        TCP_CHECK &#123;                    <span class="comment">#基于tcp协议的检查</span></span><br><span class="line">            connect_timeout<span class="number"> 3 </span>         <span class="comment">#连接时间超时</span></span><br><span class="line">            retry<span class="number"> 3 </span>                   <span class="comment">#重连次数</span></span><br><span class="line">            delay_before_retry<span class="number"> 3 </span>   <span class="comment">#重连间隔时间</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#再添加一个真实服务器</span></span><br><span class="line">    real_server 192.168.254.19<span class="number"> 80 </span>&#123;</span><br><span class="line">            weight 1</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 3</span><br><span class="line">            retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">        &#125;   </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/02/keepalived/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ansible" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/28/ansible/">ansible基础</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/28/ansible/" class="archive-article-date">
-  	<time datetime="2019-06-28T12:03:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="ansible简介"><a href="#ansible简介" class="headerlink" title="ansible简介"></a>ansible简介</h2><p>ansible是一个自动化批量部署工具</p>
-<h4 id="ansible的特点："><a href="#ansible的特点：" class="headerlink" title="ansible的特点："></a>ansible的特点：</h4><ul>
-<li>Stupied Simple ，上手简单，学习曲线平滑</li>
-<li>SSH by default ，安全，无需安装客户端</li>
-<li>配置简单、功能强大、扩展性强</li>
-<li>幂等性：一种操作重复多次结果相同，比如：拷贝过的文件再次拷贝时，ansible会检查该文件的内容是否有修改，如果没有任何改动就不会重复拷贝了。</li>
-</ul>
-<p>注意：幂等性仅在使用ansible中集成的模块时有效，如：使用copy模块会判断幂等性，但是使用command执行copy命令则不会判断。</p>
-<h3 id="ansible的核心组件："><a href="#ansible的核心组件：" class="headerlink" title="ansible的核心组件："></a>ansible的核心组件：</h3><ul>
-<li><strong>Ansible：</strong> Ansible的核心程序</li>
-<li><strong>Host Lnventory：</strong> 记录了每一个由Ansible管理的主机信息，信息包括ssh端口，root帐号密码，ip地址等等。可以通过file来加载，可以通过CMDB加载</li>
-<li><strong>Playbooks：</strong> YAML格式文件，多个任务定义在一个文件中，使用时可以统一调用，“剧本”用来定义那些主机需要调用那些模块来完成的功能.</li>
-<li><strong>Core Modules：</strong> Ansible执行任何管理任务都不是由Ansible自己完成，而是由核心模块完成；Ansible管理主机之前，先调用core Modules中的模块，然后指明管理Host Lnventory中的主机，就可以完成管理主机。</li>
-<li><strong>Custom Modules：</strong> 自定义模块，完成Ansible核心模块无法完成的功能，此模块支持任何语言编写。</li>
-<li><strong>Connection Plugins：</strong> 连接插件，Ansible和Host通信使用</li>
-</ul>
-<h3 id="ansible的工作原理："><a href="#ansible的工作原理：" class="headerlink" title="ansible的工作原理："></a>ansible的工作原理：</h3><p>ansible的底层使用python编写，并用到了这些模块:</p>
-<ul>
-<li>paramiko</li>
-<li>jinja2 </li>
-<li>yaml</li>
-</ul>
-<p>在 Ansible 中，我们通过编辑host文件添加需要控制的主机的信息，并借由 SSH 和 Python 进行沟通。也就是说ansible服务器只需要和客户端<strong>建立SSH连接</strong>，客户端只要<strong>安装Python环境</strong>即可正常运作了！</p>
-<p><strong>ansible服务器配置</strong><br>如果使用的是Centos系统，一般都会内置Python2.7的环境，因此只需安装ansible即可：<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ yum install epel-release  #安装第三方套件来源</span><br><span class="line">$ yum install ansible       #安装ansible</span><br><span class="line"></span><br><span class="line">### ansible也可以通过pip进行安装：###</span><br><span class="line"># 升级 pip。</span><br><span class="line">$ sudo pip install -U pip</span><br><span class="line"># 安装 Ansible。</span><br><span class="line">$ sudo pip install ansible</span><br></pre></td></tr></table></figure></p>
-<h3 id="ansible-server管理客户端的两种配置方式"><a href="#ansible-server管理客户端的两种配置方式" class="headerlink" title="ansible server管理客户端的两种配置方式"></a>ansible server管理客户端的两种配置方式</h3><p><strong>方法1：通过公钥配对</strong><br>1 服务器端: ssh-keygen 生成公钥<br>2 使用 <code>ssh-copy-id root@192.168.1.10</code> 或<br><code>scp id_rsa.pub root@192.168.1.10:/root/.ssh/authorized_keys</code><br>将公钥拷贝到客户端上<br>3 将客户端的ip记录到/etc/ansible/hosts中</p>
-<p><strong>方法2：通过参数配对</strong><br>修改/etc/ansible/hosts文件，在客户端的ip地址后面添加如下参数：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.10 <span class="attribute">ansible_ssh_user</span>=root <span class="attribute">ansible_ssh_port</span>=22 <span class="attribute">ansible_ssh_pass</span>=1234</span><br></pre></td></tr></table></figure></p>
-<p>测试ansible server跟client端的连通性<br><code>ansible testhosts -m ping</code></p>
-<h3 id="ansible使用入门"><a href="#ansible使用入门" class="headerlink" title="ansible使用入门"></a>ansible使用入门</h3><p>我们可以用 Ad-Hoc Commands 和 Playbook 两种方式来操作Ansible。<br>Ad-Hoc Commands 命令模式：<br>一次只能执行一个任务。<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ansible-doc -l <span class="comment">#查看支持的模块</span></span><br><span class="line">ansible-doc -s MODEL_NAME <span class="comment">#查看模块用法</span></span><br><span class="line"></span><br><span class="line">ansible 要操作的主机 [选项]</span><br><span class="line">    -f forks:启动并发线程数（默认是<span class="number">5</span>）</span><br><span class="line">    -m model_name:指定使用的模块</span><br><span class="line">    -a args:指定该模块后跟的参数</span><br><span class="line">    -u <span class="keyword">user</span>:指定操作的用户</span><br><span class="line"></span><br><span class="line">例子：</span><br><span class="line">ansible <span class="literal">all</span> -m ping <span class="comment">#查看client端是否正常ping通</span></span><br><span class="line">ansible webserver -m setup <span class="comment">#查看客户端信息</span></span><br><span class="line">ansible webserver -m copy -a 'src=/root/git_test/code.txt dest=/root/test' <span class="comment">#copy文件到cient端</span></span><br><span class="line">ansible webserver -m <span class="keyword">user</span> -a <span class="string">"name=test state=present"</span> <span class="comment">#创建test用户</span></span><br><span class="line">ansible webserver -m <span class="keyword">user</span> -a <span class="string">"name=test state=absent"</span> <span class="comment">#删除test用户</span></span><br><span class="line">ansible webserver -m yum -a ‘name=epel-relese <span class="keyword">state</span>=latest‘ <span class="comment">#yum安装</span></span><br><span class="line">ansible webserver -m service -a ‘name=httpd <span class="keyword">state</span>=stopped enabled=no‘ <span class="comment">#停止httpd服务</span></span><br><span class="line">（启动，停止，重启都是被动语态）</span><br><span class="line">ansible webserver -m script -a ‘/tmp/test.sh‘ <span class="comment">#运行脚本</span></span><br><span class="line">ansible webserver -m command 'date' <span class="comment">#查看时间</span></span><br><span class="line">ansible webserver -m shell -a ‘bash /root/test.sh’ <span class="comment">#执行脚本</span></span><br><span class="line">ansible webservers -m git -a <span class="string">"repo=https://foo.example.org/repo.git dest=/srv/myapp version=HEAD"</span>  <span class="comment">#从git上部署</span></span><br></pre></td></tr></table></figure></p>
-<p>command和shell模块的区别：<br>command只支持一些基本的shell命令，如果需要使用正则，重定向，管道符等扩展shell命令请使用shell模块。</p>
-<p>playbook 剧本模式：<br>将命令写入文件中，一次可以执行多个任务，文件后缀为yml或yaml。<br>执行剧本：ansible-playbook 剧本文件名<br>检查语法：–syntax-check<br>查看主机：–list-hosts</p>
-<p>基础格式：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- name:</span> <span class="string">say</span> <span class="string">'hello world'</span></span><br><span class="line"><span class="attr">  hosts:</span> <span class="string">all</span>                        <span class="comment">#指定组名</span></span><br><span class="line"><span class="attr">  remote_user:</span> <span class="string">root</span>                 <span class="comment">#指定操作用户</span></span><br><span class="line"><span class="attr">  vars:</span></span><br><span class="line"><span class="attr">  - str:</span> <span class="string">'hello world'</span>              <span class="comment">#定义变量</span></span><br><span class="line"><span class="attr">  tasks:</span>                            <span class="comment">#指定任务</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">echo</span> <span class="string">string</span>             <span class="comment">#任务1打印字符串</span></span><br><span class="line"><span class="attr">      command:</span> <span class="string">echo</span> <span class="string">'<span class="template-variable">&#123;&#123; str &#125;&#125;</span>'</span></span><br><span class="line"><span class="attr">      register:</span> <span class="string">result</span>              <span class="comment">#将结果记录为变量</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">print</span> <span class="string">stdout</span>            <span class="comment">#任务2打印结果</span></span><br><span class="line"><span class="attr">      debug:</span></span><br><span class="line"><span class="attr">        msg:</span> <span class="string">"<span class="template-variable">&#123;&#123; result.stdout &#125;&#125;</span>"</span>  <span class="comment">#打印结果标准输出</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h3><p><strong>主机与用户</strong><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- hosts:</span> <span class="string">webservers</span></span><br><span class="line"><span class="attr">  remote_user:</span> <span class="string">root</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  become:</span> <span class="literal">yes</span>          <span class="comment">#另一个用户身份运行</span></span><br><span class="line"><span class="attr">  become_method:</span> <span class="string">sudo</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>任务列表</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在tasks中编写你剧本的动作：</span><br><span class="line">tasks:</span><br><span class="line">  - name: <span class="builtin-name">run</span> this command <span class="keyword">and</span> ignore the result</span><br><span class="line">    shell: date</span><br><span class="line">    ignore_errors: <span class="literal">True</span></span><br><span class="line">    </span><br><span class="line">ignore_errors：<span class="literal">True</span>或<span class="literal">yes</span></span><br><span class="line">开启异常处理：命令执行出现问题时不停止脚本而是忽略错误继续进行。</span><br></pre></td></tr></table></figure></p>
-<p><strong>变量</strong><br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">定义变量的三种方法：</span><br><span class="line"><span class="number">1.</span>在yml文件中定义：</span><br><span class="line">  vars:</span><br><span class="line">  - <span class="keyword">str</span>: <span class="string">'hello world'</span>   </span><br><span class="line"><span class="number">2.</span>在host文件中定义：</span><br><span class="line">  <span class="number">192.168</span><span class="number">.10</span><span class="number">.10</span> <span class="keyword">str</span>=<span class="string">'hello world'</span></span><br><span class="line"><span class="number">3.</span>在执行剧本时定义：</span><br><span class="line">  ansible-playbook play.yml --extra-vars <span class="string">"str='hello world'"</span></span><br><span class="line">引用变量</span><br><span class="line">&#123;&#123; 变量名 &#125;&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>register注册变量</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tasks</span>:                            #指定任务</span><br><span class="line"></span><br><span class="line">  - name: echo string             #任务1打印字符串</span><br><span class="line">    <span class="attribute">command</span>: echo '&#123;&#123; str &#125;&#125;'</span><br><span class="line">    <span class="attribute">register</span>: result              #将结果记录为变量</span><br><span class="line"></span><br><span class="line">  - name: print stdout            #任务2打印结果</span><br><span class="line">    <span class="attribute">debug:</span></span><br><span class="line">      msg: "&#123;&#123; result.stdout &#125;&#125;"  #打印结果标准输出</span><br></pre></td></tr></table></figure></p>
-<p><strong>when条件判断</strong><br>名字叫when实际上是if的条件判断模块。<br>可以配合<code>ansible -m setup 192.168.10.10</code><br>中的参数进行条件判断，从而筛选出需要操作的主机。<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tasks:                            <span class="comment">#指定任务</span></span><br><span class="line">      - name: add <span class="keyword">user</span></span><br><span class="line">        when: ansible_default_ipv4.address == '<span class="number">192.168</span>.<span class="number">19.11</span>'</span><br><span class="line">        <span class="keyword">user</span>: name=&#123;&#123; item.name &#125;&#125; groups=&#123;&#123; item.<span class="keyword">group</span> &#125;&#125; <span class="keyword">state</span>=present</span><br><span class="line">        with_items:</span><br><span class="line">        - &#123; name: 'test3', <span class="keyword">group</span>: test &#125;</span><br><span class="line">        - &#123; name: 'test2', <span class="keyword">group</span>: test &#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>item循环语句</strong><br>使用playbook自带的变量item进行循环，以创建多个用户为例：：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- hosts: <span class="number">192.168</span>.<span class="number">19.10</span></span><br><span class="line">  remote_user:<span class="built_in"> root</span></span><br><span class="line">  tasks:</span><br><span class="line">  -<span class="built_in"> name</span>: add several user</span><br><span class="line">    user:<span class="built_in"> name</span>=&#123;&#123;<span class="type">item</span><span class="built_in">.name</span>&#125;&#125; state=present groups=&#123;&#123;<span class="type">item</span>.groups&#125;&#125;</span><br><span class="line">    with_items:</span><br><span class="line">    - &#123;<span class="built_in"> name</span>: <span class="string">'testuser1'</span>, groups: <span class="string">'wheel'</span>&#125;</span><br><span class="line">    - &#123;<span class="built_in"> name</span>: <span class="string">'testuser2'</span>, groups: <span class="string">'root'</span>&#125;</span><br></pre></td></tr></table></figure></p>
-<p>注意name：后面有空格，不写会报错<em>(:з」∠)</em></p>
-<p><strong>handlers触发器</strong><br>notify监听，任务执行成功时，执行对应的handler中的任务。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- name:<span class="built_in"> config </span>HTTPD</span><br><span class="line">  hosts: all                        #指定组名</span><br><span class="line">  remote_user: root                 #指定操作用户</span><br><span class="line">  tasks:                            #指定任务</span><br><span class="line">        - name: copy file</span><br><span class="line">          copy: <span class="attribute">src</span>=<span class="string">'/etc/ansible/httpd.conf'</span> <span class="attribute">dest</span>=<span class="string">'/etc/httpd/conf/httpd.conf'</span></span><br><span class="line">          notify: restart HTTPD     #这里名字</span><br><span class="line">  handlers:</span><br><span class="line">        - name: restart HTTPD       #要一样</span><br><span class="line">          service: <span class="attribute">name</span>=httpd <span class="attribute">state</span>=restarted</span><br></pre></td></tr></table></figure></p>
-<p><strong>template模板替换</strong><br>用于修改配置文件中的参数，比如我有3台服务器，配置文件中需要填写每台服务器自己的ip地址。如果用copy传递的话无法实现。<br>template设置步骤：<br>1.把剧本中的copy模块改为template模块<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task<span class="variable">s:</span>                           </span><br><span class="line">      - name: <span class="keyword">copy</span> <span class="keyword">file</span></span><br><span class="line">        template: src=<span class="string">'xxx'</span> dest=<span class="string">'xxx'</span></span><br></pre></td></tr></table></figure></p>
-<p>2.把配置文件中需要修改的地方改为变量的格式如：<code>Listen </code></p>
-<p>3.在host文件中为变量分别赋值<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">192.168</span><span class="number">.19</span><span class="number">.10</span> port=<span class="number">8080</span></span><br></pre></td></tr></table></figure></p>
-<p>附录：<br>ansible官方文档：<a href="https://docs.ansible.com/" target="_blank" rel="noopener">https://docs.ansible.com/</a><br>ad-hoc 看这页：<a href="https://docs.ansible.com/ansible/latest/user_guide/intro_adhoc.html" target="_blank" rel="noopener">https://docs.ansible.com/ansible/latest/user_guide/intro_adhoc.html</a><br>用谷歌浏览器自带的翻译看简直爽…</p>
-
-      
-	<div id="busuanzi_container_page_pv" style="font-size:14px;color:rgb(153,153,153);line-height:1.8em;">阅读量&#160;<span id="busuanzi_value_page_pv"></span></div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">全部</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/28/ansible/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1460,15 +1465,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">虚拟化</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
